@@ -2,14 +2,17 @@
 package negocio;
 
 import dto.ClienteDTO;
+import entity.ClienteEmpresaEntity;
 
 public class ClienteEmpresa extends Cliente {
 
 	private String cuit;
 	private String razonSocial;
 	
-	public ClienteEmpresa() {
-		// TODO Auto-generated constructor stub
+	public ClienteEmpresa(ClienteEmpresaEntity cee) {
+		super(cee);
+		this.cuit=cee.getCuit();
+		this.razonSocial=cee.getRazonSocial();
 	}
 
 	public String getCuit() {

@@ -1,11 +1,14 @@
 //PENDIENTE: Verificar si esta bien implementada la estructura de la herencia
 package negocio;
 
+import entity.ClienteEmpresaEntity;
+import entity.ClientePersonaEntity;
+
 public class Cliente {
 	
 	private int idCliente;
 	private CtaCte ctaCte;
-	private char tipoFactura;
+	private char tipoFactura;//?
 	private Direccion direccionFacturacion;
 	private String condicionesEspeciales;
 	// tipo 'E' (Empresa), 'P' (Persona)
@@ -13,8 +16,16 @@ public class Cliente {
 	// estado: 'A' (activo), 'I' (inactivo)
 	private char estado;
 	
-	public Cliente() {
-		// TODO Auto-generated constructor stub
+	public Cliente(ClienteEmpresaEntity cee) {
+		this.idCliente=cee.getIdCliente();
+		this.ctaCte=new CtaCte(cee.getCc());
+		this.condicionesEspeciales=cee.getCondicionesEspeciales();//TODO
+	}
+	
+	public Cliente(ClientePersonaEntity cpe) {
+		this.idCliente=cpe.getIdCliente();
+		this.ctaCte=new CtaCte(cpe.getCc());
+		this.condicionesEspeciales=cpe.getCondicionesEspeciales();//TODO
 	}
 
 	// Valida que el objeto sea un determinado idCliente

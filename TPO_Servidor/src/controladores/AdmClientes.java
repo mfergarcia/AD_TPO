@@ -75,7 +75,7 @@ public class AdmClientes {
 	// Cta Cte, agrega el nuevo cliente a la coleccion clientesEmpresa, incrementa el numerador
 	// de clientes y devuelve el objeto ClienteEmpresa.
 	public ClienteEmpresa altaClienteEmpresa(String cuit, String razonSocial, Direccion direccionFacturacion, char tipoFactura, String condicionesEspeciales, float limiteCredito) {
-		ClienteEmpresa clienteEmpresa = new ClienteEmpresa();
+		ClienteEmpresa clienteEmpresa = null;//new ClienteEmpresa();
 		clienteEmpresa.setIdCliente(this.numeradorClientes);
 		this.numeradorClientes++;
 		clienteEmpresa.setCuit(cuit);

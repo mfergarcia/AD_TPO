@@ -2,6 +2,7 @@
 package negocio;
 
 import dto.ClienteDTO;
+import entity.ClientePersonaEntity;
 
 public class ClientePersona extends Cliente {
 
@@ -9,8 +10,11 @@ public class ClientePersona extends Cliente {
 	private String apellido;
 	private String nombre;
 	
-	public ClientePersona() {
-		// TODO Auto-generated constructor stub
+	public ClientePersona(ClientePersonaEntity cpe) {
+		super(cpe);
+		this.dni=cpe.getDni();
+		this.apellido=cpe.getApellido();
+		this.nombre=cpe.getNombre();
 	}
 
 	public String getDni() {

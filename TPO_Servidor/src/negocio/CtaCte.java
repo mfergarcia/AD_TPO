@@ -6,6 +6,8 @@ import java.util.ArrayList;
 import java.util.Collection;
 import java.util.Iterator;
 
+import entity.CtaCteEntity;
+
 public class CtaCte {
 
 	private float limiteCredito;
@@ -18,8 +20,8 @@ public class CtaCte {
 
 	// Crea una cuenta corriente con el dato de limite de credito
 	// del Cliente e inicializa las colecciones
-	public CtaCte(float limiteCredito) {
-		this.setLimiteCredito(limiteCredito);
+	public CtaCte(CtaCteEntity ctaCteEntity) {
+		this.setLimiteCredito(ctaCteEntity.getLimiteCredito());
 		this.facturas = new ArrayList<Factura>();
 		this.pagos = new ArrayList<Pago>();
 	}
