@@ -4,7 +4,7 @@ package negocio;
 import dto.DireccionDTO;
 
 public class Direccion {
-	
+	private int id;
 	private String calle;
 	private int numero;
 	private String codigoPostal;
@@ -12,6 +12,14 @@ public class Direccion {
 
 	public Direccion() {
 		// TODO Auto-generated constructor stub
+	}
+	
+	public int getId() {
+		return id;
+	}
+
+	public void setId(int id) {
+		this.id = id;
 	}
 
 	public String toString() {

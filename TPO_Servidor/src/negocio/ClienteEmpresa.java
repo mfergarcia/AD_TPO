@@ -6,6 +6,7 @@ package negocio;
 
 import dao.ClienteEmpresaDAO;
 import dto.ClienteEmpresaDTO;
+import entities.ClienteEmpresaEntity;
 //import entities.ClienteEmpresaEntity;
 
 public class ClienteEmpresa extends Cliente {
@@ -14,13 +15,18 @@ public class ClienteEmpresa extends Cliente {
 	private String razonSocial;
 	
 	//FACU: Revisar
-	/*
 	public ClienteEmpresa(ClienteEmpresaEntity cee) {
 		super(cee);
 		this.setCuit(cee.getCuit());
 		this.setRazonSocial(cee.getRazonSocial());
 	}
-	*/
+	
+	public ClienteEmpresa( CtaCte cC, char tipoFactura, String cndesp, Direccion d, char estado, String cuit, String rs){
+		super(cC, tipoFactura, cndesp, d, estado);
+		this.cuit=cuit;
+		this.razonSocial=rs;
+		setTipo('E');
+	}
 
 	public ClienteEmpresa(ClienteEmpresaDTO cteEmpresaDTO) {
 		super(cteEmpresaDTO);

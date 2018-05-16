@@ -1,5 +1,6 @@
 package entities;
 
+import javax.persistence.DiscriminatorValue;
 import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
@@ -12,6 +13,7 @@ import negocio.CtaCte;
 import negocio.Direccion;
 
 @Entity
+@DiscriminatorValue("P")
 @Table(name="Clientes")
 public class ClientePersonaEntity extends ClienteEntity{
 	private String dni;
@@ -19,8 +21,8 @@ public class ClientePersonaEntity extends ClienteEntity{
 	private String nombre;
 
 	//Facu: ver como dar de alta tambien la cuenta corriente
-	public ClientePersonaEntity(CtaCteEntity ctaCte, char tipoFactura, String condicionesEspeciales, Direccion direccionFacturacion, char tipo, char estado, String dni, String apellido, String nombre) {
-		super(ctaCte, estado, nombre, direccionFacturacion, estado, estado);
+	public ClientePersonaEntity(CtaCteEntity ctaCte, char tipoFactura, String condicionesEspeciales, DireccionEntity direccionFacturacion, char tipo, char estado, String dni, String apellido, String nombre) {
+		super(ctaCte, tipoFactura, condicionesEspeciales, direccionFacturacion, tipo, estado);
 		this.setTipoFactura(tipoFactura);
 		this.setCondicionesEspeciales(condicionesEspeciales);
 		this.setDireccionFacturacion(direccionFacturacion);

@@ -1,5 +1,6 @@
 package entities;
 
+import javax.persistence.CascadeType;
 import javax.persistence.DiscriminatorColumn;
 import javax.persistence.DiscriminatorType;
 import javax.persistence.GeneratedValue;
@@ -11,6 +12,8 @@ import javax.persistence.JoinColumn;
 import javax.persistence.MappedSuperclass;
 import javax.persistence.OneToOne;
 
+import org.hibernate.annotations.Cascade;
+
 import negocio.Direccion;
 
 @MappedSuperclass
@@ -20,21 +23,21 @@ public class ClienteEntity {
 	@Id
 	@GeneratedValue(strategy= GenerationType.AUTO)
 	private Integer idCliente;
-	@OneToOne()
+	@OneToOne(cascade= CascadeType.ALL)
 	@JoinColumn(name="idCtaCte")
 	private CtaCteEntity ctaCte;
 	private char tipoFactura;
 	private String condicionesEspeciales;
-	@OneToOne()
+	@OneToOne(cascade= CascadeType.ALL)
 	@JoinColumn(name="idDireccion")
-	private Direccion direccionFacturacion;
+	private DireccionEntity direccionFacturacion;
 	// tipo 'E' (Empresa), 'P' (Persona)
 	private char tipo;
 	private char estado;
 	
 	
 	public ClienteEntity(CtaCteEntity ctaCte, char tipoFactura, String condicionesEspeciales,
-			Direccion direccionFacturacion, char tipo, char estado) {
+			DireccionEntity direccionFacturacion, char tipo, char estado) {
 		super();
 		this.ctaCte = ctaCte;
 		this.tipoFactura = tipoFactura;
@@ -85,12 +88,12 @@ public class ClienteEntity {
 	}
 
 
-	public Direccion getDireccionFacturacion() {
+	public DireccionEntity getDireccionFacturacion() {
 		return direccionFacturacion;
 	}
 
 
-	public void setDireccionFacturacion(Direccion direccionFacturacion) {
+	public void setDireccionFacturacion(DireccionEntity direccionFacturacion) {
 		this.direccionFacturacion = direccionFacturacion;
 	}
 

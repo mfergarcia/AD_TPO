@@ -14,7 +14,7 @@ public class DireccionEntity {
 
 	@Id
 	@GeneratedValue(strategy= GenerationType.AUTO)
-	private int id;
+	private int idDireccion;
 	private String calle;
 	private int numero;
 	private String codigoPostal;
@@ -32,11 +32,11 @@ public class DireccionEntity {
 	}
 	
 	public int getId() {
-		return id;
+		return idDireccion;
 	}
 
 	public void setId(int id) {
-		this.id = id;
+		this.idDireccion = id;
 	}
 
 	public String getCalle() {

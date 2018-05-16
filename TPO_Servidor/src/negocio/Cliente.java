@@ -6,6 +6,8 @@ package negocio;
 
 import dto.ClienteEmpresaDTO;
 import dto.ClientePersonaDTO;
+import entities.ClienteEmpresaEntity;
+import entities.ClienteEntity;
 
 
 public class Cliente {
@@ -21,25 +23,32 @@ public class Cliente {
 	private char estado;
 	
 	//FACU: Revisar 
-	/*
-	public Cliente(ClienteEmpresaEntity cee) {
-		this.setIdCliente(cee.getIdCliente());
-		this.setTipoFactura(cee.set);
-		this.condicionesEspeciales=cee.getCondicionesEspeciales();//TODO
-	}
-
-	public Cliente(ClientePersonaEntity cpe) {
-		this.idCliente=cpe.getIdCliente();
-		//this.ctaCte=new CtaCte(cpe.getCc());
-		this.condicionesEspeciales=cpe.getCondicionesEspeciales();//TODO
+	
+	public Cliente(ClienteEntity ce) {
+		this.setIdCliente(ce.getIdCliente());
+		Direccion d= new Direccion();
+		d.setId(ce.getDireccionFacturacion().getId());
+		d.setCalle(ce.getDireccionFacturacion().getCalle());
+		d.setNumero(ce.getDireccionFacturacion().getNumero());
+		d.setCodigoPostal(ce.getDireccionFacturacion().getCodigoPostal());
+		d.setLocalidad(ce.getDireccionFacturacion().getLocalidad());
+		this.setDireccionFacturacion(d);
+		this.setCtaCte(new CtaCte(ce.getCtaCte().getLimiteCredito()));
+		this.setTipoFactura(ce.getTipoFactura());
+		this.condicionesEspeciales=ce.getCondicionesEspeciales();
+		this.setTipo(ce.getTipo());
 	}
 	
-	public Cliente(int idCliente, char estado, String condicionesEspeciales) {
-		this.idCliente=idCliente;
-		this.estado=estado;
-		this.condicionesEspeciales=condicionesEspeciales;//TODO
+	
+	public Cliente(CtaCte ctaCte, char tipoFactura, String condicionesEspeciales,
+			Direccion direccionFacturacion, char estado) {
+		super();
+		this.ctaCte = ctaCte;
+		this.tipoFactura = tipoFactura;
+		this.condicionesEspeciales = condicionesEspeciales;
+		this.direccionFacturacion = direccionFacturacion;
+		this.estado = estado;
 	}
-	*/
 	
 	public Cliente(ClienteEmpresaDTO cteEmpresaDTO) {
 		this.setTipoFactura(cteEmpresaDTO.getTipoFactura());
