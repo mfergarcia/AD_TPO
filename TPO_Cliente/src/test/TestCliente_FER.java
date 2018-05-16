@@ -2,6 +2,7 @@ package test;
 
 import delegados.SistemaBD;
 import dto.ClienteDTO;
+import dto.ClienteEmpresaDTO;
 import dto.DireccionDTO;
 import excepciones.*;
 
@@ -14,23 +15,30 @@ public class TestCliente_FER {
 	public static void main(String[] args) {
 		// TODO Auto-generated method stub
 		try{
-			SistemaBD controlador = new SistemaBD();
+			SistemaBD bd = new SistemaBD();
 
-			/* Prueba alta Cliente NO FUNCIONA */
-			DireccionDTO direccionDTO = new DireccionDTO();
+			/* Prueba alta Cliente */
+			/* DireccionDTO direccionDTO = new DireccionDTO();
 			direccionDTO.setCalle("Lima");
 			direccionDTO.setNumero(33);
 			direccionDTO.setLocalidad("Buenos Aires");
 			direccionDTO.setCodigoPostal("1001");
-			ClienteDTO clienteDTO = controlador.altaClienteEmpresa("33-334535353-7", "MAKRO", direccionDTO, 'A', "Solo venta en efectivo", 3000); 
-			System.out.print(clienteDTO.getIdCliente() + " " + clienteDTO.getIdentificacion());
+			*/
+			
+			ClienteEmpresaDTO cteEmpresaDTO = new ClienteEmpresaDTO();
+			cteEmpresaDTO.setRazonSocial("MAKRO");
+			cteEmpresaDTO.setCuit("33-334535353-7");
+			cteEmpresaDTO = bd.altaClienteEmpresa(cteEmpresaDTO);
+			
+			//ClienteDTO clienteDTO = controlador.altaClienteEmpresa("33-334535353-7", "MAKRO", direccionDTO, 'A', "Solo venta en efectivo", 3000); 
+			System.out.print(/*clienteDTO.getIdCliente() + */" " + cteEmpresaDTO.getCuit());
 			
 			/* Prueba login Cliente */
-			String usuario = "maria";
+		/*	String usuario = "maria";
 			String pwd = "MARIA";
-			clienteDTO = controlador.loginCliente(usuario, pwd);
+			clienteDTO = bd.loginCliente(usuario, pwd);
 			System.out.println("Su cliente es: " + clienteDTO.getIdCliente() + " " + clienteDTO.getIdentificacion());
-
+*/
 
 			/* Prueba login Empleado 
 			String usuario = "user_despacho";
