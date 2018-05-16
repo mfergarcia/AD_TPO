@@ -1,15 +1,31 @@
-//PENDIENTE: Verificar si esta bien implementada la estructura de la herencia
+//PENDIENTE: 
+// @Facu: cambiar para que la herencia se guarde en una sola tabla y 
+// adaptar los contructores. Descomentar los constructores de entity cuando
+// esten funcionando
 package negocio;
 
-import dto.ClienteDTO;
+import dao.ClienteEmpresaDAO;
+import dto.ClienteEmpresaDTO;
+//import entities.ClienteEmpresaEntity;
 
 public class ClienteEmpresa extends Cliente {
 
 	private String cuit;
 	private String razonSocial;
 	
-	public ClienteEmpresa() {
-		// TODO Auto-generated constructor stub
+	//FACU: Revisar
+	/*
+	public ClienteEmpresa(ClienteEmpresaEntity cee) {
+		super(cee);
+		this.setCuit(cee.getCuit());
+		this.setRazonSocial(cee.getRazonSocial());
+	}
+	*/
+
+	public ClienteEmpresa(ClienteEmpresaDTO cteEmpresaDTO) {
+		super(cteEmpresaDTO);
+		this.setCuit(cteEmpresaDTO.getCuit());
+		this.setRazonSocial(cteEmpresaDTO.getRazonSocial());
 	}
 
 	public String getCuit() {
@@ -28,12 +44,19 @@ public class ClienteEmpresa extends Cliente {
 		this.razonSocial = razonSocial;
 	}
 
-	public ClienteDTO toDTO() {
-		ClienteDTO clienteDTO = new ClienteDTO();
-		clienteDTO.setIdCliente(this.getIdCliente());
-		clienteDTO.setIdentificacion("CUIT: " + this.getCuit());
-		clienteDTO.setDescripcion(this.getRazonSocial());
-		clienteDTO.setDireccionFacturacion(this.getDireccionFacturacion().toString());
-		return clienteDTO;
+	public ClienteEmpresaDTO toDTO() {
+		ClienteEmpresaDTO clienteEmpresaDTO = new ClienteEmpresaDTO();
+		clienteEmpresaDTO.setIdCliente(this.getIdCliente());
+		clienteEmpresaDTO.setTipoFactura(this.getTipoFactura());
+		clienteEmpresaDTO.setCondicionesEspeciales(this.getCondicionesEspeciales());
+		clienteEmpresaDTO.setLimiteCredito(this.getCtaCte().getLimiteCredito());
+		clienteEmpresaDTO.setDireccionFacturacion(this.getDireccionFacturacion().toDTO());
+		clienteEmpresaDTO.setCuit(this.getCuit());
+		clienteEmpresaDTO.setRazonSocial(this.getRazonSocial());
+		return clienteEmpresaDTO;
+	}
+
+	public void saveMe() {
+		ClienteEmpresaDAO.getInstance().grabar(this);
 	}	
 }

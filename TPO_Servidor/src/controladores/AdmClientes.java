@@ -1,4 +1,4 @@
-//PENDIENTE: Revisar implementación de la herencia de cliente, programar metodos 
+// PENDIENTE: Revisar implementación de la herencia de cliente, programar metodos 
 // pendientes y desde VERRRR
 package controladores;
 
@@ -6,6 +6,10 @@ import java.util.ArrayList;
 import java.util.Collection;
 import java.util.Iterator;
 
+import dao.ClienteEmpresaDAO;
+import dto.ClienteDTO;
+import dto.ClienteEmpresaDTO;
+import dto.ClientePersonaDTO;
 import negocio.Cliente;
 import negocio.ClienteEmpresa;
 import negocio.ClientePersona;
@@ -17,24 +21,22 @@ import negocio.Pago;
 public class AdmClientes {
 
 	private static AdmClientes instancia;
-	private int numeradorClientes;
-	//NOTAS_FG: entiendo que no se puede tener una sola coleccion de clientes x eso use 2
+
+	// @Facu: remover estas colecciones cuando se puedan reemplazar las búsquedas
+	// en colecciones por búsquedas en la BD
 	private Collection<ClienteEmpresa> clientesEmpresa;
 	private Collection<ClientePersona> clientesPersona;
 	
 	// Constructor privado (Patron Singleton)
 	private AdmClientes() {
-		// TODO Auto-generated constructor stub
-		// Inicializar controlador
+		//@Facu: remover esta llamada cuando se puedan reemplazar las búsquedas
+		//en colecciones por búsquedas en la BD
 		cargarClientes();
 	}
 
-	// Crea las colecciones clientesEmpresa y clientesPersona, invoca al DAO
-	// y carga los Clientes existentes de la BD en dichas colecciones.
-	// Tambien setea el numeradorClientes con el max(idCliente) + 1
+	// @Facu: remover este metodo cuando se puedan reemplazar las búsquedas
+	// en colecciones por búsquedas en la BD
 	private void cargarClientes() {
-		//NOTAS_FG: Solo para prueba ** REEMPLAZAR **
-		this.numeradorClientes = 1;
 		this.clientesEmpresa = new ArrayList<ClienteEmpresa>();
 		this.clientesPersona = new ArrayList<ClientePersona>();
 	}
@@ -46,15 +48,34 @@ public class AdmClientes {
 		return instancia;
 	}	
 
-	// Invoca al DAO para recuperar el tipo de cliente ('E' o 'P')
-	// para un idCliente dado. Si no lo encuentra devuelve '0'
+	// @Facu: revisar que funcione ok la implementación del DAO
+	// Crea un Cliente de tipo Empresa y crea su correspondiente Cta Cte
+	public ClienteEmpresa altaClienteEmpresa(ClienteEmpresaDTO cteEmpresaDTO) {
+		ClienteEmpresa cteEmpresa = new ClienteEmpresa(cteEmpresaDTO);
+		CtaCte ctaCte = new CtaCte(cteEmpresaDTO.getLimiteCredito());
+		cteEmpresa.setCtaCte(ctaCte);
+		cteEmpresa.saveMe();
+		return cteEmpresa;
+	}
+	
+	// @Facu: revisar que funcione ok la implementación del DAO
+	// Crea un Cliente de tipo Persona y crea su correspondiente Cta Cte
+	public ClientePersona altaClientePersona(ClientePersonaDTO ctePersonaDTO) {
+		ClientePersona ctePersona = new ClientePersona(ctePersonaDTO);
+		CtaCte ctaCte = new CtaCte(ctePersonaDTO.getLimiteCredito());
+		ctePersona.setCtaCte(ctaCte);
+		ctePersona.saveMe();
+		return ctePersona;
+	}
+	
+	// @Facu: Invoca al DAO para recuperar el tipo de cliente ('E' o 'P')
+	// de la BD para un idCliente dado. Si no lo encuentra devuelve '0'
 	public char obtenerTipoCliente(int idCliente) {
 		//NOTAS_FG: Solo para prueba ** REEMPLAZAR **
 		return 'E';
 	}
 
-	// Recorre la coleccion clientesPersona y devuelve el objeto ClientePersona
-	// con el idCliente dado
+	// @Facu: Reemplazar la búsqueda en la colección por búsqueda en la BD
 	public ClienteEmpresa obtenerClienteEmpresa(int idCliente) {
 		ClienteEmpresa aux;
 		for (Iterator<ClienteEmpresa> i = this.clientesEmpresa.iterator(); i.hasNext() ; ) {
@@ -65,78 +86,65 @@ public class AdmClientes {
 		return null;
 	}
 	
-	// Recorre la coleccion clientesPersona y devuelve el objeto ClientePersona
-	// con el idCliente dado
+	// @Facu: Reemplazar la búsqueda en la colección por búsqueda en la BD
 	public ClientePersona obtenerClientePersona(int idCliente) {
+		ClientePersona aux;
+		for (Iterator<ClientePersona> i = this.clientesPersona.iterator(); i.hasNext() ; ) {
+			aux = i.next();
+			if (aux.getIdCliente() == idCliente) 
+				return aux; 
+		}
 		return null;
 	}
-	
-	// Crea un Cliente de tipo Empresa usando el numeradorClientes, crea su correspondiente
-	// Cta Cte, agrega el nuevo cliente a la coleccion clientesEmpresa, incrementa el numerador
-	// de clientes y devuelve el objeto ClienteEmpresa.
-	public ClienteEmpresa altaClienteEmpresa(String cuit, String razonSocial, Direccion direccionFacturacion, char tipoFactura, String condicionesEspeciales, float limiteCredito) {
-		ClienteEmpresa clienteEmpresa = new ClienteEmpresa();
-		clienteEmpresa.setIdCliente(this.numeradorClientes);
-		this.numeradorClientes++;
-		clienteEmpresa.setCuit(cuit);
-		clienteEmpresa.setRazonSocial(razonSocial);
-		clienteEmpresa.setDireccionFacturacion(direccionFacturacion);
-		clienteEmpresa.setCondicionesEspeciales(condicionesEspeciales);
-		CtaCte ctaCte = new CtaCte();
-		ctaCte.setLimiteCredito(limiteCredito);
-		clienteEmpresa.setCtaCte(ctaCte);
-		clienteEmpresa.setTipo('E');
-		clienteEmpresa.setEstado('A');
-		this.clientesEmpresa.add(clienteEmpresa);
-		return clienteEmpresa;
-	}	
 
-	// Crea un Cliente de tipo Persona usando el numeradorClientes, crea su correspondiente
-	// Cta Cte, agrega el nuevo cliente a la coleccion clientesPersona, incrementa el numerador
-	// de clientes y devuelve el objeto ClientePersona.
-	public ClientePersona altaClientePersona(String dni, String apellido, String nombre, Direccion direccionFacturacion, char tipoFactura, String condicionesEspeciales, float limiteCredito) {
-		this.numeradorClientes++;
-		return null;
+	//@Facu: revisar la llamada al saveMe de la cuenta corriente y del cteEmpresa
+	public ClienteEmpresa modificarCteEmpresa(ClienteEmpresaDTO cteEmpresaDTO) {
+		ClienteEmpresa cteEmpresa = obtenerClienteEmpresa(cteEmpresaDTO.getIdCliente());
+		cteEmpresa.setCondicionesEspeciales(cteEmpresaDTO.getCondicionesEspeciales());
+		Direccion direccion = new Direccion();
+		direccion.setCalle(cteEmpresaDTO.getDireccionFacturacion().getCalle());
+		direccion.setNumero(cteEmpresaDTO.getDireccionFacturacion().getNumero());
+		direccion.setCodigoPostal(cteEmpresaDTO.getDireccionFacturacion().getCodigoPostal());
+		direccion.setLocalidad(cteEmpresaDTO.getDireccionFacturacion().getLocalidad());
+		cteEmpresa.setDireccionFacturacion(direccion);
+		cteEmpresa.getCtaCte().setLimiteCredito(cteEmpresaDTO.getLimiteCredito());
+		cteEmpresa.getCtaCte().saveMe();
+		cteEmpresa.saveMe();
+		return cteEmpresa;
 	}
-	
-	// Identifica el tipo de cliente para el idCliente dado y modifica el domicilio de
-	// facturacion del Cliente identificado. Si no lo encuentra devuelve false
-	public boolean modificarDireccionFacturacion(int idCliente, String calle, int numero, String localidad, String codigoPostal) {	
-		char tipoCliente = obtenerTipoCliente(idCliente);
-		if (tipoCliente == 'E') {
-			ClienteEmpresa clienteEmpresa = obtenerClienteEmpresa(idCliente);
-			clienteEmpresa.getDireccionFacturacion().setCalle(calle);
-			clienteEmpresa.getDireccionFacturacion().setNumero(numero);
-			clienteEmpresa.getDireccionFacturacion().setLocalidad(localidad);
-			clienteEmpresa.getDireccionFacturacion().setCodigoPostal(codigoPostal);
-			return true;
-		}
-		else {
-			if (tipoCliente == 'P') {
-				ClientePersona clientePersona = obtenerClientePersona(idCliente);
-				clientePersona.getDireccionFacturacion().setCalle(calle);
-				clientePersona.getDireccionFacturacion().setNumero(numero);
-				clientePersona.getDireccionFacturacion().setLocalidad(localidad);
-				clientePersona.getDireccionFacturacion().setCodigoPostal(codigoPostal);
-				return true;
-			}
-		}
-		return false;
-	}	
 
+	//@Facu: revisar la llamada al saveMe de la cuenta corriente y del cteEmpresa
+	public ClientePersona modificarCtePersona(ClientePersonaDTO ctePersonaDTO) {
+		ClientePersona ctePersona = obtenerClientePersona(ctePersonaDTO.getIdCliente());
+		ctePersona.setCondicionesEspeciales(ctePersonaDTO.getCondicionesEspeciales());
+		Direccion direccion = new Direccion();
+		direccion.setCalle(ctePersonaDTO.getDireccionFacturacion().getCalle());
+		direccion.setNumero(ctePersonaDTO.getDireccionFacturacion().getNumero());
+		direccion.setCodigoPostal(ctePersonaDTO.getDireccionFacturacion().getCodigoPostal());
+		direccion.setLocalidad(ctePersonaDTO.getDireccionFacturacion().getLocalidad());
+		ctePersona.setDireccionFacturacion(direccion);
+		ctePersona.getCtaCte().setLimiteCredito(ctePersonaDTO.getLimiteCredito());
+		ctePersona.getCtaCte().saveMe();
+		ctePersona.saveMe();
+		return ctePersona;
+	}
+
+	//@Facu: revisar la llamada al saveMe 
 	// Identifica el tipo de cliente para el idCliente dado e inactiva
 	// el Cliente identificado. Si no lo encuentra devuelve false
 	public boolean bajaCliente(int idCliente) {	
 		char tipoCliente = obtenerTipoCliente(idCliente);
 		if (tipoCliente == 'E') {
-			ClienteEmpresa clienteEmpresa = obtenerClienteEmpresa(idCliente);
-			clienteEmpresa.setEstado('I');
+			ClienteEmpresa cteEmpresa = obtenerClienteEmpresa(idCliente);
+			cteEmpresa.setEstado('I');
+			cteEmpresa.saveMe();
 			return true;
 		}
 		else {
 			if (tipoCliente == 'P') {
-				ClientePersona clientePersona = obtenerClientePersona(idCliente);
-				clientePersona.setEstado('I');
+				ClientePersona ctePersona = obtenerClientePersona(idCliente);
+				ctePersona.setEstado('I');
+				ctePersona.saveMe();
 				return true;
 			}
 			else
@@ -203,4 +211,20 @@ public class AdmClientes {
 		}
 	}
 	
+	public char obtenerTipoFacturaCliente(int idCliente) {
+		char tipoCliente = obtenerTipoCliente(idCliente);
+		if (tipoCliente == 'E') {
+			ClienteEmpresa clienteEmpresa = obtenerClienteEmpresa(idCliente);
+			return clienteEmpresa.getTipoFactura();
+		}
+		else {
+			if (tipoCliente == 'P') {
+				ClientePersona clientePersona = obtenerClientePersona(idCliente);
+				return clientePersona.getTipoFactura();
+			}
+			else
+				return 0;
+		}
+	}
+
 }	

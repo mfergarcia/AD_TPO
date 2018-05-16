@@ -27,5 +27,9 @@ public class MovStockCompra extends MovimientoStock {
 		this.oc = oc;
 	}	
 	
+	//@Facu: implementar metodo
+	public void saveMe() {
+
+	}	
 	
 }

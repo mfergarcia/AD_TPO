@@ -5,6 +5,9 @@ import java.util.ArrayList;
 import java.util.Calendar;
 import java.util.Collection;
 import java.util.Date;
+import java.util.Iterator;
+
+import dto.OrdenDeCompraDTO;
 
 public class OrdenDeCompra {
 
@@ -84,5 +87,31 @@ public class OrdenDeCompra {
 	public void setEstado(String estado) {
 		this.estado = estado;
 	}
+	
+	public OrdenDeCompraDTO toDTO() {
+		OrdenDeCompraDTO ordenDeCompraDTO = new OrdenDeCompraDTO();
+		ordenDeCompraDTO.setNumOC(this.getNumOC());
+		ordenDeCompraDTO.setFecha(this.getFecha());
+		ordenDeCompraDTO.setProveedor(this.getProveedor());
+		ordenDeCompraDTO.setEstado(this.getEstado());
+		String[] codBarrasItems = new String[this.getItemsOC().size()];
+		int[] cantidades = new int[this.getItemsOC().size()];
+		ItemOC aux;
+		int contador = 0;
+		for (Iterator<ItemOC> i = this.getItemsOC().iterator(); i.hasNext(); ) {
+			aux = i.next();
+			codBarrasItems[contador] = aux.getArticulo().getCodigoBarras();
+			cantidades[contador] = aux.getCantidad();
+			contador++;
+		}
+		ordenDeCompraDTO.setCodBarrasItem(codBarrasItems);
+		ordenDeCompraDTO.setCantidades(cantidades);
+		return ordenDeCompraDTO;
+	}
+	
+	//@Facu: implementar metodo
+	public void saveMe() {
+
+	}	
 	
 }

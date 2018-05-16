@@ -18,7 +18,7 @@ public class Remito {
 		// TODO Auto-generated constructor stub
 	}
 
-	// Crear un remito con la fecha del dia
+	// Crea un Remito con la fecha del dia
 	public Remito(int numRemito, Factura factura){
 		this.setNumRemito(numRemito);
 		this.setFactura(factura);
@@ -63,4 +63,9 @@ public class Remito {
 		}
 		return remitoDTO;
 	}
+
+	//@Facu: implementar metodo
+	public void saveMe() {
+
+	}		
 }

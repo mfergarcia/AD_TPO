@@ -45,4 +45,8 @@ public class MovStockMantenimiento extends MovimientoStock {
 		this.destinoFinal = destinoFinal;
 	}
 
+	//@Facu: implementar metodo
+	public void saveMe() {
+
+	}	
 }

@@ -118,4 +118,9 @@ public class Factura {
 		}
 		return facturaDTO;
 	}
+	
+	//@Facu: implementar metodo
+	public void saveMe() {
+
+	}	
 }

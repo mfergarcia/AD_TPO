@@ -58,4 +58,9 @@ public class Direccion {
 		direccionDTO.setCodigoPostal(this.getCodigoPostal());
 		return direccionDTO;
 	}
+	
+	//@Facu: implementar metodo
+	public void saveMe() {
+
+	}	
 }

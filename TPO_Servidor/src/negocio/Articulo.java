@@ -25,19 +25,19 @@ public class Articulo {
 		// TODO Auto-generated constructor stub
 	}
 
-	public Articulo(String codBarras, String desc, String pres, int tamaño, String unidad, float precioVta, int cantFijaCompra, int cantMaxUbi) {
-		this.setCodigoBarras(codBarras);
-		this.setDescripcion(desc);
-		this.setPresentacion(pres);
-		this.setTamaño(tamaño);;
-		this.setUnidad(unidad);
-		this.setPrecioVta(precioVta);
-		this.setCantFijaCompra(cantFijaCompra);
-		this.setCantMaxUbicacion(cantMaxUbi);
+	public Articulo(ArticuloDTO articuloDTO) {
+		this.setCodigoBarras(articuloDTO.getCodigoBarras());
+		this.setDescripcion(articuloDTO.getDescripcion());
+		this.setPresentacion(articuloDTO.getPresentacion());
+		this.setTamaño(articuloDTO.getTamaño());
+		this.setUnidad(articuloDTO.getUnidad());
+		this.setPrecioVta(articuloDTO.getPrecioVta());
+		this.setCantFijaCompra(articuloDTO.getCantFijaCompra());
+		this.setCantMaxUbicacion(articuloDTO.getCantMaxUbicacion());
 		this.articulosEnStock = new ArrayList<ArticuloEnStock>();
 		this.setEstado('A');
 	}
-
+	
 	// Valida que el objeto sea un determinado articulo
 	public boolean sosArticulo(String codBarra) {
 		return (codBarra == this.getCodigoBarras());
@@ -174,4 +174,10 @@ public class Articulo {
 		return articuloDTO;
 		
 	}
+	
+	//@Facu: implementar metodo
+	public void saveMe() {
+
+	}	
+
 }

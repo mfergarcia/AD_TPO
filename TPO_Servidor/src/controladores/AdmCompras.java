@@ -5,6 +5,7 @@ import java.util.ArrayList;
 import java.util.Collection;
 import java.util.Iterator;
 
+import dto.ArticuloDTO;
 import negocio.*;
 
 public class AdmCompras {
@@ -68,35 +69,36 @@ public class AdmCompras {
 		return instancia;
 	}	
 
+	// @Facu: revisar la implementación del saveMe
 	// Crea un nuevo Articulo y le pide al controlador de Stock que lo agregue al catalogo
-	public Articulo altaArticulo(String codBarras, String desc, String pres, int tamaño, String unidad, float precioVta, int cantFijaCompra, int cantMaxUbi) {
-		Articulo art = new Articulo(codBarras, desc, pres, tamaño, unidad, precioVta, cantFijaCompra, cantMaxUbi);
-		AdmStock.getInstancia().agregarArticulo(art);
-		return art;
+	public Articulo altaArticulo(ArticuloDTO articuloDTO) {
+		Articulo articulo = new Articulo(articuloDTO);
+		articulo.saveMe();
+		return articulo;
 	}
 	
+	// @Facu: revisar la implementación del saveMe
 	// Se actualizan las propiedades editables del Articulo
-	public boolean modificarArticulo(String codBarras, String desc, String pres, int tamaño, String unidad, float precioVta, int cantFijaCompra, int cantMaxUbi) {
-		Articulo art = AdmStock.getInstancia().buscarArticulo(codBarras);
-		if (art != null) {
-			art.setDescripcion(desc);
-			art.setPresentacion(pres);
-			art.setTamaño(tamaño);
-			art.setUnidad(unidad);
-			art.setPrecioVta(precioVta);
-			art.setCantFijaCompra(cantFijaCompra);
-			art.setCantMaxUbicacion(cantMaxUbi);
-			return true;
-		}
-		else
-			return false;
+	public Articulo modificarArticulo(ArticuloDTO articuloDTO) {
+		Articulo articulo = AdmStock.getInstancia().obtenerArticulo(articuloDTO.getCodigoBarras());
+		articulo.setDescripcion(articuloDTO.getDescripcion());
+		articulo.setPresentacion(articuloDTO.getPresentacion());
+		articulo.setTamaño(articuloDTO.getTamaño());
+		articulo.setUnidad(articuloDTO.getUnidad());
+		articulo.setPrecioVta(articuloDTO.getPrecioVta());
+		articulo.setCantFijaCompra(articuloDTO.getCantFijaCompra());
+		articulo.setCantMaxUbicacion(articuloDTO.getCantMaxUbicacion());
+		articulo.saveMe();
+		return articulo;
 	}
 	
+	// @Facu: revisar la implementación del saveMe
 	// Inactiva una articulo existente para que no sea publicado en el Catalogo para la venta
 	public boolean bajaArticulo(String codBarras) {
-		Articulo art = AdmStock.getInstancia().buscarArticulo(codBarras);
+		Articulo art = AdmStock.getInstancia().obtenerArticulo(codBarras);
 		if (art != null) { 
 			art.setEstado('I');
+			art.saveMe();
 			return true;
 		}
 		else
@@ -154,19 +156,20 @@ public class AdmCompras {
 
 	// Obtiene la OC de la coleccion ordenesDeCompra y ejecuta su cumplimiento
 	// NOTAS_FG: Este metodo dispara una verificacion de si el pedido puede completarse 
-	public boolean cumplirOrdenDeCompra(int numOC) {
+	public String cumplirOrdenDeCompra(int numOC) {
 		OrdenDeCompra ordenDeCompra = buscarOrdenDeCompra(numOC);
 		if (ordenDeCompra != null) {
 			OrdenPedidoRepo aux;
 			for (Iterator<OrdenPedidoRepo> i = ordenDeCompra.getOrdenesPedidoRepo().iterator(); i.hasNext(); ) {
 				aux = i.next();
-				// String nuevoEstadoPedido = AdmPedidos.getInstancia().aprobarPedido(aux.getNumPedido());
+				String nuevoEstadoPedido = AdmPedidos.getInstancia().aprobarPedido(aux.getNumPedido());
 				aux.setEstado("CUMPLIDA");
 			}
 			ordenDeCompra.setEstado("CUMPLIDA");
-			return true;
+			return ordenDeCompra.getEstado();
 		}
-		return true;
+		else
+			return null;
 	}
 	
 	//NOTAS_FG: Para que se necesita este metodo acá si la recepción de la orden de compra la maneja AdmStock
@@ -174,4 +177,5 @@ public class AdmCompras {
 	
 	}
 	
+
 }

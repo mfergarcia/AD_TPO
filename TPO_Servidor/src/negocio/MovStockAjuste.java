@@ -27,4 +27,8 @@ public class MovStockAjuste extends MovimientoStock {
 		this.artEnStock = artEnStock;
 	}
 
+	//@Facu: implementar metodo
+	public void saveMe() {
+
+	}	
 }

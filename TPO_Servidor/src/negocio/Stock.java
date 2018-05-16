@@ -42,18 +42,30 @@ public class Stock {
 	}
 
 	// NOTA_FG: VERRRRRRR
+	// La Cantidad Real se actualiza cuando se descuenta el stock (todo o una parte) 
+	// o cuando se ingresa stock
 	public void actualizarCantidadReal(int cantidad) {
-		if (cantidad == 0) {
+		// Se está ingresando Stock
+		if (this.getEstado().equals("LIBRE")) {
+			this.setCantidadReal(cantidad);
 			this.setCantidadReservada(0);
-			this.setEstado("LIBRE");
+			this.setEstado("OCUPADA");
 		}
 		else {
-			int nuevaCantReservada = this.getCantidadReservada() - cantidad;
-			if (nuevaCantReservada >= 0)
-				this.setCantidadReservada(nuevaCantReservada);
-			else
+			if (cantidad == 0) {
+				// Se está liberando la ubicación
 				this.setCantidadReservada(0);
-			this.setEstado("OCUPADA");
+				this.setEstado("LIBRE");
+			}
+			else {
+				// Se descuenta una parte del stock, se desbloquea la ubicación
+				int nuevaCantReservada = this.getCantidadReservada() - (this.getCantidadReal() - cantidad);
+				if (nuevaCantReservada >= 0)
+					this.setCantidadReservada(nuevaCantReservada);
+				else
+					this.setCantidadReservada(0);
+				this.setEstado("OCUPADA");
+			}	
 		}	
 		this.setCantidadReal(cantidad);
 	}
@@ -113,4 +125,8 @@ public class Stock {
 		this.estado = estado;
 	}
 	
+	//@Facu: implementar metodo
+	public void saveMe() {
+
+	}	
 }

@@ -1,10 +1,11 @@
-//PENDIENTE: Programar toda la funcionalidad
+//PENDIENTE: Remover propiedades, implementar búsquedas a través del DAO
 package remoto;
 
 import java.rmi.RemoteException;
 import java.rmi.server.UnicastRemoteObject;
 import java.util.ArrayList;
 import java.util.Collection;
+import java.util.Date;
 import java.util.Iterator;
 
 import interfaces.InterfazRemota;
@@ -26,23 +27,20 @@ public class Sistema extends UnicastRemoteObject implements InterfazRemota{
 	private AdmStock admStock;
 	private AdmPedidos admPedidos;
 	private AdmFacturacion admFacturacion;
+	//@Facu: remover colecciones de clientes cuando se puedan reemplazar las
+	//busquedas en las colecciones por búsquedas en la BD.
 	private Collection<UsuarioCliente> usuariosCliente;
 	private Collection<UsuarioEmpleado> usuariosEmpleado;
 	
 	public Sistema() throws RemoteException {
-		// TODO Auto-generated constructor stub
+		//@Facu: remover estas llamadas cuando se puedan reemplazar las 
+		//busquedas en las colecciones por búsquedas en la BD.
 		cargarUsuariosCliente();
 		cargarUsuariosEmpleado();
-		admClientes = AdmClientes.getInstancia();
-		admCompras = AdmCompras.getInstancia();
-		admStock = AdmStock.getInstancia();
-		admPedidos = AdmPedidos.getInstancia();
-		admFacturacion = AdmFacturacion.getInstancia();
-		
 	}
 
-	// Invoca al DAO, carga las UsuarioCliente existentes
-	// de la BD en la colección usuariosCliente
+	//@Facu: remover este metodo cuando se puedan buscar los usuarios
+	//en la BD
 	private void cargarUsuariosCliente() {
 		//NOTAS_FG: Solo para prueba ** REEMPLAZAR **
 		this.usuariosCliente = new ArrayList<UsuarioCliente>();
@@ -58,8 +56,8 @@ public class Sistema extends UnicastRemoteObject implements InterfazRemota{
 		this.usuariosCliente.add(usuarioCliente);
 	}
 
-	// Invoca al DAO, carga las UsuarioCliente existentes
-	// de la BD en la colección usuariosCliente
+	//@Facu: remover este metodo cuando se puedan buscar los usuarios
+	//en la BD
 	private void cargarUsuariosEmpleado() {
 		this.usuariosEmpleado = new ArrayList<UsuarioEmpleado>();
 		UsuarioEmpleado usuarioEmpleado = new UsuarioEmpleado();
@@ -89,7 +87,8 @@ public class Sistema extends UnicastRemoteObject implements InterfazRemota{
 		usuarioEmpleado.setMenu("ADM_FACTURACION");
 		this.usuariosEmpleado.add(usuarioEmpleado);
 	}
-	
+
+	//@Facu: reemplazar esta busqueda en coleccion por busqueda en la BD
 	private UsuarioCliente buscarUsuarioCliente(String usuario) {
 		UsuarioCliente aux;
 		for (Iterator<UsuarioCliente> i = usuariosCliente.iterator(); i.hasNext(); ) {
@@ -99,7 +98,8 @@ public class Sistema extends UnicastRemoteObject implements InterfazRemota{
 		}
 		return null;
 	}
-	
+
+	//@Facu: reemplazar esta busqueda en coleccion por busqueda en la BD	
 	private UsuarioEmpleado buscarUsuarioEmpleado(String usuario) {
 		UsuarioEmpleado aux;
 		for (Iterator<UsuarioEmpleado> i = usuariosEmpleado.iterator(); i.hasNext(); ) {
@@ -109,46 +109,31 @@ public class Sistema extends UnicastRemoteObject implements InterfazRemota{
 		}	
 		return null;
 	}
-
 	
 	@Override
-	public ClienteDTO loginCliente(String usuario, String pwd) throws RemoteException, ExcepcionSistema {
-		ClienteDTO clienteDTO;
+	public int loginCliente(String usuario, String pwd) throws RemoteException, ExcepcionSistema {
 		UsuarioCliente usuarioCliente = buscarUsuarioCliente(usuario);
 		if (usuarioCliente != null) {
-			if (usuarioCliente.getPwd().equals(pwd)) {
-				char tipoCliente = admClientes.obtenerTipoCliente(usuarioCliente.getIdCliente());
-				if (tipoCliente == 'E')
-					clienteDTO = admClientes.obtenerClienteEmpresa(usuarioCliente.getIdCliente()).toDTO();
-				else {
-					if (tipoCliente == 'P') 
-						clienteDTO = admClientes.obtenerClientePersona(usuarioCliente.getIdCliente()).toDTO();
-					else
-						throw new ExcepcionSistema("Cliente no encontrado");
-				}	
-			}
+			if (usuarioCliente.getPwd().equals(pwd))
+				return usuarioCliente.getIdCliente();
 			else
 				throw new ExcepcionSistema("Password incorrecta");
 		}
 		else
 			throw new ExcepcionSistema("Usuario no encontrado");
-		return clienteDTO;
 	}
 	
 	@Override
 	public String loginEmpleado(String usuario, String pwd) throws RemoteException, ExcepcionSistema {
-		String menu = "";
 		UsuarioEmpleado usuarioEmpleado = buscarUsuarioEmpleado(usuario);
 		if (usuarioEmpleado != null) {
-			if ( usuarioEmpleado.getPwd().equals(pwd))
-				menu = usuarioEmpleado.getMenu();
+			if (usuarioEmpleado.getPwd().equals(pwd))
+				return usuarioEmpleado.getMenu();
 			else
 				throw new ExcepcionSistema("Password incorrecta");
 		}
-		else {
+		else 
 			throw new ExcepcionSistema("Usuario no encontrado");
-		}
-		return menu;
 	}
 
 	/* Creo que no se necesita
@@ -169,57 +154,75 @@ public class Sistema extends UnicastRemoteObject implements InterfazRemota{
 		}
 	} 
 	*/
-	
+
 	@Override
-	public ClienteDTO altaClienteEmpresa(String cuit, String razonSocial, DireccionDTO direccionFacturacionDTO, char tipoFactura, String condicionesEspeciales, float limiteCredito) throws RemoteException, ExcepcionSistema {
-		Direccion direccionFacturacion = new Direccion();
-		direccionFacturacion.setCalle(direccionFacturacionDTO.getCalle());
-		direccionFacturacion.setNumero(direccionFacturacionDTO.getNumero());
-		direccionFacturacion.setLocalidad(direccionFacturacionDTO.getLocalidad());
-		direccionFacturacion.setCodigoPostal(direccionFacturacionDTO.getCodigoPostal());
-		ClienteEmpresa clienteEmpresa = admClientes.altaClienteEmpresa(cuit, razonSocial, direccionFacturacion, tipoFactura, condicionesEspeciales, limiteCredito);
-		return clienteEmpresa.toDTO();
+	public ClienteEmpresaDTO altaClienteEmpresa(ClienteEmpresaDTO cteEmpresaDTO) throws RemoteException, ExcepcionSistema {
+		return AdmClientes.getInstancia().altaClienteEmpresa(cteEmpresaDTO).toDTO();
 	}
 
 	@Override
-	public ClienteDTO altaClientePersona(String dni, String apellido, String nombre, DireccionDTO direccionFacturacionDTO, char tipoFactura, String condicionesEspeciales, float limiteCredito) throws RemoteException, ExcepcionSistema {
-		// TODO Auto-generated method stub
-		Direccion direccionFacturacion = new Direccion();
-		direccionFacturacion.setCalle(direccionFacturacionDTO.getCalle());
-		direccionFacturacion.setNumero(direccionFacturacionDTO.getNumero());
-		direccionFacturacion.setLocalidad(direccionFacturacionDTO.getLocalidad());
-		direccionFacturacion.setCodigoPostal(direccionFacturacionDTO.getCodigoPostal());
-		ClientePersona clientePersona = admClientes.altaClientePersona(dni, apellido, nombre, direccionFacturacion, tipoFactura, condicionesEspeciales, limiteCredito);
-		return clientePersona.toDTO();
+	public ClientePersonaDTO altaClientePersona(ClientePersonaDTO ctePersonaDTO) throws RemoteException, ExcepcionSistema {
+		return AdmClientes.getInstancia().altaClientePersona(ctePersonaDTO).toDTO();
 	}
 
 	@Override
-	public void modificarDireccionCliente(int idCliente, DireccionDTO direccionDTO) throws RemoteException, ExcepcionSistema {
-		if (!admClientes.modificarDireccionFacturacion(idCliente, direccionDTO.getCalle(), direccionDTO.getNumero(), direccionDTO.getLocalidad(), direccionDTO.getCodigoPostal()))
+	public char obtenerTipoCliente(int idCliente) throws RemoteException, ExcepcionSistema {
+		char tipoCliente = AdmClientes.getInstancia().obtenerTipoCliente(idCliente);
+		if (tipoCliente != 0)
+			return tipoCliente;
+		else
 			throw new ExcepcionSistema("Cliente no encontrado");
 	}
 
 	@Override
+	public ClienteEmpresaDTO obtenerCteEmpresa(int idCliente) throws RemoteException, ExcepcionSistema {
+		return AdmClientes.getInstancia().obtenerClienteEmpresa(idCliente).toDTO();
+	}
+
+	@Override
+	public ClientePersonaDTO obtenerCtePersona(int idCliente) throws RemoteException, ExcepcionSistema {
+		return AdmClientes.getInstancia().obtenerClientePersona(idCliente).toDTO();
+	}
+
+	
+	@Override
+	public ClienteEmpresaDTO modificarCteEmpresa(ClienteEmpresaDTO cteEmpresaDTO) throws RemoteException, ExcepcionSistema {
+		return AdmClientes.getInstancia().modificarCteEmpresa(cteEmpresaDTO).toDTO();
+	}
+
+	@Override
+	public ClientePersonaDTO modificarCtePersona(ClientePersonaDTO ctePersonaDTO) throws RemoteException, ExcepcionSistema {
+		return AdmClientes.getInstancia().modificarCtePersona(ctePersonaDTO).toDTO();
+	}
+
+	@Override
 	public void bajaCliente(int idCliente) throws RemoteException, ExcepcionSistema {
-		if (!admClientes.bajaCliente(idCliente))
+		if (!AdmClientes.getInstancia().bajaCliente(idCliente))
 			throw new ExcepcionSistema("Cliente no encontrado");
 	}
 
 	@Override
 	public ArticuloDTO altaArticulo(ArticuloDTO articuloDTO) throws RemoteException, ExcepcionSistema {
-		Articulo articulo = admCompras.altaArticulo(articuloDTO.getCodigoBarras(), articuloDTO.getDescripcion(), articuloDTO.getPresentacion(), articuloDTO.getTamaño(), articuloDTO.getUnidad(), articuloDTO.getPrecioVta(), articuloDTO.getCantFijaCompra(), articuloDTO.getCantMaxUbicacion());
-		return articulo.toDTO();
+		return AdmCompras.getInstancia().altaArticulo(articuloDTO).toDTO();
 	}
 
 	@Override
-	public void modificarArticulo(String codBarras, String desc, String pres, int tamaño, String unidad, float precioVta, int cantFijaCompra, int cantMaxUbi) throws RemoteException, ExcepcionSistema {
-		if (!admCompras.modificarArticulo(codBarras, desc, pres, tamaño, unidad, precioVta, cantFijaCompra, cantMaxUbi))
+	public ArticuloDTO obtenerArticulo(String codBarras) throws RemoteException, ExcepcionSistema {
+		Articulo articulo = AdmStock.getInstancia().obtenerArticulo(codBarras);
+		if (articulo != null)
+			return articulo.toDTO();
+		else
 			throw new ExcepcionSistema("Articulo no encontrado");
+	}
+	
+	@Override
+	public ArticuloDTO modificarArticulo(ArticuloDTO articuloDTO) throws RemoteException, ExcepcionSistema {
+		return AdmCompras.getInstancia().modificarArticulo(articuloDTO).toDTO();
 	}
 
 	@Override
 	public void bajaArticulo(String codBarras) throws RemoteException, ExcepcionSistema {
-		if (!admCompras.bajaArticulo(codBarras))
+		if (!AdmCompras.getInstancia().bajaArticulo(codBarras))
 			throw new ExcepcionSistema("Articulo no encontrado");
 	}
 
@@ -227,7 +230,7 @@ public class Sistema extends UnicastRemoteObject implements InterfazRemota{
 	public Collection<ArticuloDTO> obtenerCatalogo() throws RemoteException, ExcepcionSistema {
 		Collection<ArticuloDTO> catalogo = new ArrayList<ArticuloDTO>();
 		Articulo aux;
-		for (Iterator<Articulo> i = admStock.obtenerCatalogo().iterator(); i.hasNext(); ) {
+		for (Iterator<Articulo> i = AdmStock.getInstancia().obtenerCatalogo().iterator(); i.hasNext(); ) {
 			aux = i.next();
 			catalogo.add(aux.toDTO());
 		}
@@ -236,32 +239,14 @@ public class Sistema extends UnicastRemoteObject implements InterfazRemota{
 
 	@Override
 	public PedidoDTO generarPedido(PedidoDTO pedidoDTO) throws RemoteException, ExcepcionSistema {
-		ItemArticulo item;
-		Collection<ItemArticulo> articulos = new ArrayList<ItemArticulo>();
-		ItemArticuloDTO aux;
-		Direccion dirEntrega = new Direccion();
-		dirEntrega.setCalle(pedidoDTO.getDirEntrega().getCalle());
-		dirEntrega.setNumero(pedidoDTO.getDirEntrega().getNumero());
-		dirEntrega.setLocalidad(pedidoDTO.getDirEntrega().getLocalidad());
-		dirEntrega.setCodigoPostal(pedidoDTO.getDirEntrega().getCodigoPostal());
-		// Recorre la coleccion de items del PedidoDTO y los convierte en items de negocio
-		for (Iterator<ItemArticuloDTO> i = pedidoDTO.getArticulos().iterator(); i.hasNext(); ) {
-			aux = i.next();
-			item = new ItemArticulo();
-			item.setArticulo(admStock.buscarArticulo(aux.getArticuloDTO().getCodigoBarras()));
-			item.setCant(aux.getCant());
-			item.setPrecioVta(aux.getPrecioVta());
-			articulos.add(item);
-		}
-		Pedido pedido = admPedidos.generarPedido(pedidoDTO.getIdCliente(), dirEntrega, articulos);
-		return pedido.toDTO();
+		return AdmPedidos.getInstancia().generarPedido(pedidoDTO).toDTO();
 	}
 
 	@Override
 	public Collection<PedidoDTO> obtenerPedidosPorCliente(int idCliente) throws RemoteException, ExcepcionSistema {
 		Collection<Pedido> pedidosCliente;
 		Collection<PedidoDTO> pedidosClienteDTO = new ArrayList<PedidoDTO>();
-		pedidosCliente = admPedidos.obtenerPedidosPorCliente(idCliente);
+		pedidosCliente = AdmPedidos.getInstancia().obtenerPedidosPorCliente(idCliente);
 		if (pedidosCliente != null && !pedidosCliente.isEmpty() ) {
 			Pedido aux;
 			for (Iterator<Pedido> i = pedidosCliente.iterator(); i.hasNext(); ) {
@@ -278,7 +263,7 @@ public class Sistema extends UnicastRemoteObject implements InterfazRemota{
 	public Collection<PedidoDTO> obtenerPedidosAConfirmar() throws RemoteException, ExcepcionSistema {
 		Collection<Pedido> pedidos;
 		Collection<PedidoDTO> pedidosDTO = new ArrayList<PedidoDTO>();
-		pedidos = admPedidos.obtenerPedidosAConfirmar();
+		pedidos = AdmPedidos.getInstancia().obtenerPedidosAConfirmar();
 		if (pedidos != null && !pedidos.isEmpty() ) {
 			Pedido aux;
 			for (Iterator<Pedido> i = pedidos.iterator(); i.hasNext(); ) {
@@ -294,11 +279,132 @@ public class Sistema extends UnicastRemoteObject implements InterfazRemota{
 	@Override
 	public String aprobarPedido(int numPedido) throws RemoteException, ExcepcionSistema {
 		String nuevoEstadoPedido;
-		nuevoEstadoPedido = admPedidos.aprobarPedido(numPedido);
+		nuevoEstadoPedido = AdmPedidos.getInstancia().aprobarPedido(numPedido);
 		if (nuevoEstadoPedido != null) 
 			return nuevoEstadoPedido;
 		else
 			throw new ExcepcionSistema("No se ha podido ejecutar la aprobacion del Pedido");
 	}
+
+	@Override	
+	public String rechazarPedido(int numPedido, String motivo) throws RemoteException, ExcepcionSistema {
+		String nuevoEstadoPedido;
+		nuevoEstadoPedido = admPedidos.rechazarPedido(numPedido, motivo);
+		if (nuevoEstadoPedido != null) 
+			return nuevoEstadoPedido;
+		else
+			throw new ExcepcionSistema("No se ha podido ejecutar el rechazo del Pedido");
+	}
+
+	@Override
+	public Collection<PedidoDTO> obtenerPedidosCompletos() throws RemoteException, ExcepcionSistema {
+		Collection<Pedido> pedidos;
+		Collection<PedidoDTO> pedidosDTO = new ArrayList<PedidoDTO>();
+		pedidos = admPedidos.obtenerPedidosCompletos();
+		if (pedidos != null && !pedidos.isEmpty() ) {
+			Pedido aux;
+			for (Iterator<Pedido> i = pedidos.iterator(); i.hasNext(); ) {
+				aux = i.next();
+				pedidosDTO.add(aux.toDTO());
+			}
+		}
+		else
+			throw new ExcepcionSistema("No se registran Pedidos Completos");
+		return pedidosDTO;
+	}
+
+	@Override
+	public String solicitarPedido(int numPedido) throws RemoteException, ExcepcionSistema {
+		String nuevoEstadoPedido;
+		nuevoEstadoPedido = admPedidos.solicitarPedido(numPedido);
+		if (nuevoEstadoPedido != null) 
+			return nuevoEstadoPedido;
+		else
+			throw new ExcepcionSistema("No se ha podido ejecutar la solicitud del Pedido");
+	}
+
+	@Override
+	public Collection<PedidoDTO> obtenerPedidosADespachar() throws RemoteException, ExcepcionSistema {
+		Collection<Pedido> pedidos;
+		Collection<PedidoDTO> pedidosDTO = new ArrayList<PedidoDTO>();
+		pedidos = admPedidos.obtenerPedidosADespachar();
+		if (pedidos != null && !pedidos.isEmpty() ) {
+			Pedido aux;
+			for (Iterator<Pedido> i = pedidos.iterator(); i.hasNext(); ) {
+				aux = i.next();
+				pedidosDTO.add(aux.toDTO());
+			}
+		}
+		else
+			throw new ExcepcionSistema("No se registran Pedidos A Despachar");
+		return pedidosDTO;
+	}
+
+	@Override
+	public String registrarFechaEntrega(int numPedido, Date fechaEntrega) throws RemoteException, ExcepcionSistema {
+		String nuevoEstadoPedido;
+		nuevoEstadoPedido = admPedidos.registrarFechaEntrega(numPedido, fechaEntrega);
+		if (nuevoEstadoPedido != null) 
+			return nuevoEstadoPedido;
+		else
+			throw new ExcepcionSistema("No se ha podido registrar el despacho del Pedido");
+	}
+
+	@Override
+	public Collection<PedidoDTO> obtenerPedidosPendDeposito() throws RemoteException, ExcepcionSistema {
+		Collection<Pedido> pedidos;
+		Collection<PedidoDTO> pedidosDTO = new ArrayList<PedidoDTO>();
+		pedidos = admPedidos.obtenerPedidosPendDeposito();
+		if (pedidos != null && !pedidos.isEmpty() ) {
+			Pedido aux;
+			for (Iterator<Pedido> i = pedidos.iterator(); i.hasNext(); ) {
+				aux = i.next();
+				pedidosDTO.add(aux.toDTO());
+			}
+		}
+		else
+			throw new ExcepcionSistema("No se registran Pedidos Pendientes de Deposito");
+		return pedidosDTO;
+	}
+
+	@Override
+	public String prepararPedido(int numPedido) throws RemoteException, ExcepcionSistema {
+		// TODO Auto-generated method stub
+		return null;
+	}
+
+	@Override
+	public OrdenDeCompraDTO procesarOrdenDeCompra(int numOC) throws RemoteException, ExcepcionSistema {
+		OrdenDeCompra ordenDeCompra = admCompras.buscarOrdenDeCompra(numOC);
+		if (ordenDeCompra != null)
+			return ordenDeCompra.toDTO();
+		else
+			throw new ExcepcionSistema("Orden de Compra no encontrada");
+	}
 	
+	@Override
+	public Collection<ArticuloEnStockDTO> cargarArticuloEnStock(int numOC, String codBarras, int cantidad, String lote, Date fechaVenc, String proveedor, float precioCompra) throws RemoteException, ExcepcionSistema {
+		Collection<ArticuloEnStockDTO> artEnStockDTO = new ArrayList<ArticuloEnStockDTO>();
+		Collection<ArticuloEnStock> artEnStock = admStock.cargarArticuloEnStock(numOC, codBarras, cantidad, lote, fechaVenc, proveedor, precioCompra);
+		if (artEnStock != null && !artEnStock.isEmpty() ) {
+			ArticuloEnStock aux;
+			for (Iterator<ArticuloEnStock> i = artEnStock.iterator(); i.hasNext(); ) {
+				aux = i.next();
+				artEnStockDTO.add(aux.toDTO());
+			}
+		}
+		else
+			throw new ExcepcionSistema("No se ha podido cargar el stock del articulo");
+		return artEnStockDTO;
+		}
+
+	public String cumplirOrdenDeCompra(int numOC) throws RemoteException, ExcepcionSistema {
+		String nuevoEstadoOC = admCompras.cumplirOrdenDeCompra(numOC);
+		if (nuevoEstadoOC != null)
+			return nuevoEstadoOC;
+		else
+			throw new ExcepcionSistema("Orden de Compra no encontrada");
+	}
+
+
 }

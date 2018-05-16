@@ -31,4 +31,8 @@ public class ItemOC {
 		this.cantidad = cantidad;
 	}
 	
+	//@Facu: implementar metodo
+	public void saveMe() {
+
+	}	
 }

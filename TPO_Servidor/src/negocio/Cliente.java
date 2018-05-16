@@ -1,22 +1,72 @@
-//PENDIENTE: Verificar si esta bien implementada la estructura de la herencia
+//PENDIENTE: 
+// @Facu: cambiar para que la herencia se guarde en una sola tabla y 
+// adaptar los contructores. Descomentar los constructores de entity cuando
+// esten funcionando
 package negocio;
+
+import dto.ClienteEmpresaDTO;
+import dto.ClientePersonaDTO;
+
 
 public class Cliente {
 	
 	private int idCliente;
 	private CtaCte ctaCte;
 	private char tipoFactura;
-	private Direccion direccionFacturacion;
 	private String condicionesEspeciales;
+	private Direccion direccionFacturacion;
 	// tipo 'E' (Empresa), 'P' (Persona)
 	private char tipo;
 	// estado: 'A' (activo), 'I' (inactivo)
 	private char estado;
 	
-	public Cliente() {
-		// TODO Auto-generated constructor stub
+	//FACU: Revisar 
+	/*
+	public Cliente(ClienteEmpresaEntity cee) {
+		this.setIdCliente(cee.getIdCliente());
+		this.setTipoFactura(cee.set);
+		this.condicionesEspeciales=cee.getCondicionesEspeciales();//TODO
 	}
 
+	public Cliente(ClientePersonaEntity cpe) {
+		this.idCliente=cpe.getIdCliente();
+		//this.ctaCte=new CtaCte(cpe.getCc());
+		this.condicionesEspeciales=cpe.getCondicionesEspeciales();//TODO
+	}
+	
+	public Cliente(int idCliente, char estado, String condicionesEspeciales) {
+		this.idCliente=idCliente;
+		this.estado=estado;
+		this.condicionesEspeciales=condicionesEspeciales;//TODO
+	}
+	*/
+	
+	public Cliente(ClienteEmpresaDTO cteEmpresaDTO) {
+		this.setTipoFactura(cteEmpresaDTO.getTipoFactura());
+		this.setCondicionesEspeciales(cteEmpresaDTO.getCondicionesEspeciales());
+		Direccion direccionFacturacion = new Direccion();
+		direccionFacturacion.setCalle(cteEmpresaDTO.getDireccionFacturacion().getCalle());
+		direccionFacturacion.setNumero(cteEmpresaDTO.getDireccionFacturacion().getNumero());
+		direccionFacturacion.setCodigoPostal(cteEmpresaDTO.getDireccionFacturacion().getCodigoPostal());
+		direccionFacturacion.setLocalidad(cteEmpresaDTO.getDireccionFacturacion().getLocalidad());
+		this.setDireccionFacturacion(direccionFacturacion);
+		this.setTipo('E');
+		this.setEstado('A');
+	}
+
+	public Cliente(ClientePersonaDTO ctePersonaDTO) {
+		this.setTipoFactura(ctePersonaDTO.getTipoFactura());
+		this.setCondicionesEspeciales(ctePersonaDTO.getCondicionesEspeciales());
+		Direccion direccionFacturacion = new Direccion();
+		direccionFacturacion.setCalle(ctePersonaDTO.getDireccionFacturacion().getCalle());
+		direccionFacturacion.setNumero(ctePersonaDTO.getDireccionFacturacion().getNumero());
+		direccionFacturacion.setCodigoPostal(ctePersonaDTO.getDireccionFacturacion().getCodigoPostal());
+		direccionFacturacion.setLocalidad(ctePersonaDTO.getDireccionFacturacion().getLocalidad());
+		this.setDireccionFacturacion(direccionFacturacion);
+		this.setTipo('P');
+		this.setEstado('A');
+	}
+	
 	// Valida que el objeto sea un determinado idCliente
 	public boolean sosCliente(int idCliente) {
 		return (this.getIdCliente() == idCliente);
@@ -46,14 +96,6 @@ public class Cliente {
 		this.tipoFactura = tipoFactura;
 	}
 
-	public Direccion getDireccionFacturacion() {
-		return direccionFacturacion;
-	}
-
-	public void setDireccionFacturacion(Direccion direccionFacturacion) {
-		this.direccionFacturacion = direccionFacturacion;
-	}
-
 	public String getCondicionesEspeciales() {
 		return condicionesEspeciales;
 	}
@@ -62,6 +104,14 @@ public class Cliente {
 		this.condicionesEspeciales = condicionesEspeciales;
 	}
 
+	public Direccion getDireccionFacturacion() {
+		return direccionFacturacion;
+	}
+
+	public void setDireccionFacturacion(Direccion direccionFacturacion) {
+		this.direccionFacturacion = direccionFacturacion;
+	}
+	
 	public char getTipo() {
 		return tipo;
 	}
@@ -69,7 +119,7 @@ public class Cliente {
 	public void setTipo(char tipo) {
 		this.tipo = tipo;
 	}
-
+	
 	public char getEstado() {
 		return estado;
 	}
@@ -77,4 +127,5 @@ public class Cliente {
 	public void setEstado(char estado) {
 		this.estado = estado;
 	}
+
 }

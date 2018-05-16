@@ -56,4 +56,10 @@ public class Pago {
 	public void setEstado(String estado) {
 		this.estado = estado;
 	}
+	
+	//@Facu: implementar metodo
+	public void saveMe() {
+
+	}	
+	
 }

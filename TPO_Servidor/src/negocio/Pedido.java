@@ -1,4 +1,4 @@
-//LISTO PARA PROBAR
+//Pendiente: adaptar constructor a DTO
 package negocio;
 
 import java.util.ArrayList;
@@ -29,8 +29,7 @@ public class Pedido {
 	}
 
 	// Creación de un nuevo Pedido, inicializa la coleccion de items y setea estado inicial
-	public Pedido(int numPedido, int idCliente, Direccion dirEntrega) {
-		this.setNumPedido(numPedido);
+	public Pedido(int idCliente, Direccion dirEntrega) {
 		this.setIdCliente(idCliente);
 		this.setDirEntrega(dirEntrega);
 		// Se genera con la fecha/hora del momento
@@ -149,5 +148,9 @@ public class Pedido {
 		}
 		return pedidoDTO;
 	}
+	
+	//@Facu: implementar metodo
+	public void saveMe() {
 
+	}	
 }

@@ -3,10 +3,13 @@ package negocio;
 
 import java.util.Date;
 
+import dto.ArticuloEnStockDTO;
+
 public class ArticuloEnStock {
 
 	//NOTAS_FG: Para que se necesita codigoBarras si el ArtEnStock solo se accede a traves
 	//del articulo
+	private int id;
 	private String codigoBarras;
 	private String codigoUbicacion;
 	private int cantidad;
@@ -20,7 +23,7 @@ public class ArticuloEnStock {
 		// TODO Auto-generated constructor stub
 	}
 	
-	public ArticuloEnStock(String codigoUbicacion, int cantidad, String lote, Date fechaCompra, Date fechaVenc, String proveedor, float precioCompra) {
+	public ArticuloEnStock(String codigoUbicacion, int cantidad, String lote, Date fechaVenc, Date fechaCompra, String proveedor, float precioCompra) {
 		this.setCodigoUbicacion(codigoUbicacion);
 		this.setCantidad(cantidad);
 		this.setLote(lote);
@@ -33,6 +36,14 @@ public class ArticuloEnStock {
 	// NOTAS_FG: Para qué sirve este metodo???
 	public String verificarStockArticulo(String codBarras, int cantidad) {
 		return null;
+	}
+	
+	public int getId() {
+		return id;
+	}
+
+	public void setId(int id) {
+		this.id = id;
 	}
 	
 	public String getCodigoBarras() {
@@ -99,4 +110,21 @@ public class ArticuloEnStock {
 		this.precioCompra = precioCompra;
 	}
 
+	public ArticuloEnStockDTO toDTO() {
+		ArticuloEnStockDTO artEnStockDTO = new ArticuloEnStockDTO();
+		artEnStockDTO.setCodigoBarras(this.getCodigoBarras());
+		artEnStockDTO.setCodigoUbicacion(this.getCodigoUbicacion());
+		artEnStockDTO.setCantidad(this.getCantidad());
+		artEnStockDTO.setLote(this.getLote());
+		artEnStockDTO.setFechaVencimiento(this.getFechaVencimiento());
+		artEnStockDTO.setFechaCompra(this.getFechaCompra());
+		artEnStockDTO.setProveedor(this.getProveedor());
+		artEnStockDTO.setPrecioCompra(this.getPrecioCompra());
+		return artEnStockDTO;
+	}
+	
+	//@Facu: implementar metodo
+	public void saveMe() {
+
+	}	
 }

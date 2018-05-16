@@ -15,7 +15,7 @@ public class ItemArticulo {
 		// TODO Auto-generated constructor stub
 	}
 	
-	// Cuando se crear un Item Articulo, se crea en el estado "A CONFIRMAR"
+	// Cuando se crea un Item Articulo, se crea en el estado "A CONFIRMAR"
 	public ItemArticulo(Articulo articulo, int cantidad, float precioVta) {
 		this.setArticulo(articulo);
 		this.setCant(cantidad);
@@ -67,4 +67,9 @@ public class ItemArticulo {
 		itemArticuloDTO.setEstadoStock(this.getEstadoStock());
 		return itemArticuloDTO;
 	}
+	
+	//@Facu: implementar metodo
+	public void saveMe() {
+
+	}	
 }

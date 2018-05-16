@@ -3,32 +3,29 @@ package controladores;
 
 import java.util.ArrayList;
 import java.util.Collection;
+import java.util.Date;
 import java.util.Iterator;
 
+import dto.ItemArticuloDTO;
+import dto.PedidoDTO;
+import negocio.Articulo;
 import negocio.Direccion;
+import negocio.Factura;
 import negocio.ItemArticulo;
 import negocio.Pedido;
 
 public class AdmPedidos {
 
 	private static AdmPedidos instancia;
-	private int numeradorPedidos;
+	// @Facu: remover la colección cuando se implemente la búsqueda en la BD
 	private Collection<Pedido> pedidos;
 	
 	// Constructor privado (Patron Singleton)
 	private AdmPedidos() {
-		// TODO Auto-generated constructor stub
-		// Inicializar controlador
-		cargarPedidos();
+
 	}
 
-	// Inicializa la coleccion pedidos, invoca al DAO y carga los Pedidos existentes
-	// de la BD en dicha coleccion. Tambien setea el numeradorPedidos con el max(numPedido) + 1
-	private void cargarPedidos() {
-		//NOTAS_FG: Solo para pruebas **REEMPLAZAR**;
-		this.numeradorPedidos = 1;
-	}
-	
+	// @Facu: reemplazar búsqueda en la colección por búsqueda en la BD
 	// Devuelve los pedidos cuyo estado coincide con el estado solicitado
 	private Collection<Pedido> obtenerPedidosPorEstado(String estado) {
 		Collection<Pedido> pedidos = new ArrayList<Pedido>();
@@ -42,6 +39,7 @@ public class AdmPedidos {
 		return pedidos;
 	}
 
+	// @Facu: reemplazar búsqueda en la colección por búsqueda en la BD
 	// Ubica un determinado Pedido dentro de la colleción pedidos
 	private Pedido obtenerPedido(int numPedido) {
 		Pedido aux;
@@ -61,20 +59,27 @@ public class AdmPedidos {
 		return instancia;
 	}	
 
-	// Crea un nuevo Pedido con el numeradorPedidos, incrementa el numeradorPedidos, 
-	// agrega el Pedido a la coleccion pedidos y devuelve el objeto Pedido
-	public Pedido generarPedido(int idCliente, Direccion direccionEntrega, Collection<ItemArticulo> items) {
-		Pedido pedido = new Pedido(this.numeradorPedidos, idCliente, direccionEntrega);
-		numeradorPedidos++;
-		ItemArticulo aux;
-		for (Iterator<ItemArticulo> i = items.iterator(); i.hasNext(); ) {
+	// @Facu: revisar implementación del saveMe (Pedido se guarda con los items)
+	// Crea un nuevo Pedido con sus correspondientes items 
+	public Pedido generarPedido(PedidoDTO pedidoDTO) {
+		Direccion direccion = new Direccion();
+		direccion.setCalle(pedidoDTO.getDirEntrega().getCalle());
+		direccion.setNumero(pedidoDTO.getDirEntrega().getNumero());
+		direccion.setCodigoPostal(pedidoDTO.getDirEntrega().getCodigoPostal());
+		direccion.setLocalidad(pedidoDTO.getDirEntrega().getLocalidad());
+		Pedido pedido = new Pedido(pedidoDTO.getIdCliente(), direccion);
+		ItemArticuloDTO aux;
+		for (Iterator<ItemArticuloDTO> i = pedidoDTO.getItems().iterator(); i.hasNext(); ) {
 			aux = i.next();
-			pedido.agregarItem(aux);
+			Articulo articulo = AdmStock.getInstancia().obtenerArticulo(aux.getArticuloDTO().getCodigoBarras());
+			ItemArticulo itemArticulo = new ItemArticulo(articulo, aux.getCant(), aux.getPrecioVta());
+			pedido.agregarItem(itemArticulo);
 		}
-		this.pedidos.add(pedido);
+		pedido.saveMe();
 		return pedido;
 	}
 	
+	// @Facu: reemplazar búsqueda en la colección por búsqueda en la BD
 	// Devuelve una coleccion con los Pedidos correspondiente al idCliente dado
 	public Collection<Pedido> obtenerPedidosPorCliente(int idCliente) {
 		Collection<Pedido> pedidosCliente = new ArrayList<Pedido>();
@@ -103,5 +108,55 @@ public class AdmPedidos {
 		else
 			return null;
 	}
+
+	public String rechazarPedido(int numPedido, String motivo) {
+		Pedido pedido = obtenerPedido(numPedido);
+		if (pedido != null) {
+			pedido.setEstado("RECHAZADO");
+			pedido.setMotivoRechazo(motivo);
+			return pedido.getMotivoRechazo();
+		}
+		else
+			return null;
+	}
 	
+	public Collection<Pedido> obtenerPedidosCompletos() {
+		return obtenerPedidosPorEstado("COMPLETO");
+	}
+	
+	public String solicitarPedido(int numPedido) {
+		Pedido pedido = obtenerPedido(numPedido);
+		if (pedido != null) {
+			Factura facturaPedido = AdmFacturacion.getInstancia().facturar(pedido);
+			if (facturaPedido != null) {
+				pedido.setTipoFactura(facturaPedido.getTipoFactura());
+				pedido.setNumFactura(facturaPedido.getNumFactura());
+				pedido.setEstado("PENDIENTE DEPOSITO");
+				return pedido.getEstado();
+			}
+			else
+				return null;
+		}
+		else 
+			return null;
+	}
+
+	public Collection<Pedido> obtenerPedidosADespachar() {
+		return obtenerPedidosPorEstado("PENDIENTE DESPACHO");
+	}
+	
+	public String registrarFechaEntrega(int numPedido, Date fechaEntrega) {
+		Pedido pedido = obtenerPedido(numPedido);
+		if (pedido != null) {
+			pedido.setFechaEntrega(fechaEntrega);
+			pedido.setEstado("DESPACHADO");
+			return pedido.getEstado();
+		}
+		else
+			return null;
+	}
+	
+	public Collection<Pedido> obtenerPedidosPendDeposito() {
+		return obtenerPedidosPorEstado("PENDIENTE DEPOSITO");
+	}
 }
