@@ -27,11 +27,11 @@ public class ClienteEmpresaDAO {
 	}
 	
 	public void grabar(ClienteEmpresa ce){
-		ClienteEmpresaEntity cee = new ClienteEmpresaEntity(ce.getCtaCte(), ce.getTipoFactura(), ce.getCondicionesEspeciales(), ce.getDireccionFacturacion(), ce.getTipo(), ce.getEstado(), ce.getCuit(), ce.getRazonSocial());
+		//ClienteEmpresaEntity cee = new ClienteEmpresaEntity(IDEA new CtaCteEntity(ce.getCtaCte()--Datos de la CtaCte), ce.getTipoFactura(), ce.getCondicionesEspeciales(), ce.getDireccionFacturacion(), ce.getTipo(), ce.getEstado(), ce.getCuit(), ce.getRazonSocial());
 		SessionFactory sf = HibernateUtil.getSessionFactory();
 		Session session = sf.openSession();
 		session.beginTransaction();
-		int i = (Integer) session.save(cee);
+		//int i = (Integer) session.save(cee);
 		session.getTransaction().commit();
 		session.close();
 	}
