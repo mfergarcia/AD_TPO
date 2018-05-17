@@ -22,9 +22,8 @@ public class Factura {
 		// TODO Auto-generated constructor stub
 	}
 
-	public Factura(char tipoFactura, int numFactura, Pedido pedido) {
+	public Factura(char tipoFactura, Pedido pedido) {
 		this.setTipoFactura(tipoFactura);
-		this.setNumFactura(numFactura);
 		this.setPedido(pedido);
 		// Se crea la factura con la fecha/hora del dia
 		this.setFechaFactura(Calendar.getInstance().getTime());

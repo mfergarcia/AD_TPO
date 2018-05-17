@@ -11,6 +11,7 @@ import dto.ClienteEmpresaDTO;
 import dto.ClientePersonaDTO;
 import dto.DireccionDTO;
 import dto.OrdenDeCompraDTO;
+import dto.OrdenPedidoRepoDTO;
 import dto.PedidoDTO;
 import excepciones.ExcepcionSistema;
 
@@ -19,7 +20,6 @@ public interface InterfazRemota extends Remote {
 
 	public int loginCliente(String usuario, String pwd) throws RemoteException, ExcepcionSistema;
 	public String loginEmpleado(String usuario, String pwd) throws RemoteException, ExcepcionSistema;
-	// public ClienteDTO buscarCliente(int idCliente) throws RemoteException, ExcepcionSistema;
 	public ClienteEmpresaDTO altaClienteEmpresa(ClienteEmpresaDTO cteEmpresaDTO) throws RemoteException, ExcepcionSistema;
 	public ClientePersonaDTO altaClientePersona(ClientePersonaDTO ctePersonaDTO) throws RemoteException, ExcepcionSistema;
 	public char obtenerTipoCliente(int idCliente) throws RemoteException, ExcepcionSistema;
@@ -35,17 +35,23 @@ public interface InterfazRemota extends Remote {
 	public Collection<ArticuloDTO> obtenerCatalogo() throws RemoteException, ExcepcionSistema;
 	public PedidoDTO generarPedido(PedidoDTO pedidoDTO) throws RemoteException, ExcepcionSistema;
 	public Collection<PedidoDTO> obtenerPedidosPorCliente(int idCliente) throws RemoteException, ExcepcionSistema;
-
 	public Collection<PedidoDTO> obtenerPedidosAConfirmar() throws RemoteException, ExcepcionSistema;
 	public String aprobarPedido(int numPedido) throws RemoteException, ExcepcionSistema;
 	public String rechazarPedido(int numPedido, String motivo) throws RemoteException, ExcepcionSistema;
 	public Collection<PedidoDTO> obtenerPedidosCompletos() throws RemoteException, ExcepcionSistema;
 	public String solicitarPedido(int numPedido) throws RemoteException, ExcepcionSistema;
+	public Collection<PedidoDTO> obtenerPedidosPendDeposito() throws RemoteException, ExcepcionSistema;
+	public Collection<ArticuloEnStockDTO> prepararPedido(int numPedido) throws RemoteException, ExcepcionSistema;
+
+	public String actualizarStockPorVenta(int numPedido, Collection<ArticuloEnStockDTO> artEnStockDTO) throws RemoteException, ExcepcionSistema;
+	
 	public Collection<PedidoDTO> obtenerPedidosADespachar() throws RemoteException, ExcepcionSistema;
 	public String registrarFechaEntrega(int numPedido, Date fechaEntrega) throws RemoteException, ExcepcionSistema;
-	public Collection<PedidoDTO> obtenerPedidosPendDeposito() throws RemoteException, ExcepcionSistema;
-	public String prepararPedido(int numPedido) throws RemoteException, ExcepcionSistema;
+	public Collection<OrdenPedidoRepoDTO> obtenerOPRPendientes() throws RemoteException, ExcepcionSistema;
+
+	public OrdenDeCompraDTO generarOrdenDeCompra(String proveedor, Collection<ArticuloDTO> articulos) throws RemoteException, ExcepcionSistema;
 	public OrdenDeCompraDTO procesarOrdenDeCompra(int numOC) throws RemoteException, ExcepcionSistema;
+
 	public Collection<ArticuloEnStockDTO> cargarArticuloEnStock(int numOC, String codBarras, int cantidad, String lote, Date fechaVenc, String proveedor, float precioCompra) throws RemoteException, ExcepcionSistema;
 	public String cumplirOrdenDeCompra(int numOC) throws RemoteException, ExcepcionSistema;
 	

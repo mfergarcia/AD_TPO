@@ -6,13 +6,12 @@ import java.util.Collection;
 import java.util.Iterator;
 
 import dto.ArticuloDTO;
+import dto.OrdenPedidoRepoDTO;
 import negocio.*;
 
 public class AdmCompras {
 
 	private static AdmCompras instancia;
-	private int numeradorOrdenPR;
-	private int numeradorOC;
 	private Collection<OrdenPedidoRepo> ordenesPedidoRepo;
 	private Collection<OrdenDeCompra> ordenesDeCompra;
 	
@@ -20,24 +19,12 @@ public class AdmCompras {
 	private AdmCompras() {
 		// TODO Auto-generated constructor stub
 		// Inicializar controlador
-		cargarOrdenesPedidoRepo();
-		cargarOrdenesDeCompra();
-	}
-	
-	// Inicializa la coleccion ordenesPedidoRepo, invoca al DAO
-	// y carga las OrdenesPedidoRepo existentes de la BD en dicha
-	// colección. Tambien setea el numeradorOrdenPR = max(numOrdenPedidoRepo) + 1
-	private void cargarOrdenesPedidoRepo() {
-		
+		// @Facu: eliminar estas llamadas cuando funcionen las búsquedas en la BD
+		this.ordenesPedidoRepo = new ArrayList<OrdenPedidoRepo>();
+		this.ordenesDeCompra = new ArrayList<OrdenDeCompra>();
 	}
 
-	// Inicializa la coleccion ordenesCompra, invoca al DAO
-	// y carga las OrdenesDeCompra existentes de la BD en la 
-	// dicha colección. También setea el numeradorOC = max(numOC) + 1
-	private void cargarOrdenesDeCompra() {
-		
-	}
-
+	// @Facu: reemplazar la búsqueda en la colección por búsqueda en la BD
 	// Ubica las Ordenes de Pedido Reposicion de un determinado Articulo en estado "PENDIENTE"
 	private Collection<OrdenPedidoRepo> buscarOrdenesPRPendientePorArticulo(String codBarras) {
 		Collection<OrdenPedidoRepo> ordenesPendientes = new ArrayList<OrdenPedidoRepo>();
@@ -51,6 +38,7 @@ public class AdmCompras {
 		return ordenesPendientes;
 	}
 
+	// @Facu: reemplazar búsqueda en la colección por búsqueda en la BD
 	private Collection<OrdenPedidoRepo> buscarOrdenesPRPorEstado(String estado) {
 		Collection<OrdenPedidoRepo> ordenesPRXEstado = new ArrayList<OrdenPedidoRepo>();
 		OrdenPedidoRepo aux;
@@ -105,28 +93,33 @@ public class AdmCompras {
 			return false;	
 	}
 	
-	// Genera una nueva OrdenPedidoRepo y la agrega a la coleccion de ordenesPedidoRepo
-	// Incrementa el numeradorOrdenPR
+	// Genera una nueva Orden de Pedido de Resposición
 	public void generarOrdenPedidoRepo(int numPedido, Articulo articulo, int cantRepo) {
-		OrdenPedidoRepo ordenPR = new OrdenPedidoRepo(numeradorOrdenPR, numPedido, articulo, cantRepo);
-		this.numeradorOrdenPR ++;
+		OrdenPedidoRepo ordenPR = new OrdenPedidoRepo(numPedido, articulo, cantRepo);
+		ordenPR.saveMe();
+		// @Facu: remover cuando funcionen las búsquedas en la BD
 		this.ordenesPedidoRepo.add(ordenPR);
 	}
 	
+	public Collection<OrdenPedidoRepo> obtenerOPRPendientes() {
+		return this.buscarOrdenesPRPorEstado("PENDIENTE");
+	}
+	
+	// NOTAS_FG: Revisar programacion
 	// Genera una nueva OrdenDeCompra con sus items, le asocia las OrdenPedidoRepo que
 	// se pueden cubrir con la cantidad comprada y la agrega a la coleccion ordenesDeCompra
 	// También incrementa el numeradorOC
-	public void generarOrdenCompra(String proveedor, Collection<Articulo> articulos) {
-		OrdenDeCompra ordenDeCompra = new OrdenDeCompra(numeradorOC, proveedor);
-		this.numeradorOC ++;
-		Articulo auxArt;
+	public OrdenDeCompra generarOrdenCompra(String proveedor, Collection<ArticuloDTO> articulos) {
+		OrdenDeCompra ordenDeCompra = new OrdenDeCompra(proveedor);
+		ArticuloDTO auxArt;
 		// Genera los items de la OC
-		for (Iterator<Articulo> i = articulos.iterator(); i.hasNext(); ) {
+		for (Iterator<ArticuloDTO> i = articulos.iterator(); i.hasNext(); ) {
 			auxArt = i.next();
-			ordenDeCompra.agregarItem(new ItemOC(auxArt, auxArt.getCantFijaCompra()));
+			Articulo art = AdmStock.getInstancia().obtenerArticulo(auxArt.getCodigoBarras());
+			ordenDeCompra.agregarItem(new ItemOC(art, auxArt.getCantFijaCompra()));
 			// Asigna la cantidad fija de compra determinada en el Articulo
 			// Verifica qué Ordenes de Pedido de Reposicion se pueden cumplir con esta Orden de Compra
-			Collection<OrdenPedidoRepo> ordenesPRPendientes = buscarOrdenesPRPendientePorArticulo(auxArt.getCodigoBarras());
+			Collection<OrdenPedidoRepo> ordenesPRPendientes = this.buscarOrdenesPRPendientePorArticulo(auxArt.getCodigoBarras());
 			int cantPendiente = auxArt.getCantFijaCompra();
 			if (ordenesPRPendientes != null) {
 				OrdenPedidoRepo auxOrdenPR;
@@ -140,7 +133,7 @@ public class AdmCompras {
 				}
 			}
 		}
-		this.ordenesDeCompra.add(ordenDeCompra);
+		return ordenDeCompra;
 	}
 	
 	// Busca una determinada Orden de Compra en la coleccion

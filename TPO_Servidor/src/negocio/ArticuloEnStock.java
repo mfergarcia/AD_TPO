@@ -112,6 +112,7 @@ public class ArticuloEnStock {
 
 	public ArticuloEnStockDTO toDTO() {
 		ArticuloEnStockDTO artEnStockDTO = new ArticuloEnStockDTO();
+		artEnStockDTO.setId(this.getId());
 		artEnStockDTO.setCodigoBarras(this.getCodigoBarras());
 		artEnStockDTO.setCodigoUbicacion(this.getCodigoUbicacion());
 		artEnStockDTO.setCantidad(this.getCantidad());

@@ -29,18 +29,12 @@ public class AdmClientes {
 	
 	// Constructor privado (Patron Singleton)
 	private AdmClientes() {
-		//@Facu: remover esta llamada cuando se puedan reemplazar las búsquedas
+		//@Facu: remover estas llamada cuando se puedan reemplazar las búsquedas
 		//en colecciones por búsquedas en la BD
-		cargarClientes();
-	}
-
-	// @Facu: remover este metodo cuando se puedan reemplazar las búsquedas
-	// en colecciones por búsquedas en la BD
-	private void cargarClientes() {
 		this.clientesEmpresa = new ArrayList<ClienteEmpresa>();
 		this.clientesPersona = new ArrayList<ClientePersona>();
 	}
-	
+
 	public static AdmClientes getInstancia() {
 		if (instancia == null) {
 			instancia = new AdmClientes();
@@ -55,6 +49,8 @@ public class AdmClientes {
 		CtaCte ctaCte = new CtaCte(cteEmpresaDTO.getLimiteCredito());
 		cteEmpresa.setCtaCte(ctaCte);
 		cteEmpresa.saveMe();
+		// @Facu: Remover la actualizacion de esta coleccion cuando funcionen las búsquedas en la BD
+		this.clientesEmpresa.add(cteEmpresa);
 		return cteEmpresa;
 	}
 	
@@ -65,6 +61,8 @@ public class AdmClientes {
 		CtaCte ctaCte = new CtaCte(ctePersonaDTO.getLimiteCredito());
 		ctePersona.setCtaCte(ctaCte);
 		ctePersona.saveMe();
+		// @Facu: Remover la actualizacion de esta coleccion cuando funcionen las búsquedas en la BD
+		this.clientesPersona.add(ctePersona);
 		return ctePersona;
 	}
 	
@@ -129,7 +127,7 @@ public class AdmClientes {
 		return ctePersona;
 	}
 
-	//@Facu: revisar la llamada al saveMe 
+	// @Facu: revisar la llamada al saveMe 
 	// Identifica el tipo de cliente para el idCliente dado e inactiva
 	// el Cliente identificado. Si no lo encuentra devuelve false
 	public boolean bajaCliente(int idCliente) {	
@@ -152,18 +150,37 @@ public class AdmClientes {
 		}
 	}
 	
-	// Registra una factura en la Cta Cte de un Cliente
-	public boolean registrarFacturaEnCtaCte(int idCliente, Factura factura) {
+	public char obtenerTipoFacturaCliente(int idCliente) {
 		char tipoCliente = obtenerTipoCliente(idCliente);
 		if (tipoCliente == 'E') {
 			ClienteEmpresa clienteEmpresa = obtenerClienteEmpresa(idCliente);
-			clienteEmpresa.getCtaCte().registrarFactura(factura);
-			return true;
+			return clienteEmpresa.getTipoFactura();
 		}
 		else {
 			if (tipoCliente == 'P') {
 				ClientePersona clientePersona = obtenerClientePersona(idCliente);
-				clientePersona.getCtaCte().registrarFactura(factura);
+				return clientePersona.getTipoFactura();
+			}
+			else
+				return 0;
+		}
+	}
+	
+	// @Facu: revisar uso del saveMe
+	// Registra una factura en la Cta Cte de un Cliente
+	public boolean registrarFacturaEnCtaCte(int idCliente, Factura factura) {
+		char tipoCliente = obtenerTipoCliente(idCliente);
+		if (tipoCliente == 'E') {
+			ClienteEmpresa cteEmpresa = obtenerClienteEmpresa(idCliente);
+			cteEmpresa.getCtaCte().registrarFactura(factura);
+			cteEmpresa.getCtaCte().saveMe();
+			return true;
+		}
+		else {
+			if (tipoCliente == 'P') {
+				ClientePersona ctePersona = obtenerClientePersona(idCliente);
+				ctePersona.getCtaCte().registrarFactura(factura);
+				ctePersona.getCtaCte().saveMe();
 				return true;
 			}
 			else
@@ -211,20 +228,6 @@ public class AdmClientes {
 		}
 	}
 	
-	public char obtenerTipoFacturaCliente(int idCliente) {
-		char tipoCliente = obtenerTipoCliente(idCliente);
-		if (tipoCliente == 'E') {
-			ClienteEmpresa clienteEmpresa = obtenerClienteEmpresa(idCliente);
-			return clienteEmpresa.getTipoFactura();
-		}
-		else {
-			if (tipoCliente == 'P') {
-				ClientePersona clientePersona = obtenerClientePersona(idCliente);
-				return clientePersona.getTipoFactura();
-			}
-			else
-				return 0;
-		}
-	}
+
 
 }	

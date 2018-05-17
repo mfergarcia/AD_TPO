@@ -8,6 +8,8 @@ import org.hibernate.Session;
 import org.hibernate.SessionFactory;
 
 import entities.ClienteEmpresaEntity;
+import entities.CtaCteEntity;
+import entities.DireccionEntity;
 import hbt.HibernateUtil;
 import negocio.ClienteEmpresa;
 import negocio.Direccion;
@@ -27,7 +29,9 @@ public class ClienteEmpresaDAO {
 	}
 	
 	public void grabar(ClienteEmpresa ce){
-		ClienteEmpresaEntity cee = new ClienteEmpresaEntity(ce.getCtaCte(), ce.getTipoFactura(), ce.getCondicionesEspeciales(), ce.getDireccionFacturacion(), ce.getTipo(), ce.getEstado(), ce.getCuit(), ce.getRazonSocial());
+		Direccion d= ce.getDireccionFacturacion();
+		DireccionEntity de= new DireccionEntity(d.getCalle(),d.getNumero(),d.getCodigoPostal(),d.getLocalidad());
+		ClienteEmpresaEntity cee = new ClienteEmpresaEntity( new CtaCteEntity(ce.getCtaCte().getLimiteCredito()), ce.getTipoFactura(), ce.getCondicionesEspeciales(),de, ce.getTipo(), ce.getEstado(), ce.getCuit(), ce.getRazonSocial());
 		SessionFactory sf = HibernateUtil.getSessionFactory();
 		Session session = sf.openSession();
 		session.beginTransaction();

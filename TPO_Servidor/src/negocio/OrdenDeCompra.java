@@ -25,8 +25,7 @@ public class OrdenDeCompra {
 	}
 
 	// Crea una nueva OrdenDeCompra, con la fecha del día y setea el estado inicial
-	public OrdenDeCompra(int numOC, String proveedor) {
-		this.setNumOC(numOC);
+	public OrdenDeCompra(String proveedor) {
 		this.setProveedor(proveedor);
 		// Se genera con la fecha/hora del momento
 		this.setFecha(Calendar.getInstance().getTime());

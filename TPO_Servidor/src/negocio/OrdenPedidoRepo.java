@@ -21,8 +21,7 @@ public class OrdenPedidoRepo {
 	}
 
 	// Crea una nueva Orden de Pedido Repo con la fecha del día y setea estado inicial
-	public OrdenPedidoRepo(int numOrdenPR, int numPedido, Articulo articulo, int cantidad) {
-		this.setNumOrdenPR(numOrdenPR);
+	public OrdenPedidoRepo(int numPedido, Articulo articulo, int cantidad) {
 		this.setNumPedido(numPedido);
 		this.setArticulo(articulo);
 		this.setCantRepo(cantidad);
@@ -85,7 +84,14 @@ public class OrdenPedidoRepo {
 	}
 	
 	public OrdenPedidoRepoDTO toDTO() {
-		return null;
+		OrdenPedidoRepoDTO ordenPRDTO = new OrdenPedidoRepoDTO();
+		ordenPRDTO.setNumOrdenPR(this.getNumOrdenPR());
+		ordenPRDTO.setFechaGeneracion(this.getFechaGeneracion());
+		ordenPRDTO.setNumPedido(this.getNumPedido());
+		ordenPRDTO.setArticulo(this.getArticulo().toDTO());
+		ordenPRDTO.setCantRepo(this.getCantRepo());
+		ordenPRDTO.setEstado(this.getEstado());
+		return ordenPRDTO;
 	}
 
 	//@Facu: implementar metodo

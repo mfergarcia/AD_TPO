@@ -12,7 +12,6 @@ import dto.PedidoDTO;
 public class Pedido {
 
 	private int numPedido;
-	//NOTA_FG: Entiendo que no se puede guardar el cliente por la herencia
 	private int idCliente;
 	private Date fechaGen;
 	private Direccion dirEntrega;

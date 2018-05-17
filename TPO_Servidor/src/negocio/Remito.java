@@ -19,8 +19,7 @@ public class Remito {
 	}
 
 	// Crea un Remito con la fecha del dia
-	public Remito(int numRemito, Factura factura){
-		this.setNumRemito(numRemito);
+	public Remito(Factura factura){
 		this.setFactura(factura);
 		// Se genera con la fecha/hora del momento
 		this.setFechaRemito(Calendar.getInstance().getTime());

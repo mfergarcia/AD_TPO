@@ -4,6 +4,7 @@ package controladores;
 import java.util.Collection;
 
 import negocio.ClienteEmpresa;
+import negocio.ClientePersona;
 import negocio.Factura;
 import negocio.Pago;
 import negocio.Pedido;
@@ -21,18 +22,6 @@ public class AdmFacturacion {
 	// Constructor privado (Patron Singleton)
 	private AdmFacturacion() {
 		// TODO Auto-generated constructor stub
-		// Inicializar controlador
-		cargarFacturas();
-	}
-
-	// Invoca al DAO, carga las Facturas existentes
-	// de la BD en la colección facturas y setea los 
-	// numeradores de factura con el max(numFactura) + 1
-	// para cada tipo de Factura, el numerador de remitos
-	// con el max(numRemito) + 1 y el numerador de pagos
-	// con el max(numPago) + 1
-	private void cargarFacturas() {
-		
 	}
 	
 	public static AdmFacturacion getInstancia() {
@@ -42,31 +31,16 @@ public class AdmFacturacion {
 		return instancia;
 	}
 	
+	// @Facu: revisar el uso de los saveMe para Factura y Remito
 	// Genera la factura y el correspondiente Remito para un determinado Pedido
-	// Incrementa los numeradores de Factura y Remito
 	// Le pide al AdmClientes que registre la misma en la CtaCte del Cliente
 	public Factura facturar(Pedido pedido) {
 		char tipoFactura = AdmClientes.getInstancia().obtenerTipoFacturaCliente(pedido.getIdCliente());
-		int numFactura;
-		if (tipoFactura == 'A') {
-			numFactura = numeradorFactA;
-			numeradorFactA++;
-		}
-		else {
-			if (tipoFactura == 'B') {
-				numFactura = numeradorFactB;
-				numeradorFactB++;
-			}
-			else {
-				numFactura = numeradorFactC;
-				numeradorFactC++;
-			}
-				
-		}
-		Factura factura = new Factura(tipoFactura, numFactura, pedido);
-		Remito remito = new Remito(numeradorRemito, factura);
-		numeradorRemito++;
+		Factura factura = new Factura(tipoFactura, pedido);
+		Remito remito = new Remito(factura);
 		factura.setRemito(remito);
+		factura.saveMe();
+		remito.saveMe();
 		if (AdmClientes.getInstancia().registrarFacturaEnCtaCte(pedido.getIdCliente(), factura))
 			return factura;
 		else

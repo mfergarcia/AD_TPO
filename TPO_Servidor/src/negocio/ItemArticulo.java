@@ -8,7 +8,7 @@ public class ItemArticulo {
 	private Articulo articulo;
 	private int cant;
 	private float precioVta;
-	// estadoStock: "PENDIENTE OPR", "RESERVADO", "DESCONTADO"
+	// estadoStock: "A CONFIRMAR", "PENDIENTE OPR", "RESERVADO", "DESCONTADO"
 	private String estadoStock;
 	
 	public ItemArticulo() {

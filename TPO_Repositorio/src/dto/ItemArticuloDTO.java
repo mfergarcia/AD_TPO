@@ -9,7 +9,7 @@ public class ItemArticuloDTO implements Serializable {
 	 * 
 	 */
 	private static final long serialVersionUID = 1L;
-	private ArticuloDTO articuloDTO;
+	private ArticuloDTO articulo;
 	private int cant;
 	private float precioVta;
 	// estadoStock: "PENDIENTE OPR", "RESERVADO", "DESCONTADO"
@@ -20,11 +20,11 @@ public class ItemArticuloDTO implements Serializable {
 	}
 
 	public ArticuloDTO getArticuloDTO() {
-		return articuloDTO;
+		return articulo;
 	}
 
 	public void setArticuloDTO(ArticuloDTO articuloDTO) {
-		this.articuloDTO = articuloDTO;
+		this.articulo = articuloDTO;
 	}
 
 	public int getCant() {

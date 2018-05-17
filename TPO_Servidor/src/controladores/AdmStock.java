@@ -28,31 +28,20 @@ public class AdmStock {
 	// Constructor privado (Patron Singleton)
 	private AdmStock() {
 		// TODO Auto-generated constructor stub
-		// Inicializar controlador
-		cargarArticulos();
-		cargarStock();
-		cargarMovimientosStock();
+		// @Facu: removar llamadas cuando funcione la búsqueda en la BD
+		this.articulos = new ArrayList<Articulo>();
+		this.stock = new ArrayList<Stock>();
+		this.movimientosStock = new ArrayList<MovimientoStock>();
 	}
 	
+	// @Facu: Reemplazar esta búsqueda por búsqueda en la BD. La búsqueda tiene 
+	// que volver ordenada por Fecha de Vencimiento (primero los más viejos)
+	private Collection<ArticuloEnStock> obtenerArtEnStockOrdenFV(String codBarras) {
+		Articulo art = obtenerArticulo(codBarras);
+		return art.getArticulosEnStock();
+	}
 	
-	// Invoca al DAO, carga los Articulos existentes
-	// de la BD en la colección articulos 
-	private void cargarArticulos() {
-		articulos = new ArrayList<Articulo>();
-	}
-
-	// Invoca al DAO, carga las posiciones de Stock existentes
-	// de la BD en la colección stock 
-	private void cargarStock() {
-		
-	}
-
-	// Invoca al DAO, carga los movimientos de Stock existentes
-	// de la BD en la colección movimientosStock 
-	private void cargarMovimientosStock() {
-		
-	}
-
+	// @Facu: Reemplazar esta búsqueda por búsqueda en la BD.
 	// Devuelve el Stock para un codigo de ubicacion dado
 	private Stock obtenerStock(String codUbicacion) {
 		Stock aux;
@@ -86,73 +75,109 @@ public class AdmStock {
 	// @Facu: modificar búsqueda para recuperar los articulos de la BD
 	// Devuelve todos los articulos activos (estado = 'A') 
 	public Collection<Articulo> obtenerCatalogo() {
-		Collection<Articulo> catalogoArticulos = new ArrayList<Articulo>();
+		Collection<Articulo> catalogo = new ArrayList<Articulo>();
 		Articulo aux;
 		for (Iterator<Articulo> i = this.articulos.iterator(); i.hasNext(); ) {
 			aux = i.next();
 			if (aux.getEstado() == 'A')
-				catalogoArticulos.add(aux);
+				catalogo.add(aux);
 		}
-		return catalogoArticulos;
+		return catalogo;
 	}
 	
+	// @Facu: Validar si los saveMe están bien puestos (para stock y para auxItemArt)
 	// Verifica la existencia de Stock de cada item del Pedido. Si detecta
 	// que hay stock faltante, se genera una Orden de Pedido de Reposición
 	public String reservarStockPedido(Pedido pedido) {
 		String estadoPedido = "COMPLETO";
-		Collection<ArticuloEnStock> articulosEnStock;
+		Collection<ArticuloEnStock> artEnStock;
 		ItemArticulo auxItemArt;
 		// Recorre los articulos del pedido para tratar de reservar el stock
 		for (Iterator<ItemArticulo> i = pedido.getArticulos().iterator(); i.hasNext(); ) {
 			auxItemArt = i.next();
 			if (!auxItemArt.getEstadoStock().equals("RESERVADO")) {
 				// El ítem aún no fue reservado
-				// Solicita ordenar los Articulos En Stock del Articulo por Vecha de Vencimiento
-				auxItemArt.getArticulo().ordenarArtEnStockPorFechVenc();
-				articulosEnStock = auxItemArt.getArticulo().getArticulosEnStock();
-				int cantAReservar = auxItemArt.getCant();
+				// Obtiene los Articulos en Stock ordenado por Fecha de Vencimiento
+				artEnStock = this.obtenerArtEnStockOrdenFV(auxItemArt.getArticulo().getCodigoBarras());
+				int cantRequerida = auxItemArt.getCant();
 				int cantReservable;
 				ArticuloEnStock auxArtEnStock;
-				// Recorre los articulos en stock para ver si se puede reservar la cantidad
-				// pedida de este articulo
-				Iterator<ArticuloEnStock> j = articulosEnStock.iterator();
-				while (cantAReservar > 0 && j.hasNext()) {
+				// Recorre los Articulos en Stock para ver si se puede reservar la cantidad
+				// requerida del Articulo
+				Iterator<ArticuloEnStock> j = artEnStock.iterator();
+				while (cantRequerida > 0 && j.hasNext()) {
 					auxArtEnStock = j.next();
-					// Obtiene el stock del Articulo En Stock
-					Stock stock = obtenerStock(auxArtEnStock.getCodigoUbicacion());
+					// Obtiene el Stock del Articulo En Stock
+					Stock stock = this.obtenerStock(auxArtEnStock.getCodigoUbicacion());
 					if (stock != null) {
 						cantReservable = stock.cantidadReservableEnStock();
 						if (cantReservable > 0) {
-							// Hay stock, necesita comparar cuanto hay vs lo que se necesita
-							if (cantReservable >= cantAReservar) {
-								// Reserva solo lo que necesita
-								if (stock.reservarStock(cantAReservar))
-									cantAReservar = 0;
+							// Hay stock para reservar, necesita comparar cuanto hay vs lo que se necesita
+							if (cantReservable >= cantRequerida) {
+								// Reserva solo lo que se necesita
+								if (stock.reservarStock(cantRequerida)) {
+									stock.saveMe();
+									cantRequerida = 0;
+								}	
 							}
 							else {
 								// Reserva todo lo que hay y sigue buscando más cantidad en el siguiente 
 								// Articulo En Stock
-								if (stock.reservarStock(cantReservable))
-									cantAReservar = cantAReservar - cantReservable;
+								if (stock.reservarStock(cantReservable)) {
+									stock.saveMe();
+									cantRequerida = cantRequerida - cantReservable;
+								}	
 							}
 						}
 					}
 				}
 				// Verifica si quedó cantidad pendiente por reservar o si se acabaron los Articulos En Stock
-				if (cantAReservar > 0) {
+				if (cantRequerida > 0) {
 					// Ya recorrió todos los Articulos En Stock y aún queda cantidad pendiente por reservar
 					// Genera entonces una Orden de Pedido de Reposicion por la cantidad faltante
-					AdmCompras.getInstancia().generarOrdenPedidoRepo(pedido.getNumPedido(), auxItemArt.getArticulo(), cantAReservar);
+					AdmCompras.getInstancia().generarOrdenPedidoRepo(pedido.getNumPedido(), auxItemArt.getArticulo(), cantRequerida);
 					auxItemArt.setEstadoStock("PENDIENTE OPR");
 					estadoPedido = "PENDIENTE REPOSICION";
 				}
 				else
 					auxItemArt.setEstadoStock("RESERVADO");
+				auxItemArt.saveMe();
 			}
 		}
 		return estadoPedido;
 	}
 
+	// @Facu: revisar el uso de saveMe
+	public Collection<ArticuloEnStock> localizarStockArticulo(Articulo articulo, int cantidad) {
+		// Coleccion para almacenar la seleccion de Articulos En Stock que se necesitan para este Pedido
+		Collection<ArticuloEnStock> stockLocalizado = new ArrayList<ArticuloEnStock>();
+		Stock stock;
+		int cantRequerida = cantidad;
+		// Obtiene todos los Articulos en Stock del Artículo, ordenado por Fecha de Vencimiento
+		Collection<ArticuloEnStock> artEnStock = this.obtenerArtEnStockOrdenFV(articulo.getCodigoBarras());
+		ArticuloEnStock aux;
+		Iterator<ArticuloEnStock> i = artEnStock.iterator();
+		while (cantRequerida > 0 && i.hasNext()) {
+			aux = i.next();
+			// Recupera el stock de cada Articulo en Stock
+			stock = this.obtenerStock(aux.getCodigoUbicacion());
+			// Verifica si la ubicación no se encuentra bloqueada por otro Pedido en curso
+			if(stock.getEstado().equals("OCUPADA")) {
+				stockLocalizado.add(aux);
+				// Bloquea la ubicación hasta que se actualice el stock
+				stock.actualizarEstado("BLOQUEADA");
+				stock.saveMe();
+				if (cantRequerida <= stock.getCantidadReal())
+					// Si la posicion tiene más stock de la requerida, se corta el ciclo
+					cantRequerida = 0;
+				else
+					// Si la posición tiene menos stock del requerido, se continua buscando la diferencia
+					cantRequerida = cantRequerida - stock.getCantidadReal();
+			}
+		}
+		return stockLocalizado;
+	}
+	
 	// NOTAS_FG: Reemplazar por busqueda en el DAO
 	public Stock obtenerUbicacionLibre() {
 		Stock aux;
@@ -167,10 +192,6 @@ public class AdmStock {
 	}
 	
 	
-	public Collection<Stock> localizarStockArticulo(Articulo articulo, int cantidad) {
-		return stock;
-		
-	}
 	
 	public void solicitarArticulos(int numPedido) {
 	

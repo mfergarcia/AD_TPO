@@ -7,9 +7,12 @@ package dao;
 import org.hibernate.Session;
 import org.hibernate.SessionFactory;
 import entities.ClientePersonaEntity;
-import org.hibernate.Hibernate;
+import entities.CtaCteEntity;
+import entities.DireccionEntity;
+
 import hbt.HibernateUtil;
 import negocio.ClientePersona;
+import negocio.Direccion;
 
 public class ClientePersonaDAO {
 	
@@ -24,7 +27,9 @@ public class ClientePersonaDAO {
 	}
 	
 	public void grabar(ClientePersona cp){
-		ClientePersonaEntity cpe = new ClientePersonaEntity(cp.getCtaCte(), cp.getTipoFactura(), cp.getCondicionesEspeciales(), cp.getDireccionFacturacion(), cp.getTipo(), cp.getEstado(), cp.getDni(), cp.getApellido(), cp.getNombre());
+		Direccion d= cp.getDireccionFacturacion();
+		DireccionEntity de= new DireccionEntity(d.getCalle(),d.getNumero(),d.getCodigoPostal(),d.getLocalidad());
+		ClientePersonaEntity cpe = new ClientePersonaEntity(new CtaCteEntity(cp.getCtaCte().getLimiteCredito()), cp.getTipoFactura(), cp.getCondicionesEspeciales(), de, cp.getTipo(), cp.getEstado(), cp.getDni(), cp.getApellido(), cp.getNombre());
 		SessionFactory sf = HibernateUtil.getSessionFactory();
 		Session session = sf.openSession();
 		session.beginTransaction();

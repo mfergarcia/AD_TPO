@@ -33,7 +33,7 @@ public class Stock {
 
 	// Reserva cantidad en stock
 	public boolean reservarStock(int cantidad) {
-		if ( cantidadReservableEnStock() > cantidad) {
+		if (cantidadReservableEnStock() > cantidad) {
 			this.cantidadReservada = this.cantidadReservada + cantidad;
 			return true;
 		}

@@ -6,9 +6,11 @@ import java.util.Collection;
 import java.util.Date;
 import java.util.Iterator;
 
+import dto.ArticuloEnStockDTO;
 import dto.ItemArticuloDTO;
 import dto.PedidoDTO;
 import negocio.Articulo;
+import negocio.ArticuloEnStock;
 import negocio.Direccion;
 import negocio.Factura;
 import negocio.ItemArticulo;
@@ -22,21 +24,8 @@ public class AdmPedidos {
 	
 	// Constructor privado (Patron Singleton)
 	private AdmPedidos() {
-
-	}
-
-	// @Facu: reemplazar búsqueda en la colección por búsqueda en la BD
-	// Devuelve los pedidos cuyo estado coincide con el estado solicitado
-	private Collection<Pedido> obtenerPedidosPorEstado(String estado) {
-		Collection<Pedido> pedidos = new ArrayList<Pedido>();
-		Pedido aux;
-		for (Iterator<Pedido> i = this.pedidos.iterator(); i.hasNext(); ) {
-			aux = i.next();
-			if (aux.getEstado().equals(estado)) {
-				pedidos.add(aux);
-			}
-		}
-		return pedidos;
+		//@Facu: remover llamada cuando funcione la búsqueda en la BD
+		this.pedidos = new ArrayList<Pedido>();
 	}
 
 	// @Facu: reemplazar búsqueda en la colección por búsqueda en la BD
@@ -50,6 +39,20 @@ public class AdmPedidos {
 			}
 		}
 		return null;
+	}
+	
+	// @Facu: reemplazar búsqueda en la colección por búsqueda en la BD
+	// Devuelve los pedidos cuyo estado coincide con el estado solicitado
+	private Collection<Pedido> obtenerPedidosPorEstado(String estado) {
+		Collection<Pedido> pedidos = new ArrayList<Pedido>();
+		Pedido aux;
+		for (Iterator<Pedido> i = this.pedidos.iterator(); i.hasNext(); ) {
+			aux = i.next();
+			if (aux.getEstado().equals(estado)) {
+				pedidos.add(aux);
+			}
+		}
+		return pedidos;
 	}
 	
 	public static AdmPedidos getInstancia() {
@@ -94,44 +97,49 @@ public class AdmPedidos {
 
 	// Devuelve los pedidos en estado "A CONFIRMAR"
 	public Collection<Pedido> obtenerPedidosAConfirmar() {
-		return obtenerPedidosPorEstado("A CONFIRMAR");
+		return this.obtenerPedidosPorEstado("A CONFIRMAR");
 	}
 	
+	// @Facu validar si está ok el saveMe
 	public String aprobarPedido(int numPedido) {
-		Pedido pedido = obtenerPedido(numPedido);
-		String nuevoEstadoPedido;
+		Pedido pedido = this.obtenerPedido(numPedido);
 		if (pedido != null) {
-			nuevoEstadoPedido = AdmStock.getInstancia().reservarStockPedido(pedido);
+			String nuevoEstadoPedido = AdmStock.getInstancia().reservarStockPedido(pedido);
 			pedido.setEstado(nuevoEstadoPedido);
+			pedido.saveMe();
 			return nuevoEstadoPedido;
 		}
 		else
 			return null;
 	}
 
+	// @Facu validar si está ok el saveMe	
 	public String rechazarPedido(int numPedido, String motivo) {
 		Pedido pedido = obtenerPedido(numPedido);
 		if (pedido != null) {
 			pedido.setEstado("RECHAZADO");
 			pedido.setMotivoRechazo(motivo);
-			return pedido.getMotivoRechazo();
+			pedido.saveMe();
+			return pedido.getEstado();
 		}
 		else
 			return null;
 	}
 	
 	public Collection<Pedido> obtenerPedidosCompletos() {
-		return obtenerPedidosPorEstado("COMPLETO");
+		return this.obtenerPedidosPorEstado("COMPLETO");
 	}
 	
+	// @Facu: revisar el uso del saveMe.
 	public String solicitarPedido(int numPedido) {
-		Pedido pedido = obtenerPedido(numPedido);
+		Pedido pedido = this.obtenerPedido(numPedido);
 		if (pedido != null) {
-			Factura facturaPedido = AdmFacturacion.getInstancia().facturar(pedido);
-			if (facturaPedido != null) {
-				pedido.setTipoFactura(facturaPedido.getTipoFactura());
-				pedido.setNumFactura(facturaPedido.getNumFactura());
+			Factura factura = AdmFacturacion.getInstancia().facturar(pedido);
+			if (factura != null) {
+				pedido.setTipoFactura(factura.getTipoFactura());
+				pedido.setNumFactura(factura.getNumFactura());
 				pedido.setEstado("PENDIENTE DEPOSITO");
+				pedido.saveMe();
 				return pedido.getEstado();
 			}
 			else
@@ -141,22 +149,52 @@ public class AdmPedidos {
 			return null;
 	}
 
+	public Collection<Pedido> obtenerPedidosPendDeposito() {
+		return this.obtenerPedidosPorEstado("PENDIENTE DEPOSITO");
+	}
+	
+	public Collection<ArticuloEnStock> prepararPedido(int numPedido) {
+		Collection<ArticuloEnStock> artEnStock = new ArrayList<ArticuloEnStock>();
+		Pedido pedido = this.obtenerPedido(numPedido);
+		if (pedido!= null) {
+			ItemArticulo aux;
+			for (Iterator<ItemArticulo> i = pedido.getArticulos().iterator(); i.hasNext(); ) {
+				aux = i.next();
+				artEnStock.addAll(AdmStock.getInstancia().localizarStockArticulo(aux.getArticulo(), aux.getCant()));
+			}
+			return artEnStock;
+		}
+		return null;
+	}
+	
+	// NOTAS_FG: Pendiente de programar
+	public String actualizarStockPorVenta(int numPedido, Collection<ArticuloEnStockDTO> artEnStockDTO) {
+		Pedido pedido = this.obtenerPedido(numPedido);
+		if (pedido != null) {
+			// Aquí se llama a la actualización del stock
+			pedido.setEstado("PENDIENTE DESPACHO");
+			pedido.saveMe();
+			return pedido.getEstado();
+		}
+		else
+			return null;
+	}
+
+
 	public Collection<Pedido> obtenerPedidosADespachar() {
-		return obtenerPedidosPorEstado("PENDIENTE DESPACHO");
+		return this.obtenerPedidosPorEstado("PENDIENTE DESPACHO");
 	}
 	
 	public String registrarFechaEntrega(int numPedido, Date fechaEntrega) {
-		Pedido pedido = obtenerPedido(numPedido);
+		Pedido pedido = this.obtenerPedido(numPedido);
 		if (pedido != null) {
 			pedido.setFechaEntrega(fechaEntrega);
 			pedido.setEstado("DESPACHADO");
+			pedido.saveMe();
 			return pedido.getEstado();
 		}
 		else
 			return null;
 	}
 	
-	public Collection<Pedido> obtenerPedidosPendDeposito() {
-		return obtenerPedidosPorEstado("PENDIENTE DEPOSITO");
-	}
 }

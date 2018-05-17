@@ -14,6 +14,7 @@ import dto.ClienteEmpresaDTO;
 import dto.ClientePersonaDTO;
 import dto.DireccionDTO;
 import dto.OrdenDeCompraDTO;
+import dto.OrdenPedidoRepoDTO;
 import dto.PedidoDTO;
 import excepciones.ExcepcionComunicacion;
 import excepciones.ExcepcionSistema;
@@ -129,7 +130,6 @@ public class SistemaBD {
 		try {
 			ir.bajaCliente(idCliente);
 		} catch (RemoteException e) {
-			// TODO Auto-generated catch block
 			throw new ExcepcionComunicacion("Error en la comunicacion");
 		} catch (ExcepcionSistema e) {
 			throw e;
@@ -140,7 +140,6 @@ public class SistemaBD {
 		try {
 			return ir.altaArticulo(articuloDTO);
 		} catch (RemoteException e) {
-			// TODO Auto-generated catch block
 			throw new ExcepcionComunicacion("Error en la comunicacion");
 		} catch (ExcepcionSistema e) {
 			throw e;
@@ -151,7 +150,6 @@ public class SistemaBD {
 		try {
 			return ir.obtenerArticulo(codBarras);
 		} catch (RemoteException e) {
-			// TODO Auto-generated catch block
 			throw new ExcepcionComunicacion("Error en la comunicacion");
 		} catch (ExcepcionSistema e) {
 			throw e;
@@ -162,7 +160,6 @@ public class SistemaBD {
 		try {
 			return ir.modificarArticulo(articuloDTO);
 		} catch (RemoteException e) {
-			// TODO Auto-generated catch block
 			throw new ExcepcionComunicacion("Error en la comunicacion");
 		} catch (ExcepcionSistema e) {
 			throw e;
@@ -173,7 +170,6 @@ public class SistemaBD {
 		try {
 			ir.bajaArticulo(codBarras);
 		} catch (RemoteException e) {
-			// TODO Auto-generated catch block
 			throw new ExcepcionComunicacion("Error en la comunicacion");
 		} catch (ExcepcionSistema e) {
 			throw e;
@@ -184,7 +180,6 @@ public class SistemaBD {
 		try {
 			return ir.obtenerCatalogo();
 		} catch (RemoteException e) {
-			// TODO Auto-generated catch block
 			throw new ExcepcionComunicacion("Error en la comunicacion");
 		} catch (ExcepcionSistema e) {
 			throw e;
@@ -195,7 +190,6 @@ public class SistemaBD {
 		try {
 			return ir.generarPedido(pedidoDTO);
 		} catch (RemoteException e) {
-			// TODO Auto-generated catch block
 			throw new ExcepcionComunicacion("Error en la comunicacion");
 		} catch (ExcepcionSistema e) {
 			throw e;
@@ -206,7 +200,6 @@ public class SistemaBD {
 		try {
 			return ir.obtenerPedidosPorCliente(idCliente);
 		} catch (RemoteException e) {
-			// TODO Auto-generated catch block
 			throw new ExcepcionComunicacion("Error en la comunicacion");
 		} catch (ExcepcionSistema e) {
 			throw e;
@@ -217,7 +210,6 @@ public class SistemaBD {
 		try {
 			return ir.obtenerPedidosAConfirmar();
 		} catch (RemoteException e) {
-			// TODO Auto-generated catch block
 			throw new ExcepcionComunicacion("Error en la comunicacion");
 		} catch (ExcepcionSistema e) {
 			throw e;
@@ -228,7 +220,6 @@ public class SistemaBD {
 		try {
 			return ir.aprobarPedido(numPedido);
 		} catch (RemoteException e) {
-			// TODO Auto-generated catch block
 			throw new ExcepcionComunicacion("Error en la comunicacion");
 		} catch (ExcepcionSistema e) {
 			throw e;
@@ -239,7 +230,6 @@ public class SistemaBD {
 		try {
 			return ir.rechazarPedido(numPedido, motivo);
 		} catch (RemoteException e) {
-			// TODO Auto-generated catch block
 			throw new ExcepcionComunicacion("Error en la comunicacion");
 		} catch (ExcepcionSistema e) {
 			throw e;
@@ -250,7 +240,6 @@ public class SistemaBD {
 		try {
 			return ir.obtenerPedidosCompletos();
 		} catch (RemoteException e) {
-			// TODO Auto-generated catch block
 			throw new ExcepcionComunicacion("Error en la comunicacion");
 		} catch (ExcepcionSistema e) {
 			throw e;
@@ -261,13 +250,42 @@ public class SistemaBD {
 		try {
 			return ir.solicitarPedido(numPedido);
 		} catch (RemoteException e) {
-			// TODO Auto-generated catch block
 			throw new ExcepcionComunicacion("Error en la comunicacion");
 		} catch (ExcepcionSistema e) {
 			throw e;
 		}	
 	}	
 	
+	public Collection<PedidoDTO> obtenerPedidosPendDeposito() throws ExcepcionComunicacion, ExcepcionSistema {
+		try {
+			return ir.obtenerPedidosPendDeposito();
+		} catch (RemoteException e) {
+			throw new ExcepcionComunicacion("Error en la comunicacion");
+		} catch (ExcepcionSistema e) {
+			throw e;
+		}	
+	}	
+
+	public Collection<ArticuloEnStockDTO> prepararPedido(int numPedido) throws ExcepcionComunicacion, ExcepcionSistema {
+		try {
+			return ir.prepararPedido(numPedido);
+		} catch (RemoteException e) {
+			throw new ExcepcionComunicacion("Error en la comunicacion");
+		} catch (ExcepcionSistema e) {
+			throw e;
+		}	
+	}	
+	
+	public String actualizarStockPorVenta(int numPedido, Collection<ArticuloEnStockDTO> artEnStockDTO) throws ExcepcionComunicacion, ExcepcionSistema {
+		try {
+			return ir.actualizarStockPorVenta(numPedido, artEnStockDTO);
+		} catch (RemoteException e) {
+			throw new ExcepcionComunicacion("Error en la comunicacion");
+		} catch (ExcepcionSistema e) {
+			throw e;
+		}	
+	}	
+
 	public Collection<PedidoDTO> obtenerPedidosADespachar() throws ExcepcionComunicacion, ExcepcionSistema {
 		try {
 			return ir.obtenerPedidosADespachar();
@@ -290,17 +308,16 @@ public class SistemaBD {
 		}	
 	}	
 
-	public Collection<PedidoDTO> obtenerPedidosPendDeposito() throws ExcepcionComunicacion, ExcepcionSistema {
+	public Collection<OrdenPedidoRepoDTO> obtenerOPRPendientes() throws ExcepcionComunicacion, ExcepcionSistema {
 		try {
-			return ir.obtenerPedidosPendDeposito();
+			return ir.obtenerOPRPendientes();
 		} catch (RemoteException e) {
-			// TODO Auto-generated catch block
 			throw new ExcepcionComunicacion("Error en la comunicacion");
 		} catch (ExcepcionSistema e) {
 			throw e;
 		}	
-	}	
-
+	}
+	
 	public OrdenDeCompraDTO procesarOrdenDeCompra(int numOC) throws ExcepcionComunicacion, ExcepcionSistema {
 		try {
 			return ir.procesarOrdenDeCompra(numOC);

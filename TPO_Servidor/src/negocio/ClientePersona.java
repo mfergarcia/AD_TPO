@@ -8,6 +8,7 @@ package negocio;
 import dao.ClientePersonaDAO;
 //import entities.ClientePersonaEntity;
 import dto.ClientePersonaDTO;
+import entities.ClientePersonaEntity;
 
 public class ClientePersona extends Cliente {
 
@@ -15,15 +16,21 @@ public class ClientePersona extends Cliente {
 	private String apellido;
 	private String nombre;
 	
-	//
-	/*
+	
 	public ClientePersona(ClientePersonaEntity cpe) {
 		super(cpe);
 		this.dni=cpe.getDni();
 		this.apellido=cpe.getApellido();
 		this.nombre=cpe.getNombre();
 	}
-	*/
+	
+	public ClientePersona(CtaCte ctaCte, char tipoFactura, String condEsp, Direccion d, char estado, String dni, String apellido, String nombre){
+		super(ctaCte, tipoFactura, condEsp, d, estado);
+		this.dni=dni;
+		this.apellido=apellido;
+		this.nombre=nombre;
+		setTipo('P');
+	}
 	
 	public ClientePersona(ClientePersonaDTO ctePersonaDTO) {
 		super(ctePersonaDTO);

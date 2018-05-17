@@ -26,6 +26,11 @@ public class CtaCte {
 		this.pagos = new ArrayList<Pago>();
 	}
 
+	// Agrega una factura a la cuenta corriente
+	public void registrarFactura(Factura factura) {
+		this.getFacturas().add(factura);
+	}
+	
 	// Recorre la colección de facturas y devuelve aquellas con saldo pendiente
 	private Collection<Factura> buscarFacturasImpagas() {
 		Collection<Factura> facturasImpagas = new ArrayList<Factura>();
@@ -38,10 +43,6 @@ public class CtaCte {
 		return facturasImpagas;
 	}
 	
-	// Agrega una factura a la cuenta corriente
-	public void registrarFactura(Factura factura) {
-		this.getFacturas().add(factura);
-	}
 
 	// Agrega un pago a la cuenta corriente 
 	// NOTAS_FG: OJO: esto no aplica el pago. El pago se aplica desde AdmFacturacion
