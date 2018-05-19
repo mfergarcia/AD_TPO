@@ -1,4 +1,4 @@
-// OK
+// LISTO PARA PROBAR
 package dto;
 
 import java.io.Serializable;
@@ -19,7 +19,6 @@ public class RemitoDTO implements Serializable {
 	private Collection<ItemArticuloDTO> items;
 	
 	public RemitoDTO() {
-		// TODO Auto-generated constructor stub
 		this.items = new ArrayList<ItemArticuloDTO>();
 	}
 

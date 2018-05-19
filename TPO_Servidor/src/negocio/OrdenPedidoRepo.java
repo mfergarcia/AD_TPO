@@ -1,4 +1,4 @@
-//PENDIENTE: Programar método toDTO
+//@Facu: implementar metodo saveMe
 package negocio;
 
 import java.util.Calendar;
@@ -17,7 +17,7 @@ public class OrdenPedidoRepo {
 	private String estado;	
 	
 	public OrdenPedidoRepo() {
-		// TODO Auto-generated constructor stub
+
 	}
 
 	// Crea una nueva Orden de Pedido Repo con la fecha del día y setea estado inicial

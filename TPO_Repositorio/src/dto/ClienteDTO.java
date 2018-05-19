@@ -1,4 +1,4 @@
-// OK
+// LISTO PARA PROBAR
 package dto;
 
 import java.io.Serializable;
@@ -16,7 +16,7 @@ public class ClienteDTO implements Serializable {
 	private String direccionFacturacion;
 	
 	public ClienteDTO() {
-		// TODO Auto-generated constructor stub
+
 	}
 
 	public int getIdCliente() {

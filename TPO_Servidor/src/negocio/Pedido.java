@@ -1,4 +1,4 @@
-//Pendiente: adaptar constructor a DTO
+//@Facu: implementar metodo saveMe
 package negocio;
 
 import java.util.ArrayList;
@@ -24,7 +24,7 @@ public class Pedido {
 	private String estado;	
 	
 	public Pedido() {
-		// TODO Auto-generated constructor stub
+
 	}
 
 	// Creación de un nuevo Pedido, inicializa la coleccion de items y setea estado inicial
@@ -39,7 +39,7 @@ public class Pedido {
 	
 	// Permite agregar los items del Pedido
 	public void agregarItem(ItemArticulo itemArticulo) {
-		this.getArticulos().add(itemArticulo);
+		this.articulos.add(itemArticulo);
 	}
 	
 	// Calcula el monto total del Pedido, sumarizando el monto de cada item
@@ -152,4 +152,5 @@ public class Pedido {
 	public void saveMe() {
 
 	}	
+	
 }

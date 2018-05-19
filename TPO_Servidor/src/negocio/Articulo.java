@@ -1,11 +1,10 @@
-//PENDIENTE: Revisar la parte de Articulo en Stock
+// @Facu: revisar búsquedas en BD e implementar metodo saveMe
 package negocio;
 
 import java.util.ArrayList;
 import java.util.Collection;
-import java.util.Date;
+import java.util.Iterator;
 
-import dao.ArticuloDAO;
 import dto.ArticuloDTO;
 
 public class Articulo {
@@ -23,7 +22,7 @@ public class Articulo {
 	private char estado;
 	
 	public Articulo() {
-		// TODO Auto-generated constructor stub
+
 	}
 
 	public Articulo(ArticuloDTO articuloDTO) {
@@ -43,48 +42,30 @@ public class Articulo {
 	public boolean sosArticulo(String codBarra) {
 		return (codBarra == this.getCodigoBarras());
 	}
-	
 
-	// NOTAS_FG: El Articulo En Stock debería crearse con la ubicacion, sino no hay forma de trackearlo despues
-	// en el stock
-	public void agregarArtEnStock(String codUbicacion, int cantidad, String lote, Date fecVenc, Date fecCompra, String proveedor, float precioCompra) {
-		ArticuloEnStock artEnStock = new ArticuloEnStock();
-		artEnStock.setCodigoUbicacion(codUbicacion);
-		artEnStock.setCantidad(cantidad);
-		artEnStock.setLote(lote);
-		artEnStock.setFechaVencimiento(fecVenc);
-		artEnStock.setFechaCompra(fecCompra);
-		artEnStock.setProveedor(proveedor);
-		artEnStock.setPrecioCompra(precioCompra);
-		this.getArticulosEnStock().add(artEnStock);
+	// Agrega un Articulo en Stock
+	public void agregarArtEnStock(ArticuloEnStock artEnStock) {
+		this.articulosEnStock.add(artEnStock);
 	}
 
-	// Debe recorrer la coleccion de ArticulosEnStock y ordenarla por Fecha de Vencimiento del Lote
-	// NOTA_FG: Creo que aquí es más fácil tirar una consulta a la BD que vuelva ordenada por 
-	// fecha de vencimiento y que se rearme la colección con dicho resultado
-	public void ordenarArtEnStockPorFechVenc() {
-		
-	}
-
-	public void eliminarArtEnStock(ArticuloEnStock artEnStock){
-		this.getArticulosEnStock().remove(artEnStock);
+	// @Facu: Reemplazar esta búsqueda por búsqueda en la BD. La búsqueda tiene 
+	// que levantar todos los Articulo En Stock de este Articulo cuyo codUbicación sea <> null
+	// El resultado tiene que volver ordenado por Fecha de Vencimiento (primero los más viejos)
+	public Collection<ArticuloEnStock> obtenerArtEnStockOrdenFV() {
+		return this.getArticulosEnStock();
 	}
 	
-	// Debe recorrer la coleccion de ArticulosEnStock y acumular los ultimos 3 proveedores
-	public String[] consultarUltimosProv() {
+	// @Facu: reemplazar búsqueda en la colección por búsqueda en la BD
+	public ArticuloEnStock obtenerArtEnStock(int id) {
+		ArticuloEnStock aux;
+		for (Iterator<ArticuloEnStock> i = this.getArticulosEnStock().iterator(); i.hasNext(); ) {
+			aux = i.next();
+			if (aux.getId() == id)
+				return aux;
+		}
 		return null;
 	}
-
-	//NOTAS_FG: Este metodo para qué sirve? Imposible identificar un articulo por un lote (lote no es identificador univoco)
-	public ArticuloEnStock buscarArtEnS(String lote) {
-		return null;
-	}
-	
-	//NOTAS_FG: Este metodo para qué sirve? las propiedades del ArticuloEnStock las hace la clase ArticuloEnStock
-	public void modificarArticuloEnStock(String lote, Date venc, Date fCompra, String proov, float preCom) {
 		
-	}
-	
 	public String getCodigoBarras() {
 		return codigoBarras;
 	}
@@ -178,7 +159,7 @@ public class Articulo {
 	
 	//@Facu: implementar metodo
 	public void saveMe() {
-		ArticuloDAO.getInstance().grabar(this);
+
 	}	
 
 }

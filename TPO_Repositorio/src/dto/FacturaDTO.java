@@ -1,4 +1,4 @@
-//PENDIENTE
+// LISTO PARA PROBAR
 package dto;
 
 import java.io.Serializable;
@@ -23,7 +23,6 @@ public class FacturaDTO implements Serializable {
 	private String estadoFactura;
 	
 	public FacturaDTO() {
-		// TODO Auto-generated constructor stub
 		this.items = new ArrayList<ItemArticuloDTO>();
 	}
 

@@ -1,4 +1,4 @@
-// PENDIENTE: Ver si hace falta agregar el metodo toDTO
+//@Facu: implementar metodo saveMe
 package negocio;
 
 import java.util.Calendar;
@@ -6,6 +6,7 @@ import java.util.Date;
 
 public class Pago {
 
+	private int id;
 	private Date fecha;
 	private String tipoPago;
 	private float importe;
@@ -13,10 +14,10 @@ public class Pago {
 	private String estado;
 
 	public Pago() {
-		// TODO Auto-generated constructor stub
+
 	}
 	
-	// Crea un pago para un Cliente con la fecha del dia y setea el estado inicial
+	// Crea un pago con la fecha del dia y setea el estado inicial
 	public Pago(String tipoPago, float importe){
 		this.setTipoPago(tipoPago);
 		this.setImporte(importe);
@@ -25,6 +26,14 @@ public class Pago {
 		this.setEstado("RECIBIDO");
 	}
 		
+	public int getId() {
+		return id;
+	}
+
+	public void setId(int id) {
+		this.id = id;
+	}
+
 	public Date getFecha() {
 		return fecha;
 	}

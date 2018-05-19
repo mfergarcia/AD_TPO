@@ -1,4 +1,5 @@
-//PENDIENTE: Revisar si está ok la actualización de montos
+// @Marce: revisar actualizacion Monton Adeudado
+// @Facu: implementar saveMe
 package negocio;
 
 import java.util.Calendar;
@@ -19,7 +20,7 @@ public class Factura {
 	private String estadoFactura;
 	
 	public Factura() {
-		// TODO Auto-generated constructor stub
+
 	}
 
 	public Factura(char tipoFactura, Pedido pedido) {
@@ -73,7 +74,8 @@ public class Factura {
 		return montoAdeudado;
 	}
 
-	public void setMontoAdeudado(float montoAdeudado) {
+	// Se crea como privado para preservar el control del Monto Adeudado a la clase Factura
+	private void setMontoAdeudado(float montoAdeudado) {
 		this.montoAdeudado = montoAdeudado;
 	}
 

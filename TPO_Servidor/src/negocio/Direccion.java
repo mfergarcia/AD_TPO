@@ -1,4 +1,4 @@
-//LISTO PARA PROBAR
+// @Facu: implementar saveMe
 package negocio;
 
 import dto.DireccionDTO;
@@ -11,7 +11,7 @@ public class Direccion {
 	private String localidad;
 
 	public Direccion() {
-		// TODO Auto-generated constructor stub
+
 	}
 	
 	public int getId() {
@@ -71,4 +71,5 @@ public class Direccion {
 	public void saveMe() {
 
 	}	
+	
 }

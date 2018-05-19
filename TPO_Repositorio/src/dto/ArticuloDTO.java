@@ -1,4 +1,4 @@
-// PENDIENTE: Ver si son necesarios cantFijaCompra, cantMaximaUbicacion, estado
+// LISTO PARA PROBAR
 package dto;
 
 import java.io.Serializable;
@@ -20,7 +20,7 @@ public class ArticuloDTO implements Serializable {
 	private char estado;
 	
 	public ArticuloDTO() {
-		// TODO Auto-generated constructor stub
+
 	}
 
 	public String getCodigoBarras() {

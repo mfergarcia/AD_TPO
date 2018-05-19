@@ -1,4 +1,4 @@
-// PENDIENTE
+// LISTO PARA PROBAR
 package dto;
 
 import java.io.Serializable;

@@ -42,17 +42,16 @@ public interface InterfazRemota extends Remote {
 	public String solicitarPedido(int numPedido) throws RemoteException, ExcepcionSistema;
 	public Collection<PedidoDTO> obtenerPedidosPendDeposito() throws RemoteException, ExcepcionSistema;
 	public Collection<ArticuloEnStockDTO> prepararPedido(int numPedido) throws RemoteException, ExcepcionSistema;
-
 	public String actualizarStockPorVenta(int numPedido, Collection<ArticuloEnStockDTO> artEnStockDTO) throws RemoteException, ExcepcionSistema;
-	
 	public Collection<PedidoDTO> obtenerPedidosADespachar() throws RemoteException, ExcepcionSistema;
 	public String registrarFechaEntrega(int numPedido, Date fechaEntrega) throws RemoteException, ExcepcionSistema;
 	public Collection<OrdenPedidoRepoDTO> obtenerOPRPendientes() throws RemoteException, ExcepcionSistema;
-
+	public String obtenerProveedores(String codBarras) throws RemoteException, ExcepcionSistema;
 	public OrdenDeCompraDTO generarOrdenDeCompra(String proveedor, Collection<ArticuloDTO> articulos) throws RemoteException, ExcepcionSistema;
-	public OrdenDeCompraDTO procesarOrdenDeCompra(int numOC) throws RemoteException, ExcepcionSistema;
-
-	public Collection<ArticuloEnStockDTO> cargarArticuloEnStock(int numOC, String codBarras, int cantidad, String lote, Date fechaVenc, String proveedor, float precioCompra) throws RemoteException, ExcepcionSistema;
+	public OrdenDeCompraDTO obtenerOrdenDeCompra(int numOC) throws RemoteException, ExcepcionSistema;
+	public Collection<ArticuloEnStockDTO> cargarArticuloEnStock(int numOC, ArticuloEnStockDTO artEnStockDTO) throws RemoteException, ExcepcionSistema;
 	public String cumplirOrdenDeCompra(int numOC) throws RemoteException, ExcepcionSistema;
+	public String registrarPago(int idCliente, String tipoPago, float importe) throws RemoteException, ExcepcionSistema;
+	public void aplicarPago(int idCliente, float descuento) throws RemoteException, ExcepcionSistema;
 	
 }

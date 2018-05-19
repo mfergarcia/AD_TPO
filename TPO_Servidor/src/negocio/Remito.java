@@ -1,4 +1,4 @@
-//LISTO PARA PROBAR
+// @Facu: implementar método saveMe
 package negocio;
 
 import java.util.Calendar;
@@ -15,7 +15,7 @@ public class Remito {
 	private Factura factura;
 	
 	public Remito() {
-		// TODO Auto-generated constructor stub
+
 	}
 
 	// Crea un Remito con la fecha del dia
@@ -67,4 +67,5 @@ public class Remito {
 	public void saveMe() {
 
 	}		
+	
 }

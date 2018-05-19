@@ -1,16 +1,13 @@
-// PENDIENTE: Revisar implementación de la herencia de cliente, programar metodos 
-// pendientes y desde VERRRR
+// @Marce: Revisar llamada al aplicar Pago
+// @Facu: Revisar usos del saveMe y completar búsquedas en la BD
 package controladores;
 
 import java.util.ArrayList;
 import java.util.Collection;
 import java.util.Iterator;
 
-import dao.ClienteEmpresaDAO;
-import dto.ClienteDTO;
 import dto.ClienteEmpresaDTO;
 import dto.ClientePersonaDTO;
-import negocio.Cliente;
 import negocio.ClienteEmpresa;
 import negocio.ClientePersona;
 import negocio.CtaCte;
@@ -97,7 +94,7 @@ public class AdmClientes {
 
 	//@Facu: revisar la llamada al saveMe de la cuenta corriente y del cteEmpresa
 	public ClienteEmpresa modificarCteEmpresa(ClienteEmpresaDTO cteEmpresaDTO) {
-		ClienteEmpresa cteEmpresa = obtenerClienteEmpresa(cteEmpresaDTO.getIdCliente());
+		ClienteEmpresa cteEmpresa = this.obtenerClienteEmpresa(cteEmpresaDTO.getIdCliente());
 		cteEmpresa.setCondicionesEspeciales(cteEmpresaDTO.getCondicionesEspeciales());
 		Direccion direccion = new Direccion();
 		direccion.setCalle(cteEmpresaDTO.getDireccionFacturacion().getCalle());
@@ -113,7 +110,7 @@ public class AdmClientes {
 
 	//@Facu: revisar la llamada al saveMe de la cuenta corriente y del cteEmpresa
 	public ClientePersona modificarCtePersona(ClientePersonaDTO ctePersonaDTO) {
-		ClientePersona ctePersona = obtenerClientePersona(ctePersonaDTO.getIdCliente());
+		ClientePersona ctePersona = this.obtenerClientePersona(ctePersonaDTO.getIdCliente());
 		ctePersona.setCondicionesEspeciales(ctePersonaDTO.getCondicionesEspeciales());
 		Direccion direccion = new Direccion();
 		direccion.setCalle(ctePersonaDTO.getDireccionFacturacion().getCalle());
@@ -131,16 +128,16 @@ public class AdmClientes {
 	// Identifica el tipo de cliente para el idCliente dado e inactiva
 	// el Cliente identificado. Si no lo encuentra devuelve false
 	public boolean bajaCliente(int idCliente) {	
-		char tipoCliente = obtenerTipoCliente(idCliente);
+		char tipoCliente = this.obtenerTipoCliente(idCliente);
 		if (tipoCliente == 'E') {
-			ClienteEmpresa cteEmpresa = obtenerClienteEmpresa(idCliente);
+			ClienteEmpresa cteEmpresa = this.obtenerClienteEmpresa(idCliente);
 			cteEmpresa.setEstado('I');
 			cteEmpresa.saveMe();
 			return true;
 		}
 		else {
 			if (tipoCliente == 'P') {
-				ClientePersona ctePersona = obtenerClientePersona(idCliente);
+				ClientePersona ctePersona = this.obtenerClientePersona(idCliente);
 				ctePersona.setEstado('I');
 				ctePersona.saveMe();
 				return true;
@@ -151,14 +148,14 @@ public class AdmClientes {
 	}
 	
 	public char obtenerTipoFacturaCliente(int idCliente) {
-		char tipoCliente = obtenerTipoCliente(idCliente);
+		char tipoCliente = this.obtenerTipoCliente(idCliente);
 		if (tipoCliente == 'E') {
-			ClienteEmpresa clienteEmpresa = obtenerClienteEmpresa(idCliente);
+			ClienteEmpresa clienteEmpresa = this.obtenerClienteEmpresa(idCliente);
 			return clienteEmpresa.getTipoFactura();
 		}
 		else {
 			if (tipoCliente == 'P') {
-				ClientePersona clientePersona = obtenerClientePersona(idCliente);
+				ClientePersona clientePersona = this.obtenerClientePersona(idCliente);
 				return clientePersona.getTipoFactura();
 			}
 			else
@@ -169,16 +166,16 @@ public class AdmClientes {
 	// @Facu: revisar uso del saveMe
 	// Registra una factura en la Cta Cte de un Cliente
 	public boolean registrarFacturaEnCtaCte(int idCliente, Factura factura) {
-		char tipoCliente = obtenerTipoCliente(idCliente);
+		char tipoCliente = this.obtenerTipoCliente(idCliente);
 		if (tipoCliente == 'E') {
-			ClienteEmpresa cteEmpresa = obtenerClienteEmpresa(idCliente);
+			ClienteEmpresa cteEmpresa = this.obtenerClienteEmpresa(idCliente);
 			cteEmpresa.getCtaCte().registrarFactura(factura);
 			cteEmpresa.getCtaCte().saveMe();
 			return true;
 		}
 		else {
 			if (tipoCliente == 'P') {
-				ClientePersona ctePersona = obtenerClientePersona(idCliente);
+				ClientePersona ctePersona = this.obtenerClientePersona(idCliente);
 				ctePersona.getCtaCte().registrarFactura(factura);
 				ctePersona.getCtaCte().saveMe();
 				return true;
@@ -188,18 +185,21 @@ public class AdmClientes {
 		}
 	}
 
+	// @Facu: revisar el uso del saveMe
 	// Registra un pago en la Cta Cte de un Cliente
 	public String registrarPagoEnCtaCte(int idCliente, Pago pago) {
-		char tipoCliente = obtenerTipoCliente(idCliente);
+		char tipoCliente = this.obtenerTipoCliente(idCliente);
 		if (tipoCliente == 'E') {
-			ClienteEmpresa clienteEmpresa = obtenerClienteEmpresa(idCliente);
+			ClienteEmpresa clienteEmpresa = this.obtenerClienteEmpresa(idCliente);
 			clienteEmpresa.getCtaCte().registrarPago(pago);
+			clienteEmpresa.getCtaCte().saveMe();
 			return clienteEmpresa.getCondicionesEspeciales();
 		}
 		else {
 			if (tipoCliente == 'P') {
-				ClientePersona clientePersona = obtenerClientePersona(idCliente);
+				ClientePersona clientePersona = this.obtenerClientePersona(idCliente);
 				clientePersona.getCtaCte().registrarPago(pago);
+				clientePersona.getCtaCte().saveMe();
 				return clientePersona.getCondicionesEspeciales();
 			}
 			else
@@ -207,19 +207,19 @@ public class AdmClientes {
 		}
 	}
 
+	// @Marce: verificar si está ok
 	// Dispara la aplicacion de un Pago en una Cta Cte
-	// NOTAS_FG: Pendiente completar
 	// Si no encuentra el Cliente devuelve false
 	public boolean aplicarPago(int idCliente, float descuento) {
-		char tipoCliente = obtenerTipoCliente(idCliente);
+		char tipoCliente = this.obtenerTipoCliente(idCliente);
 		if (tipoCliente == 'E') {
-			ClienteEmpresa clienteEmpresa = obtenerClienteEmpresa(idCliente);
+			ClienteEmpresa clienteEmpresa = this.obtenerClienteEmpresa(idCliente);
 			clienteEmpresa.getCtaCte().pagarFacturas(descuento);
 			return true;
 		}
 		else {
 			if (tipoCliente == 'P') {
-				ClientePersona clientePersona = obtenerClientePersona(idCliente);
+				ClientePersona clientePersona = this.obtenerClientePersona(idCliente);
 				clientePersona.getCtaCte().pagarFacturas(descuento);
 				return true;
 			}
@@ -227,7 +227,5 @@ public class AdmClientes {
 				return false;
 		}
 	}
-	
-
 
 }	

@@ -1,19 +1,18 @@
-//PENDIENTE: Completar programación y desde VERRRR
+// @Marce: Completar programación de mov de stock
+// @Facu: Revisar usos del saveMe y completar búsquedas en la BD
 package controladores;
 
+import java.rmi.RemoteException;
 import java.util.ArrayList;
-import java.util.Calendar;
 import java.util.Collection;
-import java.util.Date;
 import java.util.Iterator;
 
-import dto.ArticuloDTO;
+import dto.ArticuloEnStockDTO;
+import excepciones.ExcepcionSistema;
 import negocio.Articulo;
 import negocio.ArticuloEnStock;
 import negocio.ItemArticulo;
-import negocio.ItemOC;
 import negocio.MovimientoStock;
-import negocio.OrdenDeCompra;
 import negocio.Pedido;
 import negocio.Stock;
 
@@ -27,18 +26,10 @@ public class AdmStock {
 	
 	// Constructor privado (Patron Singleton)
 	private AdmStock() {
-		// TODO Auto-generated constructor stub
 		// @Facu: removar llamadas cuando funcione la búsqueda en la BD
 		this.articulos = new ArrayList<Articulo>();
 		this.stock = new ArrayList<Stock>();
 		this.movimientosStock = new ArrayList<MovimientoStock>();
-	}
-	
-	// @Facu: Reemplazar esta búsqueda por búsqueda en la BD. La búsqueda tiene 
-	// que volver ordenada por Fecha de Vencimiento (primero los más viejos)
-	private Collection<ArticuloEnStock> obtenerArtEnStockOrdenFV(String codBarras) {
-		Articulo art = obtenerArticulo(codBarras);
-		return art.getArticulosEnStock();
 	}
 	
 	// @Facu: Reemplazar esta búsqueda por búsqueda en la BD.
@@ -49,6 +40,22 @@ public class AdmStock {
 			aux = i.next();
 			if (aux.getCodigoUbicacion().equals(codUbicacion))
 				return aux;
+		}
+		return null;
+	}
+	
+	// @Facu: reemplazar búsqueda en la colección por búsqueda en la BD
+	// Recupera una ubicación libre para que sea asignada a un nuevo Articulo En Stock
+	// La ubicación se bloquea hasta que sea asignado el stock
+	private Stock obtenerUbicacionLibre() {
+		Stock aux;
+		for (Iterator<Stock> i = stock.iterator(); i.hasNext() ; ) { 
+			aux = i.next();
+			if (aux.getEstado().equals("LIBRE")) {
+				aux.actualizarEstado("BLOQUEADA");
+				aux.saveMe();
+				return aux;
+			}	
 		}
 		return null;
 	}
@@ -98,7 +105,7 @@ public class AdmStock {
 			if (!auxItemArt.getEstadoStock().equals("RESERVADO")) {
 				// El ítem aún no fue reservado
 				// Obtiene los Articulos en Stock ordenado por Fecha de Vencimiento
-				artEnStock = this.obtenerArtEnStockOrdenFV(auxItemArt.getArticulo().getCodigoBarras());
+				artEnStock = auxItemArt.getArticulo().obtenerArtEnStockOrdenFV();
 				int cantRequerida = auxItemArt.getCant();
 				int cantReservable;
 				ArticuloEnStock auxArtEnStock;
@@ -149,14 +156,14 @@ public class AdmStock {
 
 	// @Facu: revisar el uso de saveMe
 	public Collection<ArticuloEnStock> localizarStockArticulo(Articulo articulo, int cantidad) {
-		// Coleccion para almacenar la seleccion de Articulos En Stock que se necesitan para este Pedido
+		// Coleccion para almacenar la seleccion de Articulos En Stock que se necesitan para cumplir este Item del Pedido
 		Collection<ArticuloEnStock> stockLocalizado = new ArrayList<ArticuloEnStock>();
 		Stock stock;
 		int cantRequerida = cantidad;
 		// Obtiene todos los Articulos en Stock del Artículo, ordenado por Fecha de Vencimiento
-		Collection<ArticuloEnStock> artEnStock = this.obtenerArtEnStockOrdenFV(articulo.getCodigoBarras());
+		Collection<ArticuloEnStock> artEnStockAll = articulo.obtenerArtEnStockOrdenFV();
 		ArticuloEnStock aux;
-		Iterator<ArticuloEnStock> i = artEnStock.iterator();
+		Iterator<ArticuloEnStock> i = artEnStockAll.iterator();
 		while (cantRequerida > 0 && i.hasNext()) {
 			aux = i.next();
 			// Recupera el stock de cada Articulo en Stock
@@ -168,7 +175,7 @@ public class AdmStock {
 				stock.actualizarEstado("BLOQUEADA");
 				stock.saveMe();
 				if (cantRequerida <= stock.getCantidadReal())
-					// Si la posicion tiene más stock de la requerida, se corta el ciclo
+					// Si la posicion tiene más stock de la cantidad requerida, se corta el ciclo
 					cantRequerida = 0;
 				else
 					// Si la posición tiene menos stock del requerido, se continua buscando la diferencia
@@ -178,80 +185,102 @@ public class AdmStock {
 		return stockLocalizado;
 	}
 	
-	// NOTAS_FG: Reemplazar por busqueda en el DAO
-	public Stock obtenerUbicacionLibre() {
-		Stock aux;
-		for (Iterator<Stock> i = stock.iterator(); i.hasNext() ; ) { 
+	// @Marce: agregar la generación del movimiento de stock por venta
+	// @Facu: Revisar si está ok el uso del saveMe
+	// NOTAS_FG: Revisar si está ok la ejecución de los ciclos
+	public boolean actualizarStockPorVenta(Pedido pedido, Collection<ArticuloEnStockDTO> artEnStockDTO) {
+		int cantNecesaria;
+		int cantADescontar;
+		Stock stock;
+		ItemArticulo aux;
+		Iterator<ArticuloEnStockDTO> j = artEnStockDTO.iterator();
+		ArticuloEnStockDTO auxDTO;
+		for (Iterator<ItemArticulo> i = pedido.getArticulos().iterator(); i.hasNext(); ) {
 			aux = i.next();
-			if (aux.getEstado().equals("LIBRE")) {
-				aux.actualizarEstado("BLOQUEADA");
-				return aux;
-			}	
+			// Almacena la cantidad requerida para este Artículo
+			cantNecesaria = aux.getCant();
+			while (cantNecesaria > 0 && j.hasNext()) {
+				auxDTO = j.next();
+				if (aux.getArticulo().getCodigoBarras().equals(auxDTO.getCodigoBarras())) {
+					stock = this.obtenerStock(auxDTO.getCodigoUbicacion());
+					if (cantNecesaria > stock.getCantidadReal()) {
+						// No hay stock suficiente en esta posición para descontar todo lo que se necesita
+						cantADescontar = stock.getCantidadReal();
+						cantNecesaria = cantNecesaria - cantADescontar;
+					}
+					else {
+						// El stock en esta ubicación alcanza para cubrir lo que se necesita
+						cantADescontar = cantNecesaria;
+						cantNecesaria = 0;
+					}
+					// Actualiza la cantidad real de la posición con la nueva cantidad
+					stock.actualizarCantidadReal(stock.getCantidadReal() - cantADescontar);
+					stock.saveMe();
+					aux.setEstadoStock("DESCONTADO");
+					aux.saveMe();
+					if (stock.getCantidadReal() == 0) {
+						// Ya no queda más stock de este Artículo en Stock, se desasigna el código de ubicación
+						ArticuloEnStock artEnStock = aux.getArticulo().obtenerArtEnStock(auxDTO.getId());
+						artEnStock.setCodigoUbicacion(null);
+						artEnStock.saveMe();
+					}
+					// Aquí debería generarse el movimiento de stock por venta.
+				}
+			}
+			
 		}
-		return null;
+		boolean ok = true;
+		for (Iterator<ItemArticulo> k = pedido.getArticulos().iterator(); k.hasNext(); ) {
+			aux = k.next();
+			if (!aux.getEstadoStock().equals("DESCONTADO"))
+				ok = false;
+		}
+		return ok;
 	}
 	
-	
-	
-	public void solicitarArticulos(int numPedido) {
-	
-	}
-	
-	public void ajustarInventario(int cant, String codB, String lote, String ubicacion) {
-	
-	}
-	
-	public void ajustarStockC(int idOC) {
-	
-	}
-	
-	public void ajustarStockMant(int cant, String usuarioRegistrado, String autorizante, String destinoFinal, String ubicacion) {
-	
+	// @Facu: preparar búsqueda de los últimos 3 proveedores de un Artículo
+	// Obtiene los últimos 3 proveedores del Artículo y los concatena en un solo String("Proveedores anteriores: " + proveedor1 + " " + proveedor2 + " " proveedor3)
+	// Si no encuentra ni un solo proveedor, el string deberá contener el mensaje "No se registran proveedores de este Artículo"
+	public String obtenerProveedores(String codBarras) throws RemoteException, ExcepcionSistema {
+		return new String("PROVEEDORES");
 	}
 
+	//@Marce: agregar creación del movimiento de stock
+	//@Facu: revisar el uso del saveMe
 	//NOTA_FG: Completar con el movimiento de ajuste por Compra
-	public Collection<ArticuloEnStock> cargarArticuloEnStock(int numOC, String codBarras, int cantidad, String lote, Date fechaVenc, String proveedor, float precioCompra) {
-		Articulo articulo = obtenerArticulo(codBarras);
+	public Collection<ArticuloEnStock> cargarArticuloEnStock(int numOC, ArticuloEnStockDTO artEnStockDTO) {
+		Articulo articulo = this.obtenerArticulo(artEnStockDTO.getCodigoBarras());
 		Collection<ArticuloEnStock> articulosEnStock = new ArrayList<ArticuloEnStock>();
 		if (articulo != null) {
+			int cantRequerida = artEnStockDTO.getCantidad();
 			int cantAUbicar; 
-			while (cantidad > 0) {
-				if (articulo.getCantMaxUbicacion() >= cantidad) {
-					cantAUbicar = cantidad;
-					cantidad = 0;
+			while (cantRequerida > 0) {
+				if (articulo.getCantMaxUbicacion() >= cantRequerida) {
+					cantAUbicar = cantRequerida;
+					cantRequerida = 0;
 				}
 				else {
 					cantAUbicar = articulo.getCantMaxUbicacion();
-					cantidad = cantidad - articulo.getCantMaxUbicacion();
+					cantRequerida = cantRequerida - articulo.getCantMaxUbicacion();
 				}
 				Stock stock = obtenerUbicacionLibre();
-				ArticuloEnStock artEnStock = new ArticuloEnStock(stock.getCodigoUbicacion(), cantAUbicar, lote, fechaVenc, Calendar.getInstance().getTime(), proveedor, precioCompra);
+				ArticuloEnStock artEnStock = new ArticuloEnStock(stock.getCodigoUbicacion(), cantAUbicar, artEnStockDTO);
 				stock.actualizarCantidadReal(cantAUbicar);
-				articulo.getArticulosEnStock().add(artEnStock);
+				stock.saveMe();
+				articulo.agregarArtEnStock(artEnStock);
 				articulosEnStock.add(artEnStock);
 				// Aquí debería generarse el movimiento de ajuste de stock por compra
 			}	
+			articulo.saveMe();
 		}
 		return articulosEnStock;
 	}
 	
-	public ArticuloEnStock buscarArticuloEnStock(String codBarra, String lote) {
-		return null;
-	}
-	
-	public MovimientoStock buscarMovStock(int idMov) {
-		return null;
-	}
-	
-	public void modificarArticulo(String codB, String desc, String pres, int tam, String uni, float pre, int cantFC, int cantMxUb) {
+	public void ajustarStockPorInventario(int cant, String codB, String lote, String ubicacion) {
 	
 	}
 	
-	public void modificarArticuloEnStock(String codB, String lote, Date venc, Date fCompra, String proov, float preCom) {
-	
-	}
-	
-	public void descontarStock(Articulo articulo, ArticuloEnStock articuloEnStock, Stock stock, int cantidad, int numPedido) {
+	public void ajustarStockPorMant(int cant, String usuarioRegistrado, String autorizante, String destinoFinal, String ubicacion) {
 	
 	}
 	

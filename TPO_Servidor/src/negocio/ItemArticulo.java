@@ -1,4 +1,4 @@
-//LISTO PARA PROBAR
+// @Facu: implementar saveMe
 package negocio;
 
 import dto.ItemArticuloDTO;
@@ -12,7 +12,7 @@ public class ItemArticulo {
 	private String estadoStock;
 	
 	public ItemArticulo() {
-		// TODO Auto-generated constructor stub
+
 	}
 	
 	// Cuando se crea un Item Articulo, se crea en el estado "A CONFIRMAR"
@@ -72,4 +72,5 @@ public class ItemArticulo {
 	public void saveMe() {
 
 	}	
+	
 }

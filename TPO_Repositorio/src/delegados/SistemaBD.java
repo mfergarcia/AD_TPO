@@ -317,23 +317,41 @@ public class SistemaBD {
 			throw e;
 		}	
 	}
-	
-	public OrdenDeCompraDTO procesarOrdenDeCompra(int numOC) throws ExcepcionComunicacion, ExcepcionSistema {
+
+	public String obtenerProveedores(String codBarras) throws ExcepcionComunicacion, ExcepcionSistema {
 		try {
-			return ir.procesarOrdenDeCompra(numOC);
+			return ir.obtenerProveedores(codBarras);
 		} catch (RemoteException e) {
-			// TODO Auto-generated catch block
+			throw new ExcepcionComunicacion("Error en la comunicacion");
+		} catch (ExcepcionSistema e) {
+			throw e;
+		}	
+	}
+	
+	public OrdenDeCompraDTO generarOrdenDeCompra(String proveedor, Collection<ArticuloDTO> articulos) throws ExcepcionComunicacion, ExcepcionSistema {
+		try {
+			return ir.generarOrdenDeCompra(proveedor, articulos);
+		} catch (RemoteException e) {
+			throw new ExcepcionComunicacion("Error en la comunicacion");
+		} catch (ExcepcionSistema e) {
+			throw e;
+		}	
+	}
+	
+	public OrdenDeCompraDTO obtenerOrdenDeCompra(int numOC) throws ExcepcionComunicacion, ExcepcionSistema {
+		try {
+			return ir.obtenerOrdenDeCompra(numOC);
+		} catch (RemoteException e) {
 			throw new ExcepcionComunicacion("Error en la comunicacion");
 		} catch (ExcepcionSistema e) {
 			throw e;
 		}	
 	}	
 
-	public Collection<ArticuloEnStockDTO> cargarArticuloEnStock(int numOC, String codBarras, int cantidad, String lote, Date fechaVenc, String proveedor, float precioCompra)  throws ExcepcionComunicacion, ExcepcionSistema {
+	public Collection<ArticuloEnStockDTO> cargarArticuloEnStock(int numOC, ArticuloEnStockDTO artEnStockDTO)  throws ExcepcionComunicacion, ExcepcionSistema {
 		try {
-			return ir.cargarArticuloEnStock(numOC, codBarras, cantidad, lote, fechaVenc, proveedor, precioCompra);
+			return ir.cargarArticuloEnStock(numOC, artEnStockDTO);
 		} catch (RemoteException e) {
-			// TODO Auto-generated catch block
 			throw new ExcepcionComunicacion("Error en la comunicacion");
 		} catch (ExcepcionSistema e) {
 			throw e;
@@ -344,12 +362,30 @@ public class SistemaBD {
 		try {
 			return ir.cumplirOrdenDeCompra(numOC);
 		} catch (RemoteException e) {
-			// TODO Auto-generated catch block
 			throw new ExcepcionComunicacion("Error en la comunicacion");
 		} catch (ExcepcionSistema e) {
 			throw e;
 		}	
 	}	
 	
+	public String registrarPago(int idCliente, String tipoPago, float importe) throws ExcepcionComunicacion, ExcepcionSistema {
+		try {
+			return ir.registrarPago(idCliente, tipoPago, importe);
+		} catch (RemoteException e) {
+			throw new ExcepcionComunicacion("Error en la comunicacion");
+		} catch (ExcepcionSistema e) {
+			throw e;
+		}
+	}
+
+	public void aplicarPago(int idCliente, float descuento) throws ExcepcionComunicacion, ExcepcionSistema {
+		try {
+			ir.aplicarPago(idCliente, descuento);
+		} catch (RemoteException e) {
+			throw new ExcepcionComunicacion("Error en la comunicacion");
+		} catch (ExcepcionSistema e) {
+			throw e;
+		}
+	}
 	
 }

@@ -1,10 +1,7 @@
-//PENDIENTE: Completar programacion y desde VERRRR
+// @Marce: Revisar llamada al aplicar Pago
+// @Facu: Revisar usos del saveMe y completar búsquedas en la BD
 package controladores;
 
-import java.util.Collection;
-
-import negocio.ClienteEmpresa;
-import negocio.ClientePersona;
 import negocio.Factura;
 import negocio.Pago;
 import negocio.Pedido;
@@ -14,14 +11,11 @@ import negocio.Remito;
 public class AdmFacturacion {
 
 	private static AdmFacturacion instancia;
-	private int numeradorFactA;
-	private int numeradorFactB;
-	private int numeradorFactC;
-	private int numeradorRemito;
+
 	
 	// Constructor privado (Patron Singleton)
 	private AdmFacturacion() {
-		// TODO Auto-generated constructor stub
+
 	}
 	
 	public static AdmFacturacion getInstancia() {
@@ -47,9 +41,12 @@ public class AdmFacturacion {
 			return null;
 	}
 	
-	// Ingresa el pago y lo registra en la Cta Cte del Cliente
-	public String ingresarPago(int idCliente, String tipoPago, float importe) {
+	// @Facu: revisar el uso del saveMe
+	// Ingresa el pago y le solicita al controlador de Clientes registrar el mismo
+	// en la Cuenta Corriente
+	public String registrarPago(int idCliente, String tipoPago, float importe) {
 		Pago pago = new Pago(tipoPago, importe);
+		pago.saveMe();
 		String condicionesEspeciales = AdmClientes.getInstancia().registrarPagoEnCtaCte(idCliente, pago);
 		return condicionesEspeciales;
 	}

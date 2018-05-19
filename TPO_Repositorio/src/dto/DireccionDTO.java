@@ -1,4 +1,4 @@
-//OK
+// LISTO PARA PROBAR
 package dto;
 
 import java.io.Serializable;
@@ -15,7 +15,7 @@ public class DireccionDTO implements Serializable {
 	private String localidad;
 	
 	public DireccionDTO() {
-		// TODO Auto-generated constructor stub
+
 	}
 
 	public String getCalle() {

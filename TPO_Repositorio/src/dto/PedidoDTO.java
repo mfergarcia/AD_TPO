@@ -1,4 +1,4 @@
-// PENDIENTE
+// LISTO PARA PROBAR
 package dto;
 
 import java.io.Serializable;
@@ -24,7 +24,6 @@ public class PedidoDTO implements Serializable {
 	private String estado;	
 	
 	public PedidoDTO() {
-		// TODO Auto-generated constructor stub
 		this.items = new ArrayList<ItemArticuloDTO>();
 	}
 
@@ -119,6 +118,5 @@ public class PedidoDTO implements Serializable {
 	public Collection<ItemArticuloDTO> getItems() {
 		return items;
 	}
-
 	
 }

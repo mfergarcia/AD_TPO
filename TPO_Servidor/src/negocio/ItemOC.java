@@ -1,5 +1,7 @@
-//PENDIENTE: Ver si hace falta método toDTO
+// @Facu: implementar saveMe
 package negocio;
+
+import dto.ItemOCDTO;
 
 public class ItemOC {
 
@@ -7,7 +9,7 @@ public class ItemOC {
 	private int cantidad;
 	
 	public ItemOC() {
-		// TODO Auto-generated constructor stub
+
 	}
 
 	public ItemOC(Articulo articulo, int cantidad) {
@@ -31,8 +33,16 @@ public class ItemOC {
 		this.cantidad = cantidad;
 	}
 	
+	public ItemOCDTO toDTO() {
+		ItemOCDTO itemOCDTO = new ItemOCDTO();
+		itemOCDTO.setArticulo(this.getArticulo().toDTO());
+		itemOCDTO.setCantidad(this.getCantidad());
+		return itemOCDTO;
+	}
+	
 	//@Facu: implementar metodo
 	public void saveMe() {
 
 	}	
+
 }

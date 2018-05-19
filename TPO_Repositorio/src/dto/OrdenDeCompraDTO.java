@@ -1,6 +1,8 @@
+// LISTO PARA PROBAR
 package dto;
 
 import java.io.Serializable;
+import java.util.ArrayList;
 import java.util.Collection;
 import java.util.Date;
 
@@ -13,13 +15,16 @@ public class OrdenDeCompraDTO implements Serializable {
 	private int numOC;
 	private Date fecha;
 	private String proveedor;
-	private String[] codBarrasItems;
-	private int[] cantidades;
+	private Collection<ItemOCDTO> items;
 	// estado: "PENDIENTE", "CUMPLIDA"
 	private String estado;
 
 	public OrdenDeCompraDTO() {
-		// TODO Auto-generated constructor stub
+		this.items = new ArrayList<ItemOCDTO>();
+	}
+
+	public void agregarItem(ItemOCDTO itemOCDTO) {
+		this.items.add(itemOCDTO);
 	}
 
 	public int getNumOC() {
@@ -44,22 +49,6 @@ public class OrdenDeCompraDTO implements Serializable {
 
 	public void setProveedor(String proveedor) {
 		this.proveedor = proveedor;
-	}
-
-	public String[] getCodBarrasItem() {
-		return codBarrasItems;
-	}
-
-	public void setCodBarrasItem(String[] codBarrasItem) {
-		this.codBarrasItems = codBarrasItem;
-	}
-
-	public int[] getCantidades() {
-		return cantidades;
-	}
-
-	public void setCantidades(int[] cantidades) {
-		this.cantidades = cantidades;
 	}
 
 	public String getEstado() {

@@ -1,4 +1,4 @@
-//PENDIENTE: Revisar todo
+//PENDIENTE: Implementar método saveMe
 package negocio;
 
 public class Stock {
@@ -10,7 +10,7 @@ public class Stock {
 	private String estado;
 	
 	public Stock() {
-		// TODO Auto-generated constructor stub
+		
 	}
 
 	// Crea la ubicacion en stock en estado LIBRE y setea las cantidades a 0	
@@ -41,31 +41,27 @@ public class Stock {
 			return false;
 	}
 
-	// NOTA_FG: VERRRRRRR
 	// La Cantidad Real se actualiza cuando se descuenta el stock (todo o una parte) 
 	// o cuando se ingresa stock
 	public void actualizarCantidadReal(int cantidad) {
-		// Se está ingresando Stock
-		if (this.getEstado().equals("LIBRE")) {
-			this.setCantidadReal(cantidad);
+		if (cantidad == 0) {
+			// Se está liberando la ubicación
 			this.setCantidadReservada(0);
-			this.setEstado("OCUPADA");
+			this.setEstado("LIBRE");
 		}
 		else {
-			if (cantidad == 0) {
-				// Se está liberando la ubicación
+			// Se está agregando o descontando stock, se desbloquea la ubicación
+			if (this.getCantidadReal() == 0)
+				// Se está agregando stock por primera vez
 				this.setCantidadReservada(0);
-				this.setEstado("LIBRE");
-			}
 			else {
-				// Se descuenta una parte del stock, se desbloquea la ubicación
 				int nuevaCantReservada = this.getCantidadReservada() - (this.getCantidadReal() - cantidad);
-				if (nuevaCantReservada >= 0)
+				if (nuevaCantReservada > 0)
 					this.setCantidadReservada(nuevaCantReservada);
 				else
 					this.setCantidadReservada(0);
-				this.setEstado("OCUPADA");
 			}	
+			this.setEstado("OCUPADA");
 		}	
 		this.setCantidadReal(cantidad);
 	}
@@ -78,17 +74,7 @@ public class Stock {
 		}
 		this.setEstado(estado);
 	}
-	
-	// NOTA_FG: Esto no debería estar acá -> Esta clase no guarda datos como usuario registrado o autorizante
-	public void ajustarStockMant(int cant, String usuarioRegistrado, String autorizante, String destinoFinal) {
 		
-	}
-	
-	// NOTA_FG: Esto no debería estar acá -> Esta clase no guarda datos como usuario registrado o autorizante
-	public void ajustarInventario(int cant, ArticuloEnStock a, String ubicacion) {
-	
-	}
-	
 	public String getCodigoUbicacion() {
 		return codigoUbicacion;
 	}
@@ -129,4 +115,5 @@ public class Stock {
 	public void saveMe() {
 
 	}	
+	
 }

@@ -22,11 +22,6 @@ public class Sistema extends UnicastRemoteObject implements InterfazRemota{
 
 	private static final long serialVersionUID = 1L;
 
-	private AdmClientes admClientes;
-	private AdmCompras admCompras;
-	private AdmStock admStock;
-	private AdmPedidos admPedidos;
-	private AdmFacturacion admFacturacion;
 	//@Facu: remover colecciones de clientes cuando se puedan reemplazar las
 	//busquedas en las colecciones por búsquedas en la BD.
 	private Collection<UsuarioCliente> usuariosCliente;
@@ -209,13 +204,18 @@ public class Sistema extends UnicastRemoteObject implements InterfazRemota{
 
 	@Override
 	public Collection<ArticuloDTO> obtenerCatalogo() throws RemoteException, ExcepcionSistema {
-		Collection<ArticuloDTO> catalogo = new ArrayList<ArticuloDTO>();
-		Articulo aux;
-		for (Iterator<Articulo> i = AdmStock.getInstancia().obtenerCatalogo().iterator(); i.hasNext(); ) {
-			aux = i.next();
-			catalogo.add(aux.toDTO());
+		Collection<ArticuloDTO> catalogoDTO = new ArrayList<ArticuloDTO>();
+		Collection<Articulo> catalogo = AdmStock.getInstancia().obtenerCatalogo();
+		if (catalogo != null && !catalogo.isEmpty()) {
+			Articulo aux;
+			for (Iterator<Articulo> i = catalogo.iterator(); i.hasNext(); ) {
+				aux = i.next();
+				catalogoDTO.add(aux.toDTO());
+			}
+			return catalogoDTO;
 		}
-		return catalogo;
+		else
+			throw new ExcepcionSistema("El catalogo no está disponible");
 	}
 
 	@Override
@@ -320,15 +320,18 @@ public class Sistema extends UnicastRemoteObject implements InterfazRemota{
 	public Collection<ArticuloEnStockDTO> prepararPedido(int numPedido) throws RemoteException, ExcepcionSistema {
 		Collection<ArticuloEnStockDTO> artEnStockDTO = new ArrayList<ArticuloEnStockDTO>();
 		Collection<ArticuloEnStock> artEnStock = AdmPedidos.getInstancia().prepararPedido(numPedido);
-		ArticuloEnStock aux;
-		for (Iterator<ArticuloEnStock> i = artEnStock.iterator(); i.hasNext(); ) {
-			aux = i.next();
-			artEnStockDTO.add(aux.toDTO());
-		}
-		return artEnStockDTO;
+		if (artEnStock != null && !artEnStock.isEmpty()) {
+			ArticuloEnStock aux;
+			for (Iterator<ArticuloEnStock> i = artEnStock.iterator(); i.hasNext(); ) {
+				aux = i.next();
+				artEnStockDTO.add(aux.toDTO());
+			}
+			return artEnStockDTO;
+		}	
+		else
+			throw new ExcepcionSistema("No se ha podido localizar el stock del Pedido");
 	}
 
-	//NOTAS_FG: Pendiente de programar
 	@Override
 	public String actualizarStockPorVenta(int numPedido, Collection<ArticuloEnStockDTO> artEnStockDTO) throws RemoteException, ExcepcionSistema {
 		String nuevoEstadoPedido = AdmPedidos.getInstancia().actualizarStockPorVenta(numPedido, artEnStockDTO);
@@ -341,17 +344,17 @@ public class Sistema extends UnicastRemoteObject implements InterfazRemota{
 	@Override
 	public Collection<PedidoDTO> obtenerPedidosADespachar() throws RemoteException, ExcepcionSistema {
 		Collection<PedidoDTO> pedidosDTO = new ArrayList<PedidoDTO>();
-		Collection<Pedido>	pedidos = AdmPedidos.getInstancia().obtenerPedidosADespachar();
+		Collection<Pedido> pedidos = AdmPedidos.getInstancia().obtenerPedidosADespachar();
 		if (pedidos != null && !pedidos.isEmpty() ) {
 			Pedido aux;
 			for (Iterator<Pedido> i = pedidos.iterator(); i.hasNext(); ) {
 				aux = i.next();
 				pedidosDTO.add(aux.toDTO());
 			}
+			return pedidosDTO;
 		}
 		else
 			throw new ExcepcionSistema("No se registran Pedidos A Despachar");
-		return pedidosDTO;
 	}
 
 	@Override
@@ -379,17 +382,19 @@ public class Sistema extends UnicastRemoteObject implements InterfazRemota{
 			throw new ExcepcionSistema("No se registran Ordenes de Pedido de Reposición Pendientes");
 	}
 
-	// NOTA_FG: Pendiente programar
 	@Override
-	public OrdenDeCompraDTO generarOrdenDeCompra(String proveedor, Collection<ArticuloDTO> articulos)
-			throws RemoteException, ExcepcionSistema {
-		// TODO Auto-generated method stub
-		return null;
+	public String obtenerProveedores(String codBarras) throws RemoteException, ExcepcionSistema {
+		return AdmStock.getInstancia().obtenerProveedores(codBarras);
 	}
 	
 	@Override
-	public OrdenDeCompraDTO procesarOrdenDeCompra(int numOC) throws RemoteException, ExcepcionSistema {
-		OrdenDeCompra ordenDeCompra = admCompras.buscarOrdenDeCompra(numOC);
+	public OrdenDeCompraDTO generarOrdenDeCompra(String proveedor, Collection<ArticuloDTO> articulos) throws RemoteException, ExcepcionSistema {
+		return AdmCompras.getInstancia().generarOrdenCompra(proveedor, articulos).toDTO();
+	}
+	
+	@Override
+	public OrdenDeCompraDTO obtenerOrdenDeCompra(int numOC) throws RemoteException, ExcepcionSistema {
+		OrdenDeCompra ordenDeCompra = AdmCompras.getInstancia().obtenerOrdenDeCompra(numOC);
 		if (ordenDeCompra != null)
 			return ordenDeCompra.toDTO();
 		else
@@ -397,30 +402,42 @@ public class Sistema extends UnicastRemoteObject implements InterfazRemota{
 	}
 	
 	@Override
-	public Collection<ArticuloEnStockDTO> cargarArticuloEnStock(int numOC, String codBarras, int cantidad, String lote, Date fechaVenc, String proveedor, float precioCompra) throws RemoteException, ExcepcionSistema {
-		Collection<ArticuloEnStockDTO> artEnStockDTO = new ArrayList<ArticuloEnStockDTO>();
-		Collection<ArticuloEnStock> artEnStock = admStock.cargarArticuloEnStock(numOC, codBarras, cantidad, lote, fechaVenc, proveedor, precioCompra);
-		if (artEnStock != null && !artEnStock.isEmpty() ) {
+	public Collection<ArticuloEnStockDTO> cargarArticuloEnStock(int numOC, ArticuloEnStockDTO artEnStockDTO) throws RemoteException, ExcepcionSistema {
+		Collection<ArticuloEnStockDTO> articulosEnStockDTO = new ArrayList<ArticuloEnStockDTO>();
+		Collection<ArticuloEnStock> articulosEnStock = AdmStock.getInstancia().cargarArticuloEnStock(numOC, artEnStockDTO);
+		if (articulosEnStock != null && !articulosEnStock.isEmpty() ) {
 			ArticuloEnStock aux;
-			for (Iterator<ArticuloEnStock> i = artEnStock.iterator(); i.hasNext(); ) {
+			for (Iterator<ArticuloEnStock> i = articulosEnStock.iterator(); i.hasNext(); ) {
 				aux = i.next();
-				artEnStockDTO.add(aux.toDTO());
+				articulosEnStockDTO.add(aux.toDTO());
 			}
+			return articulosEnStockDTO;
 		}
 		else
 			throw new ExcepcionSistema("No se ha podido cargar el stock del articulo");
-		return artEnStockDTO;
-		}
+	}
 
 	public String cumplirOrdenDeCompra(int numOC) throws RemoteException, ExcepcionSistema {
-		String nuevoEstadoOC = admCompras.cumplirOrdenDeCompra(numOC);
+		String nuevoEstadoOC = AdmCompras.getInstancia().cumplirOrdenDeCompra(numOC);
 		if (nuevoEstadoOC != null)
 			return nuevoEstadoOC;
 		else
 			throw new ExcepcionSistema("Orden de Compra no encontrada");
 	}
 
+	@Override
+	public String registrarPago(int idCliente, String tipoPago, float importe) throws RemoteException, ExcepcionSistema {
+		String condicionesEspeciales = AdmFacturacion.getInstancia().registrarPago(idCliente, tipoPago, importe);
+		if (condicionesEspeciales != null)
+			return condicionesEspeciales;
+		else
+			throw new ExcepcionSistema("Cliente no encontrado");
+	}
 
-
+	@Override
+	public void aplicarPago(int idCliente, float descuento) throws RemoteException, ExcepcionSistema {
+		if (!AdmFacturacion.getInstancia().aplicarPago(idCliente, descuento))
+			throw new ExcepcionSistema("Cliente no encontrado");
+	}
 
 }

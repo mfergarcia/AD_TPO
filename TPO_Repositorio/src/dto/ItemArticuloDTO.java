@@ -1,4 +1,4 @@
-//OK
+// LISTO PARA PROBAR
 package dto;
 
 import java.io.Serializable;
@@ -16,7 +16,7 @@ public class ItemArticuloDTO implements Serializable {
 	private String estadoStock;
 	
 	public ItemArticuloDTO() {
-		// TODO Auto-generated constructor stub
+
 	}
 
 	public ArticuloDTO getArticuloDTO() {

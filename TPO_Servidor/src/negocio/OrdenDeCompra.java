@@ -1,4 +1,4 @@
-//PENDIENTE: Revisar si lo que esta es suficiente
+// @Facu: implementar metodo saveMe
 package negocio;
 
 import java.util.ArrayList;
@@ -21,7 +21,7 @@ public class OrdenDeCompra {
 
 	
 	public OrdenDeCompra() {
-		// TODO Auto-generated constructor stub
+
 	}
 
 	// Crea una nueva OrdenDeCompra, con la fecha del día y setea el estado inicial
@@ -93,18 +93,11 @@ public class OrdenDeCompra {
 		ordenDeCompraDTO.setFecha(this.getFecha());
 		ordenDeCompraDTO.setProveedor(this.getProveedor());
 		ordenDeCompraDTO.setEstado(this.getEstado());
-		String[] codBarrasItems = new String[this.getItemsOC().size()];
-		int[] cantidades = new int[this.getItemsOC().size()];
 		ItemOC aux;
-		int contador = 0;
 		for (Iterator<ItemOC> i = this.getItemsOC().iterator(); i.hasNext(); ) {
 			aux = i.next();
-			codBarrasItems[contador] = aux.getArticulo().getCodigoBarras();
-			cantidades[contador] = aux.getCantidad();
-			contador++;
+			ordenDeCompraDTO.agregarItem(aux.toDTO());
 		}
-		ordenDeCompraDTO.setCodBarrasItem(codBarrasItems);
-		ordenDeCompraDTO.setCantidades(cantidades);
 		return ordenDeCompraDTO;
 	}
 	

@@ -1,4 +1,5 @@
-//PENDIENTE: Programar todo
+// @Marce: implementar funcionalidad
+// @Facu: implementar saveMe
 package negocio;
 
 import java.util.Date;

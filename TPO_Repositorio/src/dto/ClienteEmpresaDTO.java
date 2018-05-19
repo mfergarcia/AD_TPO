@@ -18,7 +18,7 @@ public class ClienteEmpresaDTO implements Serializable {
 	private String razonSocial;
 	
 	public ClienteEmpresaDTO() {
-		// TODO Auto-generated constructor stub
+
 	}
 
 	public int getIdCliente() {

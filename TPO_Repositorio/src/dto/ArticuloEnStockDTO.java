@@ -1,3 +1,4 @@
+// LISTO PARA PROBAR
 package dto;
 
 import java.io.Serializable;
@@ -20,7 +21,7 @@ public class ArticuloEnStockDTO implements Serializable {
 	private float precioCompra;
 	
 	public ArticuloEnStockDTO() {
-		// TODO Auto-generated constructor stub
+
 	}
 
 	public int getId() {

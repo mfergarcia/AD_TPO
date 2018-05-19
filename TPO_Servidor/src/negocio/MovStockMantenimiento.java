@@ -1,4 +1,5 @@
-// PENDINETE: Programar todo
+// @Marce: implementar funcionalidad
+// @Facu: implementar saveMe
 package negocio;
 
 public class MovStockMantenimiento extends MovimientoStock {
@@ -49,4 +50,5 @@ public class MovStockMantenimiento extends MovimientoStock {
 	public void saveMe() {
 
 	}	
+
 }

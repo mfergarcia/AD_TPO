@@ -1,4 +1,4 @@
-//PENDIENTE: Completar programacion y desde VERRRR
+// @Facu: Revisar usos del saveMe y completar búsquedas en la BD
 package controladores;
 
 import java.util.ArrayList;
@@ -167,11 +167,11 @@ public class AdmPedidos {
 		return null;
 	}
 	
+	// @Facu: revisar el uso del saveMe
 	// NOTAS_FG: Pendiente de programar
 	public String actualizarStockPorVenta(int numPedido, Collection<ArticuloEnStockDTO> artEnStockDTO) {
 		Pedido pedido = this.obtenerPedido(numPedido);
-		if (pedido != null) {
-			// Aquí se llama a la actualización del stock
+		if (AdmStock.getInstancia().actualizarStockPorVenta(pedido, artEnStockDTO)) {
 			pedido.setEstado("PENDIENTE DESPACHO");
 			pedido.saveMe();
 			return pedido.getEstado();
