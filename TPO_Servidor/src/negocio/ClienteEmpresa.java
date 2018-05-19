@@ -62,7 +62,7 @@ public class ClienteEmpresa extends Cliente {
 	}
 
 	public void saveMe() {
-		ClienteEmpresaDAO.getInstance().grabar(this);
+		super.setIdCliente(ClienteEmpresaDAO.getInstance().grabar(this));
 	}	
 	
 }

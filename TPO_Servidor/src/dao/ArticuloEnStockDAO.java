@@ -1,6 +1,5 @@
 package dao;
 
-import negocio.Articulo;
 import negocio.ArticuloEnStock;
 
 public class ArticuloEnStockDAO {

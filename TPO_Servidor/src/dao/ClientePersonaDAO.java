@@ -6,6 +6,8 @@ package dao;
 
 import org.hibernate.Session;
 import org.hibernate.SessionFactory;
+
+import entities.ClienteEmpresaEntity;
 import entities.ClientePersonaEntity;
 import entities.CtaCteEntity;
 import entities.DireccionEntity;
@@ -26,7 +28,7 @@ public class ClientePersonaDAO {
 		return instancia;
 	}
 	
-	public void grabar(ClientePersona cp){
+	public int grabar(ClientePersona cp){
 		Direccion d= cp.getDireccionFacturacion();
 		DireccionEntity de= new DireccionEntity(d.getCalle(),d.getNumero(),d.getCodigoPostal(),d.getLocalidad());
 		ClientePersonaEntity cpe = new ClientePersonaEntity(new CtaCteEntity(cp.getCtaCte().getLimiteCredito()), cp.getTipoFactura(), cp.getCondicionesEspeciales(), de, cp.getTipo(), cp.getEstado(), cp.getDni(), cp.getApellido(), cp.getNombre());
@@ -36,7 +38,18 @@ public class ClientePersonaDAO {
 		int i = (Integer) session.save(cpe);
 		session.getTransaction().commit();
 		session.close();
+		return i;
 	}
-
+	
+	
+	public ClientePersonaEntity findByID(int idCliente){
+		SessionFactory sf = HibernateUtil.getSessionFactory();
+		Session session = sf.openSession();
+		ClientePersonaEntity cpe= (ClientePersonaEntity) session.createQuery("from ClientePersonaEntity where idCliente = ?")
+									.setParameter(0, idCliente)
+									.uniqueResult();
+		
+		return cpe;
+	}
 	
 }

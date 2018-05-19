@@ -28,7 +28,7 @@ public class ClienteEmpresaDAO {
 		return instancia;
 	}
 	
-	public void grabar(ClienteEmpresa ce){
+	public int grabar(ClienteEmpresa ce){
 		Direccion d= ce.getDireccionFacturacion();
 		DireccionEntity de= new DireccionEntity(d.getCalle(),d.getNumero(),d.getCodigoPostal(),d.getLocalidad());
 		ClienteEmpresaEntity cee = new ClienteEmpresaEntity( new CtaCteEntity(ce.getCtaCte().getLimiteCredito()), ce.getTipoFactura(), ce.getCondicionesEspeciales(),de, ce.getTipo(), ce.getEstado(), ce.getCuit(), ce.getRazonSocial());
@@ -38,7 +38,18 @@ public class ClienteEmpresaDAO {
 		int i = (Integer) session.save(cee);
 		session.getTransaction().commit();
 		session.close();
+		return i;
 	}
-
+	
+	public ClienteEmpresaEntity findByID(int idCliente){
+		SessionFactory sf = HibernateUtil.getSessionFactory();
+		Session session = sf.openSession();
+		ClienteEmpresaEntity cee= (ClienteEmpresaEntity) session.createQuery("from ClienteEmpresaEntity where idCliente = ?")
+									.setParameter(0, idCliente)
+									.uniqueResult();
+		
+		return cee;
+	}
+	
 }
 
