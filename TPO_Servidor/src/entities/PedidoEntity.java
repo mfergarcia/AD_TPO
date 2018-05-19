@@ -26,6 +26,7 @@ import negocio.Remito;
 import negocio.Factura;
 
 @Entity
+//sss
 @Table (name="Pedidos")
 public class PedidoEntity {
 	public PedidoEntity(int pedido ) {
