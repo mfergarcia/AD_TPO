@@ -6,9 +6,9 @@ public class MovStockVenta extends MovimientoStock {
 
 	private Pedido pedido;
 	
-	public MovStockVenta() {
+	/*public MovStockVenta() {
 		// TODO Auto-generated constructor stub
-	}
+	}*/
 
 	// NOTAS_FG: Ver si se puede reemplazar usando el constructor	
 	public void registrarMovStockVenta(Pedido p, int cantidad) {

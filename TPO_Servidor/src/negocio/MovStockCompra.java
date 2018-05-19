@@ -6,10 +6,10 @@ public class MovStockCompra extends MovimientoStock {
 
 	private OrdenDeCompra oc;
 	
-	public MovStockCompra() {
+	/*public MovStockCompra() {
 		// TODO Auto-generated constructor stub
 	}
-
+*/
 	// NOTAS_FG: Ver si se puede reemplazar usando el constructor	
 	public void crearMovStockCompra(int cant, OrdenDeCompra oc) {
 		

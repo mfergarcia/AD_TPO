@@ -8,9 +8,9 @@ public class MovStockMantenimiento extends MovimientoStock {
 	private String autorizante;
 	private String destinoFinal;
 
-	public MovStockMantenimiento() {
+	/*public MovStockMantenimiento() {
 		// TODO Auto-generated constructor stub
-	}
+	}*/
 
 	// NOTAS_FG: Ver si se puede reemplazar usando el constructor	
 	public void registrarMovStockMantenimiento(int cant, String usuarioRegistrado, String autorizante, String destinoFinal) {

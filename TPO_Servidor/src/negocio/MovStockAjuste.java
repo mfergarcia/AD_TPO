@@ -6,9 +6,9 @@ public class MovStockAjuste extends MovimientoStock {
 
 	public ArticuloEnStock artEnStock;	
 	
-	public MovStockAjuste() {
+	/*public MovStockAjuste() {
 		// TODO Auto-generated constructor stub
-	}
+	}*/
 
 	// NOTAS_FG: Ver si se puede reemplazar usando el constructor
 	public void registrarMovStockAjuste(int cant) {
