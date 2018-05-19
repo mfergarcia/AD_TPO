@@ -6,7 +6,7 @@ import java.io.Serializable;
 public class ArticuloDTO implements Serializable {
 
 	/**
-	 * 
+	 * eee
 	 */
 	private static final long serialVersionUID = 1L;
 	private String codigoBarras;
