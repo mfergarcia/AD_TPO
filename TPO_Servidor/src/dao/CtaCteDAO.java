@@ -1,5 +1,10 @@
 package dao;
 
+import org.hibernate.Session;
+import org.hibernate.SessionFactory;
+
+import entities.CtaCteEntity;
+import hbt.HibernateUtil;
 import negocio.CtaCte;
 
 public class CtaCteDAO {
@@ -18,7 +23,13 @@ public class CtaCteDAO {
 
 
 	public void grabar(CtaCte ctaCte) {
-		// TODO Auto-generated method stub
+		CtaCteEntity cc= new CtaCteEntity(ctaCte.getLimiteCredito());
+		SessionFactory sf = HibernateUtil.getSessionFactory();
+		Session session = sf.openSession();
+		session.beginTransaction();
+		int i = (Integer) session.save(cc);
+		session.getTransaction().commit();
+		session.close();
 		
 	}
 

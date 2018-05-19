@@ -74,7 +74,7 @@ public class AdmClientes {
 	// @Facu: Reemplazar la búsqueda en la colección por búsqueda en la BD
 	public ClienteEmpresa obtenerClienteEmpresa(int idCliente) {
 		ClienteEmpresa aux;
-		aux= new ClienteEmpresa(ClienteEmpresaDAO.getInstance().findByID(idCliente));
+		aux=ClienteEmpresaDAO.getInstance().findByID(idCliente);
 		/*
 		for (Iterator<ClienteEmpresa> i = this.clientesEmpresa.iterator(); i.hasNext() ; ) {
 			aux = i.next();
@@ -88,7 +88,7 @@ public class AdmClientes {
 	// @Facu: Reemplazar la búsqueda en la colección por búsqueda en la BD
 	public ClientePersona obtenerClientePersona(int idCliente) {
 		ClientePersona aux;
-		aux= new ClientePersona(ClientePersonaDAO.getInstance().findByID(idCliente));
+		aux= ClientePersonaDAO.getInstance().findByID(idCliente);
 		/*
 		for (Iterator<ClientePersona> i = this.clientesPersona.iterator(); i.hasNext() ; ) {
 			aux = i.next();

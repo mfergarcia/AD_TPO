@@ -42,14 +42,14 @@ public class ClientePersonaDAO {
 	}
 	
 	
-	public ClientePersonaEntity findByID(int idCliente){
+	public ClientePersona findByID(int idCliente){
 		SessionFactory sf = HibernateUtil.getSessionFactory();
 		Session session = sf.openSession();
 		ClientePersonaEntity cpe= (ClientePersonaEntity) session.createQuery("from ClientePersonaEntity where idCliente = ?")
 									.setParameter(0, idCliente)
 									.uniqueResult();
 		
-		return cpe;
+		return new ClientePersona(cpe);
 	}
 	
 }
