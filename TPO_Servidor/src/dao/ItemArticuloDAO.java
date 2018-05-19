@@ -31,6 +31,7 @@ public class ItemArticuloDAO {
 		session.close();
 	}
 	
+	/*
 	public ArticuloEntity findByID(int idArticulo){
 		SessionFactory sf = HibernateUtil.getSessionFactory();
 		Session session = sf.openSession();
@@ -39,5 +40,5 @@ public class ItemArticuloDAO {
 									.uniqueResult();
 		
 		return ae;
-	}
+	}*/
 }

@@ -19,7 +19,7 @@ public class ArticuloDAO {
 			}
 			return instancia;
 		}
-		
+		 
 		
 		public void grabar(Articulo a) {
 			ArticuloEntity ae= new ArticuloEntity(a.getCodigoBarras(), a.getDescripcion(), a.getPresentacion(), a.getTamaño(), a.getUnidad(), a.getPrecioVta(), a.getCantFijaCompra(), a.getCantMaxUbicacion(), a.getEstado());
@@ -31,7 +31,7 @@ public class ArticuloDAO {
 			session.close();
 		}
 		
-		public ArticuloEntity findByID(int idArticulo){
+		public ArticuloEntity findByID(String idArticulo){
 			SessionFactory sf = HibernateUtil.getSessionFactory();
 			Session session = sf.openSession();
 			ArticuloEntity ae= (ArticuloEntity) session.createQuery("from ClienteEmpresaEntity where idCliente = ?")

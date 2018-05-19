@@ -1,5 +1,8 @@
 package dao;
 
+import entities.ArticuloEntity;
+import entities.ArticuloEnStockEntity;
+import hbt.HibernateUtil;
 import negocio.ArticuloEnStock;
 
 public class ArticuloEnStockDAO {
@@ -14,7 +17,16 @@ public class ArticuloEnStockDAO {
 	}
 	
 	public void grabar(ArticuloEnStock ae){
+			
+	}
+	
+	public ArticuloEnStockEntity findByID(int id){
+		SessionFactory sf = HibernateUtil.getSessionFactory();
+		Session session = sf.openSession();
+		ArticuloEnStockEntity ae= (ArticuloEnStockEntity) session.createQuery("from ClienteEmpresaEntity where idCliente = ?")
+									.setParameter(0, id)
+									.uniqueResult();
 		
-		
+		return ae;
 	}
 }
