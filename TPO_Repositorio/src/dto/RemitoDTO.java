@@ -9,7 +9,7 @@ import java.util.Date;
 public class RemitoDTO implements Serializable {
 
 	/**
-	 * lalala
+	 *
 	 */
 	private static final long serialVersionUID = 1L;
 	private int numRemito;
