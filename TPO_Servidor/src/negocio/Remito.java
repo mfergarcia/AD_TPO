@@ -23,7 +23,16 @@ public class Remito {
 		this.setFactura(factura);
 		// Se genera con la fecha/hora del momento
 		this.setFechaRemito(Calendar.getInstance().getTime());
+		
 	}
+	
+	public Remito(int idRem){
+		this.setNumRemito(idRem);
+		// Se genera con la fecha/hora del momento
+		this.setFechaRemito(Calendar.getInstance().getTime());
+		
+	}
+	
 
 	public int getNumRemito() {
 		return numRemito;
