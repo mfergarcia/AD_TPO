@@ -3,6 +3,7 @@ import org.hibernate.Session;
 import org.hibernate.SessionFactory;
 
 import entities.FacturaEntity;
+import entities.PagoEntity;
 import hbt.HibernateUtil;
 import negocio.Factura;
 
@@ -27,6 +28,16 @@ public class FacturaDAO {
 		session.close();
 		
 	} 
+	
+	public FacturaEntity findByID(int idFactura){
+		SessionFactory sf = HibernateUtil.getSessionFactory();
+		Session session = sf.openSession();
+		FacturaEntity cee= (FacturaEntity) session.createQuery("from RemitoEntity where idRemito = ?")
+									.setParameter(0, idFactura)
+									.uniqueResult();
+		
+		return cee;
+	}
 
 }
 

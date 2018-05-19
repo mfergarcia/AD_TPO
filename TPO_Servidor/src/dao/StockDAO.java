@@ -3,6 +3,7 @@ package dao;
 import org.hibernate.Session;
 import org.hibernate.SessionFactory;
 
+import entities.ClienteEmpresaEntity;
 import entities.StockEntity;
 import hbt.HibernateUtil;
 import negocio.Stock;
@@ -29,4 +30,14 @@ public class StockDAO {
 		session.close();
 		
 	} 
+	
+	public StockEntity findByID(int idStock){
+		SessionFactory sf = HibernateUtil.getSessionFactory();
+		Session session = sf.openSession();
+		StockEntity se= (StockEntity) session.createQuery("from ClienteEmpresaEntity where idCliente = ?")
+									.setParameter(0, idStock)
+									.uniqueResult();
+		
+		return se;
+	}
 }

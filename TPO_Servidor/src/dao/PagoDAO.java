@@ -4,6 +4,7 @@ import org.hibernate.Session;
 import org.hibernate.SessionFactory;
 
 import entities.PagoEntity;
+import entities.RemitoEntity;
 import hbt.HibernateUtil;
 import negocio.Pago;
 
@@ -28,6 +29,15 @@ public class PagoDAO {
 		session.close();
 
 	}	
-
+	
+	public PagoEntity findByID(int idPago){
+		SessionFactory sf = HibernateUtil.getSessionFactory();
+		Session session = sf.openSession();
+		PagoEntity cee= (PagoEntity) session.createQuery("from RemitoEntity where idRemito = ?")
+									.setParameter(0, idPago)
+									.uniqueResult();
+		
+		return cee;
+	}
 
 }

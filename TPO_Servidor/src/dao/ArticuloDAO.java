@@ -4,6 +4,7 @@ import org.hibernate.Session;
 import org.hibernate.SessionFactory;
 
 import entities.ArticuloEntity;
+import entities.ClienteEmpresaEntity;
 import hbt.HibernateUtil;
 import negocio.Articulo;
 
@@ -28,5 +29,15 @@ public class ArticuloDAO {
 			int i = (Integer) session.save(ae);
 			session.getTransaction().commit();
 			session.close();
+		}
+		
+		public ArticuloEntity findByID(int idArticulo){
+			SessionFactory sf = HibernateUtil.getSessionFactory();
+			Session session = sf.openSession();
+			ArticuloEntity ae= (ArticuloEntity) session.createQuery("from ClienteEmpresaEntity where idCliente = ?")
+										.setParameter(0, idArticulo)
+										.uniqueResult();
+			
+			return ae;
 		}
 }

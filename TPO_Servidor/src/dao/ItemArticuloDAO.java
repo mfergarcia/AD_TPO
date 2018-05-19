@@ -4,6 +4,7 @@ import org.hibernate.Session;
 import org.hibernate.SessionFactory;
 
 import entities.ArticuloEntity;
+import entities.FacturaEntity;
 import entities.ItemArticuloEntity;
 import hbt.HibernateUtil;
 import negocio.ItemArticulo;
@@ -28,5 +29,15 @@ public class ItemArticuloDAO {
 		//int i = (Integer) session.save(se);
 		session.getTransaction().commit();
 		session.close();
+	}
+	
+	public ArticuloEntity findByID(int idArticulo){
+		SessionFactory sf = HibernateUtil.getSessionFactory();
+		Session session = sf.openSession();
+		ArticuloEntity ae= (ArticuloEntity) session.createQuery("from RemitoEntity where idRemito = ?")
+									.setParameter(0, idArticulo)
+									.uniqueResult();
+		
+		return ae;
 	}
 }
