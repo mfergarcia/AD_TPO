@@ -7,6 +7,7 @@ import java.util.Collection;
 import java.util.Iterator;
 
 import dao.ArticuloDAO;
+import dao.CtaCteDAO;
 
 public class CtaCte {
 
@@ -91,9 +92,6 @@ public class CtaCte {
 	}
 
 	//@Facu: implementar metodo
-	public void saveMe() {
-
-	}	
 	public void saveMe() {
 		CtaCteDAO.getInstance().grabar(this);
 	}	

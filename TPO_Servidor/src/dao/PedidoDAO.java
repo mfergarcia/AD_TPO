@@ -4,6 +4,7 @@ import org.hibernate.Session;
 import org.hibernate.SessionFactory;
 
 import entities.ClienteEmpresaEntity;
+import entities.PedidoEntity;
 import entities.RemitoEntity;
 import hbt.HibernateUtil;
 import negocio.Pedido;
@@ -34,7 +35,7 @@ public class PedidoDAO {
 		public PedidoEntity findByID(int numRemito){
 			SessionFactory sf = HibernateUtil.getSessionFactory();
 			Session session = sf.openSession();
-			RemitoEntity re= (RemitoEntity) session.createQuery("from PedidoEntity where idRemito = ?")
+			PedidoEntity re= (PedidoEntity) session.createQuery("from PedidoEntity where idPedido = ?")
 										.setParameter(0, numRemito)
 										.uniqueResult();
 			

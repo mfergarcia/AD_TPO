@@ -1,6 +1,10 @@
 package dao;
 
 import entities.ArticuloEntity;
+
+import org.hibernate.Session;
+import org.hibernate.SessionFactory;
+
 import entities.ArticuloEnStockEntity;
 import hbt.HibernateUtil;
 import negocio.ArticuloEnStock;

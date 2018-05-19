@@ -2,7 +2,14 @@
 // @Facu: implementar saveMe
 package negocio;
 
+import entities.MovimientoStockEntity;
+
 public class MovStockMantenimiento extends MovimientoStock {
+
+	public MovStockMantenimiento(MovimientoStockEntity ms) {
+		super(ms);
+		// TODO Auto-generated constructor stub
+	}
 
 	private String usuarioRegistrado;
 	private String autorizante;
