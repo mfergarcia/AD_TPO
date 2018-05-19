@@ -7,6 +7,8 @@ import java.util.Collection;
 import java.util.Date;
 import java.util.Iterator;
 
+import dao.PedidoDAO;
+import dao.StockDAO;
 import dto.PedidoDTO;
 
 public class Pedido {
@@ -150,7 +152,8 @@ public class Pedido {
 	
 	//@Facu: implementar metodo
 	public void saveMe() {
-
+		PedidoDAO.getIntance().grabar(this);
 	}	
+	
 	
 }

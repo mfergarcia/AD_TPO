@@ -5,6 +5,8 @@ import java.util.Calendar;
 import java.util.Date;
 import java.util.Iterator;
 
+import dao.ArticuloDAO;
+import dao.RemitoDAO;
 import dto.RemitoDTO;
 
 public class Remito {
@@ -73,8 +75,8 @@ public class Remito {
 	}
 
 	//@Facu: implementar metodo
+			
 	public void saveMe() {
-
-	}		
-	
+		RemitoDAO.getIntance().grabar(this);
+	}	
 }

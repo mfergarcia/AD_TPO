@@ -6,6 +6,8 @@ import java.util.ArrayList;
 import java.util.Collection;
 import java.util.Iterator;
 
+import dao.ArticuloDAO;
+
 public class CtaCte {
 
 	private float limiteCredito;
@@ -91,6 +93,9 @@ public class CtaCte {
 	//@Facu: implementar metodo
 	public void saveMe() {
 
+	}	
+	public void saveMe() {
+		CtaCteDAO.getInstance().grabar(this);
 	}	
 
 }

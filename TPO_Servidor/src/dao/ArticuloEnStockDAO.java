@@ -29,4 +29,6 @@ public class ArticuloEnStockDAO {
 		
 		return aee;
 	}
+	
+	
 }

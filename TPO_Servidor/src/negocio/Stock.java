@@ -1,6 +1,9 @@
 //PENDIENTE: Implementar método saveMe
 package negocio;
 
+import dao.ArticuloDAO;
+import dao.StockDAO;
+
 public class Stock {
 
 	private String codigoUbicacion;
@@ -112,8 +115,7 @@ public class Stock {
 	}
 	
 	//@Facu: implementar metodo
-	public void saveMe() {
-
+		public void saveMe() {
+		StockDAO.getInstance().grabar(this);
 	}	
-	
 }

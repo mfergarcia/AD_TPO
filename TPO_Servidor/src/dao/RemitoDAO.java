@@ -20,7 +20,7 @@ public class RemitoDAO {
 		return instancia;
 	}
 	
-	public void grabar (Remito s){
+	public void grabar(Remito s){
 		RemitoEntity se = new RemitoEntity(s.getNumRemito());
 		SessionFactory sf = HibernateUtil.getSessionFactory();
 		Session session = sf.openSession();
