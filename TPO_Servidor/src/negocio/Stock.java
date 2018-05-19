@@ -3,6 +3,7 @@ package negocio;
 
 import dao.ArticuloDAO;
 import dao.StockDAO;
+import entities.StockEntity;
 
 public class Stock {
 
@@ -24,6 +25,13 @@ public class Stock {
 		this.setEstado("LIBRE");
 	}
 	
+	public Stock(StockEntity se) {
+		this.setCodigoUbicacion(se.getCodUbicacion());
+		this.setCantidadReal(se.getCantidadReal());
+		this.setCantidadReservada(se.getCantidadReservada());
+		this.setEstado(se.getEstado());
+	}
+
 	// Verifica si el objeto es una determinada ubicacion
 	public boolean sosStock(String codUbicacion) {
 		return (this.getCodigoUbicacion().equals(codUbicacion));

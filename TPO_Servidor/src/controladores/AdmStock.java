@@ -7,6 +7,8 @@ import java.util.ArrayList;
 import java.util.Collection;
 import java.util.Iterator;
 
+import dao.ArticuloDAO;
+import dao.StockDAO;
 import dto.ArticuloEnStockDTO;
 import excepciones.ExcepcionSistema;
 import negocio.Articulo;
@@ -35,20 +37,14 @@ public class AdmStock {
 	// @Facu: Reemplazar esta búsqueda por búsqueda en la BD.
 	// Devuelve el Stock para un codigo de ubicacion dado
 	private Stock obtenerStock(String codUbicacion) {
-		Stock aux;
-		for (Iterator<Stock> i = this.stock.iterator(); i.hasNext(); ) {
-			aux = i.next();
-			if (aux.getCodigoUbicacion().equals(codUbicacion))
-				return aux;
-		}
-		return null;
+		return StockDAO.getInstance().findByID(codUbicacion);
 	}
 	
 	// @Facu: reemplazar búsqueda en la colección por búsqueda en la BD
 	// Recupera una ubicación libre para que sea asignada a un nuevo Articulo En Stock
 	// La ubicación se bloquea hasta que sea asignado el stock
 	private Stock obtenerUbicacionLibre() {
-		Stock aux;
+	/*	Stock aux;
 		for (Iterator<Stock> i = stock.iterator(); i.hasNext() ; ) { 
 			aux = i.next();
 			if (aux.getEstado().equals("LIBRE")) {
@@ -57,7 +53,8 @@ public class AdmStock {
 				return aux;
 			}	
 		}
-		return null;
+		 */
+		return StockDAO.getInstance().findByEstadoLibre();
 	}
 	
 	public static AdmStock getInstancia() {
@@ -70,26 +67,29 @@ public class AdmStock {
 	// @Facu: modificar búsqueda para recuperar el articulo de la BD y no de la
 	// coleccion
 	public Articulo obtenerArticulo(String codBarras) {
+		/*
 		Articulo aux;
 		for (Iterator<Articulo> i = this.articulos.iterator(); i.hasNext(); ) {
 			aux = i.next();
 			if (aux.getCodigoBarras().equals(codBarras))
 				return aux;
 		}
-		return null;
+		*/
+		return ArticuloDAO.getInstance().findByID(codBarras);
 	}
 	
 	// @Facu: modificar búsqueda para recuperar los articulos de la BD
 	// Devuelve todos los articulos activos (estado = 'A') 
 	public Collection<Articulo> obtenerCatalogo() {
+		/*
 		Collection<Articulo> catalogo = new ArrayList<Articulo>();
 		Articulo aux;
 		for (Iterator<Articulo> i = this.articulos.iterator(); i.hasNext(); ) {
 			aux = i.next();
 			if (aux.getEstado() == 'A')
 				catalogo.add(aux);
-		}
-		return catalogo;
+		}*/
+		return ArticuloDAO.getInstance().showAll();
 	}
 	
 	// @Facu: Validar si los saveMe están bien puestos (para stock y para auxItemArt)

@@ -31,13 +31,23 @@ public class StockDAO {
 		
 	} 
 	
-	public StockEntity findByID(int idStock){
+	public Stock findByID(String codUbicacion){
 		SessionFactory sf = HibernateUtil.getSessionFactory();
 		Session session = sf.openSession();
-		StockEntity se= (StockEntity) session.createQuery("from ClienteEmpresaEntity where idCliente = ?")
-									.setParameter(0, idStock)
+		StockEntity se= (StockEntity) session.createQuery("from StockEntity where codUbicacion = ?")
+									.setParameter(0, codUbicacion)
 									.uniqueResult();
 		
-		return se;
+		return new Stock(se);
+	}
+	
+	public Stock findByEstadoLibre(){
+		SessionFactory sf = HibernateUtil.getSessionFactory();
+		Session session = sf.openSession();
+		StockEntity se= (StockEntity) session.createQuery("from StockEntity where estado = ?")
+									.setParameter(0, "LIBRE")
+									.uniqueResult();
+		
+		return new Stock(se);
 	}
 }

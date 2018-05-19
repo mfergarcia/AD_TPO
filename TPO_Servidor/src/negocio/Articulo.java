@@ -7,6 +7,7 @@ import java.util.Iterator;
 
 import dao.ArticuloDAO;
 import dto.ArticuloDTO;
+import entities.ArticuloEntity;
 
 public class Articulo {
 
@@ -39,6 +40,18 @@ public class Articulo {
 		this.setEstado('A');
 	}
 	
+	public Articulo(ArticuloEntity ae) {
+		this.setCodigoBarras(ae.getCodigoBarras());
+		this.setDescripcion(ae.getDescripcion());
+		this.setPresentacion(ae.getPresentacion());
+		this.setTamaño(ae.getTamaño());
+		this.setUnidad(ae.getUnidad());
+		this.setPrecioVta(ae.getPrecioVta());
+		this.setCantFijaCompra(ae.getCantFijaCompra());
+		this.setCantMaxUbicacion(ae.getCantMaxUbicacion());
+		this.setEstado(ae.getEstado());
+	}
+
 	// Valida que el objeto sea un determinado articulo
 	public boolean sosArticulo(String codBarra) {
 		return (codBarra == this.getCodigoBarras());
