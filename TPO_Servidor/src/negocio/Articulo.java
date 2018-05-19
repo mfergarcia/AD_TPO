@@ -5,6 +5,7 @@ import java.util.ArrayList;
 import java.util.Collection;
 import java.util.Iterator;
 
+import dao.ArticuloDAO;
 import dto.ArticuloDTO;
 
 public class Articulo {
@@ -159,7 +160,7 @@ public class Articulo {
 	
 	//@Facu: implementar metodo
 	public void saveMe() {
-
+		ArticuloDAO.getInstance().grabar(this);
 	}	
 
 }

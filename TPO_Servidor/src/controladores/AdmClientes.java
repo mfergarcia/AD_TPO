@@ -6,6 +6,8 @@ import java.util.ArrayList;
 import java.util.Collection;
 import java.util.Iterator;
 
+import dao.ClienteDAO;
+import dao.ClienteEmpresaDAO;
 import dto.ClienteEmpresaDTO;
 import dto.ClientePersonaDTO;
 import negocio.ClienteEmpresa;
@@ -24,10 +26,7 @@ public class AdmClientes {
 	private Collection<ClienteEmpresa> clientesEmpresa;
 	private Collection<ClientePersona> clientesPersona;
 	
-	// Constructor privado (Patron Singleton)
 	private AdmClientes() {
-		//@Facu: remover estas llamada cuando se puedan reemplazar las búsquedas
-		//en colecciones por búsquedas en la BD
 		this.clientesEmpresa = new ArrayList<ClienteEmpresa>();
 		this.clientesPersona = new ArrayList<ClientePersona>();
 	}
@@ -66,8 +65,9 @@ public class AdmClientes {
 	// @Facu: Invoca al DAO para recuperar el tipo de cliente ('E' o 'P')
 	// de la BD para un idCliente dado. Si no lo encuentra devuelve '0'
 	public char obtenerTipoCliente(int idCliente) {
-		//NOTAS_FG: Solo para prueba ** REEMPLAZAR **
-		return 'E';
+		char tipo= 'N';
+		tipo= ClienteDAO.getInstancia().getTipoCliente(idCliente);
+		return tipo;
 	}
 
 	// @Facu: Reemplazar la búsqueda en la colección por búsqueda en la BD

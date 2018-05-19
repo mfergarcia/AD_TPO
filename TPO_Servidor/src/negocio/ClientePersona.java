@@ -76,7 +76,7 @@ public class ClientePersona extends Cliente {
 	}
 	
 	public void saveMe() {
-		ClientePersonaDAO.getInstance().grabar(this);
+		super.setIdCliente(ClientePersonaDAO.getInstance().grabar(this));
 	}	
 
 }
