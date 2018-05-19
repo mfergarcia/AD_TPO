@@ -1,4 +1,4 @@
-// ARchivo de pruba
+// @Todos: usar este archivo para probar
 package test;
 
 import delegados.SistemaBD;
