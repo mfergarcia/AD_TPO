@@ -3,6 +3,7 @@ package negocio;
 
 import java.util.Date;
 
+import dao.ArticuloEnStockDAO;
 import dto.ArticuloEnStockDTO;
 
 public class ArticuloEnStock {
@@ -119,7 +120,7 @@ public class ArticuloEnStock {
 	
 	//@Facu: implementar metodo
 	public void saveMe() {
-
+		ArticuloEnStockDAO.getInstance().grabar(this);
 	}	
 
 }
