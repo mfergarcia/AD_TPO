@@ -23,10 +23,10 @@ public class ArticuloEnStockDAO {
 	public ArticuloEnStockEntity findByID(int id){
 		SessionFactory sf = HibernateUtil.getSessionFactory();
 		Session session = sf.openSession();
-		ArticuloEnStockEntity ae= (ArticuloEnStockEntity) session.createQuery("from ClienteEmpresaEntity where idCliente = ?")
+		ArticuloEnStockEntity aee= (ArticuloEnStockEntity) session.createQuery("from AticuloEnStockEntity where idCliente = ?")
 									.setParameter(0, id)
 									.uniqueResult();
 		
-		return ae;
+		return aee;
 	}
 }

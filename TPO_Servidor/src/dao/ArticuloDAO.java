@@ -34,7 +34,7 @@ public class ArticuloDAO {
 		public ArticuloEntity findByID(String idArticulo){
 			SessionFactory sf = HibernateUtil.getSessionFactory();
 			Session session = sf.openSession();
-			ArticuloEntity ae= (ArticuloEntity) session.createQuery("from ClienteEmpresaEntity where idCliente = ?")
+			ArticuloEntity ae= (ArticuloEntity) session.createQuery("from ArticuloEntity where idCliente = ?")
 										.setParameter(0, idArticulo)
 										.uniqueResult();
 			

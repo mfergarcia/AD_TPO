@@ -32,11 +32,11 @@ public class FacturaDAO {
 	public FacturaEntity findByID(int idFactura){
 		SessionFactory sf = HibernateUtil.getSessionFactory();
 		Session session = sf.openSession();
-		FacturaEntity cee= (FacturaEntity) session.createQuery("from RemitoEntity where idRemito = ?")
+		FacturaEntity fe= (FacturaEntity) session.createQuery("from FacturaEntity where idRemito = ?")
 									.setParameter(0, idFactura)
 									.uniqueResult();
 		
-		return cee;
+		return fe;
 	}
 
 }

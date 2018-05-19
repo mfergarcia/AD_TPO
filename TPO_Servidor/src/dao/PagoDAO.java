@@ -33,11 +33,11 @@ public class PagoDAO {
 	public PagoEntity findByID(int idPago){
 		SessionFactory sf = HibernateUtil.getSessionFactory();
 		Session session = sf.openSession();
-		PagoEntity cee= (PagoEntity) session.createQuery("from RemitoEntity where idRemito = ?")
+		PagoEntity pe= (PagoEntity) session.createQuery("from PagoEntity where idRemito = ?")
 									.setParameter(0, idPago)
 									.uniqueResult();
 		
-		return cee;
+		return pe;
 	}
 
 }

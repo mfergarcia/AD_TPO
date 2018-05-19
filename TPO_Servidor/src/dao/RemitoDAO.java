@@ -33,11 +33,11 @@ public class RemitoDAO {
 	public RemitoEntity findByID(int numRemito){
 		SessionFactory sf = HibernateUtil.getSessionFactory();
 		Session session = sf.openSession();
-		RemitoEntity cee= (RemitoEntity) session.createQuery("from RemitoEntity where idRemito = ?")
+		RemitoEntity re= (RemitoEntity) session.createQuery("from RemitoEntity where idRemito = ?")
 									.setParameter(0, numRemito)
 									.uniqueResult();
 		
-		return cee;
+		return re;
 	}
 	
 	
