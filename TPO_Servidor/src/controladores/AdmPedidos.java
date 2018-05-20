@@ -75,7 +75,7 @@ public class AdmPedidos {
 		for (Iterator<ItemArticuloDTO> i = pedidoDTO.getItems().iterator(); i.hasNext(); ) {
 			aux = i.next();
 			Articulo articulo = AdmStock.getInstancia().obtenerArticulo(aux.getArticuloDTO().getCodigoBarras());
-			ItemArticulo itemArticulo = new ItemArticulo(articulo, aux.getCant(), aux.getPrecioVta());
+			ItemArticulo itemArticulo = new ItemArticulo(articulo, aux.getCant(), articulo.getPrecioVta());
 			pedido.agregarItem(itemArticulo);
 		}
 		pedido.saveMe();

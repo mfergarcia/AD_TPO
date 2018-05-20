@@ -7,10 +7,6 @@ import dto.DireccionDTO;
 import excepciones.*;
 
 public class TestCliente_Clientes {
-
-	public TestCliente_Clientes() {
-
-	}
 	
 	public static void main(String[] args) {
 		try {
@@ -18,54 +14,54 @@ public class TestCliente_Clientes {
 			
 			// Prueba alta Cliente Empresa
 			/*
-			ClienteEmpresaDTO cteEmpresaDTO = new ClienteEmpresaDTO();
-			cteEmpresaDTO.setCuit("30-29777999-7");
-			cteEmpresaDTO.setRazonSocial("Todo fiestas");
-			DireccionDTO dirDTO = new DireccionDTO();
-			dirDTO.setCalle("Cabildo");
-			dirDTO.setNumero(2031);
-			dirDTO.setCodigoPostal("1490");
-			dirDTO.setLocalidad("C.A.B.A");
-			cteEmpresaDTO.setDireccionFacturacion(dirDTO);
-			cteEmpresaDTO.setTipoFactura('A');
-			cteEmpresaDTO.setCondicionesEspeciales("Venta con tarjeta");
-			cteEmpresaDTO.setLimiteCredito(90000);
-			cteEmpresaDTO = bd.altaClienteEmpresa(cteEmpresaDTO);
-			
-			System.out.println("Cliente Empresa: " + cteEmpresaDTO.getIdCliente() + " " + cteEmpresaDTO.getRazonSocial());;
+			ClienteEmpresaDTO cteEmpresa = new ClienteEmpresaDTO();
+			cteEmpresa.setCuit("30-29777999-7");
+			cteEmpresa.setRazonSocial("Todo fiestas");
+			DireccionDTO dirFacturacion = new DireccionDTO();
+			dirFacturacion.setCalle("Cabildo");
+			dirFacturacion.setNumero(2031);
+			dirFacturacion.setCodigoPostal("1490");
+			dirFacturacion.setLocalidad("C.A.B.A");
+			cteEmpresa.setDireccionFacturacion(dirFacturacion);
+			cteEmpresa.setTipoFactura('A');
+			cteEmpresa.setCondicionesEspeciales("Venta con tarjeta");
+			cteEmpresa.setLimiteCredito(90000);
+			cteEmpresa = bd.altaClienteEmpresa(cteEmpresa);
+			System.out.println("Cliente Empresa: " + cteEmpresa.getIdCliente() + " " + cteEmpresa.getRazonSocial());;
 			*/
 		
 			// Prueba alta Cliente Persona
 			/*
-			ClientePersonaDTO ctePersonaDTO = new ClientePersonaDTO();
-			ctePersonaDTO.setDni("25666888");
-			ctePersonaDTO.setApellido("San Martin");
-			ctePersonaDTO.setNombre("Jose");
-			DireccionDTO dirDTO = new DireccionDTO();
-			dirDTO.setCalle("Cachimayo");
-			dirDTO.setNumero(230);
-			dirDTO.setCodigoPostal("1406");
-			dirDTO.setLocalidad("C.A.B.A");
-			ctePersonaDTO.setDireccionFacturacion(dirDTO);
-			ctePersonaDTO.setTipoFactura('C');
-			ctePersonaDTO.setCondicionesEspeciales("Venta solo efectivo");
-			ctePersonaDTO.setLimiteCredito(0);
-			ctePersonaDTO = bd.altaClientePersona(ctePersonaDTO);
-			
-			System.out.println("Cliente Persona: " + ctePersonaDTO.getIdCliente() + " " + ctePersonaDTO.getApellido() + ", " + ctePersonaDTO.getNombre());
+			ClientePersonaDTO ctePersona = new ClientePersonaDTO();
+			ctePersona.setDni("25666888");
+			ctePersona.setApellido("San Martin");
+			ctePersona.setNombre("Jose");
+			DireccionDTO dirFacturacion = new DireccionDTO();
+			dirFacturacion.setCalle("Cachimayo");
+			dirFacturacion.setNumero(230);
+			dirFacturacion.setCodigoPostal("1406");
+			dirFacturacion.setLocalidad("C.A.B.A");
+			ctePersona.setDireccionFacturacion(dirFacturacion);
+			ctePersona.setTipoFactura('C');
+			ctePersona.setCondicionesEspeciales("Venta solo efectivo");
+			ctePersona.setLimiteCredito(0);
+			ctePersona = bd.altaClientePersona(ctePersona);
+			System.out.println("Cliente Persona: " + ctePersona.getIdCliente() + " " + ctePersona.getApellido() + ", " + ctePersona.getNombre());
 			*/
 			
-			/* Prueba buscar Cliente*/
-			int idClienteAObtener = 4;
+			/* Prueba obtener Cliente*/
+			/* Prueba obtener ClienteEmpresa */
+			/* Prueba obtener ClientePersona */
+			int idClienteAObtener = 6;
 			char tipoCliente = bd.obtenerTipoCliente(idClienteAObtener);
 			System.out.println("El tipo de cliente a buscar es: " + tipoCliente);
 			if (tipoCliente == 'E') {
-				ClienteEmpresaDTO cteEmpresaDTO = bd.obtenerCteEmpresa(idClienteAObtener);
-				System.out.println("Cliente Empresa: " + cteEmpresaDTO.getIdCliente() + " " + cteEmpresaDTO.getRazonSocial());
+				ClienteEmpresaDTO cteEmpresa = bd.obtenerCteEmpresa(idClienteAObtener);
+				System.out.println("Cliente Empresa: " + cteEmpresa.getIdCliente() + " " + cteEmpresa.getRazonSocial());
 			}
 			else {
-				ClientePersonaDTO ctePersonaDTO = bd.obtenerCtePersona(idClienteAObtener);
-				System.out.println("Cliente Persona: " + ctePersonaDTO.getIdCliente() + " " + ctePersonaDTO.getApellido() + ", " + ctePersonaDTO.getNombre());
+				ClientePersonaDTO ctePersona = bd.obtenerCtePersona(idClienteAObtener);
+				System.out.println("Cliente Persona: " + ctePersona.getIdCliente() + " " + ctePersona.getApellido() + ", " + ctePersona.getNombre());
 			}
 
 		} catch (ExcepcionComunicacion e) {
