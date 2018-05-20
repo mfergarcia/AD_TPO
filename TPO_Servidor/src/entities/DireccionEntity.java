@@ -21,7 +21,6 @@ public class DireccionEntity {
 	private String localidad;
 
 	public DireccionEntity() {
-		// TODO Auto-generated constructor stub
 	}
 
 	public DireccionEntity(String calle, int numero, String localidad, String codigoPostal) {

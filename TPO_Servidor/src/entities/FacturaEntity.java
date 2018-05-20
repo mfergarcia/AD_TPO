@@ -58,7 +58,9 @@ public class FacturaEntity {
 		this.montoAdeudado = montoAdeudado;
 		this.fechaFactura = fechaFactura;
 	}
-
+	
+	public FacturaEntity(){}
+	
 	public int getIdFactura() {
 		return idFactura;
 	}

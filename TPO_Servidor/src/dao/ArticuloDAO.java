@@ -7,7 +7,6 @@ import org.hibernate.Session;
 import org.hibernate.SessionFactory;
 
 import entities.ArticuloEntity;
-import entities.ClienteEmpresaEntity;
 import hbt.HibernateUtil;
 import negocio.Articulo;
 

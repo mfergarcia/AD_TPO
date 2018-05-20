@@ -46,7 +46,9 @@ public class RemitoEntity {
 		this.idRemito = Rem;
 		this.setFecha((Date)Calendar.getInstance().getTime());;
 	}
-
+	
+	public RemitoEntity(){}
+	
 	public int getIdRemito() {
 		return idRemito;
 	}

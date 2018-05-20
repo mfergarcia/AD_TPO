@@ -61,7 +61,8 @@ public class PagoEntity {
 		this.setEstado("RECIBIDO");
 		//this.idCtaCte = idCtaCte;
 	}
-
+	public PagoEntity(){}
+	
 	public int getIdPago() {
 		return idPago;
 	}

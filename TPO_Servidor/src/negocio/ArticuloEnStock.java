@@ -24,7 +24,16 @@ public class ArticuloEnStock {
 	}
 	
 	public ArticuloEnStock(ArticuloEnStockEntity ase) {
-		
+		this.setId(ase.getId());
+		this.setCodigoBarras(ase.getCodigoBarras());
+		this.setCodigoUbicacion(ase.getCodigoUbicacion());
+		this.setCantidad(ase.getCantidad());
+		this.setLote(ase.getLote());
+		this.setFechaVencimiento(ase.getFechaVencimiento());
+		this.setFechaCompra(ase.getFechaCompra());
+		this.setPrecioCompra(ase.getPrecioCompra());
+		this.setProveedor(ase.getProveedor());
+		this.setPrecioCompra(ase.getPrecioCompra());
 	}
 	
 	public ArticuloEnStock(String codigoUbicacion, int cantidad, ArticuloEnStockDTO artEnStockDTO) {

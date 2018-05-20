@@ -6,8 +6,10 @@ import java.rmi.RemoteException;
 import java.util.ArrayList;
 import java.util.Collection;
 import java.util.Iterator;
+import java.util.List;
 
 import dao.ArticuloDAO;
+import dao.ArticuloEnStockDAO;
 import dao.StockDAO;
 import dto.ArticuloEnStockDTO;
 import excepciones.ExcepcionSistema;
@@ -185,7 +187,7 @@ public class AdmStock {
 	}
 	
 	// @Marce: agregar la generación del movimiento de stock por venta
-	// @Facu: Revisar si está ok el uso del saveMe
+	// @Facu: Revisar si está ok el uso del saveMe//Si, probar
 	// NOTAS_FG: Revisar si está ok la ejecución de los ciclos
 	public boolean actualizarStockPorVenta(Pedido pedido, Collection<ArticuloEnStockDTO> artEnStockDTO) {
 		int cantNecesaria;
@@ -241,7 +243,20 @@ public class AdmStock {
 	// Obtiene los últimos 3 proveedores del Artículo y los concatena en un solo String("Proveedores anteriores: " + proveedor1 + " " + proveedor2 + " " proveedor3)
 	// Si no encuentra ni un solo proveedor, el string deberá contener el mensaje "No se registran proveedores de este Artículo"
 	public String obtenerProveedores(String codBarras) throws RemoteException, ExcepcionSistema {
-		return new String("PROVEEDORES");
+		List<ArticuloEnStock> aee= ArticuloEnStockDAO.getInstance().showAllbylote(codBarras);
+		String ulttresprov= "";
+		int i=0;
+		while (aee.size()>0 && i<3){
+			if(aee.size()>= i){
+				ulttresprov= ulttresprov+aee.get(i).getProveedor();
+				ulttresprov= ulttresprov+" ";
+			}
+			i++;
+		}
+		if(ulttresprov.equals(""))
+			return new String("No se registran proveedores de este Artículo");
+		
+		return ulttresprov;
 	}
 
 	//@Marce: agregar creación del movimiento de stock

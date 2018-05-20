@@ -15,6 +15,7 @@ public class StockEntity {
 	private int cantidadReservada;
 	private String estado;
 	
+	public StockEntity(){}
 	
 	public StockEntity(String codUbicacion, int cantidadReal, int cantidadReservada, String estado) {
 		this.codUbicacion = codUbicacion;

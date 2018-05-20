@@ -23,7 +23,8 @@ public class ItemArticuloEntity {
 		this.precioVta = precioVta;
 		this.estadoStock = estadoStock;
 	}
-
+	public ItemArticuloEntity(){}
+	
 	public ArticuloEntity getAe() {
 		return ae;
 	}
