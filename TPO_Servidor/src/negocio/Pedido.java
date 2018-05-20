@@ -10,6 +10,7 @@ import java.util.Iterator;
 import dao.PedidoDAO;
 import dao.StockDAO;
 import dto.PedidoDTO;
+import entities.PedidoEntity;
 
 public class Pedido {
 
@@ -39,6 +40,10 @@ public class Pedido {
 		this.setEstado("A CONFIRMAR");
 	}
 	
+	public Pedido(PedidoEntity pe) {
+		// TODO Auto-generated constructor stub
+	}
+
 	// Permite agregar los items del Pedido
 	public void agregarItem(ItemArticulo itemArticulo) {
 		this.articulos.add(itemArticulo);

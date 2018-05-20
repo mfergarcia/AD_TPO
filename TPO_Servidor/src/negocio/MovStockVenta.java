@@ -2,13 +2,14 @@
 // @Facu: implementar saveMe
 package negocio;
 
-import entities.MovimientoStockEntity;
+import dao.MovStockVentaDAO;
+import entities.MovStockVentaEntity;
 
 public class MovStockVenta extends MovimientoStock {
 
-	public MovStockVenta(MovimientoStockEntity ms) {
+	public MovStockVenta(MovStockVentaEntity ms) {
 		super(ms);
-		// TODO Auto-generated constructor stub
+		this.setPedido(new Pedido(ms.getPe()));
 	}
 
 	private Pedido pedido;
@@ -37,7 +38,7 @@ public class MovStockVenta extends MovimientoStock {
 	
 	//@Facu: implementar metodo
 	public void saveMe() {
-
+		MovStockVentaDAO.getInstance().grabar(this);
 	}	
 
 }

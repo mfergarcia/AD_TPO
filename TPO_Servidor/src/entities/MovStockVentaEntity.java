@@ -12,7 +12,7 @@ import javax.persistence.Table;
 
 @Entity
 @DiscriminatorValue("SV")
-@Table(name="MoviemientosStock")
+@Table(name="MovimientosStock")
 public class MovStockVentaEntity extends MovimientoStockEntity {
 
 	@OneToOne(cascade= CascadeType.ALL)

@@ -14,10 +14,10 @@ public class MovimientoStock {
 	private Date fecha;
 	private int cant;
 	// tipoMov:'SV' Stock Venta, 'SC'Stock Compra, 'SM'Stock Mantenimiento, 'SA'Stock Ajuste
-	private char tipoMov;
+	private String tipoMov;
 	
 	
-	public MovimientoStock(char tipoAjuste,Date fecha,int cant) {
+	public MovimientoStock(char tipoAjuste,Date fecha,int cant, String tipoMov) {
 		super();
 		this.tipoAjuste = tipoAjuste;
 		this.fecha = fecha;
@@ -26,10 +26,11 @@ public class MovimientoStock {
 	}
 	
 	public MovimientoStock(MovimientoStockEntity ms) {
-		
-		this.tipoAjuste = tipoAjuste;
-		this.fecha = fecha;
-		this.cant = cant;
+		this.setIdMov(ms.getIdMov());
+		this.setTipoAjuste(ms.getTipoAjuste());;
+		this.setFecha(ms.getFecha());
+		this.setCant(ms.getCant());
+		this.setTipoMov(ms.getTipoMov());
 		
 	}
 	
@@ -71,12 +72,12 @@ public class MovimientoStock {
 		this.cant = cant;
 	}	
 	
-	public char getTipoMov() {
+	public String getTipoMov() {
 		return tipoMov;
 	}
 
-	public void setTipoMov(char tipoMov) {
-		this.tipoMov = tipoMov;
+	public void setTipoMov(String string) {
+		this.tipoMov = string;
 	}
 	
 }

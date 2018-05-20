@@ -11,7 +11,7 @@ import javax.persistence.Table;
 
 @Entity
 @DiscriminatorValue("SC")
-@Table(name="MoviemientosStock")
+@Table(name="MovimientosStock")
 public class MovStockCompraEntity extends MovimientoStockEntity{
 	@OneToOne(cascade= CascadeType.ALL)
 	@PrimaryKeyJoinColumn //Testear

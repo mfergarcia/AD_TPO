@@ -11,7 +11,7 @@ public class MovStockAjuste extends MovimientoStock {
 		// TODO Auto-generated constructor stub
 	}
 
-	public ArticuloEnStock artEnStock;	
+	private ArticuloEnStock artEnStock;	
 	
 	/*public MovStockAjuste() {
 		// TODO Auto-generated constructor stub

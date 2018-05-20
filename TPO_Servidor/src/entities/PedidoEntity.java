@@ -74,6 +74,10 @@ public class PedidoEntity {
 		this.idFactura = idFactura;
 	}
 */
+
+	public PedidoEntity(Pedido pedido) {
+		// TODO Auto-generated constructor stub
+	}
 }
 
 
