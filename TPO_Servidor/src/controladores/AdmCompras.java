@@ -115,7 +115,7 @@ public class AdmCompras {
 			auxArtDTO = i.next();
 			Articulo art = AdmStock.getInstancia().obtenerArticulo(auxArtDTO.getCodigoBarras());
 			// Crea el item de la OrdenDeCompra, asignando la cantidad fija de compra determinada en el Articulo
-			ItemOC item = new ItemOC(art, auxArtDTO.getCantFijaCompra());
+			ItemOC item = new ItemOC(art, art.getCantFijaCompra());
 			ordenDeCompra.agregarItem(item);
 			// Verifica qué Ordenes de Pedido de Reposicion se pueden cumplir con esta Orden de Compra
 			Collection<OrdenPedidoRepo> ordenesPRPendientes = this.buscarOrdenesPRPendientePorArticulo(auxArtDTO.getCodigoBarras());
