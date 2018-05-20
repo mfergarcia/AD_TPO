@@ -6,6 +6,8 @@ import javax.persistence.Entity;
 import javax.persistence.Id;
 import javax.persistence.Table;
 
+import negocio.ArticuloEnStock;
+
 @Entity
 @Table(name= "ArticulosEnStock")
 public class ArticuloEnStockEntity {
@@ -35,6 +37,18 @@ public class ArticuloEnStockEntity {
 		this.setPrecioCompra(precioCompra);
 	}
 	
+	public ArticuloEnStockEntity(ArticuloEnStock artEnStock) {
+		this.setId(artEnStock.getId());
+		this.setCodigoBarras(artEnStock.getCodigoBarras());
+		this.setCodigoUbicacion(artEnStock.getCodigoUbicacion());
+		this.setCantidad(artEnStock.getCantidad());
+		this.setLote(artEnStock.getLote());
+		this.setFechaVencimiento(artEnStock.getFechaVencimiento());
+		this.setFechaCompra(artEnStock.getFechaCompra());
+		this.setProveedor(artEnStock.getProveedor());
+		this.setPrecioCompra(artEnStock.getPrecioCompra());
+	}
+
 	public Integer getId() {
 		return id;
 	}
