@@ -2,6 +2,7 @@
 // @Facu: implementar saveMe
 package negocio;
 
+import dao.MovStockCompraDAO;
 import entities.MovStockCompraEntity;
 import entities.MovimientoStockEntity;
 
@@ -14,7 +15,7 @@ public class MovStockCompra extends MovimientoStock {
 	
 	public MovStockCompra(MovStockCompraEntity ms) {
 		super(ms);
-		//TODO
+		this.setOc(new OrdenDeCompra(ms.getOce()));
 	}	
 	/*public MovStockCompra() {
 		// TODO Auto-generated constructor stub
@@ -40,7 +41,7 @@ public class MovStockCompra extends MovimientoStock {
 	
 	//@Facu: implementar metodo
 	public void saveMe() {
-
+		MovStockCompraDAO.getInstance().grabar(this);
 	}	
 	
 }

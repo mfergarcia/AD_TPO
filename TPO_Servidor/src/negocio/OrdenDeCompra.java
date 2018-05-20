@@ -8,6 +8,7 @@ import java.util.Date;
 import java.util.Iterator;
 
 import dto.OrdenDeCompraDTO;
+import entities.OrdenDeCompraEntity;
 
 public class OrdenDeCompra {
 
@@ -32,6 +33,10 @@ public class OrdenDeCompra {
 		this.ordenesPedidoRepo = new ArrayList<OrdenPedidoRepo>();
 		this.itemsOC = new ArrayList<ItemOC>();
 		this.setEstado("PENDIENTE");
+	}
+
+	public OrdenDeCompra(OrdenDeCompraEntity oce) {
+		// TODO Auto-generated constructor stub
 	}
 
 	// Valida que el objeto sea una determinada OrdenDeCompra
