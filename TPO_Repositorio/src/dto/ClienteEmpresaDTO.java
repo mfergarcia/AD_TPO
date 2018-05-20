@@ -16,6 +16,7 @@ public class ClienteEmpresaDTO implements Serializable {
 	private float limiteCredito;
 	private String cuit;
 	private String razonSocial;
+	private char estado;
 	
 	public ClienteEmpresaDTO() {
 
@@ -75,6 +76,14 @@ public class ClienteEmpresaDTO implements Serializable {
 
 	public void setRazonSocial(String razonSocial) {
 		this.razonSocial = razonSocial;
+	}
+
+	public char getEstado() {
+		return estado;
+	}
+
+	public void setEstado(char estado) {
+		this.estado = estado;
 	}
 	
 }

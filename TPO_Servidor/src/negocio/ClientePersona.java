@@ -63,16 +63,17 @@ public class ClientePersona extends Cliente {
 	}
 
 	public ClientePersonaDTO toDTO() {
-		ClientePersonaDTO clientePersonaDTO = new ClientePersonaDTO();
-		clientePersonaDTO.setIdCliente(this.getIdCliente());
-		clientePersonaDTO.setTipoFactura(this.getTipoFactura());
-		clientePersonaDTO.setCondicionesEspeciales(this.getCondicionesEspeciales());
-		clientePersonaDTO.setLimiteCredito(this.getCtaCte().getLimiteCredito());
-		clientePersonaDTO.setDireccionFacturacion(this.getDireccionFacturacion().toDTO());
-		clientePersonaDTO.setDni(this.getDni());
-		clientePersonaDTO.setApellido(this.getApellido());
-		clientePersonaDTO.setNombre(this.getNombre());
-		return clientePersonaDTO;
+		ClientePersonaDTO ctePersonaDTO = new ClientePersonaDTO();
+		ctePersonaDTO.setIdCliente(this.getIdCliente());
+		ctePersonaDTO.setTipoFactura(this.getTipoFactura());
+		ctePersonaDTO.setCondicionesEspeciales(this.getCondicionesEspeciales());
+		ctePersonaDTO.setLimiteCredito(this.getCtaCte().getLimiteCredito());
+		ctePersonaDTO.setDireccionFacturacion(this.getDireccionFacturacion().toDTO());
+		ctePersonaDTO.setDni(this.getDni());
+		ctePersonaDTO.setApellido(this.getApellido());
+		ctePersonaDTO.setNombre(this.getNombre());
+		ctePersonaDTO.setEstado(this.getEstado());
+		return ctePersonaDTO;
 	}
 	
 	public void saveMe() {

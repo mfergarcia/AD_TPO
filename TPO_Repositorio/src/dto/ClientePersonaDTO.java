@@ -18,7 +18,8 @@ public class ClientePersonaDTO implements Serializable {
 	private String dni;
 	private String apellido;
 	private String nombre;
-
+	private char estado;
+	
 	public ClientePersonaDTO() {
 
 	}
@@ -85,6 +86,14 @@ public class ClientePersonaDTO implements Serializable {
 
 	public void setNombre(String nombre) {
 		this.nombre = nombre;
+	}
+
+	public char getEstado() {
+		return estado;
+	}
+
+	public void setEstado(char estado) {
+		this.estado = estado;
 	}
 
 }

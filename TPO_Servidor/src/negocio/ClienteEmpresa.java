@@ -50,15 +50,16 @@ public class ClienteEmpresa extends Cliente {
 	}
 
 	public ClienteEmpresaDTO toDTO() {
-		ClienteEmpresaDTO clienteEmpresaDTO = new ClienteEmpresaDTO();
-		clienteEmpresaDTO.setIdCliente(this.getIdCliente());
-		clienteEmpresaDTO.setTipoFactura(this.getTipoFactura());
-		clienteEmpresaDTO.setCondicionesEspeciales(this.getCondicionesEspeciales());
-		clienteEmpresaDTO.setLimiteCredito(this.getCtaCte().getLimiteCredito());
-		clienteEmpresaDTO.setDireccionFacturacion(this.getDireccionFacturacion().toDTO());
-		clienteEmpresaDTO.setCuit(this.getCuit());
-		clienteEmpresaDTO.setRazonSocial(this.getRazonSocial());
-		return clienteEmpresaDTO;
+		ClienteEmpresaDTO cteEmpresaDTO = new ClienteEmpresaDTO();
+		cteEmpresaDTO.setIdCliente(this.getIdCliente());
+		cteEmpresaDTO.setTipoFactura(this.getTipoFactura());
+		cteEmpresaDTO.setCondicionesEspeciales(this.getCondicionesEspeciales());
+		cteEmpresaDTO.setLimiteCredito(this.getCtaCte().getLimiteCredito());
+		cteEmpresaDTO.setDireccionFacturacion(this.getDireccionFacturacion().toDTO());
+		cteEmpresaDTO.setCuit(this.getCuit());
+		cteEmpresaDTO.setRazonSocial(this.getRazonSocial());
+		cteEmpresaDTO.setEstado(this.getEstado());
+		return cteEmpresaDTO;
 	}
 
 	public void saveMe() {
