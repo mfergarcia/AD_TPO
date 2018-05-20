@@ -1,5 +1,8 @@
 package dao;
 
+import java.util.ArrayList;
+import java.util.List;
+
 import org.hibernate.Session;
 import org.hibernate.SessionFactory;
 
@@ -41,9 +44,29 @@ public class PedidoDAO {
 		}
 		
 		
-
+		@SuppressWarnings("unchecked")
+		public List<Pedido> AllByEstado(String estado){
+			SessionFactory sf = HibernateUtil.getSessionFactory();
+			Session session = sf.openSession();
+			List<PedidoEntity> lpe= new ArrayList<PedidoEntity>();
+			lpe= (List<PedidoEntity>) session.createQuery("From PedidoEntity where estado= ?").setParameter(0, estado).list();
+			List <Pedido> lp= new ArrayList<Pedido>();
+			for(PedidoEntity pe: lpe)
+				lp.add(new Pedido(pe));
+			return lp;	
+		}
 	
-
+		@SuppressWarnings("unchecked")
+		public List<Pedido> AllByCliente(Integer idCliente){
+			SessionFactory sf = HibernateUtil.getSessionFactory();
+			Session session = sf.openSession();
+			List<PedidoEntity> lpe= new ArrayList<PedidoEntity>();
+			lpe= (List<PedidoEntity>) session.createQuery("From PedidoEntity where idCliente= ?").setParameter(0, idCliente).list();
+			List <Pedido> lp= new ArrayList<Pedido>();
+			for(PedidoEntity pe: lpe)
+				lp.add(new Pedido(pe));
+			return lp;	
+		}
 
 
 }

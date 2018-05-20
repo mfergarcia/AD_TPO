@@ -6,6 +6,7 @@ import java.util.Collection;
 import java.util.Date;
 import java.util.Iterator;
 
+import dao.PedidoDAO;
 import dto.ArticuloEnStockDTO;
 import dto.ItemArticuloDTO;
 import dto.PedidoDTO;
@@ -31,28 +32,13 @@ public class AdmPedidos {
 	// @Facu: reemplazar búsqueda en la colección por búsqueda en la BD
 	// Ubica un determinado Pedido dentro de la colleción pedidos
 	private Pedido obtenerPedido(int numPedido) {
-		Pedido aux;
-		for (Iterator<Pedido> i = this.pedidos.iterator(); i.hasNext(); ) {
-			aux = i.next();
-			if (aux.getNumPedido() == numPedido) {
-				return aux;
-			}
-		}
-		return null;
+		return PedidoDAO.getIntance().findByID(numPedido);
 	}
 	
 	// @Facu: reemplazar búsqueda en la colección por búsqueda en la BD
 	// Devuelve los pedidos cuyo estado coincide con el estado solicitado
 	private Collection<Pedido> obtenerPedidosPorEstado(String estado) {
-		Collection<Pedido> pedidos = new ArrayList<Pedido>();
-		Pedido aux;
-		for (Iterator<Pedido> i = this.pedidos.iterator(); i.hasNext(); ) {
-			aux = i.next();
-			if (aux.getEstado().equals(estado)) {
-				pedidos.add(aux);
-			}
-		}
-		return pedidos;
+		return PedidoDAO.getIntance().AllByEstado(estado);
 	}
 	
 	public static AdmPedidos getInstancia() {
@@ -85,14 +71,7 @@ public class AdmPedidos {
 	// @Facu: reemplazar búsqueda en la colección por búsqueda en la BD
 	// Devuelve una coleccion con los Pedidos correspondiente al idCliente dado
 	public Collection<Pedido> obtenerPedidosPorCliente(int idCliente) {
-		Collection<Pedido> pedidosCliente = new ArrayList<Pedido>();
-		Pedido aux;
-		for(Iterator<Pedido> i = this.pedidos.iterator(); i.hasNext(); ) {
-			aux = i.next();
-			if (aux.getIdCliente() == idCliente)
-				pedidosCliente.add(aux);
-		}
-		return pedidosCliente;
+		return PedidoDAO.getIntance().AllByCliente(idCliente);
 	}
 
 	// Devuelve los pedidos en estado "A CONFIRMAR"
