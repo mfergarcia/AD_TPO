@@ -4,6 +4,8 @@ package negocio;
 import java.util.Calendar;
 import java.util.Date;
 
+import dao.PagoDAO;
+
 public class Pago {
 
 	private int id;
@@ -68,7 +70,7 @@ public class Pago {
 	
 	//@Facu: implementar metodo
 	public void saveMe() {
-
+		PagoDAO.getInstance().grabar(this);
 	}	
 	
 }

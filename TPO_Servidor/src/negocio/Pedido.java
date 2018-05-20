@@ -8,7 +8,6 @@ import java.util.Date;
 import java.util.Iterator;
 
 import dao.PedidoDAO;
-import dao.StockDAO;
 import dto.PedidoDTO;
 import entities.PedidoEntity;
 
@@ -41,7 +40,15 @@ public class Pedido {
 	}
 	
 	public Pedido(PedidoEntity pe) {
-		// TODO Auto-generated constructor stub
+		this.setIdCliente(pe.getIdCliente());
+		this.setDirEntrega(new Direccion(pe.getDirEntrega()));
+		this.setEstado(pe.getEstado());
+		this.setFechaEntrega(pe.getFechaEntrega());
+		this.setFechaGen(pe.getFechaGen());
+		this.setMotivoRechazo(pe.getMotivoRechazo());
+		this.setNumFactura(pe.getNumFactura());
+		this.setNumPedido(pe.getNumPedido());
+		this.setTipoFactura(pe.getTipoFactura());
 	}
 
 	// Permite agregar los items del Pedido
@@ -155,7 +162,6 @@ public class Pedido {
 		return pedidoDTO;
 	}
 	
-	//@Facu: implementar metodo
 	public void saveMe() {
 		PedidoDAO.getIntance().grabar(this);
 	}	

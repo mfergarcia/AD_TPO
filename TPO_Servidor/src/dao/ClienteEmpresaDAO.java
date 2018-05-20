@@ -30,7 +30,7 @@ public class ClienteEmpresaDAO {
 	
 	public int grabar(ClienteEmpresa ce){
 		Direccion d= ce.getDireccionFacturacion();
-		DireccionEntity de= new DireccionEntity(d.getCalle(),d.getNumero(),d.getCodigoPostal(),d.getLocalidad());
+		DireccionEntity de= new DireccionEntity(d);
 		ClienteEmpresaEntity cee = new ClienteEmpresaEntity( new CtaCteEntity(ce.getCtaCte().getLimiteCredito()), ce.getTipoFactura(), ce.getCondicionesEspeciales(),de, ce.getTipo(), ce.getEstado(), ce.getCuit(), ce.getRazonSocial());
 		SessionFactory sf = HibernateUtil.getSessionFactory();
 		Session session = sf.openSession();

@@ -2,6 +2,7 @@
 package negocio;
 
 import dto.DireccionDTO;
+import entities.DireccionEntity;
 
 public class Direccion {
 	private int id;
@@ -14,6 +15,14 @@ public class Direccion {
 
 	}
 	
+	public Direccion(DireccionEntity dirEntrega) {
+		this.setCalle(dirEntrega.getCalle());
+		this.setCodigoPostal(dirEntrega.getCodigoPostal());
+		this.setId(dirEntrega.getId());
+		this.setLocalidad(dirEntrega.getLocalidad());
+		this.setNumero(dirEntrega.getNumero());
+	}
+
 	public int getId() {
 		return id;
 	}

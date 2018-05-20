@@ -3,12 +3,9 @@ package dao;
 import org.hibernate.Session;
 import org.hibernate.SessionFactory;
 
-import entities.ClienteEmpresaEntity;
 import entities.PedidoEntity;
-import entities.RemitoEntity;
 import hbt.HibernateUtil;
 import negocio.Pedido;
-import negocio.Remito;
 
 public class PedidoDAO {
 	
@@ -22,24 +19,25 @@ public class PedidoDAO {
 			return instancia;
 		}
 		
-		public void grabar(Pedido s){
-	//TODO	//	RemitoEntity se = new RemitoEntity(s.getNumPedido());
+		public int grabar(Pedido p){
+			PedidoEntity pe = new PedidoEntity(p);
 			SessionFactory sf = HibernateUtil.getSessionFactory();
 			Session session = sf.openSession();
 			session.beginTransaction();
-		//	int i = (Integer) session.save(se);
+			int i = (Integer) session.save(pe);
 			session.getTransaction().commit();
 			session.close();
+			return i;
 		}
 		
-		public PedidoEntity findByID(int numPedido){
+		public Pedido findByID(int numPedido){
 			SessionFactory sf = HibernateUtil.getSessionFactory();
 			Session session = sf.openSession();
-			PedidoEntity re= (PedidoEntity) session.createQuery("from PedidoEntity where idPedido = ?")
+			PedidoEntity pe= (PedidoEntity) session.createQuery("from PedidoEntity where numPedido = ?")
 										.setParameter(0, numPedido)
 										.uniqueResult();
 			
-			return re;
+			return new Pedido(pe);
 		}
 		
 		

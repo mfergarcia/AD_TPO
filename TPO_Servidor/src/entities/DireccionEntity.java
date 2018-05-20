@@ -8,6 +8,8 @@ import javax.persistence.JoinColumn;
 import javax.persistence.OneToOne;
 import javax.persistence.Table;
 
+import negocio.Direccion;
+
 @Entity
 @Table(name="Direcciones")
 public class DireccionEntity {
@@ -22,7 +24,13 @@ public class DireccionEntity {
 
 	public DireccionEntity() {
 	}
-
+	
+	public DireccionEntity(Direccion d) {
+		this.setCalle(d.getCalle());
+		this.setNumero(d.getNumero());
+		this.setCodigoPostal(d.getCodigoPostal());
+		this.setLocalidad(d.getLocalidad());
+	}
 	public DireccionEntity(String calle, int numero, String localidad, String codigoPostal) {
 		this.setCalle(calle);
 		this.setNumero(numero);
