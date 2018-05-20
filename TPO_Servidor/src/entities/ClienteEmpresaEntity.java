@@ -25,7 +25,7 @@ public class ClienteEmpresaEntity extends ClienteEntity{
 	
 	//Facu: ver como dar de alta tambien la cuenta corriente
 	public ClienteEmpresaEntity(CtaCteEntity ctaCte, char tipoFactura, String condicionesEspeciales, DireccionEntity direccionFacturacion, char tipo, char estado, String cuit, String razonSocial) {
-		super(ctaCte, tipoFactura, razonSocial, direccionFacturacion, tipo, estado);
+		super(ctaCte, tipoFactura, condicionesEspeciales, direccionFacturacion, tipo, estado);
 		this.setCuit(cuit);
 		this.setRazonSocial(razonSocial);
 	}
