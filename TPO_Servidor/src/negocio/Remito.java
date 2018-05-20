@@ -8,6 +8,7 @@ import java.util.Iterator;
 import dao.ArticuloDAO;
 import dao.RemitoDAO;
 import dto.RemitoDTO;
+import entities.RemitoEntity;
 
 public class Remito {
 
@@ -28,11 +29,10 @@ public class Remito {
 		
 	}
 	
-	public Remito(int idRem){
-		this.setNumRemito(idRem);
-		// Se genera con la fecha/hora del momento
-		this.setFechaRemito(Calendar.getInstance().getTime());
-		
+	public Remito(RemitoEntity re){
+		this.setNumRemito(re.getIdRemito());
+		this.setFactura(new Factura(re.getFactura()));
+		this.setFechaRemito(re.getFecha());
 	}
 	
 
@@ -74,8 +74,6 @@ public class Remito {
 		return remitoDTO;
 	}
 
-	//@Facu: implementar metodo
-			
 	public void saveMe() {
 		RemitoDAO.getIntance().grabar(this);
 	}	

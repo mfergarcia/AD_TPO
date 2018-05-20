@@ -19,7 +19,7 @@ public class PagoDAO {
 		return instancia;
 	}
 	
-	public void grabar(Pago s) {
+	public int grabar(Pago s) {
 		PagoEntity se= new PagoEntity(s.getTipoPago(),s.getImporte());
 		SessionFactory sf = HibernateUtil.getSessionFactory();
 		Session session = sf.openSession();
@@ -27,17 +27,16 @@ public class PagoDAO {
 		int i = (Integer) session.save(se);
 		session.getTransaction().commit();
 		session.close();
-
+		return i;
 	}	
 	
-	public PagoEntity findByID(int idPago){
+	public Pago findByID(int idPago){
 		SessionFactory sf = HibernateUtil.getSessionFactory();
 		Session session = sf.openSession();
-		PagoEntity pe= (PagoEntity) session.createQuery("from PagoEntity where idRemito = ?")
+		PagoEntity pe= (PagoEntity) session.createQuery("from PagoEntity where idPago = ?")
 									.setParameter(0, idPago)
 									.uniqueResult();
-		
-		return pe;
+		return new Pago(pe);
 	}
 
 }

@@ -1,31 +1,16 @@
 package entities;
 
 
-import java.sql.Date;
-import java.util.Calendar;
-
-import javax.persistence.CascadeType;
+import java.util.Date;
 import javax.persistence.Column;
-import javax.persistence.DiscriminatorColumn;
-import javax.persistence.DiscriminatorType;
 import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
-import javax.persistence.Entity;
-import javax.persistence.Inheritance;
-import javax.persistence.InheritanceType;
-import javax.persistence.JoinColumn;
-import javax.persistence.MappedSuperclass;
 import javax.persistence.OneToOne;
+import javax.persistence.Entity;
 import javax.persistence.Table;
 
-import org.hibernate.annotations.Cascade;
-
-import negocio.CtaCte;
-import negocio.Direccion;
-import negocio.Pedido;
 import negocio.Remito;
-import negocio.Factura;
 
 @Entity
 @Table (name="Remitos")
@@ -38,17 +23,20 @@ public class RemitoEntity {
 	@Column (name = "fecha")
 	private Date fecha;
 	
-	@Column (name = "idFactura")
-	private int idFactura;
-
-	public RemitoEntity(int Rem ) {
-		super();
-		this.idRemito = Rem;
-		this.setFecha((Date)Calendar.getInstance().getTime());;
+	@OneToOne(mappedBy="remito")
+	private FacturaEntity factura;
+	
+	public RemitoEntity(FacturaEntity fe, Date fecha){
+		this.setFactura(fe);
+		this.setFecha(fecha);
 	}
 	
 	public RemitoEntity(){}
 	
+	public RemitoEntity(Remito remito) {
+		this.setFecha(remito.getFechaRemito());
+	}
+
 	public int getIdRemito() {
 		return idRemito;
 	}
@@ -65,13 +53,15 @@ public class RemitoEntity {
 		this.fecha = fecha;
 	}
 
-	public int getIdFactura() {
-		return idFactura;
+	public FacturaEntity getFactura() {
+		return factura;
 	}
 
-	public void setIdFactura(int idFactura) {
-		this.idFactura = idFactura;
+	public void setFactura(FacturaEntity factura) {
+		this.factura = factura;
 	}
+
+	
 	
 	
 	

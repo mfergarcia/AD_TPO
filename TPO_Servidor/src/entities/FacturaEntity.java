@@ -9,27 +9,18 @@ import javax.persistence.DiscriminatorType;
 import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
-import javax.persistence.Entity;
-import javax.persistence.Inheritance;
-import javax.persistence.InheritanceType;
-import javax.persistence.JoinColumn;
-import javax.persistence.MappedSuperclass;
 import javax.persistence.OneToOne;
+import javax.persistence.PrimaryKeyJoinColumn;
+import javax.persistence.Entity;
 import javax.persistence.Table;
 
-import org.hibernate.annotations.Cascade;
-
-import negocio.CtaCte;
-import negocio.Direccion;
-import negocio.Pedido;
-import negocio.Remito;
+import negocio.Factura;
 
 @Entity
 @DiscriminatorColumn(name="tipo", discriminatorType= DiscriminatorType.CHAR)
 @Table (name="Facturas")
 public class FacturaEntity {
 	@Id
-	//@Column("idFactura")
 	@GeneratedValue(strategy= GenerationType.AUTO)
 	private int idFactura;
 	
@@ -39,28 +30,41 @@ public class FacturaEntity {
 	@Column (name= "estadoFactura")
 	private String estadoFactura;
 	
-	@Column( name ="idCtaCte" )
-	private CtaCte idCtaCte;
-	
-	@Column( name ="montoAdeudado")
-	private float montoAdeudado;
-	
 	@Column( name ="fechaFactura")
 	private Date fechaFactura;
-
-	public FacturaEntity(int idFactura, char tipoFactura, String estadoFactura, float montoAdeudado,
-			Date fechaFactura) {
+	
+	private float montoAdeudado;
+	
+	@OneToOne(cascade= CascadeType.ALL)
+	@PrimaryKeyJoinColumn
+	private PedidoEntity pe;
+	
+	@OneToOne(cascade= CascadeType.ALL)
+	@PrimaryKeyJoinColumn
+	private RemitoEntity re;
+	
+	public FacturaEntity(int idFactura, char tipoFactura, String estadoFactura,
+			Date fechaFactura, PedidoEntity pe, RemitoEntity re) {
 		super();
 		this.idFactura = idFactura;
 		this.tipoFactura = tipoFactura;
 		this.estadoFactura = estadoFactura;
-		//this.idCtaCte = idCtaCte;
-		this.montoAdeudado = montoAdeudado;
 		this.fechaFactura = fechaFactura;
+		this.pe= pe;
+		this.re= re;
 	}
 	
 	public FacturaEntity(){}
 	
+	public FacturaEntity(Factura f) {
+		this.setEstadoFactura(f.getEstadoFactura());
+		this.setFechaFactura(f.getFechaFactura());
+		this.setTipoFactura(f.getTipoFactura());
+		this.setRe(new RemitoEntity (f.getRemito()));
+		this.setPe(new PedidoEntity(f.getPedido()));
+		this.setMontoAdeudado(f.getMontoAdeudado());
+	}
+
 	public int getIdFactura() {
 		return idFactura;
 	}
@@ -85,14 +89,6 @@ public class FacturaEntity {
 		this.estadoFactura = estadoFactura;
 	}
 
-	public CtaCte getIdCtaCte() {
-		return idCtaCte;
-	}
-
-	public void setIdCtaCte(CtaCte idCtaCte) {
-		this.idCtaCte = idCtaCte;
-	}
-
 	public float getMontoAdeudado() {
 		return montoAdeudado;
 	}
@@ -107,6 +103,22 @@ public class FacturaEntity {
 
 	public void setFechaFactura(Date fechaFactura) {
 		this.fechaFactura = fechaFactura;
+	}
+
+	public PedidoEntity getPe() {
+		return pe;
+	}
+
+	public void setPe(PedidoEntity pe) {
+		this.pe = pe;
+	}
+
+	public RemitoEntity getRe() {
+		return re;
+	}
+
+	public void setRe(RemitoEntity re) {
+		this.re = re;
 	}
 	
 	

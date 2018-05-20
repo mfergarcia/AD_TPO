@@ -7,6 +7,7 @@ import java.util.Date;
 import java.util.Iterator;
 
 import dto.FacturaDTO;
+import entities.FacturaEntity;
 
 public class Factura {
 
@@ -32,6 +33,16 @@ public class Factura {
 		this.setEstadoFactura("IMPAGA");
 	}
 	
+	public Factura(FacturaEntity f) {
+		this.setNumFactura(f.getIdFactura());
+		this.setEstadoFactura(f.getEstadoFactura());
+		this.setFechaFactura(f.getFechaFactura());
+		this.setMontoAdeudado(f.getMontoAdeudado());
+		this.setPedido(new Pedido(f.getPe()));
+		this.setRemito(new Remito(f.getRe()));
+		this.setTipoFactura(f.getTipoFactura());
+	}
+
 	// Si el monto adeudado es 0 la factura cambia de estado
 	public void actualizarMontoAdeudado(float monto){
 		if (monto == 0)

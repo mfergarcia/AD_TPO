@@ -5,6 +5,7 @@ import java.util.Calendar;
 import java.util.Date;
 
 import dao.PagoDAO;
+import entities.PagoEntity;
 
 public class Pago {
 
@@ -17,6 +18,14 @@ public class Pago {
 
 	public Pago() {
 
+	}
+	
+	public Pago(PagoEntity p) {
+		this.setId(p.getIdPago());
+		this.setEstado(p.getEstado());
+		this.setFecha(p.getFecha());
+		this.setImporte(p.getImporte());
+		this.setTipoPago(p.getTipoPago());
 	}
 	
 	// Crea un pago con la fecha del dia y setea el estado inicial

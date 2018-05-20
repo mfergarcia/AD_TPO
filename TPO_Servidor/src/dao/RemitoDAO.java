@@ -3,9 +3,11 @@ package dao;
 import org.hibernate.Session;
 import org.hibernate.SessionFactory;
 
-import entities.ClienteEmpresaEntity;
+import entities.FacturaEntity;
+import entities.PagoEntity;
 import entities.RemitoEntity;
 import hbt.HibernateUtil;
+import negocio.Pago;
 import negocio.Remito;
 
 
@@ -20,27 +22,25 @@ public class RemitoDAO {
 		return instancia;
 	}
 	
-	public void grabar(Remito s){
-		RemitoEntity se = new RemitoEntity(s.getNumRemito());
+	public int grabar(Remito s){
+		RemitoEntity se = new RemitoEntity(new FacturaEntity(s.getFactura()), s.getFechaRemito());
 		SessionFactory sf = HibernateUtil.getSessionFactory();
 		Session session = sf.openSession();
 		session.beginTransaction();
 		int i = (Integer) session.save(se);
 		session.getTransaction().commit();
 		session.close();
+		return i;
 	}
 	
-	public RemitoEntity findByID(int numRemito){
+	public Remito findByID(int idRemito){
 		SessionFactory sf = HibernateUtil.getSessionFactory();
 		Session session = sf.openSession();
 		RemitoEntity re= (RemitoEntity) session.createQuery("from RemitoEntity where idRemito = ?")
-									.setParameter(0, numRemito)
+									.setParameter(0, idRemito)
 									.uniqueResult();
-		
-		return re;
+		return new Remito(re);
 	}
 	
-	
-
 }
 
