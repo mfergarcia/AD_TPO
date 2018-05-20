@@ -48,7 +48,9 @@ public class TestCliente_Pedido {
 				System.out.println(auxItemArt.getArticuloDTO().getCodigoBarras() + " cant: " + auxItemArt.getCant());
 			}
 
+			
 			// Prueba Obtener Pedidos Por Cliente
+			
 			Collection<PedidoDTO> pedidos = bd.obtenerPedidosPorCliente(numCliente);
 			System.out.println("Se han obtenido los siguientes pedidos del cliente " + numCliente);
 			PedidoDTO auxPedido;
@@ -57,6 +59,22 @@ public class TestCliente_Pedido {
 				System.out.println("Pedido " + auxPedido.getNumPedido());
 			}
 			
+
+			// Prueba Obtener Pedidos A Confirmar
+			
+			pedidos = bd.obtenerPedidosAConfirmar();
+			System.out.println("Se han obtenido los siguientes pedidos A Confirmar");
+			for (Iterator<PedidoDTO> l = pedidos.iterator(); l.hasNext(); ) {
+				auxPedido = l.next();
+				System.out.println("Pedido " + auxPedido.getNumPedido());
+			}
+
+			
+			// Prueba Aprobar Pedido
+
+			int numPedidoABuscar = 1;
+			String nuevoEstado = bd.aprobarPedido(numPedidoABuscar);
+			System.out.println("El nuevo estado del pedido " + numPedidoABuscar + " es: " + nuevoEstado);
 			
 		} catch (ExcepcionComunicacion e) {
 			System.out.println(e.getMensaje());
