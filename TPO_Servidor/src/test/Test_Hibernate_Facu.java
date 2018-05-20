@@ -3,6 +3,8 @@ package test;
 import dao.ClienteDAO;
 import dao.ClienteEmpresaDAO;
 import dao.ClientePersonaDAO;
+import negocio.Articulo;
+import negocio.ArticuloEnStock;
 import negocio.ClienteEmpresa;
 import negocio.ClientePersona;
 import negocio.CtaCte;
@@ -17,6 +19,7 @@ public class Test_Hibernate_Facu {
 		ClientePersona cp= new ClientePersona(cC,'A',"Ninguna", d, 'A',"3229322","Suarez", "Jose");
 		ClienteEmpresaDAO.getInstance().grabar(ce);
 		ClientePersonaDAO.getInstance().grabar(cp);*/
+		ArticuloEnStock a= new ArticuloEnStock("sajkdfgasfd" );
 		System.out.println(ClienteDAO.getInstancia().getTipoCliente(2));
 		
 	}

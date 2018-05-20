@@ -46,6 +46,11 @@ public class ArticuloEnStock {
 		this.setPrecioCompra(artEnStockDTO.getPrecioCompra());
 	}
 	
+	public ArticuloEnStock(String codBarras) {
+		this.codigoBarras=codBarras;
+	}
+	
+	
 	public int getId() {
 		return id;
 	}

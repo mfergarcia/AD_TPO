@@ -17,7 +17,6 @@ import javax.persistence.Table;
 import negocio.Factura;
 
 @Entity
-@DiscriminatorColumn(name="tipo", discriminatorType= DiscriminatorType.CHAR)
 @Table (name="Facturas")
 public class FacturaEntity {
 	@Id

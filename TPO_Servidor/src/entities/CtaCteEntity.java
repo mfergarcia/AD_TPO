@@ -48,7 +48,6 @@ public class CtaCteEntity {
 	public void setLimiteCredito(float limiteCredito) {
 		this.limiteCredito = limiteCredito;
 	}
-
 	public List<FacturaEntity> getFe() {
 		return fe;
 	}
@@ -56,7 +55,6 @@ public class CtaCteEntity {
 	public void setFe(List<FacturaEntity> fe) {
 		this.fe = fe;
 	}
-	
 	public List<PagoEntity> getPe() {
 		return pe;
 	}
