@@ -1,6 +1,6 @@
 package entities;
 
-import java.sql.Date;
+import java.util.Date;
 import java.util.Calendar;
 
 import javax.persistence.Column;
@@ -15,9 +15,7 @@ import javax.persistence.Table;
 public class PagoEntity {
 	
 	@Id
-	@GeneratedValue(strategy= GenerationType.AUTO)
-		
-	@Column(name ="idPago")
+	@GeneratedValue(strategy= GenerationType.AUTO)	
 	private int idPago;
 	
 	@Column(name ="fecha")

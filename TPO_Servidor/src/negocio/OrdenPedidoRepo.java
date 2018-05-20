@@ -4,7 +4,9 @@ package negocio;
 import java.util.Calendar;
 import java.util.Date;
 
+import dao.OrdenPedidoRepoDAO;
 import dto.OrdenPedidoRepoDTO;
+import entities.OrdenPedidoRepoEntity;
 
 public class OrdenPedidoRepo {
 
@@ -28,6 +30,15 @@ public class OrdenPedidoRepo {
 		// Se genera con la fecha/hora del momento
 		this.setFechaGeneracion(Calendar.getInstance().getTime());
 		this.setEstado("PENDIENTE");
+	}
+
+	public OrdenPedidoRepo(OrdenPedidoRepoEntity o) {
+		this.setArticulo(new Articulo(o.getArticulo()));
+		this.setCantRepo(o.getCantRepo());
+		this.setEstado(o.getEstado());
+		this.setFechaGeneracion(o.getFechaGeneracion());
+		this.setNumOrdenPR(o.getNumOrdenPR());
+		this.setNumPedido(o.getNumPedido());
 	}
 
 	// Valida que el objeto sea determinada OrdenDePedido
@@ -96,7 +107,7 @@ public class OrdenPedidoRepo {
 
 	//@Facu: implementar metodo
 	public void saveMe() {
-
+		OrdenPedidoRepoDAO.getInstance().grabar(this);
 	}	
 	
 }

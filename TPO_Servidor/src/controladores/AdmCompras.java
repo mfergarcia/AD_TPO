@@ -5,6 +5,8 @@ import java.util.ArrayList;
 import java.util.Collection;
 import java.util.Iterator;
 
+import dao.OrdenDeCompraDAO;
+import dao.OrdenPedidoRepoDAO;
 import dto.ArticuloDTO;
 import negocio.*;
 
@@ -25,29 +27,29 @@ public class AdmCompras {
 
 	// @Facu: reemplazar búsqueda en la colección por búsqueda en la BD
 	private Collection<OrdenPedidoRepo> buscarOrdenesPRPorEstado(String estado) {
-		Collection<OrdenPedidoRepo> ordenesPRPorEstado = new ArrayList<OrdenPedidoRepo>();
+	/*	Collection<OrdenPedidoRepo> ordenesPRPorEstado = new ArrayList<OrdenPedidoRepo>();
 		OrdenPedidoRepo aux;
 		for(Iterator<OrdenPedidoRepo> i = this.ordenesPedidoRepo.iterator(); i.hasNext() ;) {
 			aux = i.next();
 			if (aux.getEstado().equals(estado))
 				ordenesPRPorEstado.add(aux);
-		}
-		return ordenesPRPorEstado;
+		}*/
+		return OrdenPedidoRepoDAO.getInstance().AllByEstado(estado);
 	}
 
 	// @Facu: reemplazar la búsqueda en la colección por búsqueda en la BD
 	// Ubica las Ordenes de Pedido Reposicion de un determinado Articulo en estado "PENDIENTE"
 	// Debe volver ordenada por fecha de creación.
 	private Collection<OrdenPedidoRepo> buscarOrdenesPRPendientePorArticulo(String codBarras) {
-		Collection<OrdenPedidoRepo> ordenesPendientes = new ArrayList<OrdenPedidoRepo>();
+		/*Collection<OrdenPedidoRepo> ordenesPendientes = new ArrayList<OrdenPedidoRepo>();
 		OrdenPedidoRepo aux;
 		for (Iterator<OrdenPedidoRepo> i = this.ordenesPedidoRepo.iterator(); i.hasNext(); ) {
 			aux = i.next();
 			if (aux.getArticulo().getCodigoBarras().equals(codBarras) && aux.getEstado().equals("PENDIENTE")) {
 				ordenesPendientes.add(aux);
 			}
-		}
-		return ordenesPendientes;
+		}*/
+		return OrdenPedidoRepoDAO.getInstance().AllByArtPENDIENTE(codBarras);
 	}	
 	
 	public static AdmCompras getInstancia() {
@@ -143,13 +145,13 @@ public class AdmCompras {
 	// @Facu: reemplazar búsqueda en la colección por búsqueda en la BD
 	// Busca una determinada Orden de Compra en la coleccion. Devuelve null si no la encuentra
 	public OrdenDeCompra obtenerOrdenDeCompra(int numOC) {
-		OrdenDeCompra aux;
+		/*OrdenDeCompra aux;
 		for(Iterator<OrdenDeCompra> i = this.ordenesDeCompra.iterator(); i.hasNext(); ) {
 			aux = i.next();
 			if (aux.getNumOC() == numOC)
 				return aux;
-		}
-		return null;
+		}*/
+		return OrdenDeCompraDAO.getInstance().findById(numOC);
 	}
 
 	// Obtiene la OC de la coleccion ordenesDeCompra, actualiza el estado de las Ordenes de Pedido Repo

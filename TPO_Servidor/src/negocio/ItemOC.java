@@ -1,6 +1,7 @@
 // @Facu: implementar saveMe
 package negocio;
 
+import dao.ItemOCDAO;
 import dto.ItemOCDTO;
 
 public class ItemOC {
@@ -42,7 +43,7 @@ public class ItemOC {
 	
 	//@Facu: implementar metodo
 	public void saveMe() {
-
+		ItemOCDAO.getInstance().grabar(this);
 	}	
 
 }

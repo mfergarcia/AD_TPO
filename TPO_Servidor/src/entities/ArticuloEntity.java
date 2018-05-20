@@ -10,6 +10,8 @@ import javax.persistence.JoinColumn;
 import javax.persistence.OneToMany;
 import javax.persistence.Table;
 
+import negocio.Articulo;
+
 @Entity
 @Table(name="Articulos")
 public class ArticuloEntity {
@@ -42,6 +44,18 @@ public class ArticuloEntity {
 	
 	public ArticuloEntity(){}
 	
+	public ArticuloEntity(Articulo a) {
+		this.codigoBarras = a.getCodigoBarras();
+		this.descripcion = a.getDescripcion();
+		this.presentacion = a.getPresentacion();
+		this.tamaño = a.getTamaño();
+		this.unidad = a.getUnidad();
+		this.precioVta = a.getPrecioVta();
+		this.cantFijaCompra = a.getCantFijaCompra();
+		this.cantMaxUbicacion = a.getCantMaxUbicacion();
+		this.estado = a.getEstado();
+	}
+
 	public String getCodigoBarras() {
 		return codigoBarras;
 	}

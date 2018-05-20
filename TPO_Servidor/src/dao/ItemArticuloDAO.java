@@ -23,9 +23,7 @@ public class ItemArticuloDAO {
 	}
 	
 	public void grabar(ItemArticulo ia) {
-		ArticuloEntity ae= new ArticuloEntity (ia.getArticulo().getCodigoBarras(), ia.getArticulo().getDescripcion(), ia.getArticulo().getPresentacion(),
-											   ia.getArticulo().getTamaño(), ia.getArticulo().getUnidad(), ia.getArticulo().getPrecioVta(),
-											   ia.getArticulo().getCantFijaCompra(), ia.getArticulo().getCantMaxUbicacion(), ia.getArticulo().getEstado());
+		ArticuloEntity ae= new ArticuloEntity (ia.getArticulo());
 		ItemArticuloEntity iae= new ItemArticuloEntity(ae, ia.getCant(), ia.getPrecioVta(), ia.getEstadoStock());
 		SessionFactory sf = HibernateUtil.getSessionFactory();
 		Session session = sf.openSession();

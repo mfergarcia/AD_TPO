@@ -3,10 +3,26 @@ package hbt;
 import org.hibernate.SessionFactory;
 import org.hibernate.cfg.AnnotationConfiguration;
 
+import entities.ArticuloEnStockEntity;
+import entities.ArticuloEntity;
 import entities.ClienteEmpresaEntity;
 import entities.ClientePersonaEntity;
 import entities.CtaCteEntity;
 import entities.DireccionEntity;
+import entities.FacturaEntity;
+import entities.ItemArticuloEntity;
+import entities.ItemOCEntity;
+import entities.MovStockAjusteEntity;
+import entities.MovStockCompraEntity;
+import entities.MovStockMantenimientoEntity;
+import entities.MovStockVentaEntity;
+import entities.MovimientoStockEntity;
+import entities.OrdenDeCompraEntity;
+import entities.OrdenPedidoRepoEntity;
+import entities.PagoEntity;
+import entities.PedidoEntity;
+import entities.RemitoEntity;
+import entities.StockEntity;
 
 
 public class HibernateUtil
@@ -22,6 +38,22 @@ public class HibernateUtil
         	 config.addAnnotatedClass(ClienteEmpresaEntity.class);
         	 config.addAnnotatedClass(CtaCteEntity.class);
              config.addAnnotatedClass(DireccionEntity.class);
+             config.addAnnotatedClass(ArticuloEnStockEntity.class);
+             config.addAnnotatedClass(ArticuloEntity.class);
+             config.addAnnotatedClass(FacturaEntity.class);
+             config.addAnnotatedClass(ItemArticuloEntity.class);
+             config.addAnnotatedClass(MovimientoStockEntity.class);
+             config.addAnnotatedClass(MovStockVentaEntity.class);
+             config.addAnnotatedClass(MovStockCompraEntity.class);
+             config.addAnnotatedClass(MovStockAjusteEntity.class);
+             config.addAnnotatedClass(MovStockMantenimientoEntity.class);
+             config.addAnnotatedClass(OrdenDeCompraEntity.class);
+             config.addAnnotatedClass(PagoEntity.class);
+             config.addAnnotatedClass(PedidoEntity.class);
+             config.addAnnotatedClass(RemitoEntity.class);
+             config.addAnnotatedClass(StockEntity.class);
+             config.addAnnotatedClass(OrdenPedidoRepoEntity.class);
+             config.addAnnotatedClass(ItemOCEntity.class);
              sessionFactory = config.buildSessionFactory();
         }
         catch (Throwable ex)

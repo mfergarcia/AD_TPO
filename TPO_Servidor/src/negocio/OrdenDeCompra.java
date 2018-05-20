@@ -7,6 +7,7 @@ import java.util.Collection;
 import java.util.Date;
 import java.util.Iterator;
 
+import dao.OrdenDeCompraDAO;
 import dto.OrdenDeCompraDTO;
 import entities.OrdenDeCompraEntity;
 
@@ -106,9 +107,8 @@ public class OrdenDeCompra {
 		return ordenDeCompraDTO;
 	}
 	
-	//@Facu: implementar metodo
 	public void saveMe() {
-
+		OrdenDeCompraDAO.getInstance().grabar(this);
 	}	
 	
 }
