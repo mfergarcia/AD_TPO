@@ -2,17 +2,20 @@
 // @Facu: implementar saveMe
 package negocio;
 
+import entities.MovStockCompraEntity;
 import entities.MovimientoStockEntity;
 
 public class MovStockCompra extends MovimientoStock {
 
-	public MovStockCompra(MovimientoStockEntity ms) {
-		super(ms);
-		// TODO Auto-generated constructor stub
-	}
+	
 
 	private OrdenDeCompra oc;
 	
+	
+	public MovStockCompra(MovStockCompraEntity ms) {
+		super(ms);
+		//TODO
+	}	
 	/*public MovStockCompra() {
 		// TODO Auto-generated constructor stub
 	}
