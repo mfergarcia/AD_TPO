@@ -23,20 +23,20 @@ public class PedidoDAO {
 		}
 		
 		public void grabar(Pedido s){
-			RemitoEntity se = new RemitoEntity(s.getNumPedido());
+	//TODO	//	RemitoEntity se = new RemitoEntity(s.getNumPedido());
 			SessionFactory sf = HibernateUtil.getSessionFactory();
 			Session session = sf.openSession();
 			session.beginTransaction();
-			int i = (Integer) session.save(se);
+		//	int i = (Integer) session.save(se);
 			session.getTransaction().commit();
 			session.close();
 		}
 		
-		public PedidoEntity findByID(int numRemito){
+		public PedidoEntity findByID(int numPedido){
 			SessionFactory sf = HibernateUtil.getSessionFactory();
 			Session session = sf.openSession();
 			PedidoEntity re= (PedidoEntity) session.createQuery("from PedidoEntity where idPedido = ?")
-										.setParameter(0, numRemito)
+										.setParameter(0, numPedido)
 										.uniqueResult();
 			
 			return re;

@@ -39,7 +39,9 @@ public class ArticuloEntity {
 		this.cantMaxUbicacion = cantMaxUbicacion;
 		this.estado = estado;
 	}
-
+	
+	public ArticuloEntity(){}
+	
 	public String getCodigoBarras() {
 		return codigoBarras;
 	}

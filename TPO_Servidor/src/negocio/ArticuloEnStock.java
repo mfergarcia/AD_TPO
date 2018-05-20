@@ -123,7 +123,6 @@ public class ArticuloEnStock {
 		return artEnStockDTO;
 	}
 	
-	//@Facu: implementar metodo
 	public void saveMe() {
 		ArticuloEnStockDAO.getInstance().grabar(this);
 	}	

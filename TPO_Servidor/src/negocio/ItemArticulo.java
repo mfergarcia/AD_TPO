@@ -1,6 +1,7 @@
 // @Facu: implementar saveMe
 package negocio;
 
+import dao.ItemArticuloDAO;
 import dto.ItemArticuloDTO;
 
 public class ItemArticulo {
@@ -70,7 +71,7 @@ public class ItemArticulo {
 	
 	//@Facu: implementar metodo
 	public void saveMe() {
-
+		ItemArticuloDAO.getInstance().grabar(this);
 	}	
 	
 }
