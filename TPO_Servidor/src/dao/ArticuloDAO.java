@@ -29,7 +29,7 @@ public class ArticuloDAO {
 			SessionFactory sf = HibernateUtil.getSessionFactory();
 			Session session = sf.openSession();
 			session.beginTransaction();
-			int i = (Integer) session.save(ae);
+			session.saveOrUpdate(ae);
 			session.getTransaction().commit();
 			session.close();
 		}

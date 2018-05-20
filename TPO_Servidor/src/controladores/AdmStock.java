@@ -92,7 +92,6 @@ public class AdmStock {
 		return ArticuloDAO.getInstance().showAll();
 	}
 	
-	// @Facu: Validar si los saveMe están bien puestos (para stock y para auxItemArt)
 	// Verifica la existencia de Stock de cada item del Pedido. Si detecta
 	// que hay stock faltante, se genera una Orden de Pedido de Reposición
 	public String reservarStockPedido(Pedido pedido) {
@@ -154,7 +153,7 @@ public class AdmStock {
 		return estadoPedido;
 	}
 
-	// @Facu: revisar el uso de saveMe
+
 	public Collection<ArticuloEnStock> localizarStockArticulo(Articulo articulo, int cantidad) {
 		// Coleccion para almacenar la seleccion de Articulos En Stock que se necesitan para cumplir este Item del Pedido
 		Collection<ArticuloEnStock> stockLocalizado = new ArrayList<ArticuloEnStock>();

@@ -5,6 +5,7 @@ import java.util.Date;
 
 import dao.ArticuloEnStockDAO;
 import dto.ArticuloEnStockDTO;
+import entities.ArticuloEnStockEntity;
 
 public class ArticuloEnStock {
 
@@ -20,6 +21,10 @@ public class ArticuloEnStock {
 
 	public ArticuloEnStock() {
 
+	}
+	
+	public ArticuloEnStock(ArticuloEnStockEntity ase) {
+		
 	}
 	
 	public ArticuloEnStock(String codigoUbicacion, int cantidad, ArticuloEnStockDTO artEnStockDTO) {

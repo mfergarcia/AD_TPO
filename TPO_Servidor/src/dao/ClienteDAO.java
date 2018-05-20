@@ -22,7 +22,7 @@ public class ClienteDAO {
 		SessionFactory sf = HibernateUtil.getSessionFactory();
 		Session session = sf.openSession();
 		char tipo= 'N';
-		tipo= (char) session.createQuery("Select tipo from ClienteEmpresaEntity where idCliente= ?")
+		tipo= (char) session.createQuery("Select tipo from ClienteEntity where idCliente= ?")
 					.setParameter(0, idCliente)
 					.uniqueResult();
 		if(tipo!='N')

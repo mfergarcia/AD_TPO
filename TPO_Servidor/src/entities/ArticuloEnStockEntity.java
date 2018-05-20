@@ -11,8 +11,8 @@ import javax.persistence.Table;
 public class ArticuloEnStockEntity {
 	@Id
 	Integer id;
-	//private String codigoBarras;--Si tenemos el codigo no es mejor directamente el objeto Articulo
-	//private String codigoUbicacion;--igual, no es mejor el Stock?
+	String codigoBarras;
+	String codigoUbicacion;
 	private int cantidad;
 	private String lote;
 	private Date fechaVencimiento;

@@ -27,7 +27,7 @@ public class CtaCteDAO {
 		SessionFactory sf = HibernateUtil.getSessionFactory();
 		Session session = sf.openSession();
 		session.beginTransaction();
-		int i = (Integer) session.save(cc);
+		session.saveOrUpdate(cc);
 		session.getTransaction().commit();
 		session.close();
 		

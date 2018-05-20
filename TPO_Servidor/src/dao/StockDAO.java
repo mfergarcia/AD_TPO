@@ -25,7 +25,7 @@ public class StockDAO {
 		SessionFactory sf = HibernateUtil.getSessionFactory();
 		Session session = sf.openSession();
 		session.beginTransaction();
-		int i = (Integer) session.save(se);
+		session.saveOrUpdate(se);
 		session.getTransaction().commit();
 		session.close();
 		

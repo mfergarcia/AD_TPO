@@ -27,7 +27,7 @@ public class ArticuloEnStockDAO {
 	public ArticuloEnStockEntity findByID(int id){
 		SessionFactory sf = HibernateUtil.getSessionFactory();
 		Session session = sf.openSession();
-		ArticuloEnStockEntity aee= (ArticuloEnStockEntity) session.createQuery("from AticuloEnStockEntity where idCliente = ?")
+		ArticuloEnStockEntity aee= (ArticuloEnStockEntity) session.createQuery("from AticuloEnStockEntity where id = ?")
 									.setParameter(0, id)
 									.uniqueResult();
 		
