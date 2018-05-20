@@ -96,7 +96,7 @@ public class AdmClientes {
 				return aux; 
 		}
 		*/
-		return null;
+		return aux;
 	}
 
 	//@Facu: revisar la llamada al saveMe de la cuenta corriente y del cteEmpresa
