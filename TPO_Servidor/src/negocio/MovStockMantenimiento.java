@@ -2,6 +2,7 @@
 // @Facu: implementar saveMe
 package negocio;
 
+import dao.MovStockMantenimientoDAO;
 import entities.MovStockMantenimientoEntity;
 
 public class MovStockMantenimiento extends MovimientoStock {
@@ -59,7 +60,7 @@ public class MovStockMantenimiento extends MovimientoStock {
 
 	//@Facu: implementar metodo
 	public void saveMe() {
-
+		MovStockMantenimientoDAO.getInstance().grabar(this);
 	}	
 
 }
