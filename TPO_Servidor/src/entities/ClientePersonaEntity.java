@@ -33,7 +33,7 @@ public class ClientePersonaEntity extends ClienteEntity{
 		this.setNombre(nombre);
 	}
 
-
+	public ClientePersonaEntity(){}
 	public String getDni() {
 		return dni;
 	}

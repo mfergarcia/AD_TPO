@@ -35,7 +35,7 @@ public class ClienteEntity {
 	private char tipo;
 	private char estado;
 	
-	
+	public ClienteEntity(){}
 	public ClienteEntity(CtaCteEntity ctaCte, char tipoFactura, String condicionesEspeciales,
 			DireccionEntity direccionFacturacion, char tipo, char estado) {
 		super();

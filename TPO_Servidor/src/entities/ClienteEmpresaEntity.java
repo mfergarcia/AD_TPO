@@ -30,6 +30,10 @@ public class ClienteEmpresaEntity extends ClienteEntity{
 		this.setRazonSocial(razonSocial);
 	}
 	
+	public ClienteEmpresaEntity() {
+		super();
+	}
+	
 	
 	public String getCuit() {
 		return cuit;

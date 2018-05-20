@@ -30,7 +30,8 @@ public class CtaCteEntity {
 	public CtaCteEntity(float limiteCredito) {
 		this.limiteCredito=limiteCredito;
 	}
-
+	public CtaCteEntity(){}
+	
 	public Integer getIdCtaCte() {
 		return idCtaCte;
 	}
