@@ -1,5 +1,6 @@
 package test;
 
+import dao.ClienteDAO;
 import dao.ClienteEmpresaDAO;
 import dao.ClientePersonaDAO;
 import negocio.ClienteEmpresa;
@@ -16,7 +17,7 @@ public class Test_Hibernate_Facu {
 		ClientePersona cp= new ClientePersona(cC,'A',"Ninguna", d, 'A',"3229322","Suarez", "Jose");
 		ClienteEmpresaDAO.getInstance().grabar(ce);
 		ClientePersonaDAO.getInstance().grabar(cp);*/
-		System.out.println(ClienteEmpresaDAO.getInstance().findByID(1).getRazonSocial());
+		System.out.println(ClienteDAO.getInstancia().getTipoCliente(2));
 		
 	}
 }
