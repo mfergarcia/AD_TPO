@@ -2,6 +2,8 @@
 // @Facu: implementar saveMe
 package negocio;
 
+import java.util.Date;
+
 import dao.MovStockAjusteDAO;
 import entities.MovimientoStockEntity;
 
@@ -14,19 +16,16 @@ public class MovStockAjuste extends MovimientoStock {
 
 	private ArticuloEnStock artEnStock;	
 	
-	/*public MovStockAjuste() {
-		// TODO Auto-generated constructor stub
-	}*/
+	public MovStockAjuste(char tipoAjuste,Date fecha,int cant) {
+		super(tipoAjuste,fecha,cant);
+		setTipoMov("SA");
+	}
 
-	// NOTAS_FG: Ver si se puede reemplazar usando el constructor
+	// NOTAS_FG: Ver si se puede reemplazar usando el constructor, MD No lo borre xq tengo dudas
 	public void registrarMovStockAjuste(int cant) {
 		
 	}
 
-	// NOTAS_FG: Para qué sirve este metodo? Qué calcula?	
-	public void calcularMoviento() {
-		
-	}
 	
 	public ArticuloEnStock getArtEnStock() {
 		return artEnStock;

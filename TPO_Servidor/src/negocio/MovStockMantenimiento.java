@@ -2,6 +2,8 @@
 // @Facu: implementar saveMe
 package negocio;
 
+import java.util.Date;
+
 import dao.MovStockMantenimientoDAO;
 import entities.MovStockMantenimientoEntity;
 
@@ -20,19 +22,23 @@ public class MovStockMantenimiento extends MovimientoStock {
 		this.setUsuarioRegistrado(ms.getUsuarioRegistrado());
 		this.setDestinoFinal(ms.getDestinoFinal());
 	}
-	/*public MovStockMantenimiento() {
+	
+	public MovStockMantenimiento(char tipoAjuste,Date fecha,int cant,String usuarioRegistrado,String autorizante,String destinoFinal) {
 		// TODO Auto-generated constructor stub
-	}*/
+		super(tipoAjuste,fecha,cant);
+		this.usuarioRegistrado = usuarioRegistrado;
+		this.autorizante = autorizante;
+		this.destinoFinal = destinoFinal;
+		setTipoMov("SM");
+	}
 
+	
+	
 	// NOTAS_FG: Ver si se puede reemplazar usando el constructor	
 	public void registrarMovStockMantenimiento(int cant, String usuarioRegistrado, String autorizante, String destinoFinal) {
 		
 	}
 
-	// NOTAS_FG: Para qué sirve este metodo? Qué calcula?
-	public void calcularMoviento() {
-	
-	}	
 	
 	public String getUsuarioRegistrado() {
 		return usuarioRegistrado;

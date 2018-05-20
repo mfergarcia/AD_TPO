@@ -2,6 +2,8 @@
 // @Facu: implementar saveMe
 package negocio;
 
+import java.util.Date;
+
 import dao.MovStockVentaDAO;
 import entities.MovStockVentaEntity;
 
@@ -14,19 +16,18 @@ public class MovStockVenta extends MovimientoStock {
 
 	private Pedido pedido;
 	
-	/*public MovStockVenta() {
+	public MovStockVenta(char tipoAjuste,Date fecha,int cant, Pedido p) {
 		// TODO Auto-generated constructor stub
-	}*/
+		super(tipoAjuste,fecha,cant);
+		this.setPedido(p);
+		setTipoMov("SM");
+	}
 
 	// NOTAS_FG: Ver si se puede reemplazar usando el constructor	
 	public void registrarMovStockVenta(Pedido p, int cantidad) {
 		
 	}
 
-	// NOTAS_FG: Para qué sirve este metodo? Qué calcula?	
-	public void calcularMoviento() {
-	
-	}
 
 	public Pedido getPedido() {
 		return pedido;

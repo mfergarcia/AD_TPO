@@ -17,7 +17,7 @@ public class MovimientoStock {
 	private String tipoMov;
 	
 	
-	public MovimientoStock(char tipoAjuste,Date fecha,int cant, String tipoMov) {
+	public MovimientoStock(char tipoAjuste,Date fecha,int cant) {
 		super();
 		this.tipoAjuste = tipoAjuste;
 		this.fecha = fecha;
