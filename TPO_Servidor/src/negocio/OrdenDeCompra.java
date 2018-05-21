@@ -111,7 +111,7 @@ public class OrdenDeCompra {
 	}
 	
 	public void saveMe() {
-		OrdenDeCompraDAO.getInstance().grabar(this);
+		this.setNumOC(OrdenDeCompraDAO.getInstance().grabar(this));
 	}	
 	
 }

@@ -19,14 +19,15 @@ public class OrdenDeCompraDAO {
 		return instancia;
 	}
 	
-	public void grabar(OrdenDeCompra oc) {
+	public int grabar(OrdenDeCompra oc) {
 		OrdenDeCompraEntity oce= new OrdenDeCompraEntity(oc);
 		SessionFactory sf = HibernateUtil.getSessionFactory();
 		Session session = sf.openSession();
 		session.beginTransaction();
-		session.saveOrUpdate(oce);
+		int i=  (Integer) session.save(oce);
 		session.getTransaction().commit();
 		session.close();
+		return i;
 	}
 	
 	public OrdenDeCompra findById(int numOC){
