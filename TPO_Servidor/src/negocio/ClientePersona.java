@@ -80,4 +80,9 @@ public class ClientePersona extends Cliente {
 		super.setIdCliente(ClientePersonaDAO.getInstance().grabar(this));
 	}	
 
+	//@Facu: implementar metodo
+	public void updateMe() {
+
+	}	
+
 }

@@ -91,9 +91,13 @@ public class CtaCte {
 		return pagos;
 	}
 
-	//@Facu: implementar metodo
 	public void saveMe() {
 		CtaCteDAO.getInstance().grabar(this);
+	}	
+
+	//@Facu: implementar metodo
+	public void updateMe() {
+
 	}	
 
 }

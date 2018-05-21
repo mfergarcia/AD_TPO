@@ -122,8 +122,13 @@ public class Stock {
 		this.estado = estado;
 	}
 	
-	//@Facu: implementar metodo
-		public void saveMe() {
+	public void saveMe() {
 		StockDAO.getInstance().grabar(this);
 	}	
+
+	//@Facu: implementar metodo
+	public void updateMe() {
+
+	}	
+		
 }

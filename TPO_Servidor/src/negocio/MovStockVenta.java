@@ -37,9 +37,13 @@ public class MovStockVenta extends MovimientoStock {
 		this.pedido = pedido;
 	}	
 	
-	//@Facu: implementar metodo
 	public void saveMe() {
 		MovStockVentaDAO.getInstance().grabar(this);
+	}	
+
+	//@Facu: implementar metodo
+	public void updateMe() {
+
 	}	
 
 }

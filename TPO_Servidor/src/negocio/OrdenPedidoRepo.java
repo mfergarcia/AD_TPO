@@ -105,9 +105,13 @@ public class OrdenPedidoRepo {
 		return ordenPRDTO;
 	}
 
-	//@Facu: implementar metodo
 	public void saveMe() {
 		OrdenPedidoRepoDAO.getInstance().grabar(this);
 	}	
 	
+	//@Facu: implementar metodo
+	public void updateMe() {
+
+	}	
+
 }

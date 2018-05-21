@@ -69,9 +69,13 @@ public class ItemArticulo {
 		return itemArticuloDTO;
 	}
 	
-	//@Facu: implementar metodo
 	public void saveMe() {
 		ItemArticuloDAO.getInstance().grabar(this);
 	}	
 	
+	//@Facu: implementar metodo
+	public void updateMe() {
+
+	}	
+
 }

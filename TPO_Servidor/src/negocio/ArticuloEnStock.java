@@ -141,4 +141,9 @@ public class ArticuloEnStock {
 		ArticuloEnStockDAO.getInstance().grabar(this);
 	}	
 
+	//@Facu: implementar metodo
+	public void updateMe() {
+
+	}	
+
 }

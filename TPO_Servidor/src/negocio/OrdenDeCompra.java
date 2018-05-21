@@ -114,4 +114,9 @@ public class OrdenDeCompra {
 		this.setNumOC(OrdenDeCompraDAO.getInstance().grabar(this));
 	}	
 	
+	//@Facu: implementar metodo
+	public void updateMe() {
+
+	}	
+
 }

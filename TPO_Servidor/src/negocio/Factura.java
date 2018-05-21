@@ -135,4 +135,10 @@ public class Factura {
 	public void saveMe() {
 
 	}	
+
+	//@Facu: implementar metodo
+	public void updateMe() {
+
+	}	
+
 }

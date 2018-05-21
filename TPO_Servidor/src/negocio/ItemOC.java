@@ -41,9 +41,13 @@ public class ItemOC {
 		return itemOCDTO;
 	}
 	
-	//@Facu: implementar metodo
 	public void saveMe() {
 		ItemOCDAO.getInstance().grabar(this);
+	}	
+
+	//@Facu: implementar metodo
+	public void updateMe() {
+
 	}	
 
 }

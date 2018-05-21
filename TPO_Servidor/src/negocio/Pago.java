@@ -77,9 +77,13 @@ public class Pago {
 		this.estado = estado;
 	}
 	
-	//@Facu: implementar metodo
 	public void saveMe() {
 		PagoDAO.getInstance().grabar(this);
 	}	
 	
+	//@Facu: implementar metodo
+	public void updateMe() {
+
+	}	
+
 }

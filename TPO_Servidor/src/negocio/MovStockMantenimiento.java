@@ -64,9 +64,13 @@ public class MovStockMantenimiento extends MovimientoStock {
 		this.destinoFinal = destinoFinal;
 	}
 
-	//@Facu: implementar metodo
 	public void saveMe() {
 		MovStockMantenimientoDAO.getInstance().grabar(this);
+	}	
+
+	//@Facu: implementar metodo
+	public void updateMe() {
+
 	}	
 
 }

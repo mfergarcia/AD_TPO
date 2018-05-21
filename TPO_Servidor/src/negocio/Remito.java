@@ -77,4 +77,10 @@ public class Remito {
 	public void saveMe() {
 		RemitoDAO.getIntance().grabar(this);
 	}	
+
+	//@Facu: implementar metodo
+	public void updateMe() {
+
+	}	
+
 }
