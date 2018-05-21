@@ -8,6 +8,8 @@ import delegados.SistemaBD;
 import dto.ArticuloDTO;
 import dto.DireccionDTO;
 import dto.ItemArticuloDTO;
+import dto.ItemOCDTO;
+import dto.OrdenDeCompraDTO;
 import dto.PedidoDTO;
 import excepciones.ExcepcionComunicacion;
 import excepciones.ExcepcionSistema;
@@ -21,6 +23,7 @@ public class TestCliente_Pedido {
 			// Prueba Generar Pedido
 			
 			int numCliente = 1;
+			int numOCABuscar = 1;
 			DireccionDTO dirEntrega = new DireccionDTO();
 			dirEntrega.setCalle("Venezuela");
 			dirEntrega.setNumero(200);
@@ -29,16 +32,15 @@ public class TestCliente_Pedido {
 			PedidoDTO pedido = new PedidoDTO();
 			pedido.setIdCliente(numCliente);
 			pedido.setDirEntrega(dirEntrega);
-			Collection<ArticuloDTO> catalogo = new ArrayList<ArticuloDTO>();
-			catalogo = bd.obtenerCatalogo();
-			ArticuloDTO auxArt;
-			ItemArticuloDTO itemArticulo;
-			for(Iterator<ArticuloDTO> i = catalogo.iterator(); i.hasNext(); ) {
-				auxArt = i.next();
-				itemArticulo = new ItemArticuloDTO();
-				itemArticulo.setArticuloDTO(auxArt);
-				itemArticulo.setCant(10);
-				pedido.agregarItem(itemArticulo);
+			OrdenDeCompraDTO ordenOC = bd.obtenerOrdenDeCompra(numOCABuscar);
+			ItemOCDTO auxItemOC;
+			ItemArticuloDTO itemArt;
+			for(Iterator<ItemOCDTO> i = ordenOC.getItems().iterator(); i.hasNext(); ) {
+				auxItemOC = i.next();
+				itemArt = new ItemArticuloDTO();
+				itemArt.setArticuloDTO(auxItemOC.getArticulo());
+				itemArt.setCant(5);
+				pedido.agregarItem(itemArt);
 			}
 			pedido = bd.generarPedido(pedido);
 			System.out.println("Se ha generado el pedido : " + pedido.getNumPedido() + "en estado " + pedido.getEstado() + " con los siguientes items: ");

@@ -21,21 +21,21 @@ public class TestCliente_Articulos {
 
 			Collection<ArticuloDTO> articulos = new ArrayList<ArticuloDTO>();
 			ArticuloDTO articulo = new ArticuloDTO();
-			articulo.setCodigoBarras("AAA111");
-			articulo.setDescripcion("Refresco FANTA");
+			articulo.setCodigoBarras("DDD444");
+			articulo.setDescripcion("Coca-Light");
 			articulo.setPresentacion("PACK");
 			articulo.setTamaño(50);
 			articulo.setUnidad("Latas 500ml");
 			articulo.setPrecioVta(1500);
-			articulo.setCantMaxUbicacion(100);
+			articulo.setCantMaxUbicacion(500);
 			articulo.setCantFijaCompra(1000);
 			articulo = bd.altaArticulo(articulo);
 			System.out.println("Alta Articulo: " + articulo.getCodigoBarras() + ", " + articulo.getDescripcion() + " " + articulo.getPresentacion() + " " + articulo.getTamaño() + " " + articulo.getUnidad());
 			articulos.add(articulo);
 			
 			articulo = new ArticuloDTO();
-			articulo.setCodigoBarras("BBB222");
-			articulo.setDescripcion("Refresco FANTA");
+			articulo.setCodigoBarras("EEE555");
+			articulo.setDescripcion("Coca-light");
 			articulo.setPresentacion("CAJON");
 			articulo.setTamaño(8);
 			articulo.setUnidad("Botellas 1500ml");
@@ -47,7 +47,7 @@ public class TestCliente_Articulos {
 			articulos.add(articulo);
 			
 			articulo = new ArticuloDTO();
-			articulo.setCodigoBarras("CCC333");
+			articulo.setCodigoBarras("FFF666");
 			articulo.setDescripcion("Arroz Gallo Oro");
 			articulo.setPresentacion("Pack");
 			articulo.setTamaño(10);
@@ -58,16 +58,14 @@ public class TestCliente_Articulos {
 			articulo = bd.altaArticulo(articulo);
 			System.out.println("Alta Articulo: " + articulo.getCodigoBarras() + ", " + articulo.getDescripcion() + " " + articulo.getPresentacion() + " " + articulo.getTamaño() + " " + articulo.getUnidad());
 			articulos.add(articulo);
-
 			
 			// Prueba Obtener Articulo
-
-			articulo = bd.obtenerArticulo("BBB222");
-			System.out.println("Se obtuvo el articulo: " + articulo.getCodigoBarras() + ", " + articulo.getDescripcion());;
 			
+			ArticuloDTO articulo2 = bd.obtenerArticulo("FFF666");
+			System.out.println("Se obtuvo el articulo: " + articulo2.getCodigoBarras() + ", " + articulo2.getDescripcion());;
 			
 			// Prueba Obtener Catalogo
-
+			
 			Collection<ArticuloDTO> catalogo = new ArrayList<ArticuloDTO>();
 			catalogo = bd.obtenerCatalogo();
 			System.out.println("Articulos del catalogo");
@@ -79,7 +77,7 @@ public class TestCliente_Articulos {
 			
 			
 			// Prueba Generar Orden De Compra
-			
+
 			String proveedor = "FEMSA COCA-COLA";
 			OrdenDeCompraDTO ordenOC = bd.generarOrdenDeCompra(proveedor, articulos);
 			System.out.println("El numero de OC es: " + ordenOC.getNumOC());
@@ -90,7 +88,7 @@ public class TestCliente_Articulos {
 				System.out.println("Item " + contador + ": " + auxItemOC.getArticulo().getCodigoBarras() + ", cant: " + auxItemOC.getCantidad());
 				contador++;
 			}
-				
+			
 		} catch (ExcepcionComunicacion e) {
 			System.out.println(e.getMensaje());
 		} catch (ExcepcionSistema es) {

@@ -13,7 +13,7 @@ public class TestCliente_Clientes {
 			SistemaBD bd = new SistemaBD();
 			
 			// Prueba Alta Cliente Empresa
-	
+			/*
 			ClienteEmpresaDTO cteEmpresa = new ClienteEmpresaDTO();
 			cteEmpresa.setCuit("30-22333444-5");
 			cteEmpresa.setRazonSocial("Todo fiestas");
@@ -108,7 +108,7 @@ public class TestCliente_Clientes {
 			ctePersona.setLimiteCredito(50000);
 			ctePersona = bd.altaClientePersona(ctePersona);
 			System.out.println("Cliente Persona: " + ctePersona.getIdCliente() + " " + ctePersona.getApellido() + ", " + ctePersona.getNombre());
-	
+			*/
 			/* Prueba obtener Cliente*/
 			/* Prueba obtener ClienteEmpresa */
 			/* Prueba obtener ClientePersona */
@@ -127,8 +127,8 @@ public class TestCliente_Clientes {
 			*/
 			/* Prueba Modificar Cliente Empresa */
 			/* Prueba Modificar Cliente Persona */
-			/*			
-			int idClienteAObtener2 = 2;
+			/*
+			int idClienteAObtener2 = 6;
 			char tipoCliente2 = bd.obtenerTipoCliente(idClienteAObtener2);
 			System.out.println("El tipo de cliente a buscar es: " + tipoCliente2);
 			if (tipoCliente2 == 'E') {
@@ -141,20 +141,20 @@ public class TestCliente_Clientes {
 			else {
 				ClientePersonaDTO ctePersona3 = bd.obtenerCtePersona(idClienteAObtener2);
 				System.out.println("Cliente Persona: " + ctePersona3.getIdCliente() + " " + ctePersona3.getApellido() + ", " + ctePersona3.getNombre());
-				dirFacturacion = new DireccionDTO();
-				dirFacturacion.setCalle("Pasaje El Delta");
-				dirFacturacion.setNumero(300);
-				dirFacturacion.setCodigoPostal("2001");
-				dirFacturacion.setLocalidad("Avellaneda");
-				ctePersona3.setDireccionFacturacion(dirFacturacion);
+				DireccionDTO dirFacturacion2 = new DireccionDTO();
+				dirFacturacion2.setCalle("Pasaje El Delta");
+				dirFacturacion2.setNumero(300);
+				dirFacturacion2.setCodigoPostal("2001");
+				dirFacturacion2.setLocalidad("Avellaneda");
+				ctePersona3.setDireccionFacturacion(dirFacturacion2);
 				ctePersona3 = bd.modificarCtePersona(ctePersona3);
 				System.out.println("Cliente Persona Modificado: " + ctePersona3.getIdCliente() + " " + ctePersona3.getDireccionFacturacion().getCalle());
 			}
 			*/
-			
+
 			// Prueba Baja Cliente Empresa 
 			// Prueba Baja Cliente Persona
-			/*
+			
 			int idClienteADarDeBaja = 5;
 			bd.bajaCliente(idClienteADarDeBaja);
 			char tipoCliente3 = bd.obtenerTipoCliente(idClienteADarDeBaja);
@@ -167,7 +167,7 @@ public class TestCliente_Clientes {
 				ClientePersonaDTO ctePersona4 = bd.obtenerCtePersona(idClienteADarDeBaja);
 				System.out.println("Cliente Persona: " + ctePersona4.getIdCliente() + " " + ctePersona4.getEstado());
 			}
-			*/
+
 			
 		} catch (ExcepcionComunicacion e) {
 			System.out.println(e.getMensaje());
