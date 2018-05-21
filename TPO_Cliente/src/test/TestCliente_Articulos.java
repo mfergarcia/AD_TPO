@@ -89,6 +89,7 @@ public class TestCliente_Articulos {
 				contador++;
 			}
 			
+			
 		} catch (ExcepcionComunicacion e) {
 			System.out.println(e.getMensaje());
 		} catch (ExcepcionSistema es) {

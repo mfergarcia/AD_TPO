@@ -60,7 +60,7 @@ public class TestCliente_Clientes {
 			System.out.println("Cliente Empresa: " + cteEmpresa.getIdCliente() + " " + cteEmpresa.getRazonSocial());;
 	
 			// Prueba Alta Cliente Persona
-
+			/*
 			ClientePersonaDTO ctePersona = new ClientePersonaDTO();
 			ctePersona.setDni("25666777");
 			ctePersona.setApellido("San Martin");
@@ -124,10 +124,10 @@ public class TestCliente_Clientes {
 				ClientePersonaDTO ctePersona2 = bd.obtenerCtePersona(idClienteAObtener1);
 				System.out.println("Cliente Persona: " + ctePersona2.getIdCliente() + " " + ctePersona2.getApellido() + ", " + ctePersona2.getNombre());
 			}
-			*/
+			
 			/* Prueba Modificar Cliente Empresa */
 			/* Prueba Modificar Cliente Persona */
-			
+			/*
 			int idClienteAObtener2 = 6;
 			char tipoCliente2 = bd.obtenerTipoCliente(idClienteAObtener2);
 			System.out.println("El tipo de cliente a buscar es: " + tipoCliente2);
@@ -151,10 +151,10 @@ public class TestCliente_Clientes {
 				System.out.println("Cliente Persona Modificado: " + ctePersona3.getIdCliente() + " " + ctePersona3.getDireccionFacturacion().getCalle());
 			}
 			
-
+			*/
 			// Prueba Baja Cliente Empresa 
 			// Prueba Baja Cliente Persona
-			/*
+			
 			int idClienteADarDeBaja = 5;
 			bd.bajaCliente(idClienteADarDeBaja);
 			char tipoCliente3 = bd.obtenerTipoCliente(idClienteADarDeBaja);
@@ -167,7 +167,7 @@ public class TestCliente_Clientes {
 				ClientePersonaDTO ctePersona4 = bd.obtenerCtePersona(idClienteADarDeBaja);
 				System.out.println("Cliente Persona: " + ctePersona4.getIdCliente() + " " + ctePersona4.getEstado());
 			}
-			 */
+			 
 			
 		} catch (ExcepcionComunicacion e) {
 			System.out.println(e.getMensaje());

@@ -74,6 +74,7 @@ public class AdmCompras {
 		articulo.setPrecioVta(articuloDTO.getPrecioVta());
 		articulo.setCantFijaCompra(articuloDTO.getCantFijaCompra());
 		articulo.setCantMaxUbicacion(articuloDTO.getCantMaxUbicacion());
+		articulo.setEstado(articuloDTO.getEstado());
 		articulo.updateMe();
 		return articulo;
 	}
