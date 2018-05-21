@@ -76,7 +76,8 @@ public class Direccion {
 		return direccionDTO;
 	}
 	
-	//@Facu: implementar metodo
+	//No se GuardaDireccion solo
+	/*
 	public void saveMe() {
 
 	}	
@@ -85,5 +86,5 @@ public class Direccion {
 	public void updateMe() {
 
 	}	
-
+	 */
 }

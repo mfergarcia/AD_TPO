@@ -1,4 +1,4 @@
-// @Facu: implementar metodo saveMe
+
 package negocio;
 
 import java.util.ArrayList;
@@ -6,6 +6,7 @@ import java.util.Calendar;
 import java.util.Collection;
 import java.util.Date;
 import java.util.Iterator;
+import java.util.List;
 
 import dao.OrdenDeCompraDAO;
 import dto.OrdenDeCompraDTO;
@@ -16,8 +17,8 @@ public class OrdenDeCompra {
 	private int numOC;
 	private Date fecha;
 	private String proveedor;
-	private Collection<OrdenPedidoRepo> ordenesPedidoRepo;
-	private Collection<ItemOC> itemsOC;
+	private List<OrdenPedidoRepo> ordenesPedidoRepo;
+	private List<ItemOC> itemsOC;
 	// estado: "PENDIENTE", "CUMPLIDA"
 	private String estado;
 
@@ -80,11 +81,11 @@ public class OrdenDeCompra {
 		this.proveedor = proveedor;
 	}
 
-	public Collection<OrdenPedidoRepo> getOrdenesPedidoRepo() {
+	public List<OrdenPedidoRepo> getOrdenesPedidoRepo() {
 		return ordenesPedidoRepo;
 	}
 
-	public Collection<ItemOC> getItemsOC() {
+	public List<ItemOC> getItemsOC() {
 		return itemsOC;
 	}
 
@@ -114,9 +115,8 @@ public class OrdenDeCompra {
 		this.setNumOC(OrdenDeCompraDAO.getInstance().grabar(this));
 	}	
 	
-	//@Facu: implementar metodo
 	public void updateMe() {
-
+		OrdenDeCompraDAO.getInstance().update(this);
 	}	
 
 }

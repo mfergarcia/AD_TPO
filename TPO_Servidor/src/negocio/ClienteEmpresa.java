@@ -4,7 +4,7 @@ package negocio;
 import dao.ClienteEmpresaDAO;
 import dto.ClienteEmpresaDTO;
 import entities.ClienteEmpresaEntity;
-//import entities.ClienteEmpresaEntity;
+
 
 public class ClienteEmpresa extends Cliente {
 

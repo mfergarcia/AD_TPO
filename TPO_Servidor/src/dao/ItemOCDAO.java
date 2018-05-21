@@ -21,12 +21,23 @@ private static ItemOCDAO instancia;
 		return instancia;
 	}
 	
-	public void grabar(ItemOC ioc) {
+	public int grabar(ItemOC ioc) {
 		ItemOCEntity ioce= new ItemOCEntity(ioc);
 		SessionFactory sf = HibernateUtil.getSessionFactory();
 		Session session = sf.openSession();
 		session.beginTransaction();
-		session.saveOrUpdate(ioce);
+		int i= (Integer) session.save(ioce);
+		session.getTransaction().commit();
+		session.close();
+		return i;
+	}
+
+	public void update(ItemOC itemOC) {
+		ItemOCEntity ioce= new ItemOCEntity(itemOC);
+		SessionFactory sf = HibernateUtil.getSessionFactory();
+		Session session = sf.openSession();
+		session.beginTransaction();
+		session.update(ioce);
 		session.getTransaction().commit();
 		session.close();
 	}

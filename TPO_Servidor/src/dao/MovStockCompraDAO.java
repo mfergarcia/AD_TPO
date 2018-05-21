@@ -21,12 +21,23 @@ public class MovStockCompraDAO {
 	}
 	
 	
-	public void grabar(MovStockCompra sc){
+	public int grabar(MovStockCompra sc){
 		MovStockCompraEntity sce= new MovStockCompraEntity(sc.getTipoAjuste(),sc.getFecha(),sc.getCant(),sc.getTipoMov(),new OrdenDeCompraEntity(sc.getOc()));
 		SessionFactory sf = HibernateUtil.getSessionFactory();
 		Session session = sf.openSession();
 		session.beginTransaction();
-		session.saveOrUpdate(sce);
+		int i= (Integer) session.save(sce);
+		session.getTransaction().commit();
+		session.close();
+		return i;
+	}
+	
+	public void update(MovStockCompra sc){
+		MovStockCompraEntity sce= new MovStockCompraEntity(sc.getTipoAjuste(),sc.getFecha(),sc.getCant(),sc.getTipoMov(),new OrdenDeCompraEntity(sc.getOc()));
+		SessionFactory sf = HibernateUtil.getSessionFactory();
+		Session session = sf.openSession();
+		session.beginTransaction();
+		session.update(sce);
 		session.getTransaction().commit();
 		session.close();
 		

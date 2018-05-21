@@ -6,6 +6,7 @@ import java.util.Calendar;
 import java.util.Date;
 import java.util.Iterator;
 
+import dao.FacturaDAO;
 import dto.FacturaDTO;
 import entities.FacturaEntity;
 
@@ -133,12 +134,12 @@ public class Factura {
 	
 	//@Facu: implementar metodo
 	public void saveMe() {
-
+		FacturaDAO.getInstance().grabar(this);
 	}	
 
 	//@Facu: implementar metodo
 	public void updateMe() {
-
+		FacturaDAO.getInstance().update(this);
 	}	
 
 }

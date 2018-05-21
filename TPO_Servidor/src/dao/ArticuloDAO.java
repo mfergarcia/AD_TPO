@@ -56,4 +56,14 @@ public class ArticuloDAO {
 				a.add(new Articulo(e));
 			return a;
 		}
+
+		public void update(Articulo articulo) {
+			ArticuloEntity ae= new ArticuloEntity(articulo);
+			SessionFactory sf = HibernateUtil.getSessionFactory();
+			Session session = sf.openSession();
+			session.beginTransaction();
+			session.update(ae);
+			session.getTransaction().commit();
+			session.close();
+		}
 }

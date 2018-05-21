@@ -40,5 +40,16 @@ public class FacturaDAO {
 									.uniqueResult();
 		return new Factura(fe);
 	}
+	
+	public void update(Factura s) {
+		FacturaEntity se= new FacturaEntity(s);
+		SessionFactory sf = HibernateUtil.getSessionFactory();
+		Session session = sf.openSession();
+		session.beginTransaction();
+		session.update(se);
+		session.getTransaction().commit();
+		session.close();
+		
+	} 
 }
 

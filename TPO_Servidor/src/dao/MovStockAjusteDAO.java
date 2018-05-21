@@ -20,12 +20,23 @@ private static MovStockAjusteDAO instancia;
 		return instancia;
 	}
 	
-	public void grabar(MovStockAjuste sa){
+	public int grabar(MovStockAjuste sa){
 		MovStockAjusteEntity sae= new MovStockAjusteEntity(sa.getTipoAjuste(), sa.getFecha(), sa.getCant(), sa.getTipoMov(), new ArticuloEnStockEntity(sa.getArtEnStock()));
 		SessionFactory sf = HibernateUtil.getSessionFactory();
 		Session session = sf.openSession();
 		session.beginTransaction();
-		session.saveOrUpdate(sae);
+		int i=(Integer)session.save(sae);
+		session.getTransaction().commit();
+		session.close();
+		return i;
+	}
+
+	public void update(MovStockAjuste sa) {
+		MovStockAjusteEntity sae= new MovStockAjusteEntity(sa.getTipoAjuste(), sa.getFecha(), sa.getCant(), sa.getTipoMov(), new ArticuloEnStockEntity(sa.getArtEnStock()));
+		SessionFactory sf = HibernateUtil.getSessionFactory();
+		Session session = sf.openSession();
+		session.beginTransaction();
+		session.update(sae);
 		session.getTransaction().commit();
 		session.close();
 	}

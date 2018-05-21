@@ -175,9 +175,9 @@ public class Articulo {
 		ArticuloDAO.getInstance().grabar(this);
 	}	
 
-	//@Facu: implementar metodo
+	
 	public void updateMe() {
-
+		ArticuloDAO.getInstance().update(this);
 	}	
 
 	

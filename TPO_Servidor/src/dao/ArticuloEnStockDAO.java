@@ -55,4 +55,15 @@ public class ArticuloEnStockDAO {
 			res.add(new ArticuloEnStock(ae));
 		return res;
 	}
+
+	public void update(ArticuloEnStock articuloEnStock) {
+		ArticuloEnStockEntity aee= new ArticuloEnStockEntity(articuloEnStock);
+		SessionFactory sf = HibernateUtil.getSessionFactory();
+		Session session = sf.openSession();
+		session.beginTransaction();
+		session.update(aee);
+		session.getTransaction().commit();
+		session.close();
+		
+	}
 }

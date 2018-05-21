@@ -1,7 +1,6 @@
-//PENDIENTE: Implementar método saveMe
+
 package negocio;
 
-import dao.ArticuloDAO;
 import dao.StockDAO;
 import entities.StockEntity;
 
@@ -128,7 +127,7 @@ public class Stock {
 
 	//@Facu: implementar metodo
 	public void updateMe() {
-
+		StockDAO.getInstance().update(this);
 	}	
 		
 }

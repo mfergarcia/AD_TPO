@@ -20,13 +20,25 @@ public class MovStockMantenimientoDAO {
 		return instancia;
 	}
 	
-	public void grabar(MovStockMantenimiento sm){
+	public int grabar(MovStockMantenimiento sm){
 		MovStockMantenimientoEntity sme= new MovStockMantenimientoEntity(sm.getTipoAjuste(), sm.getFecha(), sm.getCant(), sm.getTipoMov(), 
 																		 sm.getUsuarioRegistrado(), sm.getAutorizante(), sm.getDestinoFinal());
 		SessionFactory sf = HibernateUtil.getSessionFactory();
 		Session session = sf.openSession();
 		session.beginTransaction();
-		session.saveOrUpdate(sme);
+		int i= (Integer) session.save(sme);
+		session.getTransaction().commit();
+		session.close();
+		return i;
+	}
+
+	public void update(MovStockMantenimiento sm) {
+		MovStockMantenimientoEntity sme= new MovStockMantenimientoEntity(sm.getTipoAjuste(), sm.getFecha(), sm.getCant(), sm.getTipoMov(), 
+				 sm.getUsuarioRegistrado(), sm.getAutorizante(), sm.getDestinoFinal());
+		SessionFactory sf = HibernateUtil.getSessionFactory();
+		Session session = sf.openSession();
+		session.beginTransaction();
+		session.update(sme);
 		session.getTransaction().commit();
 		session.close();
 	}

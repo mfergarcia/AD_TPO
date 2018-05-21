@@ -17,7 +17,6 @@ public class MovStockVenta extends MovimientoStock {
 	private Pedido pedido;
 	
 	public MovStockVenta(char tipoAjuste,Date fecha,int cant, Pedido p) {
-		// TODO Auto-generated constructor stub
 		super(tipoAjuste,fecha,cant);
 		this.setPedido(p);
 		setTipoMov("SM");
@@ -38,12 +37,11 @@ public class MovStockVenta extends MovimientoStock {
 	}	
 	
 	public void saveMe() {
-		MovStockVentaDAO.getInstance().grabar(this);
+		this.setIdMov(MovStockVentaDAO.getInstance().grabar(this));
 	}	
 
-	//@Facu: implementar metodo
 	public void updateMe() {
-
+		MovStockVentaDAO.getInstance().update(this);
 	}	
 
 }

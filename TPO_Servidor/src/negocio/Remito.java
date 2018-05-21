@@ -1,11 +1,10 @@
-// @Facu: implementar método saveMe
+
 package negocio;
 
 import java.util.Calendar;
 import java.util.Date;
 import java.util.Iterator;
 
-import dao.ArticuloDAO;
 import dao.RemitoDAO;
 import dto.RemitoDTO;
 import entities.RemitoEntity;
@@ -75,12 +74,11 @@ public class Remito {
 	}
 
 	public void saveMe() {
-		RemitoDAO.getIntance().grabar(this);
+		this.setNumRemito(RemitoDAO.getIntance().grabar(this));
 	}	
 
-	//@Facu: implementar metodo
 	public void updateMe() {
-
+		RemitoDAO.getIntance().update(this);
 	}	
 
 }

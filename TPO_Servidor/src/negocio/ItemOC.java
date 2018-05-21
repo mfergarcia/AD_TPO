@@ -1,11 +1,11 @@
-// @Facu: implementar saveMe
+
 package negocio;
 
 import dao.ItemOCDAO;
 import dto.ItemOCDTO;
 
 public class ItemOC {
-
+	private int id;
 	private Articulo articulo;
 	private int cantidad;
 	
@@ -16,6 +16,15 @@ public class ItemOC {
 	public ItemOC(Articulo articulo, int cantidad) {
 		this.setArticulo(articulo);
 		this.setCantidad(cantidad);
+	}
+	
+	
+	public int getId() {
+		return id;
+	}
+
+	public void setId(int id) {
+		this.id = id;
 	}
 
 	public Articulo getArticulo() {
@@ -42,12 +51,11 @@ public class ItemOC {
 	}
 	
 	public void saveMe() {
-		ItemOCDAO.getInstance().grabar(this);
+		this.setId(ItemOCDAO.getInstance().grabar(this));
 	}	
 
-	//@Facu: implementar metodo
 	public void updateMe() {
-
+		ItemOCDAO.getInstance().update(this);
 	}	
 
 }

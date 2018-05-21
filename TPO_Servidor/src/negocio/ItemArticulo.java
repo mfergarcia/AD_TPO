@@ -1,11 +1,11 @@
-// @Facu: implementar saveMe
+
 package negocio;
 
 import dao.ItemArticuloDAO;
 import dto.ItemArticuloDTO;
 
 public class ItemArticulo {
-
+	private int id;
 	private Articulo articulo;
 	private int cant;
 	private float precioVta;
@@ -26,6 +26,16 @@ public class ItemArticulo {
 	
 	public float calcularTotal() {
 		return (this.getCant() * this.getPrecioVta());
+	}
+	
+	
+	
+	public int getId() {
+		return id;
+	}
+
+	public void setId(int id) {
+		this.id = id;
 	}
 
 	public Articulo getArticulo() {
@@ -70,12 +80,11 @@ public class ItemArticulo {
 	}
 	
 	public void saveMe() {
-		ItemArticuloDAO.getInstance().grabar(this);
+		this.setId(ItemArticuloDAO.getInstance().grabar(this));
 	}	
 	
-	//@Facu: implementar metodo
 	public void updateMe() {
-
+		ItemArticuloDAO.getInstance().update(this);
 	}	
 
 }

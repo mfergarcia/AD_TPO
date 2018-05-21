@@ -1,5 +1,6 @@
 package entities;
 
+import java.util.ArrayList;
 import java.util.Date;
 import java.util.List;
 
@@ -12,7 +13,10 @@ import javax.persistence.JoinColumn;
 import javax.persistence.OneToMany;
 import javax.persistence.Table;
 
+import negocio.ItemArticulo;
+import negocio.ItemOC;
 import negocio.OrdenDeCompra;
+import negocio.OrdenPedidoRepo;
 
 @Entity
 @Table(name="OrdenesDeCompra")
@@ -30,12 +34,27 @@ public class OrdenDeCompraEntity {
 	List<ItemOCEntity> ioe;
 	private String estado;
 	
-	public OrdenDeCompraEntity(OrdenDeCompra oc) {//Cargar Lista?(si es necesario, metodos a parte para convertir de normal a entity)
+	public OrdenDeCompraEntity(OrdenDeCompra oc) {
 		this.setEstado(oc.getEstado());
 		this.setFecha(oc.getFecha());
 		this.setProveedor(oc.getProveedor());
+		this.cargarListOC(oc.getItemsOC());
+		this.cargarListOPRE(oc.getOrdenesPedidoRepo());
 	}
 	
+	private void cargarListOC(List<ItemOC> ia){
+		List<ItemOCEntity> res= new ArrayList<ItemOCEntity>();
+		for(ItemOC a: ia)
+			res.add(new ItemOCEntity(a));
+		this.setIoe(res);
+	}
+	
+	private void cargarListOPRE(List<OrdenPedidoRepo> ia){
+		List<OrdenPedidoRepoEntity> res= new ArrayList<OrdenPedidoRepoEntity>();
+		for(OrdenPedidoRepo a: ia)
+			res.add(new OrdenPedidoRepoEntity(a));
+		this.setOpre(res);
+	}
 	
 	public OrdenDeCompraEntity() {}
 

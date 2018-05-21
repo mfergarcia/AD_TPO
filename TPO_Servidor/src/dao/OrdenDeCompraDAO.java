@@ -36,4 +36,15 @@ public class OrdenDeCompraDAO {
 		OrdenDeCompraEntity oce= (OrdenDeCompraEntity) session.createQuery("from OrdenDeCompraEntity where numOC= ?").setParameter(0, numOC).uniqueResult();
 		return new OrdenDeCompra(oce);	
 	}
+
+	public void update(OrdenDeCompra ordenDeCompra) {
+		OrdenDeCompraEntity oce= new OrdenDeCompraEntity(ordenDeCompra);
+		SessionFactory sf = HibernateUtil.getSessionFactory();
+		Session session = sf.openSession();
+		session.beginTransaction();
+		session.update(oce);
+		session.getTransaction().commit();
+		session.close();
+		
+	}
 }

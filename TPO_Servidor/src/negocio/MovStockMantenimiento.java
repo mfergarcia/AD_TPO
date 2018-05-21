@@ -24,7 +24,6 @@ public class MovStockMantenimiento extends MovimientoStock {
 	}
 	
 	public MovStockMantenimiento(char tipoAjuste,Date fecha,int cant,String usuarioRegistrado,String autorizante,String destinoFinal) {
-		// TODO Auto-generated constructor stub
 		super(tipoAjuste,fecha,cant);
 		this.usuarioRegistrado = usuarioRegistrado;
 		this.autorizante = autorizante;
@@ -65,12 +64,11 @@ public class MovStockMantenimiento extends MovimientoStock {
 	}
 
 	public void saveMe() {
-		MovStockMantenimientoDAO.getInstance().grabar(this);
+		this.setIdMov(MovStockMantenimientoDAO.getInstance().grabar(this));
 	}	
 
-	//@Facu: implementar metodo
 	public void updateMe() {
-
+		MovStockMantenimientoDAO.getInstance().update(this);
 	}	
 
 }

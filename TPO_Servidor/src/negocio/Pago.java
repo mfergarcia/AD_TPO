@@ -1,4 +1,4 @@
-//@Facu: implementar metodo saveMe
+
 package negocio;
 
 import java.util.Calendar;
@@ -78,12 +78,12 @@ public class Pago {
 	}
 	
 	public void saveMe() {
-		PagoDAO.getInstance().grabar(this);
+		this.setId(PagoDAO.getInstance().grabar(this));
 	}	
 	
-	//@Facu: implementar metodo
+	
 	public void updateMe() {
-
+		PagoDAO.getInstance().update(this);
 	}	
 
 }

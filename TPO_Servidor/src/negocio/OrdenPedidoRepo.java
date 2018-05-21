@@ -1,4 +1,3 @@
-//@Facu: implementar metodo saveMe
 package negocio;
 
 import java.util.Calendar;
@@ -106,12 +105,11 @@ public class OrdenPedidoRepo {
 	}
 
 	public void saveMe() {
-		OrdenPedidoRepoDAO.getInstance().grabar(this);
+		this.setNumOrdenPR(OrdenPedidoRepoDAO.getInstance().grabar(this));
 	}	
 	
-	//@Facu: implementar metodo
 	public void updateMe() {
-
+		OrdenPedidoRepoDAO.getInstance().update(this);
 	}	
 
 }

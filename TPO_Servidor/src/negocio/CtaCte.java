@@ -96,7 +96,6 @@ public class CtaCte {
 		CtaCteDAO.getInstance().grabar(this);
 	}	
 
-	//@Facu: implementar metodo
 	public void updateMe() {
 		CtaCteDAO.getInstance().update(this);
 	}	

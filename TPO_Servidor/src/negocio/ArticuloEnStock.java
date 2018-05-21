@@ -1,4 +1,4 @@
-// @Facu: implementar metodo saveMe
+
 package negocio;
 
 import java.util.Date;
@@ -141,9 +141,8 @@ public class ArticuloEnStock {
 		ArticuloEnStockDAO.getInstance().grabar(this);
 	}	
 
-	//@Facu: implementar metodo
 	public void updateMe() {
-
+		ArticuloEnStockDAO.getInstance().update(this);
 	}	
 
 }

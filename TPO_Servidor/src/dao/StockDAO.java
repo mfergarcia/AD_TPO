@@ -50,4 +50,14 @@ public class StockDAO {
 		
 		return new Stock(se);
 	}
+
+	public void update(Stock s) {
+		StockEntity se= new StockEntity(s.getCodigoUbicacion(),s.getCantidadReal(),s.getCantidadReservada(),s.getEstado());
+		SessionFactory sf = HibernateUtil.getSessionFactory();
+		Session session = sf.openSession();
+		session.beginTransaction();
+		session.update(se);
+		session.getTransaction().commit();
+		session.close();
+	}
 }

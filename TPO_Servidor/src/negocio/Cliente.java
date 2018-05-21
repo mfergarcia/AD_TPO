@@ -1,6 +1,4 @@
-// @Facu: cambiar para que la herencia se guarde en una sola tabla y 
-// adaptar los contructores. Descomentar los constructores de entity cuando
-// esten funcionando
+
 package negocio;
 
 import dto.ClienteEmpresaDTO;
@@ -19,9 +17,7 @@ public class Cliente {
 	// tipo 'E' (Empresa), 'P' (Persona)
 	private char tipo;
 	// estado: 'A' (activo), 'I' (inactivo)
-	private char estado;
-	
-	//FACU: Revisar 
+	private char estado; 
 	
 	public Cliente(ClienteEntity ce) {
 		this.setIdCliente(ce.getIdCliente());

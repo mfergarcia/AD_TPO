@@ -22,14 +22,15 @@ public class OrdenPedidoRepoDAO {
 		return instancia;
 	}
 	
-	public void grabar(OrdenPedidoRepo opr) {
+	public int grabar(OrdenPedidoRepo opr) {
 		OrdenPedidoRepoEntity opre= new OrdenPedidoRepoEntity(opr);
 		SessionFactory sf = HibernateUtil.getSessionFactory();
 		Session session = sf.openSession();
 		session.beginTransaction();
-		session.saveOrUpdate(opre);
+		int i= (Integer) session.save(opre);
 		session.getTransaction().commit();
 		session.close();
+		return i;
 	}
 	
 	@SuppressWarnings("unchecked")
@@ -59,6 +60,16 @@ public class OrdenPedidoRepoDAO {
 		for(OrdenPedidoRepoEntity o: lopre)
 			lopr.add(new OrdenPedidoRepo(o));
 		return lopr;
+	}
+
+	public void update(OrdenPedidoRepo opr) {
+		OrdenPedidoRepoEntity opre= new OrdenPedidoRepoEntity(opr);
+		SessionFactory sf = HibernateUtil.getSessionFactory();
+		Session session = sf.openSession();
+		session.beginTransaction();
+		session.update(opre);
+		session.getTransaction().commit();
+		session.close();
 	}
 	
 }

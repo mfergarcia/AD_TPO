@@ -1,6 +1,3 @@
-// @Facu: cambiar para que la herencia se guarde en una sola tabla y 
-// adaptar los contructores. Descomentar los constructores de entity cuando
-// esten funcionando
 package negocio;
 
 

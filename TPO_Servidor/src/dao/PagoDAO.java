@@ -39,4 +39,15 @@ public class PagoDAO {
 		return new Pago(pe);
 	}
 
+	public void update(Pago s) {
+		PagoEntity se= new PagoEntity(s.getTipoPago(),s.getImporte());
+		SessionFactory sf = HibernateUtil.getSessionFactory();
+		Session session = sf.openSession();
+		session.beginTransaction();
+		session.update(se);
+		session.getTransaction().commit();
+		session.close();
+		
+	}
+
 }

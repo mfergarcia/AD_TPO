@@ -22,15 +22,16 @@ public class ItemArticuloDAO {
 		return instancia;
 	}
 	
-	public void grabar(ItemArticulo ia) {
+	public int grabar(ItemArticulo ia) {
 		ArticuloEntity ae= new ArticuloEntity (ia.getArticulo());
 		ItemArticuloEntity iae= new ItemArticuloEntity(ae, ia.getCant(), ia.getPrecioVta(), ia.getEstadoStock());
 		SessionFactory sf = HibernateUtil.getSessionFactory();
 		Session session = sf.openSession();
 		session.beginTransaction();
-		session.saveOrUpdate(iae);
+		int i= (Integer) session.save(iae);
 		session.getTransaction().commit();
 		session.close();
+		return i;
 	}
 	
 	
@@ -42,5 +43,16 @@ public class ItemArticuloDAO {
 									.uniqueResult();
 		//TODO
 		return null;
+	}
+
+	public void update(ItemArticulo itemArticulo) {
+		ItemArticuloEntity iae= new ItemArticuloEntity(itemArticulo);
+		SessionFactory sf = HibernateUtil.getSessionFactory();
+		Session session = sf.openSession();
+		session.beginTransaction();
+		session.update(iae);
+		session.getTransaction().commit();
+		session.close();
+		
 	}
 }

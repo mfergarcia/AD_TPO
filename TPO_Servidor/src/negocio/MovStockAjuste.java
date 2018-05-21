@@ -36,12 +36,11 @@ public class MovStockAjuste extends MovimientoStock {
 	}
 
 	public void saveMe() {
-		MovStockAjusteDAO.getInstance().grabar(this);
+		this.setIdMov(MovStockAjusteDAO.getInstance().grabar(this));
 	}	
 
-	//@Facu: implementar metodo
 	public void updateMe() {
-
+		MovStockAjusteDAO.getInstance().update(this);
 	}	
 
 }

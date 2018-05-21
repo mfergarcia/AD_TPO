@@ -44,12 +44,11 @@ public class MovStockCompra extends MovimientoStock {
 	}	
 	
 	public void saveMe() {
-		MovStockCompraDAO.getInstance().grabar(this);
+		this.setIdMov(MovStockCompraDAO.getInstance().grabar(this));
 	}	
 	
-	//@Facu: implementar metodo
 	public void updateMe() {
-
+		MovStockCompraDAO.getInstance().update(this);
 	}	
 
 }
