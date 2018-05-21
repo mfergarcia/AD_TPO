@@ -61,7 +61,8 @@ public class FacturaEntity {
 		this.setEstadoFactura(f.getEstadoFactura());
 		this.setFechaFactura(f.getFechaFactura());
 		this.setTipoFactura(f.getTipoFactura());
-		this.setRe(new RemitoEntity (f.getRemito()));
+		if(f.getRemito()!=null)
+			this.setRe(new RemitoEntity (f.getRemito()));
 		this.setPe(new PedidoEntity(f.getPedido()));
 		this.setMontoAdeudado(f.getMontoAdeudado());
 	}

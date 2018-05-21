@@ -44,10 +44,10 @@ public class StockDAO {
 	public Stock findByEstadoLibre(){
 		SessionFactory sf = HibernateUtil.getSessionFactory();
 		Session session = sf.openSession();
+		String libre="LIBRE";
 		StockEntity se= (StockEntity) session.createQuery("from StockEntity where estado = ?")
-									.setParameter(0, "LIBRE")
+									.setParameter(0, libre )
 									.uniqueResult();
-		
 		return new Stock(se);
 	}
 

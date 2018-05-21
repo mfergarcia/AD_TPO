@@ -11,7 +11,7 @@ import entities.RemitoEntity;
 
 public class Remito {
 
-	private int numRemito;
+	private int numRemito= 0;
 	private Date fechaRemito;
 	// Se necesita conocer la Factura para acceder a los items que debe tener el Remito
 	private Factura factura;

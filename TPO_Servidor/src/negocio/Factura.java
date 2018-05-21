@@ -134,7 +134,7 @@ public class Factura {
 	
 	//@Facu: implementar metodo
 	public void saveMe() {
-		FacturaDAO.getInstance().grabar(this);
+		this.setNumFactura(FacturaDAO.getInstance().grabar(this));
 	}	
 
 	//@Facu: implementar metodo

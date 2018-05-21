@@ -23,7 +23,7 @@ public class CtaCteDAO {
 
 
 	public int grabar(CtaCte ctaCte) {
-		CtaCteEntity cc= new CtaCteEntity(ctaCte.getLimiteCredito());
+		CtaCteEntity cc= new CtaCteEntity(ctaCte);
 		SessionFactory sf = HibernateUtil.getSessionFactory();
 		Session session = sf.openSession();
 		session.beginTransaction();
@@ -34,7 +34,7 @@ public class CtaCteDAO {
 	}
 	
 	public void update(CtaCte ctaCte) {
-		CtaCteEntity cc= new CtaCteEntity(ctaCte.getLimiteCredito());
+		CtaCteEntity cc= new CtaCteEntity(ctaCte);
 		SessionFactory sf = HibernateUtil.getSessionFactory();
 		Session session = sf.openSession();
 		session.beginTransaction();

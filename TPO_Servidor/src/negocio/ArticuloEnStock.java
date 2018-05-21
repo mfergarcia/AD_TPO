@@ -138,7 +138,7 @@ public class ArticuloEnStock {
 	}
 	
 	public void saveMe() {
-		ArticuloEnStockDAO.getInstance().grabar(this);
+		this.setId(ArticuloEnStockDAO.getInstance().grabar(this));
 	}	
 
 	public void updateMe() {

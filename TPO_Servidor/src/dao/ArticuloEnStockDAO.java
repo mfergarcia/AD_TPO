@@ -23,15 +23,15 @@ public class ArticuloEnStockDAO {
 		return instancia;
 	}
 	
-	public void grabar(ArticuloEnStock ae){
-		ArticuloEnStockEntity aee= new ArticuloEnStockEntity(ae.getId(),ae.getCodigoBarras(),ae.getCodigoUbicacion(), ae.getCantidad(),
-															ae.getLote(),ae.getFechaVencimiento(),ae.getFechaCompra(), ae.getProveedor(), ae.getPrecioCompra());
+	public int grabar(ArticuloEnStock ae){
+		ArticuloEnStockEntity aee= new ArticuloEnStockEntity(ae);
 		SessionFactory sf = HibernateUtil.getSessionFactory();
 		Session session = sf.openSession();
 		session.beginTransaction();
-		session.saveOrUpdate(aee);
+		int i= (Integer) session.save(aee);
 		session.getTransaction().commit();
 		session.close();
+		return i;
 	}
 	
 	public ArticuloEnStock findByID(int id){

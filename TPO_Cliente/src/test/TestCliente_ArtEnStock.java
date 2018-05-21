@@ -21,7 +21,7 @@ public class TestCliente_ArtEnStock {
 			
 			// Prueba Obtener Orden De Compra
 			
-			int numOCABuscar = 1;
+			int numOCABuscar = 5;
 			OrdenDeCompraDTO ordenOC = bd.obtenerOrdenDeCompra(numOCABuscar);
 			System.out.println("Se obtuvo la Orden De Compra: " + ordenOC.getNumOC());
 

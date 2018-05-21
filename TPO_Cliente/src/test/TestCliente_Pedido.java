@@ -22,7 +22,7 @@ public class TestCliente_Pedido {
 
 			// Prueba Generar Pedido
 			
-			int numCliente = 1;
+			int numCliente = 27;
 			int numOCABuscar = 1;
 			DireccionDTO dirEntrega = new DireccionDTO();
 			dirEntrega.setCalle("Venezuela");
@@ -76,7 +76,7 @@ public class TestCliente_Pedido {
 
 			int numPedidoABuscar = 1;
 			String nuevoEstado = bd.aprobarPedido(numPedidoABuscar);
-			System.out.println("El nuevo estado del pedido " + numPedidoABuscar + " es: " + nuevoEstado);
+			System.out.println("El estado del pedido " + numPedidoABuscar + " es: " + nuevoEstado);
 			
 		} catch (ExcepcionComunicacion e) {
 			System.out.println(e.getMensaje());

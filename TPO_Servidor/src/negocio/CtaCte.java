@@ -11,7 +11,7 @@ import dao.ArticuloDAO;
 import dao.CtaCteDAO;
 
 public class CtaCte {
-	private int id;
+	private int id=0;
 	private float limiteCredito;
 	private List<Factura> facturas;
 	private List<Pago> pagos;
@@ -28,6 +28,13 @@ public class CtaCte {
 		this.pagos = new ArrayList<Pago>();
 	}
 	
+	public CtaCte(float limiteCredito2, Integer idCtaCte) {
+		this.setLimiteCredito(limiteCredito);
+		this.setId(idCtaCte);
+		this.facturas = new ArrayList<Factura>();
+		this.pagos = new ArrayList<Pago>();
+	}
+
 	// @Facu: revisar si hay que reemplazar búsqueda en la colección por búsqueda en la BD
 	// Recorre la colección de facturas y devuelve aquellas con saldo pendiente
 	private Collection<Factura> buscarFacturasImpagas() {

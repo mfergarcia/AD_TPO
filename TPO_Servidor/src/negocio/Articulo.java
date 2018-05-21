@@ -4,9 +4,11 @@ package negocio;
 import java.util.ArrayList;
 import java.util.Collection;
 import java.util.Iterator;
+import java.util.List;
 
 import dao.ArticuloDAO;
 import dto.ArticuloDTO;
+import entities.ArticuloEnStockEntity;
 import entities.ArticuloEntity;
 
 public class Articulo {
@@ -50,6 +52,14 @@ public class Articulo {
 		this.setCantFijaCompra(ae.getCantFijaCompra());
 		this.setCantMaxUbicacion(ae.getCantMaxUbicacion());
 		this.setEstado(ae.getEstado());
+		this.cargarList(ae.getAse());
+	}
+
+	private void cargarList(List<ArticuloEnStockEntity> ase) {
+		List<ArticuloEnStock> res= new ArrayList<ArticuloEnStock>();
+		for(ArticuloEnStockEntity a: ase)
+			res.add(new ArticuloEnStock(a));
+		this.setArticulosEnStock(res);
 	}
 
 	// Valida que el objeto sea un determinado articulo
@@ -79,7 +89,13 @@ public class Articulo {
 		}
 		return null;
 	}
-		
+	
+	
+	
+	public void setArticulosEnStock(Collection<ArticuloEnStock> articulosEnStock) {
+		this.articulosEnStock = articulosEnStock;
+	}
+
 	public String getCodigoBarras() {
 		return codigoBarras;
 	}

@@ -3,6 +3,8 @@ package entities;
 import java.util.Date;
 
 import javax.persistence.Entity;
+import javax.persistence.GeneratedValue;
+import javax.persistence.GenerationType;
 import javax.persistence.Id;
 import javax.persistence.Table;
 
@@ -12,7 +14,8 @@ import negocio.ArticuloEnStock;
 @Table(name= "ArticulosEnStock")
 public class ArticuloEnStockEntity {
 	@Id
-	Integer id;
+	@GeneratedValue(strategy=GenerationType.AUTO)
+	Integer id= 0;
 	String codigoBarras;
 	String codigoUbicacion;
 	private int cantidad;
@@ -38,7 +41,8 @@ public class ArticuloEnStockEntity {
 	}
 	
 	public ArticuloEnStockEntity(ArticuloEnStock artEnStock) {
-		this.setId(artEnStock.getId());
+		if(artEnStock.getId()!=0)
+			this.setId(artEnStock.getId());
 		this.setCodigoBarras(artEnStock.getCodigoBarras());
 		this.setCodigoUbicacion(artEnStock.getCodigoUbicacion());
 		this.setCantidad(artEnStock.getCantidad());

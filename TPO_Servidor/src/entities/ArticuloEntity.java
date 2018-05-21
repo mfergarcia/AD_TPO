@@ -1,5 +1,8 @@
 package entities;
 
+import java.util.ArrayList;
+import java.util.Collection;
+import java.util.List;
 import java.util.Set;
 import java.util.TreeSet;
 
@@ -11,6 +14,8 @@ import javax.persistence.OneToMany;
 import javax.persistence.Table;
 
 import negocio.Articulo;
+import negocio.ArticuloEnStock;
+import negocio.ItemArticulo;
 
 @Entity
 @Table(name="Articulos")
@@ -26,7 +31,7 @@ public class ArticuloEntity {
 	private int cantMaxUbicacion;
 	@OneToMany(cascade= CascadeType.ALL)
 	@JoinColumn(name= "codigoBarras")
-	private Set<ArticuloEnStockEntity> ase= new TreeSet<ArticuloEnStockEntity>();
+	private List<ArticuloEnStockEntity> ase= new ArrayList<ArticuloEnStockEntity>();
 	private char estado;
 	
 	public ArticuloEntity(String codigoBarras, String descripcion, String presentacion, int tamaño, String unidad,
@@ -54,6 +59,14 @@ public class ArticuloEntity {
 		this.cantFijaCompra = a.getCantFijaCompra();
 		this.cantMaxUbicacion = a.getCantMaxUbicacion();
 		this.estado = a.getEstado();
+		this.cargarList(a.getArticulosEnStock());
+	}
+
+	private void cargarList(Collection<ArticuloEnStock> articulosEnStock) {
+		List<ArticuloEnStockEntity> res= new ArrayList<ArticuloEnStockEntity>();
+		for(ArticuloEnStock a: articulosEnStock)
+			res.add(new ArticuloEnStockEntity(a));
+		this.setAse(res);
 	}
 
 	public String getCodigoBarras() {
@@ -120,12 +133,12 @@ public class ArticuloEntity {
 		this.cantMaxUbicacion = cantMaxUbicacion;
 	}
 
-	public Set<ArticuloEnStockEntity> getAse() {
+	public List<ArticuloEnStockEntity> getAse() {
 		return ase;
 	}
 
-	public void setAse(Set<ArticuloEnStockEntity> ase) {
-		this.ase = ase;
+	public void setAse(List<ArticuloEnStockEntity> res) {
+		this.ase = res;
 	}
 
 	public char getEstado() {
