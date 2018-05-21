@@ -26,6 +26,7 @@ public class ItemArticulo {
 	}
 	
 	public ItemArticulo(ItemArticuloEntity a) {
+		this.setId(a.getId());
 		this.setArticulo(new Articulo(a.getAe()));
 		this.setCant(a.getCant());
 		this.setPrecioVta(a.getPrecioVta());

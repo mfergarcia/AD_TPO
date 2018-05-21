@@ -44,6 +44,7 @@ public class PagoEntity {
 	public PagoEntity(){}
 	
 	public PagoEntity(Pago p) {
+		this.setIdPago(p.getId());
 		this.setEstado(p.getEstado());
 		this.setImporte(p.getImporte());
 		this.setFecha((Date) Calendar.getInstance().getTime());	

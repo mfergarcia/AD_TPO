@@ -16,6 +16,7 @@ public class Direccion {
 	}
 	
 	public Direccion(DireccionEntity dirEntrega) {
+		this.setId(dirEntrega.getId());
 		this.setCalle(dirEntrega.getCalle());
 		this.setCodigoPostal(dirEntrega.getCodigoPostal());
 		this.setId(dirEntrega.getId());

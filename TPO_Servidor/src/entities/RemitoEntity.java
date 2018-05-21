@@ -36,6 +36,7 @@ public class RemitoEntity {
 	public RemitoEntity(){}
 	
 	public RemitoEntity(Remito remito) {
+		this.setIdRemito(remito.getNumRemito());
 		this.setFecha(remito.getFechaRemito());
 	}
 

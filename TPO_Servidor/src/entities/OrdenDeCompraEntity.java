@@ -35,6 +35,7 @@ public class OrdenDeCompraEntity {
 	private String estado;
 	
 	public OrdenDeCompraEntity(OrdenDeCompra oc) {
+		this.setNumOC(oc.getNumOC());
 		this.setEstado(oc.getEstado());
 		this.setFecha(oc.getFecha());
 		this.setProveedor(oc.getProveedor());

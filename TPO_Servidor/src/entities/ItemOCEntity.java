@@ -33,6 +33,7 @@ public class ItemOCEntity {
 	}
 	
 	public ItemOCEntity(ItemOC item) {
+		this.setId(item.getId());
 		this.setArticulo(new ArticuloEntity(item.getArticulo()));
 		this.setCantidad(item.getCantidad());
 	}

@@ -40,6 +40,7 @@ public class CtaCteEntity {
 	public CtaCteEntity(){}
 	
 	public CtaCteEntity(CtaCte cc){
+		this.setIdCtaCte(cc.getId());
 		this.setLimiteCredito(cc.getLimiteCredito());
 		this.cargarListFe(cc.getFacturas());
 		this.cargarListPe(cc.getPagos());

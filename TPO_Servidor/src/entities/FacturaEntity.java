@@ -57,6 +57,7 @@ public class FacturaEntity {
 	public FacturaEntity(){}
 	
 	public FacturaEntity(Factura f) {
+		this.setIdFactura(f.getNumFactura());
 		this.setEstadoFactura(f.getEstadoFactura());
 		this.setFechaFactura(f.getFechaFactura());
 		this.setTipoFactura(f.getTipoFactura());
