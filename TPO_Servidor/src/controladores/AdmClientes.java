@@ -123,7 +123,7 @@ public class AdmClientes {
 		direccion.setLocalidad(ctePersonaDTO.getDireccionFacturacion().getLocalidad());
 		ctePersona.setDireccionFacturacion(direccion);
 		ctePersona.getCtaCte().setLimiteCredito(ctePersonaDTO.getLimiteCredito());
-		ctePersona.getCtaCte().updateMe();
+		//ctePersona.getCtaCte().updateMe();
 		ctePersona.updateMe();
 		return ctePersona;
 	}

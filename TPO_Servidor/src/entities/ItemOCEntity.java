@@ -52,6 +52,14 @@ public class ItemOCEntity {
 	public void setCantidad(int cantidad) {
 		this.cantidad = cantidad;
 	}
+
+	public int getId() {
+		return this.id;
+	}
+
+	public void setId(Integer id) {
+		this.id = id;
+	}
 	
 	
 }

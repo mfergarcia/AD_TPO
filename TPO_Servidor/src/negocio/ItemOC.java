@@ -3,6 +3,7 @@ package negocio;
 
 import dao.ItemOCDAO;
 import dto.ItemOCDTO;
+import entities.ItemOCEntity;
 
 public class ItemOC {
 	private int id;
@@ -19,6 +20,12 @@ public class ItemOC {
 	}
 	
 	
+	public ItemOC(ItemOCEntity a) {
+		this.setId(a.getId());
+		this.setArticulo(new Articulo(a.getArticulo()));
+		this.setCantidad(a.getCantidad());
+	}
+
 	public int getId() {
 		return id;
 	}

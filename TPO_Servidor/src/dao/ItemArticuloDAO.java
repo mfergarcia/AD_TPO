@@ -1,5 +1,6 @@
 package dao;
 
+import java.util.ArrayList;
 import java.util.List;
 
 import org.hibernate.Session;
@@ -35,14 +36,18 @@ public class ItemArticuloDAO {
 	}
 	
 	
+	@SuppressWarnings("unchecked")
 	public List<ItemArticulo> findAll(int numPedido){
 		SessionFactory sf = HibernateUtil.getSessionFactory();
 		Session session = sf.openSession();
-		ArticuloEntity ae= (ArticuloEntity) session.createQuery("from RemitoEntity where idRemito = ?")
+		List<ItemArticuloEntity> ae= (List<ItemArticuloEntity>) session.createQuery("from ItemArticuloEntity where numPedido = ?")
 									.setParameter(0, numPedido)
-									.uniqueResult();
-		//TODO
-		return null;
+									.list();
+
+		List<ItemArticulo> lia=new ArrayList<ItemArticulo>();
+		for(ItemArticuloEntity iae: ae)
+			lia.add(new ItemArticulo(iae));
+		return lia;
 	}
 
 	public void update(ItemArticulo itemArticulo) {

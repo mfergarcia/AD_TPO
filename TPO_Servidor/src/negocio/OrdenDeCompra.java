@@ -10,7 +10,9 @@ import java.util.List;
 
 import dao.OrdenDeCompraDAO;
 import dto.OrdenDeCompraDTO;
+import entities.ItemOCEntity;
 import entities.OrdenDeCompraEntity;
+import entities.OrdenPedidoRepoEntity;
 
 public class OrdenDeCompra {
 
@@ -42,8 +44,25 @@ public class OrdenDeCompra {
 		this.setFecha(oce.getFecha());
 		this.setNumOC(oce.getNumOC());
 		this.setProveedor(oce.getProveedor());
+		this.cargarListOC(oce.getIoe());
+		this.cargarListOPRE(oce.getOpre());
 	}
-
+	
+	private void cargarListOC(List<ItemOCEntity> ia){
+		List<ItemOC> res= new ArrayList<ItemOC>();
+		for(ItemOCEntity a: ia)
+			res.add(new ItemOC(a));
+		this.setItemsOC(res);
+	}
+	
+	private void cargarListOPRE(List<OrdenPedidoRepoEntity> ia){
+		List<OrdenPedidoRepo> res= new ArrayList<OrdenPedidoRepo>();
+		for(OrdenPedidoRepoEntity a: ia)
+			res.add(new OrdenPedidoRepo(a));
+		this.setOrdenesPedidoRepo(res);
+	}
+	
+	
 	// Valida que el objeto sea una determinada OrdenDeCompra
 	public boolean sosOrdenC(int numOC) {
 		return (this.getNumOC() == numOC);
@@ -71,6 +90,16 @@ public class OrdenDeCompra {
 
 	public void setFecha(Date fecha) {
 		this.fecha = fecha;
+	}
+	
+	
+	
+	public void setOrdenesPedidoRepo(List<OrdenPedidoRepo> ordenesPedidoRepo) {
+		this.ordenesPedidoRepo = ordenesPedidoRepo;
+	}
+
+	public void setItemsOC(List<ItemOC> itemsOC) {
+		this.itemsOC = itemsOC;
 	}
 
 	public String getProveedor() {
