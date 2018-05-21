@@ -13,7 +13,7 @@ public class TestCliente_Clientes {
 			SistemaBD bd = new SistemaBD();
 			
 			// Prueba Alta Cliente Empresa
-			/*
+			 
 			ClienteEmpresaDTO cteEmpresa = new ClienteEmpresaDTO();
 			cteEmpresa.setCuit("30-22333444-5");
 			cteEmpresa.setRazonSocial("Todo fiestas");
@@ -60,7 +60,7 @@ public class TestCliente_Clientes {
 			System.out.println("Cliente Empresa: " + cteEmpresa.getIdCliente() + " " + cteEmpresa.getRazonSocial());;
 	
 			// Prueba Alta Cliente Persona
-			/*
+			
 			ClientePersonaDTO ctePersona = new ClientePersonaDTO();
 			ctePersona.setDni("25666777");
 			ctePersona.setApellido("San Martin");
@@ -108,12 +108,12 @@ public class TestCliente_Clientes {
 			ctePersona.setLimiteCredito(50000);
 			ctePersona = bd.altaClientePersona(ctePersona);
 			System.out.println("Cliente Persona: " + ctePersona.getIdCliente() + " " + ctePersona.getApellido() + ", " + ctePersona.getNombre());
-			*/
+		
 			/* Prueba obtener Cliente*/
 			/* Prueba obtener ClienteEmpresa */
 			/* Prueba obtener ClientePersona */
-			/*
-			int idClienteAObtener1 = 6;
+			
+			int idClienteAObtener1 = 26;
 			char tipoCliente1 = bd.obtenerTipoCliente(idClienteAObtener1);
 			System.out.println("El tipo de cliente a buscar es: " + tipoCliente1);
 			if (tipoCliente1 == 'E') {
@@ -127,8 +127,8 @@ public class TestCliente_Clientes {
 			
 			/* Prueba Modificar Cliente Empresa */
 			/* Prueba Modificar Cliente Persona */
-			/*
-			int idClienteAObtener2 = 6;
+			
+			int idClienteAObtener2 = 27;
 			char tipoCliente2 = bd.obtenerTipoCliente(idClienteAObtener2);
 			System.out.println("El tipo de cliente a buscar es: " + tipoCliente2);
 			if (tipoCliente2 == 'E') {
@@ -151,11 +151,11 @@ public class TestCliente_Clientes {
 				System.out.println("Cliente Persona Modificado: " + ctePersona3.getIdCliente() + " " + ctePersona3.getDireccionFacturacion().getCalle());
 			}
 			
-			*/
+			
 			// Prueba Baja Cliente Empresa 
 			// Prueba Baja Cliente Persona
 			
-			int idClienteADarDeBaja = 5;
+			int idClienteADarDeBaja = 25;
 			bd.bajaCliente(idClienteADarDeBaja);
 			char tipoCliente3 = bd.obtenerTipoCliente(idClienteADarDeBaja);
 			System.out.println("El tipo de cliente a buscar es: " + tipoCliente3);

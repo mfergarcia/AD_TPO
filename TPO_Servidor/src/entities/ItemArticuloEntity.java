@@ -35,7 +35,8 @@ public class ItemArticuloEntity {
 	
 	
 	public ItemArticuloEntity(ItemArticulo a) {
-		this.setId(a.getId());
+		if(a.getId()>0)
+			this.setId(a.getId());
 		this.setAe(new ArticuloEntity(a.getArticulo()));
 		this.setCant(a.getCant());
 		this.setEstadoStock(a.getEstadoStock());

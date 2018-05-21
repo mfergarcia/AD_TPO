@@ -21,10 +21,10 @@ public class TestCliente_ArtEnStock {
 			
 			// Prueba Obtener Orden De Compra
 			
-			int numOCABuscar = 5;
+			int numOCABuscar = 6;
 			OrdenDeCompraDTO ordenOC = bd.obtenerOrdenDeCompra(numOCABuscar);
 			System.out.println("Se obtuvo la Orden De Compra: " + ordenOC.getNumOC());
-
+			
 			// Prueba Cargar Articulos En Stock
 			
 			Collection<ArticuloEnStockDTO> posiciones = new ArrayList<ArticuloEnStockDTO>();

@@ -15,7 +15,7 @@ import negocio.ArticuloEnStock;
 public class ArticuloEnStockEntity {
 	@Id
 	@GeneratedValue(strategy=GenerationType.AUTO)
-	Integer id= 0;
+	Integer id;
 	String codigoBarras;
 	String codigoUbicacion;
 	private int cantidad;

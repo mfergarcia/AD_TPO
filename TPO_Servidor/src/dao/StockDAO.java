@@ -1,5 +1,7 @@
 package dao;
 
+import java.util.List;
+
 import org.hibernate.Session;
 import org.hibernate.SessionFactory;
 
@@ -41,14 +43,18 @@ public class StockDAO {
 		return new Stock(se);
 	}
 	
+	@SuppressWarnings("unchecked")
 	public Stock findByEstadoLibre(){
 		SessionFactory sf = HibernateUtil.getSessionFactory();
 		Session session = sf.openSession();
 		String libre="LIBRE";
-		StockEntity se= (StockEntity) session.createQuery("from StockEntity where estado = ?")
+		List<StockEntity> se= (List<StockEntity>) session.createQuery("from StockEntity where estado = ?")
 									.setParameter(0, libre )
-									.uniqueResult();
-		return new Stock(se);
+									.list();
+		if(!se.isEmpty())
+			return new Stock(se.get(0));
+		else
+			return null;
 	}
 
 	public void update(Stock s) {

@@ -23,7 +23,7 @@ public class TestCliente_Pedido {
 			// Prueba Generar Pedido
 			
 			int numCliente = 27;
-			int numOCABuscar = 1;
+			int numOCABuscar = 6;
 			DireccionDTO dirEntrega = new DireccionDTO();
 			dirEntrega.setCalle("Venezuela");
 			dirEntrega.setNumero(200);
@@ -74,7 +74,7 @@ public class TestCliente_Pedido {
 			
 			// Prueba Aprobar Pedido
 
-			int numPedidoABuscar = 1;
+			int numPedidoABuscar = 4;
 			String nuevoEstado = bd.aprobarPedido(numPedidoABuscar);
 			System.out.println("El estado del pedido " + numPedidoABuscar + " es: " + nuevoEstado);
 			

@@ -43,16 +43,6 @@ public class AdmStock {
 	// Recupera una ubicación libre para que sea asignada a un nuevo Articulo En Stock
 	// La ubicación se bloquea hasta que sea asignado el stock
 	private Stock obtenerUbicacionLibre() {
-	/*	Stock aux;
-		for (Iterator<Stock> i = stock.iterator(); i.hasNext() ; ) { 
-			aux = i.next();
-			if (aux.getEstado().equals("LIBRE")) {
-				aux.actualizarEstado("BLOQUEADA");
-				aux.saveMe();
-				return aux;
-			}	
-		}
-		 */
 		return StockDAO.getInstance().findByEstadoLibre();
 	}
 	
@@ -276,6 +266,7 @@ public class AdmStock {
 				}
 				Stock stock = this.obtenerUbicacionLibre();
 				stock.actualizarEstado("BLOQUEADA");
+				
 				stock.updateMe();
 				ArticuloEnStock artEnStock = new ArticuloEnStock(stock.getCodigoUbicacion(), cantAUbicar, artEnStockDTO);
 				artEnStock.saveMe();

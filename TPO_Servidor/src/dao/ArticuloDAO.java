@@ -33,14 +33,15 @@ public class ArticuloDAO {
 			session.close();
 		}
 		
+		@SuppressWarnings("unchecked")
 		public Articulo findByID(String codigoBarras){
 			SessionFactory sf = HibernateUtil.getSessionFactory();
 			Session session = sf.openSession();
-			ArticuloEntity ae= (ArticuloEntity) session.createQuery("from ArticuloEntity where codigoBarras = ?")
+			List<ArticuloEntity> ae= (List<ArticuloEntity>) session.createQuery("from ArticuloEntity where codigoBarras = ?")
 										.setParameter(0, codigoBarras)
-										.uniqueResult();
+										.list();
 			
-			return new Articulo(ae);
+			return new Articulo(ae.get(0));
 		}
 		
 		@SuppressWarnings("unchecked")

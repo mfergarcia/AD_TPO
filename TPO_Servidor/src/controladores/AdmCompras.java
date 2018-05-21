@@ -104,6 +104,7 @@ public class AdmCompras {
 	// Genera una nueva OrdenDeCompra con sus items y le asocia las OrdenPedidoRepo que
 	// se pueden cubrir con la cantidad comprada
 	public OrdenDeCompra generarOrdenCompra(String proveedor, Collection<ArticuloDTO> articulos) {
+		System.out.println("LLegue");
 		OrdenDeCompra ordenDeCompra = new OrdenDeCompra(proveedor);
 		ArticuloDTO auxArtDTO;
 		// Recorre los Articulos recibidos para generar los items de la OC
@@ -132,6 +133,7 @@ public class AdmCompras {
 				}
 			}
 		}
+		
 		ordenDeCompra.saveMe();
 		return ordenDeCompra;
 	}

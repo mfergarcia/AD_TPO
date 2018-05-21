@@ -48,7 +48,8 @@ public class Pedido {
 		this.setFechaGen(pe.getFechaGen());
 		this.setMotivoRechazo(pe.getMotivoRechazo());
 		this.setNumFactura(pe.getNumFactura());
-		this.setNumPedido(pe.getNumPedido());
+		if(pe.getNumPedido()>0)
+			this.setNumPedido(pe.getNumPedido());
 		this.setTipoFactura(pe.getTipoFactura());
 		this.cargarList(pe.getIae());
 	}

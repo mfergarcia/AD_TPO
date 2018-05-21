@@ -52,6 +52,7 @@ public class Articulo {
 		this.setCantFijaCompra(ae.getCantFijaCompra());
 		this.setCantMaxUbicacion(ae.getCantMaxUbicacion());
 		this.setEstado(ae.getEstado());
+		this.articulosEnStock = new ArrayList<ArticuloEnStock>();
 		this.cargarList(ae.getAse());
 	}
 

@@ -1,7 +1,5 @@
 package dao;
 
-import entities.ArticuloEntity;
-
 import java.util.ArrayList;
 import java.util.List;
 
