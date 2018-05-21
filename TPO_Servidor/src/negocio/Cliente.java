@@ -32,6 +32,7 @@ public class Cliente {
 		this.setTipoFactura(ce.getTipoFactura());
 		this.condicionesEspeciales=ce.getCondicionesEspeciales();
 		this.setTipo(ce.getTipo());
+		this.setEstado(ce.getEstado());
 	}
 	
 	

@@ -36,9 +36,10 @@ public class ClienteEntity {
 	private char estado;
 	
 	public ClienteEntity(){}
-	public ClienteEntity(CtaCteEntity ctaCte, char tipoFactura, String condicionesEspeciales,
+	public ClienteEntity(Integer idCliente, CtaCteEntity ctaCte, char tipoFactura, String condicionesEspeciales,
 			DireccionEntity direccionFacturacion, char tipo, char estado) {
 		super();
+		this.idCliente=idCliente;
 		this.ctaCte = ctaCte;
 		this.tipoFactura = tipoFactura;
 		this.condicionesEspeciales = condicionesEspeciales;

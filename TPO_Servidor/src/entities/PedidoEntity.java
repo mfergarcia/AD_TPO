@@ -53,6 +53,7 @@ public class PedidoEntity {
 	}
 	
 	public PedidoEntity(Pedido pedido) {
+		this.setNumPedido(pedido.getNumPedido());
 		this.setFechaGen((Date)Calendar.getInstance().getTime());
 		this.setIdCliente(pedido.getIdCliente());
 		this.setDirEntrega(new DireccionEntity(pedido.getDirEntrega()));
