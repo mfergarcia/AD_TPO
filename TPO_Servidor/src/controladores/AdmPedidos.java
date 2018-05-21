@@ -1,4 +1,3 @@
-// @Facu: Revisar usos del saveMe y completar búsquedas en la BD
 package controladores;
 
 import java.util.ArrayList;
@@ -21,21 +20,19 @@ public class AdmPedidos {
 
 	private static AdmPedidos instancia;
 	// @Facu: remover la colección cuando se implemente la búsqueda en la BD
-	private Collection<Pedido> pedidos;
+	// private Collection<Pedido> pedidos;
 	
 	// Constructor privado (Patron Singleton)
 	private AdmPedidos() {
-		//@Facu: remover llamada cuando funcione la búsqueda en la BD
-		this.pedidos = new ArrayList<Pedido>();
+		// @Facu: remover llamada cuando funcione la búsqueda en la BD
+		// this.pedidos = new ArrayList<Pedido>();
 	}
 
-	// @Facu: reemplazar búsqueda en la colección por búsqueda en la BD
 	// Ubica un determinado Pedido dentro de la colleción pedidos
 	private Pedido obtenerPedido(int numPedido) {
 		return PedidoDAO.getIntance().findByID(numPedido);
 	}
 	
-	// @Facu: reemplazar búsqueda en la colección por búsqueda en la BD
 	// Devuelve los pedidos cuyo estado coincide con el estado solicitado
 	private Collection<Pedido> obtenerPedidosPorEstado(String estado) {
 		return PedidoDAO.getIntance().AllByEstado(estado);
@@ -48,7 +45,8 @@ public class AdmPedidos {
 		return instancia;
 	}	
 
-	// @Facu: revisar implementación del saveMe (Pedido se guarda con los items)
+	// @Facu: revisar implementación del saveMe (Pedido se guarda con los items, mismo caso que 
+	// que Cliente y Cta Cte)
 	// Crea un nuevo Pedido con sus correspondientes items 
 	public Pedido generarPedido(PedidoDTO pedidoDTO) {
 		Direccion direccion = new Direccion();
@@ -68,7 +66,6 @@ public class AdmPedidos {
 		return pedido;
 	}
 	
-	// @Facu: reemplazar búsqueda en la colección por búsqueda en la BD
 	// Devuelve una coleccion con los Pedidos correspondiente al idCliente dado
 	public Collection<Pedido> obtenerPedidosPorCliente(int idCliente) {
 		return PedidoDAO.getIntance().AllByCliente(idCliente);
@@ -79,26 +76,26 @@ public class AdmPedidos {
 		return this.obtenerPedidosPorEstado("A CONFIRMAR");
 	}
 	
-	// @Facu validar si está ok el saveMe
+	// Dispara la aprobación del Pedido, intentado reservar el Stock
 	public String aprobarPedido(int numPedido) {
 		Pedido pedido = this.obtenerPedido(numPedido);
 		if (pedido != null) {
 			String nuevoEstadoPedido = AdmStock.getInstancia().reservarStockPedido(pedido);
 			pedido.setEstado(nuevoEstadoPedido);
-			pedido.saveMe();
+			pedido.updateMe();
 			return nuevoEstadoPedido;
 		}
 		else
 			return null;
 	}
 
-	// @Facu validar si está ok el saveMe	
+	// Registra el rechazo del Pedido
 	public String rechazarPedido(int numPedido, String motivo) {
 		Pedido pedido = obtenerPedido(numPedido);
 		if (pedido != null) {
 			pedido.setEstado("RECHAZADO");
 			pedido.setMotivoRechazo(motivo);
-			pedido.saveMe();
+			pedido.updateMe();
 			return pedido.getEstado();
 		}
 		else
@@ -109,7 +106,7 @@ public class AdmPedidos {
 		return this.obtenerPedidosPorEstado("COMPLETO");
 	}
 	
-	// @Facu: revisar el uso del saveMe.
+	// La solicitud del Pedido al Depósito dispara la facturación del Pedido
 	public String solicitarPedido(int numPedido) {
 		Pedido pedido = this.obtenerPedido(numPedido);
 		if (pedido != null) {
@@ -118,7 +115,7 @@ public class AdmPedidos {
 				pedido.setTipoFactura(factura.getTipoFactura());
 				pedido.setNumFactura(factura.getNumFactura());
 				pedido.setEstado("PENDIENTE DEPOSITO");
-				pedido.saveMe();
+				pedido.updateMe();
 				return pedido.getEstado();
 			}
 			else
@@ -132,6 +129,8 @@ public class AdmPedidos {
 		return this.obtenerPedidosPorEstado("PENDIENTE DEPOSITO");
 	}
 	
+	// La preparaación del Pedido devuelve la colección de Articulos En Stock que satisfacen
+	// el Pedido. Los Articulos En Stock contienen las ubicaciones de los mismos
 	public Collection<ArticuloEnStock> prepararPedido(int numPedido) {
 		Collection<ArticuloEnStock> artEnStock = new ArrayList<ArticuloEnStock>();
 		Pedido pedido = this.obtenerPedido(numPedido);
@@ -146,13 +145,13 @@ public class AdmPedidos {
 		return null;
 	}
 	
-	// @Facu: revisar el uso del saveMe
-	// NOTAS_FG: Pendiente de programar
+	// Refleja la actualización del Stock una vez que se descargaron los Artículos del Pedido
+	// de sus correspondientes ubicaciones
 	public String actualizarStockPorVenta(int numPedido, Collection<ArticuloEnStockDTO> artEnStockDTO) {
 		Pedido pedido = this.obtenerPedido(numPedido);
 		if (AdmStock.getInstancia().actualizarStockPorVenta(pedido, artEnStockDTO)) {
 			pedido.setEstado("PENDIENTE DESPACHO");
-			pedido.saveMe();
+			pedido.updateMe();
 			return pedido.getEstado();
 		}
 		else
@@ -164,12 +163,14 @@ public class AdmPedidos {
 		return this.obtenerPedidosPorEstado("PENDIENTE DESPACHO");
 	}
 	
+	// Registra la fecha de entrega provista por el transportista y actualiza el estado
+	// del Pedido a "DESPACHADO"
 	public String registrarFechaEntrega(int numPedido, Date fechaEntrega) {
 		Pedido pedido = this.obtenerPedido(numPedido);
 		if (pedido != null) {
 			pedido.setFechaEntrega(fechaEntrega);
 			pedido.setEstado("DESPACHADO");
-			pedido.saveMe();
+			pedido.updateMe();
 			return pedido.getEstado();
 		}
 		else

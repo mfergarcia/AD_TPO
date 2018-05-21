@@ -1,7 +1,6 @@
-// @Facu: Revisar usos del saveMe y completar búsquedas en la BD
 package controladores;
 
-import java.util.ArrayList;
+// import java.util.ArrayList;
 import java.util.Collection;
 import java.util.Iterator;
 
@@ -14,18 +13,18 @@ public class AdmCompras {
 
 	private static AdmCompras instancia;
 	// @Facu: remover las colecciones cuando funcionen las búsquedas en la BD
-	private Collection<OrdenPedidoRepo> ordenesPedidoRepo;
-	private Collection<OrdenDeCompra> ordenesDeCompra;
+	// private Collection<OrdenPedidoRepo> ordenesPedidoRepo;
+	// private Collection<OrdenDeCompra> ordenesDeCompra;
 	
 	// Constructor privado (Patron Singleton)
 	private AdmCompras() {
 		// Inicializar controlador
 		// @Facu: eliminar estas llamadas cuando funcionen las búsquedas en la BD
-		this.ordenesPedidoRepo = new ArrayList<OrdenPedidoRepo>();
-		this.ordenesDeCompra = new ArrayList<OrdenDeCompra>();
+		// this.ordenesPedidoRepo = new ArrayList<OrdenPedidoRepo>();
+		// this.ordenesDeCompra = new ArrayList<OrdenDeCompra>();
 	}
 
-	// @Facu: reemplazar búsqueda en la colección por búsqueda en la BD
+	// Devuelve todas las Ordenes de Pedido Repo en el estado dado
 	private Collection<OrdenPedidoRepo> buscarOrdenesPRPorEstado(String estado) {
 	/*	Collection<OrdenPedidoRepo> ordenesPRPorEstado = new ArrayList<OrdenPedidoRepo>();
 		OrdenPedidoRepo aux;
@@ -37,7 +36,6 @@ public class AdmCompras {
 		return OrdenPedidoRepoDAO.getInstance().AllByEstado(estado);
 	}
 
-	// @Facu: reemplazar la búsqueda en la colección por búsqueda en la BD
 	// Ubica las Ordenes de Pedido Reposicion de un determinado Articulo en estado "PENDIENTE"
 	// Debe volver ordenada por fecha de creación.
 	private Collection<OrdenPedidoRepo> buscarOrdenesPRPendientePorArticulo(String codBarras) {
@@ -59,7 +57,6 @@ public class AdmCompras {
 		return instancia;
 	}	
 
-	// @Facu: revisar la implementación del saveMe
 	// Crea un nuevo Articulo y le pide al controlador de Stock que lo agregue al catalogo
 	public Articulo altaArticulo(ArticuloDTO articuloDTO) {
 		Articulo articulo = new Articulo(articuloDTO);
@@ -67,8 +64,7 @@ public class AdmCompras {
 		return articulo;
 	}
 	
-	// @Facu: revisar la implementación del saveMe
-	// Se actualizan las propiedades editables del Articulo
+	// Actualiza las propiedades editables del Articulo
 	public Articulo modificarArticulo(ArticuloDTO articuloDTO) {
 		Articulo articulo = AdmStock.getInstancia().obtenerArticulo(articuloDTO.getCodigoBarras());
 		articulo.setDescripcion(articuloDTO.getDescripcion());
@@ -78,24 +74,22 @@ public class AdmCompras {
 		articulo.setPrecioVta(articuloDTO.getPrecioVta());
 		articulo.setCantFijaCompra(articuloDTO.getCantFijaCompra());
 		articulo.setCantMaxUbicacion(articuloDTO.getCantMaxUbicacion());
-		articulo.saveMe();
+		articulo.updateMe();
 		return articulo;
 	}
 	
-	// @Facu: revisar la implementación del saveMe
-	// Inactiva una articulo existente para que no sea publicado en el Catalogo para la venta
+	// Inactiva un Articulo existente para que no sea publicado en el Catalogo para la venta
 	public boolean bajaArticulo(String codBarras) {
 		Articulo art = AdmStock.getInstancia().obtenerArticulo(codBarras);
 		if (art != null) { 
 			art.setEstado('I');
-			art.saveMe();
+			art.updateMe();
 			return true;
 		}
 		else
 			return false;	
 	}
 	
-	// @Facu: revisar uso del saveMe
 	// Genera una nueva Orden de Pedido de Resposición
 	public void generarOrdenPedidoRepo(int numPedido, Articulo articulo, int cantRepo) {
 		OrdenPedidoRepo ordenPR = new OrdenPedidoRepo(numPedido, articulo, cantRepo);
@@ -106,7 +100,6 @@ public class AdmCompras {
 		return this.buscarOrdenesPRPorEstado("PENDIENTE");
 	}
 	
-	// @Facu: revisar uso del saveMe
 	// Genera una nueva OrdenDeCompra con sus items y le asocia las OrdenPedidoRepo que
 	// se pueden cubrir con la cantidad comprada
 	public OrdenDeCompra generarOrdenCompra(String proveedor, Collection<ArticuloDTO> articulos) {
@@ -121,7 +114,7 @@ public class AdmCompras {
 			ordenDeCompra.agregarItem(item);
 			// Verifica qué Ordenes de Pedido de Reposicion se pueden cumplir con esta Orden de Compra
 			Collection<OrdenPedidoRepo> ordenesPRPendientes = this.buscarOrdenesPRPendientePorArticulo(auxArtDTO.getCodigoBarras());
-			int cantCompra = auxArtDTO.getCantFijaCompra();
+			int cantCompra = art.getCantFijaCompra();
 			if (ordenesPRPendientes != null && !ordenesPRPendientes.isEmpty()) {
 				OrdenPedidoRepo auxOrdenPR;
 				Iterator<OrdenPedidoRepo> j = ordenesPRPendientes.iterator();
@@ -131,7 +124,7 @@ public class AdmCompras {
 					if (cantCompra > auxOrdenPR.getCantRepo()) {
 						// Se puede cubrir la Orden de Pedido Repo
 						auxOrdenPR.setEstado("OC EN PROCESO");
-						auxOrdenPR.saveMe();
+						auxOrdenPR.updateMe();
 						ordenDeCompra.agregarOrdenPedidoRepo(auxOrdenPR);
 						cantCompra = cantCompra - auxOrdenPR.getCantRepo();
 					}
@@ -142,7 +135,6 @@ public class AdmCompras {
 		return ordenDeCompra;
 	}
 	
-	// @Facu: reemplazar búsqueda en la colección por búsqueda en la BD
 	// Busca una determinada Orden de Compra en la coleccion. Devuelve null si no la encuentra
 	public OrdenDeCompra obtenerOrdenDeCompra(int numOC) {
 		/*OrdenDeCompra aux;
@@ -163,11 +155,12 @@ public class AdmCompras {
 			for (Iterator<OrdenPedidoRepo> i = ordenDeCompra.getOrdenesPedidoRepo().iterator(); i.hasNext(); ) {
 				aux = i.next();
 				String nuevoEstadoPedido = AdmPedidos.getInstancia().aprobarPedido(aux.getNumPedido());
+				System.out.println("El estado del pedido " + aux.getNumPedido() + " ahora es: " + nuevoEstadoPedido);
 				aux.setEstado("CUMPLIDA");
-				aux.saveMe();
+				aux.updateMe();
 			}
 			ordenDeCompra.setEstado("CUMPLIDA");
-			ordenDeCompra.saveMe();
+			ordenDeCompra.updateMe();
 			return ordenDeCompra.getEstado();
 		}
 		else

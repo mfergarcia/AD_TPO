@@ -1,5 +1,5 @@
 // @Marce: Revisar llamada al aplicar Pago
-// @Facu: Revisar usos del saveMe y completar búsquedas en la BD
+// @Facu: Revisar usos del saveMe y updateMe en facturar
 package controladores;
 
 import negocio.Factura;
@@ -11,7 +11,6 @@ import negocio.Remito;
 public class AdmFacturacion {
 
 	private static AdmFacturacion instancia;
-
 	
 	// Constructor privado (Patron Singleton)
 	private AdmFacturacion() {
@@ -25,23 +24,23 @@ public class AdmFacturacion {
 		return instancia;
 	}
 	
-	// @Facu: revisar el uso de los saveMe para Factura y Remito
-	// Genera la factura y el correspondiente Remito para un determinado Pedido
+	// @Facu: revisar el uso de los saveMe y updateMe para Factura y Remito
+	// Genera la Factura y el correspondiente Remito para un determinado Pedido
 	// Le pide al AdmClientes que registre la misma en la CtaCte del Cliente
 	public Factura facturar(Pedido pedido) {
 		char tipoFactura = AdmClientes.getInstancia().obtenerTipoFacturaCliente(pedido.getIdCliente());
 		Factura factura = new Factura(tipoFactura, pedido);
-		Remito remito = new Remito(factura);
-		factura.setRemito(remito);
 		factura.saveMe();
+		Remito remito = new Remito(factura);
 		remito.saveMe();
+		factura.setRemito(remito);
+		factura.updateMe();
 		if (AdmClientes.getInstancia().registrarFacturaEnCtaCte(pedido.getIdCliente(), factura))
 			return factura;
 		else
 			return null;
 	}
 	
-	// @Facu: revisar el uso del saveMe
 	// Ingresa el pago y le solicita al controlador de Clientes registrar el mismo
 	// en la Cuenta Corriente
 	public String registrarPago(int idCliente, String tipoPago, float importe) {
