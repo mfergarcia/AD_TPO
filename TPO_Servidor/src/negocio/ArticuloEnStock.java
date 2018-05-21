@@ -37,6 +37,7 @@ public class ArticuloEnStock {
 	}
 	
 	public ArticuloEnStock(String codigoUbicacion, int cantidad, ArticuloEnStockDTO artEnStockDTO) {
+		this.setCodigoBarras(artEnStockDTO.getCodigoBarras());
 		this.setCodigoUbicacion(codigoUbicacion);
 		this.setCantidad(cantidad);
 		this.setLote(artEnStockDTO.getLote());
