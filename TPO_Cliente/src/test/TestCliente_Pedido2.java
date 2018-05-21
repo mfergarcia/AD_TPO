@@ -15,6 +15,7 @@ public class TestCliente_Pedido2 {
 				SistemaBD bd = new SistemaBD();
 				
 				//Prueba Rechazo Pedido
+					System.out.println(bd.obtenerProveedores("DDD444"));
 					Collection<PedidoDTO> p= new ArrayList<PedidoDTO>();
 					/*
 					bd.rechazarPedido(1, "Direccion Erronea");
