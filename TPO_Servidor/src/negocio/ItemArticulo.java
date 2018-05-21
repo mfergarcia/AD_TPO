@@ -3,6 +3,7 @@ package negocio;
 
 import dao.ItemArticuloDAO;
 import dto.ItemArticuloDTO;
+import entities.ItemArticuloEntity;
 
 public class ItemArticulo {
 	private int id;
@@ -24,6 +25,13 @@ public class ItemArticulo {
 		this.setEstadoStock("A CONFIRMAR");
 	}
 	
+	public ItemArticulo(ItemArticuloEntity a) {
+		this.setArticulo(new Articulo(a.getAe()));
+		this.setCant(a.getCant());
+		this.setPrecioVta(a.getPrecioVta());
+		this.setEstadoStock(a.getEstadoStock());
+	}
+
 	public float calcularTotal() {
 		return (this.getCant() * this.getPrecioVta());
 	}

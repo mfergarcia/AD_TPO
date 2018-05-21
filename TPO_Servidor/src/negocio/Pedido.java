@@ -9,6 +9,7 @@ import java.util.List;
 
 import dao.PedidoDAO;
 import dto.PedidoDTO;
+import entities.ItemArticuloEntity;
 import entities.PedidoEntity;
 
 public class Pedido {
@@ -49,8 +50,17 @@ public class Pedido {
 		this.setNumFactura(pe.getNumFactura());
 		this.setNumPedido(pe.getNumPedido());
 		this.setTipoFactura(pe.getTipoFactura());
+		this.cargarList(pe.getIae());
 	}
-
+	
+	
+	private void cargarList(List<ItemArticuloEntity> ia){
+		List<ItemArticulo> res= new ArrayList<ItemArticulo>();
+		for(ItemArticuloEntity a: ia)
+			res.add(new ItemArticulo(a));
+		this.setArticulos(res);
+	}
+	
 	// Permite agregar los items del Pedido
 	public void agregarItem(ItemArticulo itemArticulo) {
 		this.articulos.add(itemArticulo);
@@ -81,6 +91,11 @@ public class Pedido {
 
 	public void setIdCliente(int idCliente) {
 		this.idCliente = idCliente;
+	}
+	
+	
+	public void setArticulos(List<ItemArticulo> articulos) {
+		this.articulos = articulos;
 	}
 
 	public Date getFechaGen() {
