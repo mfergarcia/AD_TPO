@@ -59,9 +59,18 @@ public class PedidoEntity {
 		this.setNumFactura(pedido.getNumFactura());
 		this.setMotivoRechazo(pedido.getMotivoRechazo());
 		this.setEstado(pedido.getEstado());
+		//this.setIae();
 	}
 
-	
+	private void cargarList(){}
+	public List<ItemArticuloEntity> getIae() {
+		return iae;
+	}
+
+	public void setIae(List<ItemArticuloEntity> iae) {
+		this.iae = iae;
+	}
+
 	public Integer getNumPedido() {
 		return numPedido;
 	}

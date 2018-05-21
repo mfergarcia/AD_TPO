@@ -6,6 +6,7 @@ import java.util.Calendar;
 import java.util.Collection;
 import java.util.Date;
 import java.util.Iterator;
+import java.util.List;
 
 import dao.PedidoDAO;
 import dto.PedidoDTO;
@@ -18,7 +19,7 @@ public class Pedido {
 	private Date fechaGen;
 	private Direccion dirEntrega;
 	private Date fechaEntrega;
-	private Collection<ItemArticulo> articulos;
+	private List<ItemArticulo> articulos;
 	private char tipoFactura;
 	private int numFactura;
 	private String motivoRechazo;
@@ -139,10 +140,10 @@ public class Pedido {
 		this.estado = estado;
 	}
 
-	public Collection<ItemArticulo> getArticulos() {
+	public List<ItemArticulo> getArticulos() {
 		return articulos;
 	}
-
+	
 	public PedidoDTO toDTO() {
 		PedidoDTO pedidoDTO = new PedidoDTO();
 		pedidoDTO.setNumPedido(this.getNumPedido());
@@ -154,7 +155,7 @@ public class Pedido {
 		pedidoDTO.setNumFactura(this.getNumFactura());
 		pedidoDTO.setMotivoRechazo(this.getMotivoRechazo());
 		pedidoDTO.setEstado(this.getEstado());
-		ItemArticulo aux;
+		ItemArticulo aux=new ItemArticulo();
 		for(Iterator<ItemArticulo> i = this.getArticulos().iterator(); i.hasNext(); ) {
 			aux = i.next();
 			pedidoDTO.agregarItem(aux.toDTO());
@@ -163,7 +164,7 @@ public class Pedido {
 	}
 	
 	public void saveMe() {
-		PedidoDAO.getIntance().grabar(this);
+		this.setNumPedido(PedidoDAO.getIntance().grabar(this));
 	}	
 	
 	
