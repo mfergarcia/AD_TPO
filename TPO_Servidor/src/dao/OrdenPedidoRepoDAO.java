@@ -67,7 +67,7 @@ public class OrdenPedidoRepoDAO {
 		SessionFactory sf = HibernateUtil.getSessionFactory();
 		Session session = sf.openSession();
 		session.beginTransaction();
-		session.update(opre);
+		session.saveOrUpdate(opre);
 		session.getTransaction().commit();
 		session.close();
 	}

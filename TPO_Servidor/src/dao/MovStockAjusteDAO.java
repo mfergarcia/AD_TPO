@@ -36,7 +36,7 @@ private static MovStockAjusteDAO instancia;
 		SessionFactory sf = HibernateUtil.getSessionFactory();
 		Session session = sf.openSession();
 		session.beginTransaction();
-		session.update(sae);
+		session.saveOrUpdate(sae);
 		session.getTransaction().commit();
 		session.close();
 	}

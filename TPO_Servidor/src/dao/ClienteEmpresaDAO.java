@@ -47,7 +47,6 @@ public class ClienteEmpresaDAO {
 		ClienteEmpresaEntity cee= (ClienteEmpresaEntity) session.createQuery("from ClienteEmpresaEntity where idCliente = ?")
 									.setParameter(0, idCliente)
 									.uniqueResult();
-		
 		return new ClienteEmpresa(cee);
 	}
 	
@@ -58,7 +57,7 @@ public class ClienteEmpresaDAO {
 		SessionFactory sf = HibernateUtil.getSessionFactory();
 		Session session = sf.openSession();
 		session.beginTransaction();
-		session.update(cee);
+		session.saveOrUpdate(cee);
 		session.getTransaction().commit();
 		session.close();
 	}

@@ -55,7 +55,7 @@ public class ItemArticuloDAO {
 		SessionFactory sf = HibernateUtil.getSessionFactory();
 		Session session = sf.openSession();
 		session.beginTransaction();
-		session.update(iae);
+		session.saveOrUpdate(iae);
 		session.getTransaction().commit();
 		session.close();
 		

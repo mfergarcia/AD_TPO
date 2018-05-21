@@ -44,7 +44,7 @@ public class PagoDAO {
 		SessionFactory sf = HibernateUtil.getSessionFactory();
 		Session session = sf.openSession();
 		session.beginTransaction();
-		session.update(se);
+		session.saveOrUpdate(se);
 		session.getTransaction().commit();
 		session.close();
 		

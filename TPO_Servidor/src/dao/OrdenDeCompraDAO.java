@@ -42,7 +42,7 @@ public class OrdenDeCompraDAO {
 		SessionFactory sf = HibernateUtil.getSessionFactory();
 		Session session = sf.openSession();
 		session.beginTransaction();
-		session.update(oce);
+		session.saveOrUpdate(oce);
 		session.getTransaction().commit();
 		session.close();
 		

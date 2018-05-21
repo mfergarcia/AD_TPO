@@ -38,7 +38,7 @@ public class MovStockMantenimientoDAO {
 		SessionFactory sf = HibernateUtil.getSessionFactory();
 		Session session = sf.openSession();
 		session.beginTransaction();
-		session.update(sme);
+		session.saveOrUpdate(sme);
 		session.getTransaction().commit();
 		session.close();
 	}

@@ -61,7 +61,7 @@ public class ArticuloEnStockDAO {
 		SessionFactory sf = HibernateUtil.getSessionFactory();
 		Session session = sf.openSession();
 		session.beginTransaction();
-		session.update(aee);
+		session.saveOrUpdate(aee);
 		session.getTransaction().commit();
 		session.close();
 		

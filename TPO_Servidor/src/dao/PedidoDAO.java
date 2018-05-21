@@ -73,7 +73,7 @@ public class PedidoDAO {
 			SessionFactory sf = HibernateUtil.getSessionFactory();
 			Session session = sf.openSession();
 			session.beginTransaction();
-			session.update(pe);
+			session.saveOrUpdate(pe);
 			session.getTransaction().commit();
 			session.close();
 		}

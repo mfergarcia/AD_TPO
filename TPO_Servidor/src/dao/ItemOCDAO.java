@@ -37,7 +37,7 @@ private static ItemOCDAO instancia;
 		SessionFactory sf = HibernateUtil.getSessionFactory();
 		Session session = sf.openSession();
 		session.beginTransaction();
-		session.update(ioce);
+		session.saveOrUpdate(ioce);
 		session.getTransaction().commit();
 		session.close();
 	}

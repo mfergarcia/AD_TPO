@@ -37,7 +37,7 @@ public class MovStockCompraDAO {
 		SessionFactory sf = HibernateUtil.getSessionFactory();
 		Session session = sf.openSession();
 		session.beginTransaction();
-		session.update(sce);
+		session.saveOrUpdate(sce);
 		session.getTransaction().commit();
 		session.close();
 		

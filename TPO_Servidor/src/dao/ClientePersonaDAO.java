@@ -48,7 +48,7 @@ public class ClientePersonaDAO {
 		SessionFactory sf = HibernateUtil.getSessionFactory();
 		Session session = sf.openSession();
 		session.beginTransaction();
-		session.update(cpe);
+		session.saveOrUpdate(cpe);
 		session.getTransaction().commit();
 		session.close();
 	}
