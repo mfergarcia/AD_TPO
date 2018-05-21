@@ -37,7 +37,10 @@ public class OrdenDeCompra {
 	}
 
 	public OrdenDeCompra(OrdenDeCompraEntity oce) {
-		// TODO Auto-generated constructor stub
+		this.setEstado(oce.getEstado());
+		this.setFecha(oce.getFecha());
+		this.setNumOC(oce.getNumOC());
+		this.setProveedor(oce.getProveedor());
 	}
 
 	// Valida que el objeto sea una determinada OrdenDeCompra
