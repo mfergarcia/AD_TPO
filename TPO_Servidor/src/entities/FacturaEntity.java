@@ -9,6 +9,7 @@ import javax.persistence.DiscriminatorType;
 import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
+import javax.persistence.JoinColumn;
 import javax.persistence.OneToOne;
 import javax.persistence.PrimaryKeyJoinColumn;
 import javax.persistence.Entity;
@@ -35,11 +36,11 @@ public class FacturaEntity {
 	private float montoAdeudado;
 	
 	@OneToOne(cascade= CascadeType.ALL)
-	@PrimaryKeyJoinColumn
+	@JoinColumn(name="numPedido")
 	private PedidoEntity pe;
 	
 	@OneToOne(cascade= CascadeType.ALL)
-	@PrimaryKeyJoinColumn
+	@JoinColumn(name="idRemito")
 	private RemitoEntity re;
 	
 	public FacturaEntity(int idFactura, char tipoFactura, String estadoFactura,

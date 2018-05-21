@@ -6,6 +6,7 @@ import javax.persistence.Column;
 import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
+import javax.persistence.JoinColumn;
 import javax.persistence.OneToOne;
 import javax.persistence.Entity;
 import javax.persistence.Table;
@@ -23,7 +24,8 @@ public class RemitoEntity {
 	@Column (name = "fecha")
 	private Date fecha;
 	
-	@OneToOne(mappedBy="remito")
+	@OneToOne()
+	@JoinColumn(name="idFactura")
 	private FacturaEntity factura;
 	
 	public RemitoEntity(FacturaEntity fe, Date fecha){
@@ -61,7 +63,6 @@ public class RemitoEntity {
 		this.factura = factura;
 	}
 
-	
 	
 	
 	
