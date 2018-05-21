@@ -51,5 +51,17 @@ public class ClienteEmpresaDAO {
 		return new ClienteEmpresa(cee);
 	}
 	
+	public void update(ClienteEmpresa ce){
+		Direccion d= ce.getDireccionFacturacion();
+		DireccionEntity de= new DireccionEntity(d);
+		ClienteEmpresaEntity cee = new ClienteEmpresaEntity( new CtaCteEntity(ce.getCtaCte().getLimiteCredito()), ce.getTipoFactura(), ce.getCondicionesEspeciales(),de, ce.getTipo(), ce.getEstado(), ce.getCuit(), ce.getRazonSocial());
+		SessionFactory sf = HibernateUtil.getSessionFactory();
+		Session session = sf.openSession();
+		session.beginTransaction();
+		session.update(cee);
+		session.getTransaction().commit();
+		session.close();
+	}
+	
 }
 

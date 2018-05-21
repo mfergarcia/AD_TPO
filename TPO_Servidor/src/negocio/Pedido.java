@@ -167,9 +167,9 @@ public class Pedido {
 		this.setNumPedido(PedidoDAO.getIntance().grabar(this));
 	}	
 	
-	//@Facu: implementar metodo
-	public void updateMe() {
 
+	public void updateMe() {
+		PedidoDAO.getIntance().update(this);
 	}	
 
 }

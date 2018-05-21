@@ -11,6 +11,11 @@ import javax.persistence.JoinColumn;
 import javax.persistence.OneToMany;
 import javax.persistence.Table;
 
+import negocio.CtaCte;
+import negocio.Factura;
+import negocio.ItemArticulo;
+import negocio.Pago;
+
 @Entity
 @Table(name="CtaCte")
 public class CtaCteEntity {
@@ -31,7 +36,28 @@ public class CtaCteEntity {
 		this.fe= new ArrayList<FacturaEntity>();
 		
 	}
+	
 	public CtaCteEntity(){}
+	
+	public CtaCteEntity(CtaCte cc){
+		this.setLimiteCredito(cc.getLimiteCredito());
+		this.cargarListFe(cc.getFacturas());
+		this.cargarListPe(cc.getPagos());
+	}
+	
+	private void cargarListFe(List<Factura> fe){
+		List<FacturaEntity> res= new ArrayList<FacturaEntity>();
+		for(Factura f: fe)
+			res.add(new FacturaEntity(f));
+		this.setFe(res);
+	}
+	
+	private void cargarListPe(List<Pago> pe){
+		List<PagoEntity> res= new ArrayList<PagoEntity>();
+		for(Pago p: pe)
+			res.add(new PagoEntity(p));
+		this.setPe(res);
+	}
 	
 	public Integer getIdCtaCte() {
 		return idCtaCte;

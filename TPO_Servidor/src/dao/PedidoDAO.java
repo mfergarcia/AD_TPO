@@ -68,5 +68,15 @@ public class PedidoDAO {
 			return lp;	
 		}
 
+		public void update(Pedido pedido) {
+			PedidoEntity pe = new PedidoEntity(pedido);
+			SessionFactory sf = HibernateUtil.getSessionFactory();
+			Session session = sf.openSession();
+			session.beginTransaction();
+			session.update(pe);
+			session.getTransaction().commit();
+			session.close();
+		}
+
 
 }

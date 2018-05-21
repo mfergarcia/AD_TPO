@@ -33,6 +33,16 @@ public class RemitoDAO {
 		return i;
 	}
 	
+	public void update(Remito s){
+		RemitoEntity se = new RemitoEntity(new FacturaEntity(s.getFactura()), s.getFechaRemito());
+		SessionFactory sf = HibernateUtil.getSessionFactory();
+		Session session = sf.openSession();
+		session.beginTransaction();
+		session.update(se);
+		session.getTransaction().commit();
+		session.close();
+	}
+	
 	public Remito findByID(int idRemito){
 		SessionFactory sf = HibernateUtil.getSessionFactory();
 		Session session = sf.openSession();

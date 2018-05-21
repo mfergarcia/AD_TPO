@@ -5,6 +5,7 @@ package negocio;
 import java.util.ArrayList;
 import java.util.Collection;
 import java.util.Iterator;
+import java.util.List;
 
 import dao.ArticuloDAO;
 import dao.CtaCteDAO;
@@ -12,8 +13,8 @@ import dao.CtaCteDAO;
 public class CtaCte {
 
 	private float limiteCredito;
-	private Collection<Factura> facturas;
-	private Collection<Pago> pagos;
+	private List<Factura> facturas;
+	private List<Pago> pagos;
 		
 	public CtaCte() {
 
@@ -83,21 +84,21 @@ public class CtaCte {
 		this.limiteCredito = limiteCredito;
 	}
 
-	public Collection<Factura> getFacturas() {
+	public List<Factura> getFacturas() {
 		return facturas;
 	}
 
-	public Collection<Pago> getPagos() {
+	public List<Pago> getPagos() {
 		return pagos;
 	}
-
+	
 	public void saveMe() {
 		CtaCteDAO.getInstance().grabar(this);
 	}	
 
 	//@Facu: implementar metodo
 	public void updateMe() {
-
+		CtaCteDAO.getInstance().update(this);
 	}	
 
 }

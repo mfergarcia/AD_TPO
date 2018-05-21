@@ -22,12 +22,23 @@ public class CtaCteDAO {
 	}
 
 
-	public void grabar(CtaCte ctaCte) {
+	public int grabar(CtaCte ctaCte) {
 		CtaCteEntity cc= new CtaCteEntity(ctaCte.getLimiteCredito());
 		SessionFactory sf = HibernateUtil.getSessionFactory();
 		Session session = sf.openSession();
 		session.beginTransaction();
-		session.saveOrUpdate(cc);
+		int i= (Integer) session.save(cc);
+		session.getTransaction().commit();
+		session.close();
+		return i;
+	}
+	
+	public void update(CtaCte ctaCte) {
+		CtaCteEntity cc= new CtaCteEntity(ctaCte.getLimiteCredito());
+		SessionFactory sf = HibernateUtil.getSessionFactory();
+		Session session = sf.openSession();
+		session.beginTransaction();
+		session.update(cc);
 		session.getTransaction().commit();
 		session.close();
 		

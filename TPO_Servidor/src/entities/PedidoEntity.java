@@ -1,5 +1,6 @@
 package entities;
 import java.util.Date;
+import java.util.ArrayList;
 import java.util.Calendar;
 import java.util.List;
 
@@ -13,6 +14,7 @@ import javax.persistence.OneToMany;
 import javax.persistence.OneToOne;
 import javax.persistence.Table;
 
+import negocio.ItemArticulo;
 import negocio.Pedido;
 
 @Entity
@@ -59,10 +61,16 @@ public class PedidoEntity {
 		this.setNumFactura(pedido.getNumFactura());
 		this.setMotivoRechazo(pedido.getMotivoRechazo());
 		this.setEstado(pedido.getEstado());
-		//this.setIae();
+		this.cargarList(pedido.getArticulos());
 	}
 
-	private void cargarList(){}
+	private void cargarList(List<ItemArticulo> ia){
+		List<ItemArticuloEntity> res= new ArrayList<ItemArticuloEntity>();
+		for(ItemArticulo a: ia)
+			res.add(new ItemArticuloEntity(a));
+		this.setIae(res);
+	}
+	
 	public List<ItemArticuloEntity> getIae() {
 		return iae;
 	}

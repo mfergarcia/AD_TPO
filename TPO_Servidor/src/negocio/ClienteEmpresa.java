@@ -1,6 +1,4 @@
-// @Facu: cambiar para que la herencia se guarde en una sola tabla y 
-// adaptar los contructores. Descomentar los constructores de entity cuando
-// esten funcionando
+
 package negocio;
 
 import dao.ClienteEmpresaDAO;
@@ -13,7 +11,6 @@ public class ClienteEmpresa extends Cliente {
 	private String cuit;
 	private String razonSocial;
 	
-	//FACU: Revisar
 	public ClienteEmpresa(ClienteEmpresaEntity cee) {
 		super(cee);
 		this.setCuit(cee.getCuit());
@@ -66,9 +63,9 @@ public class ClienteEmpresa extends Cliente {
 		super.setIdCliente(ClienteEmpresaDAO.getInstance().grabar(this));
 	}	
 	
-	//@Facu: implementar metodo
+	
 	public void updateMe() {
-
+		ClienteEmpresaDAO.getInstance().update(this);
 	}	
 
 }

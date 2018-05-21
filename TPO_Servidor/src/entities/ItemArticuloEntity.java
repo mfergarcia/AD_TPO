@@ -9,6 +9,8 @@ import javax.persistence.JoinColumn;
 import javax.persistence.OneToOne;
 import javax.persistence.Table;
 
+import negocio.ItemArticulo;
+
 @Entity
 @Table(name="ItemsArticulo")
 public class ItemArticuloEntity {
@@ -32,6 +34,12 @@ public class ItemArticuloEntity {
 	public ItemArticuloEntity(){}
 	
 	
+	public ItemArticuloEntity(ItemArticulo a) {
+		this.setAe(new ArticuloEntity(a.getArticulo()));
+		this.setCant(a.getCant());
+		this.setEstadoStock(a.getEstadoStock());
+		this.setPrecioVta(a.getPrecioVta());
+	}
 	public Integer getId() {
 		return id;
 	}

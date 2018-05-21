@@ -41,6 +41,17 @@ public class ClientePersonaDAO {
 		return i;
 	}
 	
+	public void update(ClientePersona cp){
+		Direccion d= cp.getDireccionFacturacion();
+		DireccionEntity de= new DireccionEntity(d);
+		ClientePersonaEntity cpe = new ClientePersonaEntity(new CtaCteEntity(cp.getCtaCte().getLimiteCredito()), cp.getTipoFactura(), cp.getCondicionesEspeciales(), de, cp.getTipo(), cp.getEstado(), cp.getDni(), cp.getApellido(), cp.getNombre());
+		SessionFactory sf = HibernateUtil.getSessionFactory();
+		Session session = sf.openSession();
+		session.beginTransaction();
+		session.update(cpe);
+		session.getTransaction().commit();
+		session.close();
+	}
 	
 	public ClientePersona findByID(int idCliente){
 		SessionFactory sf = HibernateUtil.getSessionFactory();

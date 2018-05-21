@@ -10,6 +10,8 @@ import javax.persistence.Id;
 import javax.persistence.Entity;
 import javax.persistence.Table;
 
+import negocio.Pago;
+
 @Entity
 @Table (name="Pagos")
 public class PagoEntity {
@@ -41,6 +43,13 @@ public class PagoEntity {
 	
 	public PagoEntity(){}
 	
+	public PagoEntity(Pago p) {
+		this.setEstado(p.getEstado());
+		this.setImporte(p.getImporte());
+		this.setFecha((Date) Calendar.getInstance().getTime());	
+		this.setTipoPago(p.getTipoPago());
+	}
+
 	public int getIdPago() {
 		return idPago;
 	}
