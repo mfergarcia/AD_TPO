@@ -1,14 +1,16 @@
 //LISTO PARA PROBAR
 package negocio;
 
+import entities.UsuarioClienteEntity;
+
 public class UsuarioCliente {
 
 	private String usuario;
 	private String pwd;
-	private int idCliente;
+	private Cliente cliente;
 	
-	public UsuarioCliente() {
-		// TODO Auto-generated constructor stub
+	public UsuarioCliente(UsuarioClienteEntity uce) {
+		
 	}
 
 	public String getUsuario() {
@@ -27,12 +29,12 @@ public class UsuarioCliente {
 		this.pwd = pwd;
 	}
 
-	public int getIdCliente() {
-		return idCliente;
+	public Cliente getCliente() {
+		return cliente;
 	}
 
-	public void setIdCliente(int idCliente) {
-		this.idCliente = idCliente;
+	public void setCliente(Cliente cliente) {
+		this.cliente = cliente;
 	}
 	
 }
