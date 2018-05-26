@@ -28,14 +28,14 @@ public class AdmFacturacion {
 	// Genera la Factura y el correspondiente Remito para un determinado Pedido
 	// Le pide al AdmClientes que registre la misma en la CtaCte del Cliente
 	public Factura facturar(Pedido pedido) {
-		char tipoFactura = AdmClientes.getInstancia().obtenerTipoFacturaCliente(pedido.getIdCliente());
+		char tipoFactura = pedido.getCliente().getTipoFactura();
 		Factura factura = new Factura(tipoFactura, pedido);
 		factura.saveMe();
 		Remito remito = new Remito(factura);
 		remito.saveMe();
 		factura.setRemito(remito);
 		factura.updateMe();
-		if (AdmClientes.getInstancia().registrarFacturaEnCtaCte(pedido.getIdCliente(), factura))
+		if (AdmClientes.getInstancia().registrarFacturaEnCtaCte(pedido.getCliente().getIdCliente(), factura))
 			return factura;
 		else
 			return null;

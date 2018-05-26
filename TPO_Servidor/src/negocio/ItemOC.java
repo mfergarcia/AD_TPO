@@ -6,6 +6,7 @@ import dto.ItemOCDTO;
 import entities.ItemOCEntity;
 
 public class ItemOC {
+	
 	private int id;
 	private Articulo articulo;
 	private int cantidad;

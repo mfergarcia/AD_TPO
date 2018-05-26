@@ -18,8 +18,7 @@ public class PedidoDTO implements Serializable {
 	private DireccionDTO dirEntrega;
 	private Date fechaEntrega;
 	private Collection<ItemArticuloDTO> items;
-	private char tipoFactura;
-	private int numFactura;
+	private FacturaDTO factura;
 	private String motivoRechazo;
 	private String estado;	
 	
@@ -79,20 +78,12 @@ public class PedidoDTO implements Serializable {
 		this.items = articulos;
 	}
 
-	public char getTipoFactura() {
-		return tipoFactura;
+	public FacturaDTO getFactura() {
+		return factura;
 	}
 
-	public void setTipoFactura(char tipoFactura) {
-		this.tipoFactura = tipoFactura;
-	}
-
-	public int getNumFactura() {
-		return numFactura;
-	}
-
-	public void setNumFactura(int numFactura) {
-		this.numFactura = numFactura;
+	public void setFactura(FacturaDTO factura) {
+		this.factura = factura;
 	}	
 	
 	public String getMotivoRechazo() {

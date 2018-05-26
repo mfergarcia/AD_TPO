@@ -11,6 +11,8 @@ import dto.ItemArticuloDTO;
 import dto.PedidoDTO;
 import negocio.Articulo;
 import negocio.ArticuloEnStock;
+import negocio.ClienteEmpresa;
+import negocio.ClientePersona;
 import negocio.Direccion;
 import negocio.Factura;
 import negocio.ItemArticulo;
@@ -49,12 +51,22 @@ public class AdmPedidos {
 	// que Cliente y Cta Cte)
 	// Crea un nuevo Pedido con sus correspondientes items 
 	public Pedido generarPedido(PedidoDTO pedidoDTO) {
+		Pedido pedido;
 		Direccion direccion = new Direccion();
 		direccion.setCalle(pedidoDTO.getDirEntrega().getCalle());
 		direccion.setNumero(pedidoDTO.getDirEntrega().getNumero());
 		direccion.setCodigoPostal(pedidoDTO.getDirEntrega().getCodigoPostal());
 		direccion.setLocalidad(pedidoDTO.getDirEntrega().getLocalidad());
-		Pedido pedido = new Pedido(pedidoDTO.getIdCliente(), direccion);
+		char tipoCliente = AdmClientes.getInstancia().obtenerTipoCliente(pedidoDTO.getIdCliente());
+		if (tipoCliente == 'E') {
+			ClienteEmpresa cteEmpresa = AdmClientes.getInstancia().obtenerClienteEmpresa(pedidoDTO.getIdCliente());
+			pedido = new Pedido(cteEmpresa, direccion);	
+		}
+		else {
+			ClientePersona ctePersona = AdmClientes.getInstancia().obtenerClientePersona(pedidoDTO.getIdCliente());
+			pedido = new Pedido(ctePersona, direccion);	
+
+		}	
 		ItemArticuloDTO aux;
 		for (Iterator<ItemArticuloDTO> i = pedidoDTO.getItems().iterator(); i.hasNext(); ) {
 			aux = i.next();
@@ -112,8 +124,7 @@ public class AdmPedidos {
 		if (pedido != null) {
 			Factura factura = AdmFacturacion.getInstancia().facturar(pedido);
 			if (factura != null) {
-				pedido.setTipoFactura(factura.getTipoFactura());
-				pedido.setNumFactura(factura.getNumFactura());
+				pedido.setFactura(factura);
 				pedido.setEstado("PENDIENTE DEPOSITO");
 				pedido.updateMe();
 				return pedido.getEstado();

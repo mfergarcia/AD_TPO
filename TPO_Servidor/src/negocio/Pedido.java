@@ -15,13 +15,12 @@ import entities.PedidoEntity;
 public class Pedido {
 
 	private int numPedido;
-	private int idCliente;
+	private Cliente cliente;
 	private Date fechaGen;
 	private Direccion dirEntrega;
 	private Date fechaEntrega;
 	private List<ItemArticulo> articulos;
-	private char tipoFactura;
-	private int numFactura;
+	private Factura factura;
 	private String motivoRechazo;
 	// estado: "A CONFIRMAR", "RECHAZADO", "PENDIENTE REPOSICION", "COMPLETO", "PENDIENTE DEPOSITO", "PENDIENTE DESPACHO", "DESPACHADO"
 	private String estado;	
@@ -31,8 +30,8 @@ public class Pedido {
 	}
 
 	// Creación de un nuevo Pedido, inicializa la coleccion de items y setea estado inicial
-	public Pedido(int idCliente, Direccion dirEntrega) {
-		this.setIdCliente(idCliente);
+	public Pedido(Cliente cliente, Direccion dirEntrega) {
+		this.setCliente(cliente);
 		this.setDirEntrega(dirEntrega);
 		// Se genera con la fecha/hora del momento
 		this.setFechaGen(Calendar.getInstance().getTime());
@@ -40,17 +39,21 @@ public class Pedido {
 		this.setEstado("A CONFIRMAR");
 	}
 	
+	// @Facu: adaptar PedidoEntity, ahora guarda el objeto Cliente y el objeto Factura
 	public Pedido(PedidoEntity pe) {
-		this.setIdCliente(pe.getIdCliente());
+		// @Facu: adaptar PedidoEntity
+		// this.setIdCliente(pe.getIdCliente());
 		this.setDirEntrega(new Direccion(pe.getDirEntrega()));
 		this.setEstado(pe.getEstado());
 		this.setFechaEntrega(pe.getFechaEntrega());
 		this.setFechaGen(pe.getFechaGen());
 		this.setMotivoRechazo(pe.getMotivoRechazo());
-		this.setNumFactura(pe.getNumFactura());
+		// @Facu: adaptar PedidoEntity
+		// this.setNumFactura(pe.getNumFactura());
 		if(pe.getNumPedido()>0)
 			this.setNumPedido(pe.getNumPedido());
-		this.setTipoFactura(pe.getTipoFactura());
+		// @Facu: adaptar PedidoEntity
+		// this.setTipoFactura(pe.getTipoFactura());
 		this.cargarList(pe.getIae());
 	}
 	
@@ -86,12 +89,12 @@ public class Pedido {
 		this.numPedido = numPedido;
 	}
 
-	public int getIdCliente() {
-		return idCliente;
+	public Cliente getCliente() {
+		return cliente;
 	}
 
-	public void setIdCliente(int idCliente) {
-		this.idCliente = idCliente;
+	public void setCliente(Cliente cliente) {
+		this.cliente = cliente;
 	}
 	
 	
@@ -123,20 +126,12 @@ public class Pedido {
 		this.fechaEntrega = fechaEntrega;
 	}
 
-	public char getTipoFactura() {
-		return tipoFactura;
+	public Factura getFactura() {
+		return factura;
 	}
 
-	public void setTipoFactura(char tipoFactura) {
-		this.tipoFactura = tipoFactura;
-	}
-
-	public int getNumFactura() {
-		return numFactura;
-	}
-
-	public void setNumFactura(int numFactura) {
-		this.numFactura = numFactura;
+	public void setFactura(Factura factura) {
+		this.factura = factura;
 	}	
 	
 	public String getMotivoRechazo() {
@@ -162,12 +157,11 @@ public class Pedido {
 	public PedidoDTO toDTO() {
 		PedidoDTO pedidoDTO = new PedidoDTO();
 		pedidoDTO.setNumPedido(this.getNumPedido());
-		pedidoDTO.setIdCliente(this.getIdCliente());
+		pedidoDTO.setIdCliente(this.getCliente().getIdCliente());
 		pedidoDTO.setFechaGen(this.getFechaGen());
 		pedidoDTO.setDirEntrega(this.getDirEntrega().toDTO());
 		pedidoDTO.setFechaEntrega(this.getFechaEntrega());
-		pedidoDTO.setTipoFactura(this.getTipoFactura());
-		pedidoDTO.setNumFactura(this.getNumFactura());
+		pedidoDTO.setFactura(this.getFactura().toDTO());
 		pedidoDTO.setMotivoRechazo(this.getMotivoRechazo());
 		pedidoDTO.setEstado(this.getEstado());
 		ItemArticulo aux=new ItemArticulo();

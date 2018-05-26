@@ -6,6 +6,7 @@ import dto.ItemArticuloDTO;
 import entities.ItemArticuloEntity;
 
 public class ItemArticulo {
+	
 	private int id;
 	private Articulo articulo;
 	private int cant;

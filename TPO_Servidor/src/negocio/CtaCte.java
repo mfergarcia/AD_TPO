@@ -11,6 +11,7 @@ import dao.ArticuloDAO;
 import dao.CtaCteDAO;
 
 public class CtaCte {
+	
 	private int id=0;
 	private float limiteCredito;
 	private List<Factura> facturas;
