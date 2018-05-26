@@ -266,10 +266,9 @@ public class AdmStock {
 				}
 				Stock stock = this.obtenerUbicacionLibre();
 				stock.actualizarEstado("BLOQUEADA");
-				
 				stock.updateMe();
 				ArticuloEnStock artEnStock = new ArticuloEnStock(stock.getCodigoUbicacion(), cantAUbicar, artEnStockDTO);
-				artEnStock.saveMe();
+				// artEnStock.saveMe();
 				stock.actualizarCantidadReal(cantAUbicar);
 				stock.updateMe();
 				articulo.agregarArtEnStock(artEnStock);
@@ -278,6 +277,7 @@ public class AdmStock {
 			}	
 			articulo.updateMe();
 		}
+		System.out.println(articulosEnStock.size());
 		return articulosEnStock;
 	}
 	
