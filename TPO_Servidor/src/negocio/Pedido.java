@@ -45,19 +45,21 @@ public class Pedido {
 	
 	// @Facu: adaptar PedidoEntity, ahora guarda el objeto Cliente y el objeto Factura
 	public Pedido(PedidoEntity pe) {
-		// @Facu: adaptar PedidoEntity
-		// this.setIdCliente(pe.getIdCliente());
+		this.setCliente(new Cliente(pe.getCliente()));
 		this.setDirEntrega(new Direccion(pe.getDirEntrega()));
 		this.setEstado(pe.getEstado());
 		this.setFechaEntrega(pe.getFechaEntrega());
 		this.setFechaGen(pe.getFechaGen());
 		this.setMotivoRechazo(pe.getMotivoRechazo());
-		// @Facu: adaptar PedidoEntity
-		// this.setNumFactura(pe.getNumFactura());
+		this.setFactura(new Factura(pe.getFactura()));
+		this.setFechaCompleto(pe.getFechaCompleto());
+		this.setFechaDespachado(pe.getFechaDespachado());
+		this.setFechaPendDepo(pe.getFechaPendDepo());
+		this.setFechaPendDesp(pe.getFechaPendDesp());
+		this.setFechaPendRepo(pe.getFechaPendRepo());
+		this.setFechaRechazo(pe.getFechaRechazo());
 		if(pe.getNumPedido()>0)
 			this.setNumPedido(pe.getNumPedido());
-		// @Facu: adaptar PedidoEntity
-		// this.setTipoFactura(pe.getTipoFactura());
 		this.cargarList(pe.getIae());
 	}
 	

@@ -14,6 +14,7 @@ import javax.persistence.OneToMany;
 import javax.persistence.OneToOne;
 import javax.persistence.Table;
 
+import negocio.Cliente;
 import negocio.ItemArticulo;
 import negocio.Pedido;
 
@@ -23,7 +24,9 @@ public class PedidoEntity {
 	@Id
 	@GeneratedValue(strategy= GenerationType.AUTO)
 	private Integer numPedido;
-	private Integer idCliente;
+	@OneToOne(cascade= CascadeType.ALL)
+	@JoinColumn(name="idCliente")
+	private ClienteEntity cliente;
 	@OneToOne(cascade= CascadeType.ALL)
 	@JoinColumn(name="idDireccion")
 	private DireccionEntity dirEntrega;
@@ -32,18 +35,25 @@ public class PedidoEntity {
 	@OneToMany(cascade= CascadeType.ALL)
 	@JoinColumn(name="numPedido")
 	private List<ItemArticuloEntity> iae;
-	private char tipoFactura;
-	private Integer numFactura;
+	@OneToOne(cascade= CascadeType.ALL)
+	@JoinColumn(name="idCliente")
+	private FacturaEntity factura;
 	private String motivoRechazo;
 	private String estado;
+	private Date fechaRechazo;
+	private Date fechaPendRepo;
+	private Date fechaCompleto;
+	private Date fechaPendDepo;
+	private Date fechaPendDesp;
+	private Date fechaDespachado;
 	
 	public PedidoEntity(){}
-	
-	public PedidoEntity(Integer numPedido, Integer idCliente, DireccionEntity dirEntrega, Date fechaEntrega, char tipoFactura, Integer numFactura, String motivoRechazo, String estado) {
+	/*
+	public PedidoEntity(Integer numPedido, ClienteEntity cliente, DireccionEntity dirEntrega, Date fechaEntrega, char tipoFactura, Integer numFactura, String motivoRechazo, String estado) {
 		super();
 		this.setNumPedido(numPedido);
 		this.setFechaGen((Date)Calendar.getInstance().getTime());
-		this.setIdCliente(idCliente);
+		this.setCliente(cliente);
 		this.setDirEntrega(dirEntrega);
 		this.setFechaEntrega(fechaEntrega);
 		this.setTipoFactura(tipoFactura);
@@ -51,18 +61,23 @@ public class PedidoEntity {
 		this.setMotivoRechazo(motivoRechazo);
 		this.setEstado(estado);
 	}
-	
+	*/
 	public PedidoEntity(Pedido pedido) {
 		if(pedido.getNumPedido()>0)
 			this.setNumPedido(pedido.getNumPedido());
 		this.setFechaGen((Date)Calendar.getInstance().getTime());
-		this.setIdCliente(pedido.getIdCliente());
+		this.setCliente(new ClienteEntity(pedido.getCliente()));
 		this.setDirEntrega(new DireccionEntity(pedido.getDirEntrega()));
 		this.setFechaEntrega(pedido.getFechaEntrega());
-		this.setTipoFactura(pedido.getTipoFactura());
-		this.setNumFactura(pedido.getNumFactura());
+		this.setFactura(new FacturaEntity(pedido.getFactura()));
 		this.setMotivoRechazo(pedido.getMotivoRechazo());
 		this.setEstado(pedido.getEstado());
+		this.setFechaCompleto(pedido.getFechaCompleto());
+		this.setFechaDespachado(pedido.getFechaDespachado());
+		this.setFechaPendDepo(pedido.getFechaPendDepo());
+		this.setFechaPendDesp(pedido.getFechaPendDesp());
+		this.setFechaPendRepo(pedido.getFechaPendRepo());
+		this.setFechaRechazo(pedido.getFechaRechazo());
 		this.cargarList(pedido.getArticulos());
 	}
 
@@ -85,12 +100,12 @@ public class PedidoEntity {
 		return numPedido;
 	}
 
-	public Integer getIdCliente() {
-		return idCliente;
+	public ClienteEntity getCliente() {
+		return cliente;
 	}
 
-	public void setIdCliente(Integer idCliente) {
-		this.idCliente = idCliente;
+	public void setCliente(ClienteEntity cliente) {
+		this.cliente = cliente;
 	}
 
 	public DireccionEntity getDirEntrega() {
@@ -120,24 +135,14 @@ public class PedidoEntity {
 		this.fechaEntrega = fechaEntrega;
 	}
 
-
-	public char getTipoFactura() {
-		return tipoFactura;
+	
+	public FacturaEntity getFactura() {
+		return factura;
 	}
 
 
-	public void setTipoFactura(char tipoFactura) {
-		this.tipoFactura = tipoFactura;
-	}
-
-
-	public Integer getNumFactura() {
-		return numFactura;
-	}
-
-
-	public void setNumFactura(Integer numFactura) {
-		this.numFactura = numFactura;
+	public void setFactura(FacturaEntity factura) {
+		this.factura = factura;
 	}
 
 
@@ -164,6 +169,43 @@ public class PedidoEntity {
 	public void setNumPedido(Integer numPedido) {
 		this.numPedido = numPedido;
 	}
+	public Date getFechaRechazo() {
+		return fechaRechazo;
+	}
+	public void setFechaRechazo(Date fechaRechazo) {
+		this.fechaRechazo = fechaRechazo;
+	}
+	public Date getFechaPendRepo() {
+		return fechaPendRepo;
+	}
+	public void setFechaPendRepo(Date fechaPendRepo) {
+		this.fechaPendRepo = fechaPendRepo;
+	}
+	public Date getFechaCompleto() {
+		return fechaCompleto;
+	}
+	public void setFechaCompleto(Date fechaCompleto) {
+		this.fechaCompleto = fechaCompleto;
+	}
+	public Date getFechaPendDepo() {
+		return fechaPendDepo;
+	}
+	public void setFechaPendDepo(Date fechaPendDepo) {
+		this.fechaPendDepo = fechaPendDepo;
+	}
+	public Date getFechaPendDesp() {
+		return fechaPendDesp;
+	}
+	public void setFechaPendDesp(Date fechaPendDesp) {
+		this.fechaPendDesp = fechaPendDesp;
+	}
+	public Date getFechaDespachado() {
+		return fechaDespachado;
+	}
+	public void setFechaDespachado(Date fechaDespachado) {
+		this.fechaDespachado = fechaDespachado;
+	}
+	
 	
 }
 

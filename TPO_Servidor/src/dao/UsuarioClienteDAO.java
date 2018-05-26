@@ -1,5 +1,12 @@
 package dao;
 
+import org.hibernate.Session;
+import org.hibernate.SessionFactory;
+
+import entities.UsuarioClienteEntity;
+import hbt.HibernateUtil;
+import negocio.UsuarioCliente;
+
 public class UsuarioClienteDAO {
 	private static UsuarioClienteDAO instance;
 	
@@ -9,5 +16,25 @@ public class UsuarioClienteDAO {
 		if(instance==null)
 			instance= new UsuarioClienteDAO();
 		return instance;
+	}
+	
+	public int grabar(UsuarioCliente uc){
+		UsuarioClienteEntity uce = new UsuarioClienteEntity(uc);
+		SessionFactory sf = HibernateUtil.getSessionFactory();
+		Session session = sf.openSession();
+		session.beginTransaction();
+		int i = (Integer) session.save(uce);
+		session.getTransaction().commit();
+		session.close();
+		return i;
+	}
+	
+	public UsuarioCliente findByID(int id){
+		SessionFactory sf = HibernateUtil.getSessionFactory();
+		Session session = sf.openSession();
+		UsuarioClienteEntity uce= (UsuarioClienteEntity) session.createQuery("from UsuarioClienteEntity where id = ?")
+									.setParameter(0, id)
+									.uniqueResult();
+		return new UsuarioCliente(uce);
 	}
 }
