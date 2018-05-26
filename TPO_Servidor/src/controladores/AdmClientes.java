@@ -1,6 +1,8 @@
 // @Marce: Revisar llamada al aplicar Pago
 package controladores;
 
+import java.rmi.RemoteException;
+
 // import java.util.ArrayList;
 // import java.util.Collection;
 // import java.util.Iterator;
@@ -10,6 +12,8 @@ import dao.ClienteEmpresaDAO;
 import dao.ClientePersonaDAO;
 import dto.ClienteEmpresaDTO;
 import dto.ClientePersonaDTO;
+import dto.CtaCteDTO;
+import excepciones.ExcepcionSistema;
 import negocio.ClienteEmpresa;
 import negocio.ClientePersona;
 import negocio.CtaCte;
@@ -150,6 +154,27 @@ public class AdmClientes {
 		}
 	}
 	
+	// Devuelve el objeto CtaCte para un cliente dado
+	public CtaCte obtenerCtaCte(int idCliente) throws RemoteException, ExcepcionSistema {
+		CtaCte ctaCte;
+		char tipoCliente = this.obtenerTipoCliente(idCliente);
+		if (tipoCliente == 'E') {
+			ClienteEmpresa cteEmpresa = this.obtenerClienteEmpresa(idCliente);
+			ctaCte = cteEmpresa.getCtaCte();
+			return ctaCte;
+		}
+		else {
+			if (tipoCliente == 'P') {
+				ClientePersona ctePersona = this.obtenerClientePersona(idCliente);
+				ctaCte = ctePersona.getCtaCte();
+				return ctaCte;
+			}
+			else
+				return null;
+		}
+	}
+
+	/* Este metodo ya no es necesario desde que se guarda el objeto Cliente en la factura
 	// Devuelve el tipo de factura de un cliente para poder facturar sin necesidad
 	// de conocer si el cliente es Empresa o Persona
 	public char obtenerTipoFacturaCliente(int idCliente) {
@@ -167,6 +192,7 @@ public class AdmClientes {
 				return 0;
 		}
 	}
+	*/
 	
 	// Registra una factura en la Cta Cte de un Cliente
 	public boolean registrarFacturaEnCtaCte(int idCliente, Factura factura) {

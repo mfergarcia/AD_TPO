@@ -12,6 +12,7 @@ import dto.ArticuloEnStockDTO;
 import dto.ClienteDTO;
 import dto.ClienteEmpresaDTO;
 import dto.ClientePersonaDTO;
+import dto.CtaCteDTO;
 import dto.DireccionDTO;
 import dto.OrdenDeCompraDTO;
 import dto.OrdenPedidoRepoDTO;
@@ -215,6 +216,16 @@ public class SistemaBD {
 			throw e;
 		}	
 	}	
+	
+	public CtaCteDTO obtenerCtaCte(int idCliente) throws ExcepcionComunicacion, ExcepcionSistema {
+		try {
+			return ir.obtenerCtaCte(idCliente);
+		} catch (RemoteException e) {
+			throw new ExcepcionComunicacion("Error en la comunicacion");
+		} catch (ExcepcionSistema e) {
+			throw e;
+		}	
+	}
 
 	public String aprobarPedido(int numPedido) throws ExcepcionComunicacion, ExcepcionSistema {
 		try {

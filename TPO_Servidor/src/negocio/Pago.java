@@ -5,6 +5,7 @@ import java.util.Calendar;
 import java.util.Date;
 
 import dao.PagoDAO;
+import dto.PagoDTO;
 import entities.PagoEntity;
 
 public class Pago {
@@ -75,6 +76,16 @@ public class Pago {
 
 	public void setEstado(String estado) {
 		this.estado = estado;
+	}
+	
+	public PagoDTO toDTO() {
+		PagoDTO pagoDTO = new PagoDTO();
+		pagoDTO.setId(this.getId());
+		pagoDTO.setFecha(this.getFecha());
+		pagoDTO.setTipoPago(this.getTipoPago());
+		pagoDTO.setImporte(this.getImporte());
+		pagoDTO.setEstado(this.getEstado());
+		return pagoDTO;
 	}
 	
 	public void saveMe() {

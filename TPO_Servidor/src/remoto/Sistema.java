@@ -204,6 +204,15 @@ public class Sistema extends UnicastRemoteObject implements InterfazRemota{
 			throw new ExcepcionSistema("No se registran Pedidos A Confirmar");
 
 	}
+	
+	@Override
+	public CtaCteDTO obtenerCtaCte(int idCliente) throws RemoteException, ExcepcionSistema {
+		CtaCte ctaCte = AdmClientes.getInstancia().obtenerCtaCte(idCliente);
+		if (ctaCte != null)
+			return ctaCte.toDTO();
+		else
+			throw new ExcepcionSistema("Cliente no encontrado");
+	}
 
 	@Override
 	public String aprobarPedido(int numPedido) throws RemoteException, ExcepcionSistema {
@@ -387,5 +396,8 @@ public class Sistema extends UnicastRemoteObject implements InterfazRemota{
 		if (!AdmFacturacion.getInstancia().aplicarPago(idCliente, descuento))
 			throw new ExcepcionSistema("Cliente no encontrado");
 	}
+
+
+
 
 }

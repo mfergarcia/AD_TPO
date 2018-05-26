@@ -19,7 +19,7 @@ public class OrdenPedidoRepoDTO implements Serializable {
 	private String estado;	
 
 	public OrdenPedidoRepoDTO() {
-		// TODO Auto-generated constructor stub
+
 	}
 
 	public int getNumOrdenPR() {

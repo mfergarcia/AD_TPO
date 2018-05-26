@@ -9,6 +9,7 @@ import dto.ArticuloDTO;
 import dto.ArticuloEnStockDTO;
 import dto.ClienteEmpresaDTO;
 import dto.ClientePersonaDTO;
+import dto.CtaCteDTO;
 import dto.DireccionDTO;
 import dto.OrdenDeCompraDTO;
 import dto.OrdenPedidoRepoDTO;
@@ -36,6 +37,7 @@ public interface InterfazRemota extends Remote {
 	public PedidoDTO generarPedido(PedidoDTO pedidoDTO) throws RemoteException, ExcepcionSistema;
 	public Collection<PedidoDTO> obtenerPedidosPorCliente(int idCliente) throws RemoteException, ExcepcionSistema;
 	public Collection<PedidoDTO> obtenerPedidosAConfirmar() throws RemoteException, ExcepcionSistema;
+	public CtaCteDTO obtenerCtaCte(int idCliente) throws RemoteException, ExcepcionSistema;
 	public String aprobarPedido(int numPedido) throws RemoteException, ExcepcionSistema;
 	public String rechazarPedido(int numPedido, String motivo) throws RemoteException, ExcepcionSistema;
 	public Collection<PedidoDTO> obtenerPedidosCompletos() throws RemoteException, ExcepcionSistema;

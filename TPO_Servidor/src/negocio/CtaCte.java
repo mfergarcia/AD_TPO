@@ -7,12 +7,12 @@ import java.util.Collection;
 import java.util.Iterator;
 import java.util.List;
 
-import dao.ArticuloDAO;
 import dao.CtaCteDAO;
+import dto.CtaCteDTO;
 
 public class CtaCte {
 	
-	private int id=0;
+	private int id;
 	private float limiteCredito;
 	private List<Factura> facturas;
 	private List<Pago> pagos;
@@ -106,6 +106,24 @@ public class CtaCte {
 
 	public List<Pago> getPagos() {
 		return pagos;
+	}
+	
+	public CtaCteDTO toDTO() {
+		CtaCteDTO ctaCteDTO = new CtaCteDTO();
+		ctaCteDTO.setId(this.getId());
+		ctaCteDTO.setLimiteCredito(this.getLimiteCredito());
+		Factura auxFact;
+		for (Iterator<Factura> i = this.getFacturas().iterator(); i.hasNext(); ) {
+			auxFact = i.next();
+			ctaCteDTO.agregarFactura(auxFact.toDTO());
+		}
+		Pago auxPago;
+		for (Iterator<Pago> j = this.getPagos().iterator(); j.hasNext(); ) {
+			auxPago = j.next();
+			ctaCteDTO.agregarPago(auxPago.toDTO());
+		}
+		ctaCteDTO.setSaldo(this.calcularSaldo());
+		return ctaCteDTO;
 	}
 	
 	public void saveMe() {
