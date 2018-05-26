@@ -1,29 +1,19 @@
 package swing;
 
-import java.awt.BorderLayout;
 import java.awt.EventQueue;
 
 import javax.swing.JFrame;
-import javax.swing.JPanel;
-import javax.swing.border.EmptyBorder;
 import javax.swing.JMenuBar;
 import javax.swing.JMenu;
 import javax.swing.JMenuItem;
-import javax.swing.JSplitPane;
-import javax.swing.JLabel;
 import java.awt.GridLayout;
-import javax.swing.JScrollPane;
-import javax.swing.JTextPane;
-import javax.swing.SpringLayout;
-import javax.swing.JEditorPane;
-import javax.swing.JSeparator;
-import javax.swing.JList;
-import javax.swing.JInternalFrame;
-import javax.swing.JLayeredPane;
-import javax.swing.JTextArea;
-import javax.swing.JTable;
 
 public class menuPrincipal extends JFrame {
+
+	/**
+	 * 
+	 */
+	private static final long serialVersionUID = -2869186589040288841L;
 
 	/**
 	 * Launch the application.
@@ -91,7 +81,7 @@ public class menuPrincipal extends JFrame {
 		miCuentaPanel1 miCuentaPanel1_ = new miCuentaPanel1();
 		getContentPane().add(miCuentaPanel1_);
 		
-		Resultados resultados = new Resultados();
-		getContentPane().add(resultados);
+		/*Resultados resultados = new Resultados();
+		getContentPane().add(resultados);*/
 	}
 }
