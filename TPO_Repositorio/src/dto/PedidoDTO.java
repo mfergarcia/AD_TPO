@@ -14,12 +14,18 @@ public class PedidoDTO implements Serializable {
 	private static final long serialVersionUID = 1L;
 	private int numPedido;
 	private int idCliente;
-	private Date fechaGen;
 	private DireccionDTO dirEntrega;
 	private Date fechaEntrega;
 	private Collection<ItemArticuloDTO> items;
 	private FacturaDTO factura;
 	private String motivoRechazo;
+	private Date fechaGen;
+	private Date fechaRechazo;
+	private Date fechaPendRepo;
+	private Date fechaCompleto;
+	private Date fechaPendDepo;
+	private Date fechaPendDesp;
+	private Date fechaDespachado;
 	private String estado;	
 	
 	public PedidoDTO() {
@@ -44,14 +50,6 @@ public class PedidoDTO implements Serializable {
 
 	public void setIdCliente(int idCliente) {
 		this.idCliente = idCliente;
-	}
-
-	public Date getFechaGen() {
-		return fechaGen;
-	}
-
-	public void setFechaGen(Date fechaGen) {
-		this.fechaGen = fechaGen;
 	}
 
 	public DireccionDTO getDirEntrega() {
@@ -92,6 +90,62 @@ public class PedidoDTO implements Serializable {
 
 	public void setMotivoRechazo(String motivoRechazo) {
 		this.motivoRechazo = motivoRechazo;
+	}
+
+	public Date getFechaGen() {
+		return fechaGen;
+	}
+
+	public void setFechaGen(Date fechaGen) {
+		this.fechaGen = fechaGen;
+	}
+	
+	public Date getFechaRechazo() {
+		return fechaRechazo;
+	}
+
+	public void setFechaRechazo(Date fechaRechazo) {
+		this.fechaRechazo = fechaRechazo;
+	}
+
+	public Date getFechaPendRepo() {
+		return fechaPendRepo;
+	}
+
+	public void setFechaPendRepo(Date fechaPendRepo) {
+		this.fechaPendRepo = fechaPendRepo;
+	}
+
+	public Date getFechaCompleto() {
+		return fechaCompleto;
+	}
+
+	public void setFechaCompleto(Date fechaCompleto) {
+		this.fechaCompleto = fechaCompleto;
+	}
+
+	public Date getFechaPendDepo() {
+		return fechaPendDepo;
+	}
+
+	public void setFechaPendDepo(Date fechaPendDepo) {
+		this.fechaPendDepo = fechaPendDepo;
+	}
+
+	public Date getFechaPendDesp() {
+		return fechaPendDesp;
+	}
+
+	public void setFechaPendDesp(Date fechaPendDesp) {
+		this.fechaPendDesp = fechaPendDesp;
+	}
+
+	public Date getFechaDespachado() {
+		return fechaDespachado;
+	}
+
+	public void setFechaDespachado(Date fechaDespachado) {
+		this.fechaDespachado = fechaDespachado;
 	}
 
 	public String getEstado() {

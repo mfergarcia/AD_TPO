@@ -16,12 +16,18 @@ public class Pedido {
 
 	private int numPedido;
 	private Cliente cliente;
-	private Date fechaGen;
 	private Direccion dirEntrega;
 	private Date fechaEntrega;
 	private List<ItemArticulo> articulos;
 	private Factura factura;
 	private String motivoRechazo;
+	private Date fechaGen;
+	private Date fechaRechazo;
+	private Date fechaPendRepo;
+	private Date fechaCompleto;
+	private Date fechaPendDepo;
+	private Date fechaPendDesp;
+	private Date fechaDespachado;
 	// estado: "A CONFIRMAR", "RECHAZADO", "PENDIENTE REPOSICION", "COMPLETO", "PENDIENTE DEPOSITO", "PENDIENTE DESPACHO", "DESPACHADO"
 	private String estado;	
 	
@@ -33,8 +39,6 @@ public class Pedido {
 	public Pedido(Cliente cliente, Direccion dirEntrega) {
 		this.setCliente(cliente);
 		this.setDirEntrega(dirEntrega);
-		// Se genera con la fecha/hora del momento
-		this.setFechaGen(Calendar.getInstance().getTime());
 		this.articulos = new ArrayList<ItemArticulo>();
 		this.setEstado("A CONFIRMAR");
 	}
@@ -142,27 +146,97 @@ public class Pedido {
 		this.motivoRechazo = motivoRechazo;
 	}
 
+	public List<ItemArticulo> getArticulos() {
+		return articulos;
+	}
+
 	public String getEstado() {
 		return estado;
 	}
 
 	public void setEstado(String estado) {
 		this.estado = estado;
+		switch (estado) {
+			case "A CONFIRMAR":
+				this.setFechaGen(Calendar.getInstance().getTime());	
+			case "RECHAZADO":
+				this.setFechaRechazo(Calendar.getInstance().getTime());	
+			case "PENDIENTE REPOSICION":
+				this.setFechaPendRepo(Calendar.getInstance().getTime());		
+			case "COMPLETO":
+				this.setFechaCompleto(Calendar.getInstance().getTime());
+			case "PENDIENTE DEPOSITO":
+				this.setFechaPendDepo(Calendar.getInstance().getTime());
+			case "PENDIENTE DESPACHO":
+				this.setFechaPendDesp(Calendar.getInstance().getTime());
+			case "DESPACHADO":
+				this.setFechaDespachado(Calendar.getInstance().getTime());
+		}
 	}
 
-	public List<ItemArticulo> getArticulos() {
-		return articulos;
+	public Date getFechaRechazo() {
+		return fechaRechazo;
 	}
-	
+
+	public void setFechaRechazo(Date fechaRechazo) {
+		this.fechaRechazo = fechaRechazo;
+	}
+
+	public Date getFechaPendRepo() {
+		return fechaPendRepo;
+	}
+
+	public void setFechaPendRepo(Date fechaPendRepo) {
+		this.fechaPendRepo = fechaPendRepo;
+	}
+
+	public Date getFechaCompleto() {
+		return fechaCompleto;
+	}
+
+	public void setFechaCompleto(Date fechaCompleto) {
+		this.fechaCompleto = fechaCompleto;
+	}
+
+	public Date getFechaPendDepo() {
+		return fechaPendDepo;
+	}
+
+	public void setFechaPendDepo(Date fechaPendDepo) {
+		this.fechaPendDepo = fechaPendDepo;
+	}
+
+	public Date getFechaPendDesp() {
+		return fechaPendDesp;
+	}
+
+	public void setFechaPendDesp(Date fechaPendDesp) {
+		this.fechaPendDesp = fechaPendDesp;
+	}
+
+	public Date getFechaDespachado() {
+		return fechaDespachado;
+	}
+
+	public void setFechaDespachado(Date fechaDespachado) {
+		this.fechaDespachado = fechaDespachado;
+	}
+
 	public PedidoDTO toDTO() {
 		PedidoDTO pedidoDTO = new PedidoDTO();
 		pedidoDTO.setNumPedido(this.getNumPedido());
 		pedidoDTO.setIdCliente(this.getCliente().getIdCliente());
-		pedidoDTO.setFechaGen(this.getFechaGen());
 		pedidoDTO.setDirEntrega(this.getDirEntrega().toDTO());
 		pedidoDTO.setFechaEntrega(this.getFechaEntrega());
 		pedidoDTO.setFactura(this.getFactura().toDTO());
 		pedidoDTO.setMotivoRechazo(this.getMotivoRechazo());
+		pedidoDTO.setFechaGen(this.getFechaGen());
+		pedidoDTO.setFechaRechazo(this.getFechaRechazo());
+		pedidoDTO.setFechaPendRepo(this.getFechaPendRepo());
+		pedidoDTO.setFechaCompleto(this.getFechaCompleto());
+		pedidoDTO.setFechaPendDepo(this.getFechaPendDepo());
+		pedidoDTO.setFechaPendDesp(this.getFechaPendDesp());
+		pedidoDTO.setFechaDespachado(this.getFechaDespachado());
 		pedidoDTO.setEstado(this.getEstado());
 		ItemArticulo aux=new ItemArticulo();
 		for(Iterator<ItemArticulo> i = this.getArticulos().iterator(); i.hasNext(); ) {
