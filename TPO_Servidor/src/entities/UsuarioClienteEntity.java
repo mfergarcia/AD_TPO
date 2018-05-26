@@ -15,8 +15,6 @@ import negocio.UsuarioCliente;
 @Table(name= "UsuariosCliente")
 public class UsuarioClienteEntity {
 	@Id
-	@GeneratedValue(strategy= GenerationType.AUTO)
-	private Integer id;
 	private String usuario;
 	private String pwd;
 	@OneToOne(cascade= CascadeType.ALL)
@@ -24,29 +22,17 @@ public class UsuarioClienteEntity {
 	private ClienteEntity cliente;
 	
 	
-	public UsuarioClienteEntity(Integer id, String usuario, String pwd, ClienteEntity cliente) {
+	public UsuarioClienteEntity( String usuario, String pwd, ClienteEntity cliente) {
 		super();
-		this.id = id;
 		this.usuario = usuario;
 		this.pwd = pwd;
 		this.cliente = cliente;
 	}
 	
 	public UsuarioClienteEntity(UsuarioCliente uc){
-		if(uc.getId()!= 0)
-			this.setId(uc.getId());
 		this.setCliente(new ClienteEntity(uc.getCliente()));
 		this.setPwd(uc.getPwd());
 		this.setUsuario(uc.getUsuario());
-	}
-
-	public Integer getId() {
-		return id;
-	}
-
-
-	public void setId(Integer id) {
-		this.id = id;
 	}
 
 

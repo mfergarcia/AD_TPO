@@ -29,11 +29,11 @@ public class UsuarioEmpleadoDAO {
 		return i;
 	}
 	
-	public UsuarioEmpleado findByID(int id){
+	public UsuarioEmpleado findByUser(String usuario){
 		SessionFactory sf = HibernateUtil.getSessionFactory();
 		Session session = sf.openSession();
-		UsuarioEmpleadoEntity uee= (UsuarioEmpleadoEntity) session.createQuery("from UsuarioEmpleadoEntity where id = ?")
-									.setParameter(0, id)
+		UsuarioEmpleadoEntity uee= (UsuarioEmpleadoEntity) session.createQuery("from UsuarioEmpleadoEntity where usuario = ?")
+									.setParameter(0, usuario)
 									.uniqueResult();
 		return new UsuarioEmpleado(uee);
 	}

@@ -12,6 +12,8 @@ import interfaces.InterfazRemota;
 import controladores.AdmClientes;
 import controladores.AdmCompras;
 import controladores.AdmStock;
+import dao.UsuarioClienteDAO;
+import dao.UsuarioEmpleadoDAO;
 import controladores.AdmPedidos;
 import controladores.AdmFacturacion;
 import negocio.*;
@@ -21,11 +23,6 @@ import excepciones.ExcepcionSistema;
 public class Sistema extends UnicastRemoteObject implements InterfazRemota{
 
 	private static final long serialVersionUID = 1L;
-
-	//@Facu: remover colecciones de clientes cuando se puedan reemplazar las
-	//busquedas en las colecciones por búsquedas en la BD.
-	private Collection<UsuarioCliente> usuariosCliente;
-	private Collection<UsuarioEmpleado> usuariosEmpleado;
 	
 	public Sistema() throws RemoteException {
 	}
@@ -33,24 +30,12 @@ public class Sistema extends UnicastRemoteObject implements InterfazRemota{
 
 	//@Facu: reemplazar esta busqueda en coleccion por busqueda en la BD
 	private UsuarioCliente buscarUsuarioCliente(String usuario) {
-		UsuarioCliente aux;
-		for (Iterator<UsuarioCliente> i = usuariosCliente.iterator(); i.hasNext(); ) {
-			aux = i.next();
-			if (aux.getUsuario().equals(usuario))
-				return aux; 
-		}
-		return null;
+		return UsuarioClienteDAO.getInstancia().findByUser(usuario);
 	}
 
 	//@Facu: reemplazar esta busqueda en coleccion por busqueda en la BD	
-	private UsuarioEmpleado buscarUsuarioEmpleado(String usuario) {
-		UsuarioEmpleado aux;
-		for (Iterator<UsuarioEmpleado> i = usuariosEmpleado.iterator(); i.hasNext(); ) {
-			aux = i.next();
-			if (aux.getUsuario().equals(usuario))
-				return aux; 
-		}	
-		return null;
+	private UsuarioEmpleado buscarUsuarioEmpleado(String usuario) {	
+		return UsuarioEmpleadoDAO.getInstancia().findByUser(usuario);
 	}
 	
 	@Override
