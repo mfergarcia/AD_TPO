@@ -28,60 +28,9 @@ public class Sistema extends UnicastRemoteObject implements InterfazRemota{
 	private Collection<UsuarioEmpleado> usuariosEmpleado;
 	
 	public Sistema() throws RemoteException {
-		//@Facu: remover estas llamadas cuando se puedan reemplazar las 
-		//busquedas en las colecciones por búsquedas en la BD.
-		cargarUsuariosCliente();
-		cargarUsuariosEmpleado();
+
 	}
 
-	//@Facu: remover este metodo cuando se puedan buscar los usuarios
-	//en la BD
-	private void cargarUsuariosCliente() {
-		//NOTAS_FG: Solo para prueba ** REEMPLAZAR **
-		this.usuariosCliente = new ArrayList<UsuarioCliente>();
-		UsuarioCliente usuarioCliente = new UsuarioCliente();
-		usuarioCliente.setUsuario("maria");
-		usuarioCliente.setPwd("MARIA");
-		usuarioCliente.setIdCliente(1);
-		this.usuariosCliente.add(usuarioCliente);
-		usuarioCliente = new UsuarioCliente();
-		usuarioCliente.setUsuario("fernanda");
-		usuarioCliente.setPwd("FERNANDA");
-		usuarioCliente.setIdCliente(2);
-		this.usuariosCliente.add(usuarioCliente);
-	}
-
-	//@Facu: remover este metodo cuando se puedan buscar los usuarios
-	//en la BD
-	private void cargarUsuariosEmpleado() {
-		this.usuariosEmpleado = new ArrayList<UsuarioEmpleado>();
-		UsuarioEmpleado usuarioEmpleado = new UsuarioEmpleado();
-		usuarioEmpleado.setUsuario("user_clientes");
-		usuarioEmpleado.setPwd("USER_CLIENTES");
-		usuarioEmpleado.setMenu("ADM_CLIENTES");
-		this.usuariosEmpleado.add(usuarioEmpleado);
-		usuarioEmpleado = new UsuarioEmpleado();
-		usuarioEmpleado.setUsuario("user_compras");
-		usuarioEmpleado.setPwd("USER_COMPRAS");
-		usuarioEmpleado.setMenu("ADM_COMPRAS");
-		this.usuariosEmpleado.add(usuarioEmpleado);
-		usuarioEmpleado = new UsuarioEmpleado();
-		usuarioEmpleado.setUsuario("user_deposito");
-		usuarioEmpleado.setPwd("USER_DEPOSITO");
-		usuarioEmpleado.setMenu("ADM_DEPOSITO");
-		this.usuariosEmpleado.add(usuarioEmpleado);	
-		this.usuariosEmpleado.add(usuarioEmpleado);
-		usuarioEmpleado = new UsuarioEmpleado();
-		usuarioEmpleado.setUsuario("user_despacho");
-		usuarioEmpleado.setPwd("USER_DESPACHO");
-		usuarioEmpleado.setMenu("ADM_DESPACHO");
-		this.usuariosEmpleado.add(usuarioEmpleado);
-		usuarioEmpleado = new UsuarioEmpleado();
-		usuarioEmpleado.setUsuario("user_facturacion");
-		usuarioEmpleado.setPwd("USER_FACTURACION");
-		usuarioEmpleado.setMenu("ADM_FACTURACION");
-		this.usuariosEmpleado.add(usuarioEmpleado);
-	}
 
 	//@Facu: reemplazar esta busqueda en coleccion por busqueda en la BD
 	private UsuarioCliente buscarUsuarioCliente(String usuario) {
@@ -110,7 +59,7 @@ public class Sistema extends UnicastRemoteObject implements InterfazRemota{
 		UsuarioCliente usuarioCliente = buscarUsuarioCliente(usuario);
 		if (usuarioCliente != null) {
 			if (usuarioCliente.getPwd().equals(pwd))
-				return usuarioCliente.getIdCliente();
+				return usuarioCliente.getCliente().getIdCliente();
 			else
 				throw new ExcepcionSistema("Password incorrecta");
 		}
