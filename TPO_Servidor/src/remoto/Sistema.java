@@ -30,28 +30,28 @@ public class Sistema extends UnicastRemoteObject implements InterfazRemota{
 	public Sistema() throws RemoteException {
 		//@Facu: remover estas llamadas cuando se puedan reemplazar las 
 		//busquedas en las colecciones por búsquedas en la BD.
-		cargarUsuariosCliente();
-		cargarUsuariosEmpleado();
+		/*cargarUsuariosCliente();
+		cargarUsuariosEmpleado();*/
 	}
 
 	//@Facu: remover este metodo cuando se puedan buscar los usuarios
 	//en la BD
-	private void cargarUsuariosCliente() {
+	/*private void cargarUsuariosCliente() {
 		//NOTAS_FG: Solo para prueba ** REEMPLAZAR **
 		this.usuariosCliente = new ArrayList<UsuarioCliente>();
 		UsuarioCliente usuarioCliente = new UsuarioCliente();
 		usuarioCliente.setUsuario("maria");
 		usuarioCliente.setPwd("MARIA");
-		usuarioCliente.setIdCliente(1);
+		usuarioCliente.setIdCliente(1);//Agregar Metodo que levanta Cliente por Id
 		this.usuariosCliente.add(usuarioCliente);
 		usuarioCliente = new UsuarioCliente();
 		usuarioCliente.setUsuario("fernanda");
 		usuarioCliente.setPwd("FERNANDA");
 		usuarioCliente.setIdCliente(2);
 		this.usuariosCliente.add(usuarioCliente);
-	}
+	}*/
 
-	//@Facu: remover este metodo cuando se puedan buscar los usuarios
+	/*//@Facu: remover este metodo cuando se puedan buscar los usuarios
 	//en la BD
 	private void cargarUsuariosEmpleado() {
 		this.usuariosEmpleado = new ArrayList<UsuarioEmpleado>();
@@ -81,7 +81,7 @@ public class Sistema extends UnicastRemoteObject implements InterfazRemota{
 		usuarioEmpleado.setPwd("USER_FACTURACION");
 		usuarioEmpleado.setMenu("ADM_FACTURACION");
 		this.usuariosEmpleado.add(usuarioEmpleado);
-	}
+	}*/
 
 	//@Facu: reemplazar esta busqueda en coleccion por busqueda en la BD
 	private UsuarioCliente buscarUsuarioCliente(String usuario) {
@@ -110,7 +110,7 @@ public class Sistema extends UnicastRemoteObject implements InterfazRemota{
 		UsuarioCliente usuarioCliente = buscarUsuarioCliente(usuario);
 		if (usuarioCliente != null) {
 			if (usuarioCliente.getPwd().equals(pwd))
-				return usuarioCliente.getIdCliente();
+				return 1;//usuarioCliente.getIdCliente();
 			else
 				throw new ExcepcionSistema("Password incorrecta");
 		}

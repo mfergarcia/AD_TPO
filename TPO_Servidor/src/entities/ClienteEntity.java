@@ -14,6 +14,7 @@ import javax.persistence.OneToOne;
 
 import org.hibernate.annotations.Cascade;
 
+import negocio.Cliente;
 import negocio.Direccion;
 
 @MappedSuperclass
@@ -49,6 +50,16 @@ public class ClienteEntity {
 	}
 
 
+	public ClienteEntity(Cliente cliente) {
+		if(cliente.getIdCliente()!=0)
+			this.setIdCliente(cliente.getIdCliente());
+		this.setCondicionesEspeciales(cliente.getCondicionesEspeciales());
+		this.setCtaCte(new CtaCteEntity(cliente.getCtaCte()));
+		this.setTipoFactura(cliente.getTipoFactura());
+		this.setDireccionFacturacion(new DireccionEntity(cliente.getDireccionFacturacion()));
+		this.setEstado(cliente.getEstado());
+		this.setTipo(cliente.getTipo());
+	}
 	public Integer getIdCliente() {
 		return idCliente;
 	}
