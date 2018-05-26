@@ -28,7 +28,6 @@ public class Sistema extends UnicastRemoteObject implements InterfazRemota{
 	private Collection<UsuarioEmpleado> usuariosEmpleado;
 	
 	public Sistema() throws RemoteException {
-
 	}
 
 
