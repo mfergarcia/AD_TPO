@@ -21,21 +21,21 @@ public class TestCliente_Articulos {
 
 			Collection<ArticuloDTO> articulos = new ArrayList<ArticuloDTO>();
 			ArticuloDTO articulo = new ArticuloDTO();
-			articulo.setCodigoBarras("DDD444");
-			articulo.setDescripcion("Coca-Light");
+			articulo.setCodigoBarras("GGG444");
+			articulo.setDescripcion("Cindor");
 			articulo.setPresentacion("PACK");
 			articulo.setTamaño(50);
-			articulo.setUnidad("Latas 500ml");
+			articulo.setUnidad("Carton 1000ml");
 			articulo.setPrecioVta(1500);
-			articulo.setCantMaxUbicacion(500);
+			articulo.setCantMaxUbicacion(1000);
 			articulo.setCantFijaCompra(1000);
 			articulo = bd.altaArticulo(articulo);
 			System.out.println("Alta Articulo: " + articulo.getCodigoBarras() + ", " + articulo.getDescripcion() + " " + articulo.getPresentacion() + " " + articulo.getTamaño() + " " + articulo.getUnidad());
 			articulos.add(articulo);
 			
 			articulo = new ArticuloDTO();
-			articulo.setCodigoBarras("EEE555");
-			articulo.setDescripcion("Coca-light");
+			articulo.setCodigoBarras("HHH555");
+			articulo.setDescripcion("Cerveza Quilmes");
 			articulo.setPresentacion("CAJON");
 			articulo.setTamaño(8);
 			articulo.setUnidad("Botellas 1500ml");
@@ -47,8 +47,8 @@ public class TestCliente_Articulos {
 			articulos.add(articulo);
 			
 			articulo = new ArticuloDTO();
-			articulo.setCodigoBarras("FFF666");
-			articulo.setDescripcion("Arroz Gallo Oro");
+			articulo.setCodigoBarras("III666");
+			articulo.setDescripcion("Sopas Knorr Quick");
 			articulo.setPresentacion("Pack");
 			articulo.setTamaño(10);
 			articulo.setUnidad("Bolsas 1kg");
@@ -61,7 +61,7 @@ public class TestCliente_Articulos {
 			
 			// Prueba Obtener Articulo
 			
-			ArticuloDTO articulo2 = bd.obtenerArticulo("FFF666");
+			ArticuloDTO articulo2 = bd.obtenerArticulo("III666");
 			System.out.println("Se obtuvo el articulo: " + articulo2.getCodigoBarras() + ", " + articulo2.getDescripcion());;
 			
 			// Prueba Obtener Catalogo
@@ -78,7 +78,7 @@ public class TestCliente_Articulos {
 			
 			// Prueba Generar Orden De Compra
 
-			String proveedor = "FEMSA COCA-COLA";
+			String proveedor = "SUPERMERCADO VITAL";
 			OrdenDeCompraDTO ordenOC = bd.generarOrdenDeCompra(proveedor, articulos);
 			System.out.println("El numero de OC es: " + ordenOC.getNumOC());
 			ItemOCDTO auxItemOC;

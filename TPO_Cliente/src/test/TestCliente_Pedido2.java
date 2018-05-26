@@ -14,16 +14,15 @@ public class TestCliente_Pedido2 {
 			try {
 				SistemaBD bd = new SistemaBD();
 				
-				//Prueba Rechazo Pedido
-					System.out.println(bd.obtenerProveedores("DDD444"));
-					Collection<PedidoDTO> p= new ArrayList<PedidoDTO>();
-					/*
-					bd.rechazarPedido(1, "Direccion Erronea");
+				//Prueba Obtener ultimos 3 proveedores 
+				System.out.println(bd.obtenerProveedores("III666"));
 				
-				
-				//Prueba Obtener Proveedores
-				System.out.println(bd.obtenerProveedores("AAA111"));
-				
+				Collection<PedidoDTO> p= new ArrayList<PedidoDTO>();
+
+				// bd.rechazarPedido(1, "Direccion Erronea");
+			
+				/*
+			
 				//Prueba Obtener Pedido
 				p= new ArrayList<PedidoDTO>();
 				p=bd.obtenerPedidosCompletos();
@@ -41,18 +40,25 @@ public class TestCliente_Pedido2 {
 				p= bd.obtenerPedidosPendDeposito();
 				for(PedidoDTO pd: p)
 					System.out.println("Pedido numero: "+pd.getNumPedido()+" del Cliente: "+pd.getIdCliente()+ " estado: "+ pd.getEstado());
-				*/
-					/*
+				
+					
 				//Prueba Preparar Pedido
 				Collection<ArticuloEnStockDTO> art= new ArrayList<ArticuloEnStockDTO>();
-				art= bd.prepararPedido(4);
-				*/
+				bd.actualizarStockPorVenta(4, bd.prepararPedido(4));
+				
 				//Prueba obtener Pedidos a despachar
 				
 				p= new ArrayList<PedidoDTO>();
 				p=bd.obtenerPedidosADespachar();
 				for(PedidoDTO pd: p)
 					System.out.println("Pedido numero: "+pd.getNumPedido()+" del Cliente: "+pd.getIdCliente()+ " estado: "+ pd.getEstado());
+				
+				//Generar Fecha Entrega
+				
+				bd.registrarFechaEntrega(4, new java.util.Date(System.currentTimeMillis()));
+				
+				*/
+				
 				
 			} catch (ExcepcionComunicacion e) {
 				System.out.println(e.getMensaje());

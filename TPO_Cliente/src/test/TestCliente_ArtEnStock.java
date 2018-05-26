@@ -21,7 +21,7 @@ public class TestCliente_ArtEnStock {
 			
 			// Prueba Obtener Orden De Compra
 			
-			int numOCABuscar = 6;
+			int numOCABuscar = 1;
 			OrdenDeCompraDTO ordenOC = bd.obtenerOrdenDeCompra(numOCABuscar);
 			System.out.println("Se obtuvo la Orden De Compra: " + ordenOC.getNumOC());
 			
@@ -30,6 +30,9 @@ public class TestCliente_ArtEnStock {
 			Collection<ArticuloEnStockDTO> posiciones = new ArrayList<ArticuloEnStockDTO>();
 			ItemOCDTO auxItemOC;
 			int contador = 10;
+			System.out.println("Cantidad de items OC: " + ordenOC.getItems().size());
+			
+			
 			for (Iterator<ItemOCDTO> i = ordenOC.getItems().iterator(); i.hasNext(); ) {
 				auxItemOC = i.next();
 				ArticuloEnStockDTO artEnStock = new ArticuloEnStockDTO();
@@ -43,7 +46,9 @@ public class TestCliente_ArtEnStock {
 				artEnStock.setLote(auxItemOC.getArticulo().getCodigoBarras().substring(3));
 				artEnStock.setPrecioCompra(auxItemOC.getArticulo().getPrecioVta()/2);
 				artEnStock.setProveedor(ordenOC.getProveedor());
+				System.out.print("Estoy por llamar al cargar articulo ");
 				posiciones = bd.cargarArticuloEnStock(ordenOC.getNumOC(), artEnStock);
+				System.out.print("Me devolvio " + posiciones.size() + " posiciones");
 				ArticuloEnStockDTO printAES;
 				for (Iterator<ArticuloEnStockDTO> j = posiciones.iterator(); j.hasNext(); ) {
 					printAES = j.next();

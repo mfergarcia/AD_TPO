@@ -15,20 +15,21 @@ public class TestCliente_Clientes {
 			// Prueba Alta Cliente Empresa
 			 
 			ClienteEmpresaDTO cteEmpresa = new ClienteEmpresaDTO();
-			cteEmpresa.setCuit("30-22333444-5");
-			cteEmpresa.setRazonSocial("Todo fiestas");
+			cteEmpresa.setCuit("33-444555-6");
+			cteEmpresa.setRazonSocial("SCIO SA");
 			DireccionDTO dirFacturacion = new DireccionDTO();
-			dirFacturacion.setCalle("Cabildo");
-			dirFacturacion.setNumero(2031);
-			dirFacturacion.setCodigoPostal("1490");
+			dirFacturacion.setCalle("Lima");
+			dirFacturacion.setNumero(775);
+			dirFacturacion.setCodigoPostal("1590");
 			dirFacturacion.setLocalidad("C.A.B.A");
 			cteEmpresa.setDireccionFacturacion(dirFacturacion);
 			cteEmpresa.setTipoFactura('A');
 			cteEmpresa.setCondicionesEspeciales("Venta con tarjeta");
-			cteEmpresa.setLimiteCredito(90000);
+			cteEmpresa.setLimiteCredito(10000);
 			cteEmpresa = bd.altaClienteEmpresa(cteEmpresa);
 			System.out.println("Cliente Empresa: " + cteEmpresa.getIdCliente() + " " + cteEmpresa.getRazonSocial());;
 
+	
 			cteEmpresa = new ClienteEmpresaDTO();
 			cteEmpresa.setCuit("33-33444555-6");
 			cteEmpresa.setRazonSocial("Kiosco Josesito");
@@ -58,17 +59,18 @@ public class TestCliente_Clientes {
 			cteEmpresa.setLimiteCredito(100000);
 			cteEmpresa = bd.altaClienteEmpresa(cteEmpresa);
 			System.out.println("Cliente Empresa: " + cteEmpresa.getIdCliente() + " " + cteEmpresa.getRazonSocial());;
-	
+
+			
 			// Prueba Alta Cliente Persona
 			
 			ClientePersonaDTO ctePersona = new ClientePersonaDTO();
-			ctePersona.setDni("25666777");
-			ctePersona.setApellido("San Martin");
-			ctePersona.setNombre("Jose");
+			ctePersona.setDni("29777888");
+			ctePersona.setApellido("Rivadavia");
+			ctePersona.setNombre("Bernardino");
 			dirFacturacion = new DireccionDTO();
-			dirFacturacion.setCalle("Cachimayo");
-			dirFacturacion.setNumero(230);
-			dirFacturacion.setCodigoPostal("1406");
+			dirFacturacion.setCalle("Migueletes");
+			dirFacturacion.setNumero(2020);
+			dirFacturacion.setCodigoPostal("1506");
 			dirFacturacion.setLocalidad("C.A.B.A");
 			ctePersona.setDireccionFacturacion(dirFacturacion);
 			ctePersona.setTipoFactura('C');
@@ -76,6 +78,7 @@ public class TestCliente_Clientes {
 			ctePersona.setLimiteCredito(0);
 			ctePersona = bd.altaClientePersona(ctePersona);
 			System.out.println("Cliente Persona: " + ctePersona.getIdCliente() + " " + ctePersona.getApellido() + ", " + ctePersona.getNombre());
+			
 
 			ctePersona = new ClientePersonaDTO();
 			ctePersona.setDni("25777888");
@@ -108,12 +111,13 @@ public class TestCliente_Clientes {
 			ctePersona.setLimiteCredito(50000);
 			ctePersona = bd.altaClientePersona(ctePersona);
 			System.out.println("Cliente Persona: " + ctePersona.getIdCliente() + " " + ctePersona.getApellido() + ", " + ctePersona.getNombre());
-		
+
+			
 			/* Prueba obtener Cliente*/
 			/* Prueba obtener ClienteEmpresa */
 			/* Prueba obtener ClientePersona */
 			
-			int idClienteAObtener1 = 26;
+			int idClienteAObtener1 = 3;
 			char tipoCliente1 = bd.obtenerTipoCliente(idClienteAObtener1);
 			System.out.println("El tipo de cliente a buscar es: " + tipoCliente1);
 			if (tipoCliente1 == 'E') {
@@ -128,13 +132,13 @@ public class TestCliente_Clientes {
 			/* Prueba Modificar Cliente Empresa */
 			/* Prueba Modificar Cliente Persona */
 			
-			int idClienteAObtener2 = 27;
+			int idClienteAObtener2 = 3;
 			char tipoCliente2 = bd.obtenerTipoCliente(idClienteAObtener2);
 			System.out.println("El tipo de cliente a buscar es: " + tipoCliente2);
 			if (tipoCliente2 == 'E') {
 				ClienteEmpresaDTO cteEmpresa3 = bd.obtenerCteEmpresa(idClienteAObtener2);
 				System.out.println("Cliente Empresa: " + cteEmpresa3.getIdCliente() + " " + cteEmpresa3.getRazonSocial());
-				cteEmpresa3.setLimiteCredito(200000);
+				cteEmpresa3.setLimiteCredito(500000);
 				cteEmpresa3 = bd.modificarCteEmpresa(cteEmpresa3);
 				System.out.println("Cliente Empresa Modificado: " + cteEmpresa3.getIdCliente() + " " + cteEmpresa3.getLimiteCredito());
 			}
@@ -155,7 +159,7 @@ public class TestCliente_Clientes {
 			// Prueba Baja Cliente Empresa 
 			// Prueba Baja Cliente Persona
 			
-			int idClienteADarDeBaja = 25;
+			int idClienteADarDeBaja = 4;
 			bd.bajaCliente(idClienteADarDeBaja);
 			char tipoCliente3 = bd.obtenerTipoCliente(idClienteADarDeBaja);
 			System.out.println("El tipo de cliente a buscar es: " + tipoCliente3);

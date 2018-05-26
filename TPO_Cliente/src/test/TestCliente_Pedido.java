@@ -22,10 +22,10 @@ public class TestCliente_Pedido {
 
 			// Prueba Generar Pedido
 			
-			int numCliente = 27;
-			int numOCABuscar = 6;
+			int numCliente = 2;
+			int numOCABuscar = 1;
 			DireccionDTO dirEntrega = new DireccionDTO();
-			dirEntrega.setCalle("Venezuela");
+			dirEntrega.setCalle("Av de Mayo");
 			dirEntrega.setNumero(200);
 			dirEntrega.setCodigoPostal("1424");
 			dirEntrega.setLocalidad("C.A.B.A.");
@@ -48,9 +48,9 @@ public class TestCliente_Pedido {
 			for (Iterator<ItemArticuloDTO> j = pedido.getItems().iterator(); j.hasNext(); ) {
 				auxItemArt = j.next();
 				System.out.println(auxItemArt.getArticuloDTO().getCodigoBarras() + " cant: " + auxItemArt.getCant());
-			}
-
-			
+			}/*
+*/
+			/*
 			// Prueba Obtener Pedidos Por Cliente
 			
 			Collection<PedidoDTO> pedidos = bd.obtenerPedidosPorCliente(numCliente);
@@ -71,12 +71,14 @@ public class TestCliente_Pedido {
 				System.out.println("Pedido " + auxPedido.getNumPedido());
 			}
 
-			
+			*/
 			// Prueba Aprobar Pedido
 
-			int numPedidoABuscar = 4;
+			int numPedidoABuscar = 1;
 			String nuevoEstado = bd.aprobarPedido(numPedidoABuscar);
 			System.out.println("El estado del pedido " + numPedidoABuscar + " es: " + nuevoEstado);
+			
+			
 			
 		} catch (ExcepcionComunicacion e) {
 			System.out.println(e.getMensaje());
