@@ -1,4 +1,4 @@
-package swing;
+package swing.test;
 
 import java.awt.BorderLayout;
 import java.awt.EventQueue;
@@ -11,6 +11,9 @@ import java.awt.Color;
 import java.awt.Font;
 import java.awt.Toolkit;
 import org.eclipse.wb.swing.FocusTraversalOnArray;
+
+import excepciones.ExcepcionComunicacion;
+
 import java.awt.Component;
 import java.awt.Window.Type;
 
@@ -34,10 +37,8 @@ public class principal extends JFrame {
 		});
 	}
 
-	/**
-	 * Create the frame.
-	 */
 	public principal() {
+		try{
 		setResizable(false);
 		setForeground(new Color(230, 230, 250));
 		setTitle("Grupo 10 Login");
@@ -52,6 +53,9 @@ public class principal extends JFrame {
 		inicio inicio_ = new inicio();
 		panelLogin.add(inicio_, BorderLayout.CENTER);
 		setFocusTraversalPolicy(new FocusTraversalOnArray(new Component[]{panelLogin, inicio_}));
+		}catch (ExcepcionComunicacion e) {
+			System.out.println(e.getMensaje());
+		}
 	}
 
 }

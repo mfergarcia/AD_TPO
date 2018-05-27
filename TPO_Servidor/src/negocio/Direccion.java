@@ -20,7 +20,6 @@ public class Direccion {
 		this.setId(dirEntrega.getId());
 		this.setCalle(dirEntrega.getCalle());
 		this.setCodigoPostal(dirEntrega.getCodigoPostal());
-		this.setId(dirEntrega.getId());
 		this.setLocalidad(dirEntrega.getLocalidad());
 		this.setNumero(dirEntrega.getNumero());
 	}

@@ -1,4 +1,4 @@
-package swing;
+package swing.test;
 
 import javax.swing.JPanel;
 import java.awt.GridLayout;

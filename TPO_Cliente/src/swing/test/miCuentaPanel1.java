@@ -1,7 +1,12 @@
-package swing;
+package swing.test;
 
 import javax.swing.JPanel;
 import javax.swing.SpringLayout;
+
+import delegados.SistemaBD;
+import excepciones.ExcepcionComunicacion;
+import excepciones.ExcepcionSistema;
+
 import javax.swing.JLabel;
 import javax.swing.ImageIcon;
 import java.awt.Font;
@@ -21,6 +26,7 @@ public class miCuentaPanel1 extends JPanel {
 		lblMiCuenta.addMouseListener(new MouseAdapter() {
 			@Override
 			public void mouseClicked(MouseEvent arg0) {
+				//Metodo que no esta implementado, no pertenece al flujo original del tp, implementar si el resto esta terminado
 				System.out.println("al hacer click en este boton deberia devolver todos los datos del cliente en la pantalla resultados");
 			}
 		});
@@ -36,7 +42,16 @@ public class miCuentaPanel1 extends JPanel {
 		lblPedidos.addMouseListener(new MouseAdapter() {
 			@Override
 			public void mouseClicked(MouseEvent e) {
-				System.out.println("al hacer click en este boton deberia devolver los pedidos en la pantalla resultados");
+				try{
+					SistemaBD bd= new SistemaBD();
+					bd.obtenerPedidosCompletos();
+					//TODO tabla resultados
+				} catch (ExcepcionComunicacion ev) {
+					System.out.println(ev.getMensaje());
+				} catch (ExcepcionSistema ev) {
+					System.out.println(ev.getMensaje());
+				}
+				
 			}
 		});
 		springLayout.putConstraint(SpringLayout.NORTH, lblPedidos, 0, SpringLayout.SOUTH, lblMiCuenta);
@@ -49,7 +64,7 @@ public class miCuentaPanel1 extends JPanel {
 		lblCtacte.addMouseListener(new MouseAdapter() {
 			@Override
 			public void mouseClicked(MouseEvent e) {
-				System.out.println("al hacer click en este boton deberia devolver todos los datos del cliente en la pantalla resultados");
+				
 			}
 		});
 		springLayout.putConstraint(SpringLayout.NORTH, lblCtacte, 25, SpringLayout.SOUTH, lblPedidos);

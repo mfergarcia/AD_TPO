@@ -1,4 +1,4 @@
-package swing;
+package swing.test;
 
 import java.awt.BorderLayout;
 import java.awt.EventQueue;
