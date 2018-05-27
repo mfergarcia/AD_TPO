@@ -1,39 +1,50 @@
 package swing.pantalla;
 
 import java.awt.EventQueue;
+import java.awt.event.MouseAdapter;
+import java.awt.event.MouseEvent;
 
 import javax.swing.JFrame;
 import javax.swing.JLabel;
 import javax.swing.JTextField;
+
+import delegados.SistemaBD;
+import dto.ClienteEmpresaDTO;
+import dto.DireccionDTO;
+import excepciones.ExcepcionComunicacion;
+import excepciones.ExcepcionSistema;
+
 import javax.swing.JButton;
 
 public class PantallaAltaClienteEmpresa {
 
-	private JFrame frmAltaClienteEmpresa;
+	public JFrame frmAltaClienteEmpresa;
 	private JTextField cuit_textField;
 	private JTextField razonSocial_textField;
-
-	/**
-	 * Launch the application.
-	 */
-	public static void main(String[] args) {
-		EventQueue.invokeLater(new Runnable() {
-			public void run() {
-				try {
-					PantallaAltaClienteEmpresa window = new PantallaAltaClienteEmpresa();
-					window.frmAltaClienteEmpresa.setVisible(true);
-				} catch (Exception e) {
-					e.printStackTrace();
-				}
-			}
-		});
-	}
+	private String condicionesEspeciales;
+	private String tipoFactura;
+	private String localidad;
+	private String codigoPostal;
+	private String calle;
+	private String numero;
+	private String limiteCredito;
 
 	/**
 	 * Create the application.
 	 */
 	public PantallaAltaClienteEmpresa() {
 		initialize();
+	}
+
+	public PantallaAltaClienteEmpresa(String condEsp, String tipoFac, String localidad, String codPostal, String calle, String numero,
+			String limCredito) {
+		this.calle= calle;
+		this.codigoPostal= codPostal;
+		this.condicionesEspeciales= condEsp;
+		this.limiteCredito= limCredito;
+		this.tipoFactura= tipoFac;
+		this.localidad= localidad;
+		this.numero= numero;
 	}
 
 	/**
@@ -66,6 +77,31 @@ public class PantallaAltaClienteEmpresa {
 		
 		JButton btnFinalizar = new JButton("Finalizar");
 		btnFinalizar.setBounds(335, 227, 89, 23);
+		btnFinalizar.addMouseListener(new MouseAdapter() {
+			public void mouseClicked(MouseEvent e) {
+				try {
+					SistemaBD bd= new SistemaBD();
+					ClienteEmpresaDTO cteEmpresa= new ClienteEmpresaDTO();
+					cteEmpresa.setCuit(cuit_textField.getText());
+					cteEmpresa.setRazonSocial(razonSocial_textField.getText());
+					DireccionDTO dirFacturacion = new DireccionDTO();
+					dirFacturacion.setCalle(calle);
+					dirFacturacion.setNumero(Integer.parseInt(numero));
+					dirFacturacion.setCodigoPostal(codigoPostal);
+					dirFacturacion.setLocalidad(localidad);
+					cteEmpresa.setDireccionFacturacion(dirFacturacion);
+					cteEmpresa.setTipoFactura(tipoFactura.charAt(0));
+					cteEmpresa.setCondicionesEspeciales(condicionesEspeciales);
+					cteEmpresa.setLimiteCredito(Float.parseFloat(limiteCredito));
+					cteEmpresa = bd.altaClienteEmpresa(cteEmpresa);
+					
+				} catch (ExcepcionComunicacion ev) {
+					System.out.println(ev.getMensaje());
+				} catch (ExcepcionSistema ev) {
+					System.out.println(ev.getMensaje());
+				}
+			}
+		});
 		frmAltaClienteEmpresa.getContentPane().add(btnFinalizar);
 	}
 }

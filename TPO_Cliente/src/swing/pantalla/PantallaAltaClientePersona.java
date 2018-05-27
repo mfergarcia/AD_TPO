@@ -1,41 +1,51 @@
 package swing.pantalla;
 
 import java.awt.EventQueue;
+import java.awt.event.MouseAdapter;
+import java.awt.event.MouseEvent;
 
 import javax.swing.JFrame;
 import javax.swing.JLabel;
 import javax.swing.JTextField;
+
+import delegados.SistemaBD;
+import dto.ClienteEmpresaDTO;
+import dto.ClientePersonaDTO;
+import dto.DireccionDTO;
+import excepciones.ExcepcionComunicacion;
+import excepciones.ExcepcionSistema;
+
 import javax.swing.JButton;
 
 public class PantallaAltaClientePersona {
 
-	private JFrame frmClientepersona;
+	public JFrame frmClientepersona;
 	private JTextField nombre_textField;
 	private JTextField apellido_textField;
 	private JTextField dni_textField;
 	private JButton btnFinalizar;
-
-	/**
-	 * Launch the application.
-	 */
-	public static void main(String[] args) {
-		EventQueue.invokeLater(new Runnable() {
-			public void run() {
-				try {
-					PantallaAltaClientePersona window = new PantallaAltaClientePersona();
-					window.frmClientepersona.setVisible(true);
-				} catch (Exception e) {
-					e.printStackTrace();
-				}
-			}
-		});
-	}
-
-	/**
-	 * Create the application.
-	 */
+	private String condicionesEspeciales;
+	private String tipoFactura;
+	private String localidad;
+	private String codigoPostal;
+	private String calle;
+	private String numero;
+	private String limiteCredito;
+	
+	
 	public PantallaAltaClientePersona() {
 		initialize();
+	}
+
+	public PantallaAltaClientePersona(String condEsp, String tipoFac, String localidad, String codPostal, String calle, String numero,
+			String limCredito) {
+		this.calle= calle;
+		this.codigoPostal= codPostal;
+		this.condicionesEspeciales= condEsp;
+		this.limiteCredito= limCredito;
+		this.tipoFactura= tipoFac;
+		this.localidad= localidad;
+		this.numero= numero;
 	}
 
 	/**
@@ -77,6 +87,32 @@ public class PantallaAltaClientePersona {
 		
 		btnFinalizar = new JButton("Finalizar");
 		btnFinalizar.setBounds(335, 227, 89, 23);
+		btnFinalizar.addMouseListener(new MouseAdapter() {
+			public void mouseClicked(MouseEvent e) {
+				try {
+					SistemaBD bd= new SistemaBD();
+					ClientePersonaDTO ctePersona = new ClientePersonaDTO();
+					ctePersona.setDni(dni_textField.getText());
+					ctePersona.setApellido(apellido_textField.getText());
+					ctePersona.setNombre(nombre_textField.getText());
+					DireccionDTO dirFacturacion = new DireccionDTO();
+					dirFacturacion.setCalle(calle);
+					dirFacturacion.setNumero(Integer.parseInt(numero));
+					dirFacturacion.setCodigoPostal(codigoPostal);
+					dirFacturacion.setLocalidad(localidad);
+					ctePersona.setDireccionFacturacion(dirFacturacion);
+					ctePersona.setTipoFactura(tipoFactura.charAt(0));
+					ctePersona.setCondicionesEspeciales(condicionesEspeciales);
+					ctePersona.setLimiteCredito(Float.parseFloat(limiteCredito));
+					ctePersona = bd.altaClientePersona(ctePersona);
+					
+				} catch (ExcepcionComunicacion ev) {
+					System.out.println(ev.getMensaje());
+				} catch (ExcepcionSistema ev) {
+					System.out.println(ev.getMensaje());
+				}
+			}
+		});
 		frmClientepersona.getContentPane().add(btnFinalizar);
 	}
 

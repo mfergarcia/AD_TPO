@@ -1,10 +1,11 @@
 package swing.pantalla;
 
 import java.awt.EventQueue;
+import java.awt.event.MouseAdapter;
+import java.awt.event.MouseEvent;
 
 import javax.swing.JFrame;
 import javax.swing.JTextField;
-import javax.swing.JList;
 import javax.swing.JComboBox;
 import javax.swing.JLabel;
 import javax.swing.DefaultComboBoxModel;
@@ -12,7 +13,7 @@ import javax.swing.JButton;
 
 public class PantallaAltaCliente {
 
-	private JFrame frmAltaCliente;
+	public JFrame frmAltaCliente;
 	private JTextField condicionesEsp_textfield;
 	private JTextField tipoFacutra_textField;
 	private JTextField localidad_textField;
@@ -47,6 +48,7 @@ public class PantallaAltaCliente {
 	/**
 	 * Initialize the contents of the frame.
 	 */
+	@SuppressWarnings({ "unchecked", "rawtypes" })
 	private void initialize() {
 		frmAltaCliente = new JFrame();
 		frmAltaCliente.setTitle("Alta Cliente");
@@ -64,6 +66,7 @@ public class PantallaAltaCliente {
 		frmAltaCliente.getContentPane().add(tipoFacutra_textField);
 		tipoFacutra_textField.setColumns(10);
 		
+		@SuppressWarnings("rawtypes")
 		JComboBox tipo_comboBox = new JComboBox();
 		tipo_comboBox.setModel(new DefaultComboBoxModel(new String[] {"Empresa", "Persona"}));
 		tipo_comboBox.setMaximumRowCount(2);
@@ -129,6 +132,28 @@ public class PantallaAltaCliente {
 		
 		JButton btnSiguiente = new JButton("Siguiente ->");
 		btnSiguiente.setBounds(325, 227, 99, 23);
+		btnSiguiente.addMouseListener(new MouseAdapter() {
+			public void mouseClicked(MouseEvent e) {
+				if(tipo_comboBox.equals("Empresa")){
+					PantallaAltaClienteEmpresa p= new PantallaAltaClienteEmpresa(condicionesEsp_textfield.getText(), 
+												  tipoFacutra_textField.getText(), localidad_textField.getText(), codigoPostal_textField.getText()
+												  , calle_textField.getText(), numero_textField.getText(), limiteCredito_textField.getText());
+				
+					p.frmAltaClienteEmpresa.setVisible(true);
+					p.frmAltaClienteEmpresa.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
+					frmAltaCliente.dispose();
+				}else if(tipo_comboBox.equals("Persona")){
+					PantallaAltaClientePersona p= new PantallaAltaClientePersona(condicionesEsp_textfield.getText(), 
+							  tipoFacutra_textField.getText(), localidad_textField.getText(), codigoPostal_textField.getText()
+							  , calle_textField.getText(), numero_textField.getText(), limiteCredito_textField.getText());
+
+					p.frmClientepersona.setVisible(true);
+					p.frmClientepersona.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
+					frmAltaCliente.dispose();
+					
+				}
+			}
+		});
 		frmAltaCliente.getContentPane().add(btnSiguiente);
 	}
 }
