@@ -22,17 +22,9 @@ import negocio.Stock;
 public class AdmStock {
 
 	private static AdmStock instancia;
-	// @Facu: remover colecciones cuando estén implementadas las búsquedas en la BD
-	// private Collection<Articulo> articulos;
-	// private Collection<Stock> stock;
-	// private Collection <MovimientoStock> movimientosStock;	
 	
 	// Constructor privado (Patron Singleton)
 	private AdmStock() {
-		// @Facu: removar llamadas cuando funcione la búsqueda en la BD
-		// this.articulos = new ArrayList<Articulo>();
-		// this.stock = new ArrayList<Stock>();
-		// this.movimientosStock = new ArrayList<MovimientoStock>();
 	}
 	
 	// Devuelve el Stock para un codigo de ubicacion dado
@@ -55,27 +47,11 @@ public class AdmStock {
 	
 	// Obtiene un Articulo para un determinado codigo de barras
 	public Articulo obtenerArticulo(String codBarras) {
-		/*
-		Articulo aux;
-		for (Iterator<Articulo> i = this.articulos.iterator(); i.hasNext(); ) {
-			aux = i.next();
-			if (aux.getCodigoBarras().equals(codBarras))
-				return aux;
-		}
-		*/
 		return ArticuloDAO.getInstance().findByID(codBarras);
 	}
 	
 	// Devuelve todos los articulos activos (estado = 'A') 
 	public Collection<Articulo> obtenerCatalogo() {
-		/*
-		Collection<Articulo> catalogo = new ArrayList<Articulo>();
-		Articulo aux;
-		for (Iterator<Articulo> i = this.articulos.iterator(); i.hasNext(); ) {
-			aux = i.next();
-			if (aux.getEstado() == 'A')
-				catalogo.add(aux);
-		}*/
 		return ArticuloDAO.getInstance().showAll();
 	}
 	
@@ -141,7 +117,7 @@ public class AdmStock {
 		return estadoPedido;
 	}
 
-
+	// Localiza los Articulos En Stock que se deben considerar para preparar el Pedido
 	public Collection<ArticuloEnStock> localizarStockArticulo(Articulo articulo, int cantidad) {
 		// Coleccion para almacenar la seleccion de Articulos En Stock que se necesitan para cumplir este Item del Pedido
 		Collection<ArticuloEnStock> stockLocalizado = new ArrayList<ArticuloEnStock>();
@@ -174,6 +150,7 @@ public class AdmStock {
 	
 	// @Marce: agregar la generación del movimiento de stock por venta
 	// NOTAS_FG: Revisar si está ok la ejecución de los ciclos
+	// Ejecuta la actualización del Stock por la Venta de un Pedido
 	public boolean actualizarStockPorVenta(Pedido pedido, Collection<ArticuloEnStockDTO> artEnStockDTO) {
 		int cantNecesaria;
 		int cantADescontar;

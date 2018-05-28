@@ -23,6 +23,13 @@ public class Direccion {
 		this.setLocalidad(dirEntrega.getLocalidad());
 		this.setNumero(dirEntrega.getNumero());
 	}
+	
+	public Direccion(DireccionDTO direccionDTO) {
+		this.setCalle(direccionDTO.getCalle());
+		this.setNumero(direccionDTO.getNumero());
+		this.setCodigoPostal(direccionDTO.getCodigoPostal());
+		this.setLocalidad(direccionDTO.getLocalidad());
+	}
 
 	public int getId() {
 		return id;

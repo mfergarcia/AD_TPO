@@ -24,7 +24,6 @@ public class AdmFacturacion {
 		return instancia;
 	}
 	
-	// @Facu: revisar el uso de los saveMe y updateMe para Factura y Remito
 	// Genera la Factura y el correspondiente Remito para un determinado Pedido
 	// Le pide al AdmClientes que registre la misma en la CtaCte del Cliente
 	public Factura facturar(Pedido pedido) {

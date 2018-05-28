@@ -34,6 +34,17 @@ public class ClientePersona extends Cliente {
 		this.setApellido(ctePersonaDTO.getApellido());
 		this.setNombre(ctePersonaDTO.getNombre());
 	}
+
+	public void modificarCtePersona(ClientePersonaDTO ctePersonaDTO) {
+		this.setCondicionesEspeciales(ctePersonaDTO.getCondicionesEspeciales());
+		Direccion direccion = new Direccion();
+		direccion.setCalle(ctePersonaDTO.getDireccionFacturacion().getCalle());
+		direccion.setNumero(ctePersonaDTO.getDireccionFacturacion().getNumero());
+		direccion.setCodigoPostal(ctePersonaDTO.getDireccionFacturacion().getCodigoPostal());
+		direccion.setLocalidad(ctePersonaDTO.getDireccionFacturacion().getLocalidad());
+		this.setDireccionFacturacion(direccion);
+		this.getCtaCte().setLimiteCredito(ctePersonaDTO.getLimiteCredito());
+	}
 	
 	public String getDni() {
 		return dni;

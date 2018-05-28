@@ -1,6 +1,5 @@
 package controladores;
 
-// import java.util.ArrayList;
 import java.util.Collection;
 import java.util.Iterator;
 
@@ -12,41 +11,20 @@ import negocio.*;
 public class AdmCompras {
 
 	private static AdmCompras instancia;
-	// @Facu: remover las colecciones cuando funcionen las búsquedas en la BD
-	// private Collection<OrdenPedidoRepo> ordenesPedidoRepo;
-	// private Collection<OrdenDeCompra> ordenesDeCompra;
 	
 	// Constructor privado (Patron Singleton)
 	private AdmCompras() {
-		// Inicializar controlador
-		// @Facu: eliminar estas llamadas cuando funcionen las búsquedas en la BD
-		// this.ordenesPedidoRepo = new ArrayList<OrdenPedidoRepo>();
-		// this.ordenesDeCompra = new ArrayList<OrdenDeCompra>();
+
 	}
 
 	// Devuelve todas las Ordenes de Pedido Repo en el estado dado
 	private Collection<OrdenPedidoRepo> buscarOrdenesPRPorEstado(String estado) {
-	/*	Collection<OrdenPedidoRepo> ordenesPRPorEstado = new ArrayList<OrdenPedidoRepo>();
-		OrdenPedidoRepo aux;
-		for(Iterator<OrdenPedidoRepo> i = this.ordenesPedidoRepo.iterator(); i.hasNext() ;) {
-			aux = i.next();
-			if (aux.getEstado().equals(estado))
-				ordenesPRPorEstado.add(aux);
-		}*/
 		return OrdenPedidoRepoDAO.getInstance().AllByEstado(estado);
 	}
 
 	// Ubica las Ordenes de Pedido Reposicion de un determinado Articulo en estado "PENDIENTE"
 	// Debe volver ordenada por fecha de creación.
 	private Collection<OrdenPedidoRepo> buscarOrdenesPRPendientePorArticulo(String codBarras) {
-		/*Collection<OrdenPedidoRepo> ordenesPendientes = new ArrayList<OrdenPedidoRepo>();
-		OrdenPedidoRepo aux;
-		for (Iterator<OrdenPedidoRepo> i = this.ordenesPedidoRepo.iterator(); i.hasNext(); ) {
-			aux = i.next();
-			if (aux.getArticulo().getCodigoBarras().equals(codBarras) && aux.getEstado().equals("PENDIENTE")) {
-				ordenesPendientes.add(aux);
-			}
-		}*/
 		return OrdenPedidoRepoDAO.getInstance().AllByArtPENDIENTE(codBarras);
 	}	
 	
@@ -57,7 +35,7 @@ public class AdmCompras {
 		return instancia;
 	}	
 
-	// Crea un nuevo Articulo y le pide al controlador de Stock que lo agregue al catalogo
+	// Crea un nuevo Articulo para el catálogo
 	public Articulo altaArticulo(ArticuloDTO articuloDTO) {
 		Articulo articulo = new Articulo(articuloDTO);
 		articulo.saveMe();
@@ -67,14 +45,7 @@ public class AdmCompras {
 	// Actualiza las propiedades editables del Articulo
 	public Articulo modificarArticulo(ArticuloDTO articuloDTO) {
 		Articulo articulo = AdmStock.getInstancia().obtenerArticulo(articuloDTO.getCodigoBarras());
-		articulo.setDescripcion(articuloDTO.getDescripcion());
-		articulo.setPresentacion(articuloDTO.getPresentacion());
-		articulo.setTamaño(articuloDTO.getTamaño());
-		articulo.setUnidad(articuloDTO.getUnidad());
-		articulo.setPrecioVta(articuloDTO.getPrecioVta());
-		articulo.setCantFijaCompra(articuloDTO.getCantFijaCompra());
-		articulo.setCantMaxUbicacion(articuloDTO.getCantMaxUbicacion());
-		articulo.setEstado(articuloDTO.getEstado());
+		articulo.modificarArticulo(articuloDTO);
 		articulo.updateMe();
 		return articulo;
 	}
@@ -101,10 +72,10 @@ public class AdmCompras {
 		return this.buscarOrdenesPRPorEstado("PENDIENTE");
 	}
 	
+	// @TODOS: Ver si este proceso se puede hacer dentro de OrdenDeCompra
 	// Genera una nueva OrdenDeCompra con sus items y le asocia las OrdenPedidoRepo que
 	// se pueden cubrir con la cantidad comprada
 	public OrdenDeCompra generarOrdenCompra(String proveedor, Collection<ArticuloDTO> articulos) {
-		System.out.println("LLegue");
 		OrdenDeCompra ordenDeCompra = new OrdenDeCompra(proveedor);
 		ArticuloDTO auxArtDTO;
 		// Recorre los Articulos recibidos para generar los items de la OC
@@ -114,7 +85,8 @@ public class AdmCompras {
 			// Crea el item de la OrdenDeCompra, asignando la cantidad fija de compra determinada en el Articulo
 			ItemOC item = new ItemOC(art, art.getCantFijaCompra());
 			ordenDeCompra.agregarItem(item);
-			// Verifica qué Ordenes de Pedido de Reposicion se pueden cumplir con esta Orden de Compra
+			// Verifica qué Ordenes de Pedido de Reposicion se pueden cumplir con esta Orden
+			// de Compra para este Artículo
 			Collection<OrdenPedidoRepo> ordenesPRPendientes = this.buscarOrdenesPRPendientePorArticulo(auxArtDTO.getCodigoBarras());
 			int cantCompra = art.getCantFijaCompra();
 			if (ordenesPRPendientes != null && !ordenesPRPendientes.isEmpty()) {
@@ -133,23 +105,16 @@ public class AdmCompras {
 				}
 			}
 		}
-		
 		ordenDeCompra.saveMe();
 		return ordenDeCompra;
 	}
 	
-	// Busca una determinada Orden de Compra en la coleccion. Devuelve null si no la encuentra
+	// Busca una determinada Orden de Compra
 	public OrdenDeCompra obtenerOrdenDeCompra(int numOC) {
-		/*OrdenDeCompra aux;
-		for(Iterator<OrdenDeCompra> i = this.ordenesDeCompra.iterator(); i.hasNext(); ) {
-			aux = i.next();
-			if (aux.getNumOC() == numOC)
-				return aux;
-		}*/
 		return OrdenDeCompraDAO.getInstance().findById(numOC);
 	}
 
-	// Obtiene la OC de la coleccion ordenesDeCompra, actualiza el estado de las Ordenes de Pedido Repo
+	// Obtiene la Orden de Compra, actualiza el estado de las Ordenes de Pedido Repo
 	// y vuelve a disparar el proceso de aprobación del Pedido para intentar completarlo. 
 	public String cumplirOrdenDeCompra(int numOC) {
 		OrdenDeCompra ordenDeCompra = this.obtenerOrdenDeCompra(numOC); 
@@ -157,10 +122,10 @@ public class AdmCompras {
 			OrdenPedidoRepo aux;
 			for (Iterator<OrdenPedidoRepo> i = ordenDeCompra.getOrdenesPedidoRepo().iterator(); i.hasNext(); ) {
 				aux = i.next();
-				String nuevoEstadoPedido = AdmPedidos.getInstancia().aprobarPedido(aux.getNumPedido());
-				System.out.println("El estado del pedido " + aux.getNumPedido() + " ahora es: " + nuevoEstadoPedido);
 				aux.setEstado("CUMPLIDA");
 				aux.updateMe();
+				String nuevoEstadoPedido = AdmPedidos.getInstancia().aprobarPedido(aux.getNumPedido());
+				System.out.println("El estado del pedido " + aux.getNumPedido() + " ahora es: " + nuevoEstadoPedido);
 			}
 			ordenDeCompra.setEstado("CUMPLIDA");
 			ordenDeCompra.updateMe();

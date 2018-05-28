@@ -8,7 +8,9 @@ import java.util.Date;
 import java.util.Iterator;
 import java.util.List;
 
+import controladores.AdmStock;
 import dao.OrdenDeCompraDAO;
+import dto.ArticuloDTO;
 import dto.OrdenDeCompraDTO;
 import entities.ItemOCEntity;
 import entities.OrdenDeCompraEntity;
@@ -29,7 +31,9 @@ public class OrdenDeCompra {
 
 	}
 
-	// Crea una nueva OrdenDeCompra, con la fecha del día y setea el estado inicial
+	// Crea una nueva OrdenDeCompra con la fecha del día, el estado inicial y 
+	// los Articulos involucrados, luego asocia las Ordenes de Reposicion que pueda cubrir
+	// para cada Articulo
 	public OrdenDeCompra(String proveedor) {
 		this.setProveedor(proveedor);
 		// Se genera con la fecha/hora del momento

@@ -21,11 +21,11 @@ public class TestCliente_Articulos {
 
 			Collection<ArticuloDTO> articulos = new ArrayList<ArticuloDTO>();
 			ArticuloDTO articulo = new ArticuloDTO();
-			articulo.setCodigoBarras("GGG444");
+			articulo.setCodigoBarras("JJJ777");
 			articulo.setDescripcion("Cindor");
 			articulo.setPresentacion("PACK");
-			articulo.setTamaño(50);
-			articulo.setUnidad("Carton 1000ml");
+			articulo.setTamaño(100);
+			articulo.setUnidad("Carton 250ml");
 			articulo.setPrecioVta(1500);
 			articulo.setCantMaxUbicacion(1000);
 			articulo.setCantFijaCompra(1000);
@@ -34,8 +34,8 @@ public class TestCliente_Articulos {
 			articulos.add(articulo);
 			
 			articulo = new ArticuloDTO();
-			articulo.setCodigoBarras("HHH555");
-			articulo.setDescripcion("Cerveza Quilmes");
+			articulo.setCodigoBarras("KKK888");
+			articulo.setDescripcion("Sprite");
 			articulo.setPresentacion("CAJON");
 			articulo.setTamaño(8);
 			articulo.setUnidad("Botellas 1500ml");
@@ -47,8 +47,8 @@ public class TestCliente_Articulos {
 			articulos.add(articulo);
 			
 			articulo = new ArticuloDTO();
-			articulo.setCodigoBarras("III666");
-			articulo.setDescripcion("Sopas Knorr Quick");
+			articulo.setCodigoBarras("LLL999");
+			articulo.setDescripcion("Fideos Spaghetti Matarazzo");
 			articulo.setPresentacion("Pack");
 			articulo.setTamaño(10);
 			articulo.setUnidad("Bolsas 1kg");
@@ -61,7 +61,7 @@ public class TestCliente_Articulos {
 			
 			// Prueba Obtener Articulo
 			
-			ArticuloDTO articulo2 = bd.obtenerArticulo("III666");
+			ArticuloDTO articulo2 = bd.obtenerArticulo("LLL999");
 			System.out.println("Se obtuvo el articulo: " + articulo2.getCodigoBarras() + ", " + articulo2.getDescripcion());;
 			
 			// Prueba Obtener Catalogo
@@ -78,7 +78,7 @@ public class TestCliente_Articulos {
 			
 			// Prueba Generar Orden De Compra
 
-			String proveedor = "SUPERMERCADO VITAL";
+			String proveedor = "MAYORISTA PEPITO CIA";
 			OrdenDeCompraDTO ordenOC = bd.generarOrdenDeCompra(proveedor, articulos);
 			System.out.println("El numero de OC es: " + ordenOC.getNumOC());
 			ItemOCDTO auxItemOC;

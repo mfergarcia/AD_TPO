@@ -21,16 +21,13 @@ import negocio.Pedido;
 public class AdmPedidos {
 
 	private static AdmPedidos instancia;
-	// @Facu: remover la colección cuando se implemente la búsqueda en la BD
-	// private Collection<Pedido> pedidos;
 	
 	// Constructor privado (Patron Singleton)
 	private AdmPedidos() {
-		// @Facu: remover llamada cuando funcione la búsqueda en la BD
-		// this.pedidos = new ArrayList<Pedido>();
+
 	}
 
-	// Ubica un determinado Pedido dentro de la colleción pedidos
+	// Ubica un determinado Pedido
 	private Pedido obtenerPedido(int numPedido) {
 		return PedidoDAO.getIntance().findByID(numPedido);
 	}
@@ -52,11 +49,7 @@ public class AdmPedidos {
 	// Crea un nuevo Pedido con sus correspondientes items 
 	public Pedido generarPedido(PedidoDTO pedidoDTO) {
 		Pedido pedido;
-		Direccion direccion = new Direccion();
-		direccion.setCalle(pedidoDTO.getDirEntrega().getCalle());
-		direccion.setNumero(pedidoDTO.getDirEntrega().getNumero());
-		direccion.setCodigoPostal(pedidoDTO.getDirEntrega().getCodigoPostal());
-		direccion.setLocalidad(pedidoDTO.getDirEntrega().getLocalidad());
+		Direccion direccion = new Direccion(pedidoDTO.getDirEntrega());
 		char tipoCliente = AdmClientes.getInstancia().obtenerTipoCliente(pedidoDTO.getIdCliente());
 		if (tipoCliente == 'E') {
 			ClienteEmpresa cteEmpresa = AdmClientes.getInstancia().obtenerClienteEmpresa(pedidoDTO.getIdCliente());

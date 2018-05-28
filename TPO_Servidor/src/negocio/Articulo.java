@@ -62,7 +62,18 @@ public class Articulo {
 			res.add(new ArticuloEnStock(a));
 		this.setArticulosEnStock(res);
 	}
-
+	
+	public void modificarArticulo(ArticuloDTO articuloDTO) {
+		this.setDescripcion(articuloDTO.getDescripcion());
+		this.setPresentacion(articuloDTO.getPresentacion());
+		this.setTamaño(articuloDTO.getTamaño());
+		this.setUnidad(articuloDTO.getUnidad());
+		this.setPrecioVta(articuloDTO.getPrecioVta());
+		this.setCantFijaCompra(articuloDTO.getCantFijaCompra());
+		this.setCantMaxUbicacion(articuloDTO.getCantMaxUbicacion());
+		this.setEstado(articuloDTO.getEstado());
+	}
+	
 	// Valida que el objeto sea un determinado articulo
 	public boolean sosArticulo(String codBarra) {
 		return (codBarra == this.getCodigoBarras());

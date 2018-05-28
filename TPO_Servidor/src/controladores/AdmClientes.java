@@ -3,21 +3,15 @@ package controladores;
 
 import java.rmi.RemoteException;
 
-// import java.util.ArrayList;
-// import java.util.Collection;
-// import java.util.Iterator;
-
 import dao.ClienteDAO;
 import dao.ClienteEmpresaDAO;
 import dao.ClientePersonaDAO;
 import dto.ClienteEmpresaDTO;
 import dto.ClientePersonaDTO;
-import dto.CtaCteDTO;
 import excepciones.ExcepcionSistema;
 import negocio.ClienteEmpresa;
 import negocio.ClientePersona;
 import negocio.CtaCte;
-import negocio.Direccion;
 import negocio.Factura;
 import negocio.Pago;
 
@@ -25,14 +19,8 @@ public class AdmClientes {
 
 	private static AdmClientes instancia;
 
-	// @Facu: remover estas colecciones cuando se puedan reemplazar las búsquedas
-	// en colecciones por búsquedas en la BD
-	// private Collection<ClienteEmpresa> clientesEmpresa;
-	// private Collection<ClientePersona> clientesPersona;
-	
 	private AdmClientes() {
-		// this.clientesEmpresa = new ArrayList<ClienteEmpresa>();
-		// this.clientesPersona = new ArrayList<ClientePersona>();
+
 	}
 
 	public static AdmClientes getInstancia() {
@@ -48,8 +36,6 @@ public class AdmClientes {
 		CtaCte ctaCte = new CtaCte(cteEmpresaDTO.getLimiteCredito());
 		cteEmpresa.setCtaCte(ctaCte);
 		cteEmpresa.saveMe();
-		// @Facu: Remover la actualizacion de esta coleccion cuando funcionen las búsquedas en la BD
-		// this.clientesEmpresa.add(cteEmpresa);
 		return cteEmpresa;
 	}
 	
@@ -59,8 +45,6 @@ public class AdmClientes {
 		CtaCte ctaCte = new CtaCte(ctePersonaDTO.getLimiteCredito());
 		ctePersona.setCtaCte(ctaCte);
 		ctePersona.saveMe();
-		// @Facu: Remover la actualizacion de esta coleccion cuando funcionen las búsquedas en la BD
-		// this.clientesPersona.add(ctePersona);
 		return ctePersona;
 	}
 	
@@ -76,13 +60,6 @@ public class AdmClientes {
 	public ClienteEmpresa obtenerClienteEmpresa(int idCliente) {
 		ClienteEmpresa aux;
 		aux=ClienteEmpresaDAO.getInstance().findByID(idCliente);
-		/*
-		for (Iterator<ClienteEmpresa> i = this.clientesEmpresa.iterator(); i.hasNext() ; ) {
-			aux = i.next();
-			if (aux.getIdCliente() == idCliente) 
-				return aux; 
-		}
-		*/
 		return aux;
 	}
 	
@@ -90,43 +67,24 @@ public class AdmClientes {
 	public ClientePersona obtenerClientePersona(int idCliente) {
 		ClientePersona aux;
 		aux= ClientePersonaDAO.getInstance().findByID(idCliente);
-		/*
-		for (Iterator<ClientePersona> i = this.clientesPersona.iterator(); i.hasNext() ; ) {
-			aux = i.next();
-			if (aux.getIdCliente() == idCliente) 
-				return aux; 
-		}
-		*/
 		return aux;
 	}
 
+	// @Facu: ver si hay que hacer saveMe de la Cta Cte o se graba con el saveMe del CteEmpresa
 	// Actualiza las propiedades editables de un Cliente Empresa
 	public ClienteEmpresa modificarCteEmpresa(ClienteEmpresaDTO cteEmpresaDTO) {
 		ClienteEmpresa cteEmpresa = this.obtenerClienteEmpresa(cteEmpresaDTO.getIdCliente());
-		cteEmpresa.setCondicionesEspeciales(cteEmpresaDTO.getCondicionesEspeciales());
-		Direccion direccion = new Direccion();
-		direccion.setCalle(cteEmpresaDTO.getDireccionFacturacion().getCalle());
-		direccion.setNumero(cteEmpresaDTO.getDireccionFacturacion().getNumero());
-		direccion.setCodigoPostal(cteEmpresaDTO.getDireccionFacturacion().getCodigoPostal());
-		direccion.setLocalidad(cteEmpresaDTO.getDireccionFacturacion().getLocalidad());
-		cteEmpresa.setDireccionFacturacion(direccion);
-		cteEmpresa.getCtaCte().setLimiteCredito(cteEmpresaDTO.getLimiteCredito());
-		cteEmpresa.getCtaCte().updateMe();
+		cteEmpresa.modificarCteEmpresa(cteEmpresaDTO);
+		// cteEmpresa.getCtaCte().updateMe();
 		cteEmpresa.updateMe();
 		return cteEmpresa;
 	}
 
+	// @Facu: ver si hay que hacer saveMe de la Cta Cte o se graba con el saveMe del CtePersona
 	// Actualiza las propiedades editables de un Cliente Persona
 	public ClientePersona modificarCtePersona(ClientePersonaDTO ctePersonaDTO) {
 		ClientePersona ctePersona = this.obtenerClientePersona(ctePersonaDTO.getIdCliente());
-		ctePersona.setCondicionesEspeciales(ctePersonaDTO.getCondicionesEspeciales());
-		Direccion direccion = new Direccion();
-		direccion.setCalle(ctePersonaDTO.getDireccionFacturacion().getCalle());
-		direccion.setNumero(ctePersonaDTO.getDireccionFacturacion().getNumero());
-		direccion.setCodigoPostal(ctePersonaDTO.getDireccionFacturacion().getCodigoPostal());
-		direccion.setLocalidad(ctePersonaDTO.getDireccionFacturacion().getLocalidad());
-		ctePersona.setDireccionFacturacion(direccion);
-		ctePersona.getCtaCte().setLimiteCredito(ctePersonaDTO.getLimiteCredito());
+		ctePersona.modificarCtePersona(ctePersonaDTO);
 		//ctePersona.getCtaCte().updateMe();
 		ctePersona.updateMe();
 		return ctePersona;
@@ -173,26 +131,6 @@ public class AdmClientes {
 				return null;
 		}
 	}
-
-	/* Este metodo ya no es necesario desde que se guarda el objeto Cliente en la factura
-	// Devuelve el tipo de factura de un cliente para poder facturar sin necesidad
-	// de conocer si el cliente es Empresa o Persona
-	public char obtenerTipoFacturaCliente(int idCliente) {
-		char tipoCliente = this.obtenerTipoCliente(idCliente);
-		if (tipoCliente == 'E') {
-			ClienteEmpresa clienteEmpresa = this.obtenerClienteEmpresa(idCliente);
-			return clienteEmpresa.getTipoFactura();
-		}
-		else {
-			if (tipoCliente == 'P') {
-				ClientePersona clientePersona = this.obtenerClientePersona(idCliente);
-				return clientePersona.getTipoFactura();
-			}
-			else
-				return 0;
-		}
-	}
-	*/
 	
 	// Registra una factura en la Cta Cte de un Cliente
 	public boolean registrarFacturaEnCtaCte(int idCliente, Factura factura) {

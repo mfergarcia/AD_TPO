@@ -30,6 +30,17 @@ public class ClienteEmpresa extends Cliente {
 		this.setRazonSocial(cteEmpresaDTO.getRazonSocial());
 	}
 
+	public void modificarCteEmpresa(ClienteEmpresaDTO cteEmpresaDTO) {
+		this.setCondicionesEspeciales(cteEmpresaDTO.getCondicionesEspeciales());
+		Direccion direccion = new Direccion();
+		direccion.setCalle(cteEmpresaDTO.getDireccionFacturacion().getCalle());
+		direccion.setNumero(cteEmpresaDTO.getDireccionFacturacion().getNumero());
+		direccion.setCodigoPostal(cteEmpresaDTO.getDireccionFacturacion().getCodigoPostal());
+		direccion.setLocalidad(cteEmpresaDTO.getDireccionFacturacion().getLocalidad());
+		this.setDireccionFacturacion(direccion);
+		this.getCtaCte().setLimiteCredito(cteEmpresaDTO.getLimiteCredito());
+	}	
+	
 	public String getCuit() {
 		return cuit;
 	}
