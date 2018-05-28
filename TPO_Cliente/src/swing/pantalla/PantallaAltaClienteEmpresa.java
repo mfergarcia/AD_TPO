@@ -6,6 +6,7 @@ import java.awt.event.MouseEvent;
 
 import javax.swing.JFrame;
 import javax.swing.JLabel;
+import javax.swing.JOptionPane;
 import javax.swing.JTextField;
 
 import delegados.SistemaBD;
@@ -94,7 +95,8 @@ public class PantallaAltaClienteEmpresa {
 					cteEmpresa.setCondicionesEspeciales(condicionesEspeciales);
 					cteEmpresa.setLimiteCredito(Float.parseFloat(limiteCredito));
 					cteEmpresa = bd.altaClienteEmpresa(cteEmpresa);
-					
+					JOptionPane.showMessageDialog(frmAltaClienteEmpresa, "Su Cliente ha sido creado con éxito!");
+					frmAltaClienteEmpresa.dispose();
 				} catch (ExcepcionComunicacion ev) {
 					System.out.println(ev.getMensaje());
 				} catch (ExcepcionSistema ev) {

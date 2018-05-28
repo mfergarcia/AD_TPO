@@ -3,9 +3,11 @@ package swing.pantalla;
 import java.awt.EventQueue;
 import java.awt.event.MouseAdapter;
 import java.awt.event.MouseEvent;
+import java.nio.channels.ShutdownChannelGroupException;
 
 import javax.swing.JFrame;
 import javax.swing.JLabel;
+import javax.swing.JOptionPane;
 import javax.swing.JTextField;
 
 import delegados.SistemaBD;
@@ -105,7 +107,8 @@ public class PantallaAltaClientePersona {
 					ctePersona.setCondicionesEspeciales(condicionesEspeciales);
 					ctePersona.setLimiteCredito(Float.parseFloat(limiteCredito));
 					ctePersona = bd.altaClientePersona(ctePersona);
-					
+					JOptionPane.showMessageDialog(frmClientepersona, "Su Cliente ha sido creado con éxito!");
+					frmClientepersona.dispose();
 				} catch (ExcepcionComunicacion ev) {
 					System.out.println(ev.getMensaje());
 				} catch (ExcepcionSistema ev) {
