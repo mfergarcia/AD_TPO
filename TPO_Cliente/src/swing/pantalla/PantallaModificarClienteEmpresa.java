@@ -4,7 +4,15 @@ import java.awt.EventQueue;
 
 import javax.swing.JFrame;
 import javax.swing.JTextField;
+
+import delegados.SistemaBD;
+import dto.ClienteEmpresaDTO;
+import dto.DireccionDTO;
+import excepciones.ExcepcionComunicacion;
+import excepciones.ExcepcionSistema;
+
 import javax.swing.JLabel;
+import javax.swing.JOptionPane;
 import javax.swing.JButton;
 import java.awt.event.ActionListener;
 import java.awt.event.ActionEvent;
@@ -20,6 +28,9 @@ public class PantallaModificarClienteEmpresa {
 	private JTextField numero_textField;
 	private JTextField cuit_textField;
 	private JTextField razonSocial_textField;
+	private int id;
+	private JLabel lblLmiteCrdito;
+	private JTextField limiteCredito_textField;
 
 	/**
 	 * Launch the application.
@@ -43,14 +54,19 @@ public class PantallaModificarClienteEmpresa {
 	public PantallaModificarClienteEmpresa() {
 		initialize();
 	}
-
+	
+	public PantallaModificarClienteEmpresa(int id) {
+		initialize();
+		this.id=id;
+	}
+	
 	/**
 	 * Initialize the contents of the frame.
 	 */
 	private void initialize() {
 		frmModificacionClienteempresa = new JFrame();
 		frmModificacionClienteempresa.setTitle("Modificaci\u00F3n Cliente");
-		frmModificacionClienteempresa.setBounds(100, 100, 450, 322);
+		frmModificacionClienteempresa.setBounds(100, 100, 450, 370);
 		frmModificacionClienteempresa.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
 		frmModificacionClienteempresa.getContentPane().setLayout(null);
 		
@@ -129,9 +145,63 @@ public class PantallaModificarClienteEmpresa {
 		JButton btnFinalizar = new JButton("Finalizar");
 		btnFinalizar.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent arg0) {
+				try{
+					SistemaBD bd = new SistemaBD();
+					ClienteEmpresaDTO cteEmpresa = bd.obtenerCteEmpresa(id);
+					DireccionDTO d=new DireccionDTO();
+					
+					if(condicionesEspeciales_textField.getText()!="")
+						cteEmpresa.setCondicionesEspeciales(condicionesEspeciales_textField.getText());
+					
+					if(tipoFactura_textField.getText()!="")
+						cteEmpresa.setTipoFactura(tipoFactura_textField.getText().charAt(0));
+					if(codigoPostal_textField.getText()!=""){
+						d=cteEmpresa.getDireccionFacturacion();
+						d.setCodigoPostal(codigoPostal_textField.getText());
+						cteEmpresa.setDireccionFacturacion(d);
+					}
+					if(localidad_textField.getText()!=""){
+						d=cteEmpresa.getDireccionFacturacion();
+						d.setCodigoPostal(localidad_textField.getText());
+						cteEmpresa.setDireccionFacturacion(d);
+					}
+					if(calle_textField.getText()!=""){
+						d=cteEmpresa.getDireccionFacturacion();
+						d.setCalle(calle_textField.getText());
+						cteEmpresa.setDireccionFacturacion(d);
+					}
+					if(numero_textField.getText()!=""){
+						d=cteEmpresa.getDireccionFacturacion();
+						d.setNumero(Integer.parseInt(numero_textField.getText()));
+						cteEmpresa.setDireccionFacturacion(d);
+					}
+					if(limiteCredito_textField.getText()!="")
+						cteEmpresa.setLimiteCredito(Float.parseFloat(limiteCredito_textField.getText()));
+					if(cuit_textField.getText()!="")
+						cteEmpresa.setCuit(cuit_textField.getText());
+					if(razonSocial_textField.getText()!="")
+						cteEmpresa.setRazonSocial(razonSocial_textField.getText());
+					bd.modificarCteEmpresa(cteEmpresa);
+					JOptionPane.showMessageDialog(frmModificacionClienteempresa, "Su cliente ha sido modificado");
+					frmModificacionClienteempresa.dispose();
+				} catch (ExcepcionComunicacion es) {
+					System.out.println(es.getMensaje());
+				} catch (ExcepcionSistema es) {
+					System.out.println(es.getMensaje());
+				}
 			}
+			
 		});
-		btnFinalizar.setBounds(335, 249, 89, 23);
+		btnFinalizar.setBounds(335, 297, 89, 23);
 		frmModificacionClienteempresa.getContentPane().add(btnFinalizar);
+		
+		lblLmiteCrdito = new JLabel("L\u00EDmite cr\u00E9dito:");
+		lblLmiteCrdito.setBounds(10, 258, 86, 20);
+		frmModificacionClienteempresa.getContentPane().add(lblLmiteCrdito);
+		
+		limiteCredito_textField = new JTextField();
+		limiteCredito_textField.setBounds(169, 258, 86, 20);
+		frmModificacionClienteempresa.getContentPane().add(limiteCredito_textField);
+		limiteCredito_textField.setColumns(10);
 	}
 }

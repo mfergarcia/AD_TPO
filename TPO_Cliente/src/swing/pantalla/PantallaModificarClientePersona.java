@@ -1,10 +1,21 @@
 package swing.pantalla;
 
 import java.awt.EventQueue;
+import java.awt.event.ActionEvent;
+import java.awt.event.ActionListener;
 
 import javax.swing.JFrame;
 import javax.swing.JTextField;
+
+import delegados.SistemaBD;
+import dto.ClienteEmpresaDTO;
+import dto.ClientePersonaDTO;
+import dto.DireccionDTO;
+import excepciones.ExcepcionComunicacion;
+import excepciones.ExcepcionSistema;
+
 import javax.swing.JLabel;
+import javax.swing.JOptionPane;
 import javax.swing.JButton;
 
 public class PantallaModificarClientePersona {
@@ -19,7 +30,9 @@ public class PantallaModificarClientePersona {
 	private JTextField dni_textField;
 	private JTextField nombre_textField;
 	private JTextField apellido_textField;
-
+	private JLabel lblLmitecrdito;
+	private JTextField limiteCredito_textField;
+	private int id;
 	/**
 	 * Launch the application.
 	 */
@@ -42,6 +55,11 @@ public class PantallaModificarClientePersona {
 	public PantallaModificarClientePersona() {
 		initialize();
 	}
+	
+	public PantallaModificarClientePersona(int id) {
+		initialize();
+		this.id=id;
+	}
 
 	/**
 	 * Initialize the contents of the frame.
@@ -49,7 +67,7 @@ public class PantallaModificarClientePersona {
 	private void initialize() {
 		frmModificarClientepersona = new JFrame();
 		frmModificarClientepersona.setTitle("Modificaci\u00F3n Cliente");
-		frmModificarClientepersona.setBounds(100, 100, 450, 352);
+		frmModificarClientepersona.setBounds(100, 100, 450, 384);
 		frmModificarClientepersona.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
 		frmModificarClientepersona.getContentPane().setLayout(null);
 		
@@ -117,9 +135,68 @@ public class PantallaModificarClientePersona {
 		nombre_textField.setBounds(169, 227, 86, 20);
 		frmModificarClientepersona.getContentPane().add(nombre_textField);
 		
-		JButton button = new JButton("Finalizar");
-		button.setBounds(335, 279, 89, 23);
-		frmModificarClientepersona.getContentPane().add(button);
+		JButton btnFinalizar = new JButton("Finalizar");
+		btnFinalizar.setBounds(335, 311, 89, 23);
+		frmModificarClientepersona.getContentPane().add(btnFinalizar);
+		btnFinalizar.addActionListener(new ActionListener() {
+			public void actionPerformed(ActionEvent e) {
+				try{
+					SistemaBD bd = new SistemaBD();
+					ClientePersonaDTO ctePersona = bd.obtenerCtePersona(id);
+					DireccionDTO d=new DireccionDTO();
+					
+					if(condicionesEspeciales_textField.getText()!="")
+						ctePersona.setCondicionesEspeciales(condicionesEspeciales_textField.getText());
+					
+					if(tipoFactura_textField.getText()!="")
+						ctePersona.setTipoFactura(tipoFactura_textField.getText().charAt(0));
+					
+					if(codigoPostal_textField.getText()!=""){
+						d=ctePersona.getDireccionFacturacion();
+						d.setCodigoPostal(codigoPostal_textField.getText());
+						ctePersona.setDireccionFacturacion(d);
+					}
+					
+					if(localidad_textField.getText()!=""){
+						d=ctePersona.getDireccionFacturacion();
+						d.setCodigoPostal(localidad_textField.getText());
+						ctePersona.setDireccionFacturacion(d);
+					}
+					
+					if(calle_textField.getText()!=""){
+						d=ctePersona.getDireccionFacturacion();
+						d.setCalle(calle_textField.getText());
+						ctePersona.setDireccionFacturacion(d);
+					}
+				
+					if(numero_textField.getText()!=""){
+						d=ctePersona.getDireccionFacturacion();
+						d.setNumero(Integer.parseInt(numero_textField.getText()));
+						ctePersona.setDireccionFacturacion(d);
+					}
+					
+					if(limiteCredito_textField.getText()!="")
+						ctePersona.setLimiteCredito(Float.parseFloat(limiteCredito_textField.getText()));
+					
+					if(dni_textField.getText()!="")
+						ctePersona.setDni(dni_textField.getText());
+					
+					if(nombre_textField.getText()!="")
+						ctePersona.setNombre(nombre_textField.getText());
+					
+					if(apellido_textField.getText()!="")
+						ctePersona.setApellido(apellido_textField.getText());
+				bd.modificarCtePersona(ctePersona);
+				JOptionPane.showMessageDialog(frmModificarClientepersona, "Su cliente ha sido modificado");
+				frmModificarClientepersona.dispose();
+				} catch (ExcepcionComunicacion es) {
+					System.out.println(es.getMensaje());
+				} catch (ExcepcionSistema es) {
+					System.out.println(es.getMensaje());
+				}
+				
+			}
+		});
 		
 		apellido_textField = new JTextField();
 		apellido_textField.setBounds(169, 258, 86, 20);
@@ -137,6 +214,15 @@ public class PantallaModificarClientePersona {
 		JLabel lblApellido = new JLabel("Apellido: ");
 		lblApellido.setBounds(10, 261, 46, 14);
 		frmModificarClientepersona.getContentPane().add(lblApellido);
+		
+		lblLmitecrdito = new JLabel("L\u00EDmite cr\u00E9dito:");
+		lblLmitecrdito.setBounds(10, 289, 86, 20);
+		frmModificarClientepersona.getContentPane().add(lblLmitecrdito);
+		
+		limiteCredito_textField = new JTextField();
+		limiteCredito_textField.setColumns(10);
+		limiteCredito_textField.setBounds(169, 289, 86, 20);
+		frmModificarClientepersona.getContentPane().add(limiteCredito_textField);
 	}
 
 }
