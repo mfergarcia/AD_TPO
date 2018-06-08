@@ -3,6 +3,8 @@ package entities;
 import javax.persistence.CascadeType;
 import javax.persistence.DiscriminatorColumn;
 import javax.persistence.DiscriminatorType;
+import javax.persistence.DiscriminatorValue;
+import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
@@ -17,9 +19,11 @@ import org.hibernate.annotations.Cascade;
 import negocio.Cliente;
 import negocio.Direccion;
 
+@Entity
 @MappedSuperclass
 @Inheritance(strategy =InheritanceType.SINGLE_TABLE)
 @DiscriminatorColumn(name="tipo", discriminatorType= DiscriminatorType.CHAR)
+@DiscriminatorValue("C")
 public class ClienteEntity {
 	@Id
 	@GeneratedValue(strategy= GenerationType.AUTO)

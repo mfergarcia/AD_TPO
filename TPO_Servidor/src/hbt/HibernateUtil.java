@@ -6,6 +6,7 @@ import org.hibernate.cfg.AnnotationConfiguration;
 import entities.ArticuloEnStockEntity;
 import entities.ArticuloEntity;
 import entities.ClienteEmpresaEntity;
+import entities.ClienteEntity;
 import entities.ClientePersonaEntity;
 import entities.CtaCteEntity;
 import entities.DireccionEntity;
@@ -34,8 +35,10 @@ public class HibernateUtil
         try
         {
         	 AnnotationConfiguration config = new AnnotationConfiguration();
+        	
         	 config.addAnnotatedClass(ClientePersonaEntity.class);
         	 config.addAnnotatedClass(ClienteEmpresaEntity.class);
+        	 config.addAnnotatedClass(ClienteEntity.class);
         	 config.addAnnotatedClass(CtaCteEntity.class);
              config.addAnnotatedClass(DireccionEntity.class);
              config.addAnnotatedClass(ArticuloEnStockEntity.class);

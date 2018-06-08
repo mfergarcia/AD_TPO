@@ -36,7 +36,7 @@ public class PedidoEntity {
 	@JoinColumn(name="numPedido")
 	private List<ItemArticuloEntity> iae;
 	@OneToOne(cascade= CascadeType.ALL)
-	@JoinColumn(name="idCliente")
+	@JoinColumn(name="idFactura")
 	private FacturaEntity factura;
 	private String motivoRechazo;
 	private String estado;
