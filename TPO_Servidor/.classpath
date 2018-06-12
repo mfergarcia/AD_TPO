@@ -3,31 +3,18 @@
 	<classpathentry kind="src" path="src"/>
 	<classpathentry kind="con" path="org.eclipse.jdt.launching.JRE_CONTAINER/org.eclipse.jdt.internal.debug.ui.launcher.StandardVMType/JavaSE-1.8"/>
 	<classpathentry combineaccessrules="false" kind="src" path="/TPO_Repositorio"/>
-	<classpathentry kind="lib" path="C:/Users/maria/Downloads/lib/antlr-2.7.6.jar"/>
-	<classpathentry kind="lib" path="C:/Users/maria/Downloads/lib/commons-collections-3.1.jar"/>
-	<classpathentry kind="lib" path="C:/Users/maria/Downloads/lib/commons-logging-1.1.1.jar"/>
-	<classpathentry kind="lib" path="C:/Users/maria/Downloads/lib/dom4j-1.6.1.jar"/>
-	<classpathentry kind="lib" path="C:/Users/maria/Downloads/lib/ejb3-persistence.jar"/>
-	<classpathentry kind="lib" path="C:/Users/maria/Downloads/lib/hibernate3.jar"/>
-	<classpathentry kind="lib" path="C:/Users/maria/Downloads/lib/hibernate-annotations.jar"/>
-	<classpathentry kind="lib" path="C:/Users/maria/Downloads/lib/hibernate-commons-annotations.jar"/>
-	<classpathentry kind="lib" path="C:/Users/maria/Downloads/lib/javassist-3.4.GA.jar"/>
-	<classpathentry kind="lib" path="C:/Users/maria/Downloads/lib/jta-1.1.jar"/>
-	<classpathentry kind="lib" path="C:/Users/maria/Downloads/lib/jtds-1.2.5.jar"/>
-	<classpathentry kind="lib" path="C:/Users/maria/Downloads/lib/slf4j-api-1.5.6.jar"/>
-	<classpathentry kind="lib" path="C:/Users/maria/Downloads/lib/slf4j-simple-1.5.6.jar"/>
-	<classpathentry kind="lib" path="C:/Users/Facundo/Downloads/drive-download-20180516T223302Z-001/antlr-2.7.6.jar"/>
-	<classpathentry kind="lib" path="C:/Users/Facundo/Downloads/drive-download-20180516T223302Z-001/commons-collections-3.1.jar"/>
-	<classpathentry kind="lib" path="C:/Users/Facundo/Downloads/drive-download-20180516T223302Z-001/commons-logging-1.1.1.jar"/>
-	<classpathentry kind="lib" path="C:/Users/Facundo/Downloads/drive-download-20180516T223302Z-001/dom4j-1.6.1.jar"/>
-	<classpathentry kind="lib" path="C:/Users/Facundo/Downloads/drive-download-20180516T223302Z-001/ejb3-persistence.jar"/>
-	<classpathentry kind="lib" path="C:/Users/Facundo/Downloads/drive-download-20180516T223302Z-001/hibernate3.jar"/>
-	<classpathentry kind="lib" path="C:/Users/Facundo/Downloads/drive-download-20180516T223302Z-001/hibernate-annotations.jar"/>
-	<classpathentry kind="lib" path="C:/Users/Facundo/Downloads/drive-download-20180516T223302Z-001/hibernate-commons-annotations.jar"/>
-	<classpathentry kind="lib" path="C:/Users/Facundo/Downloads/drive-download-20180516T223302Z-001/javassist-3.4.GA.jar"/>
-	<classpathentry kind="lib" path="C:/Users/Facundo/Downloads/drive-download-20180516T223302Z-001/jta-1.1.jar"/>
-	<classpathentry kind="lib" path="C:/Users/Facundo/Downloads/drive-download-20180516T223302Z-001/jtds-1.2.5.jar"/>
-	<classpathentry kind="lib" path="C:/Users/Facundo/Downloads/drive-download-20180516T223302Z-001/slf4j-api-1.5.6.jar"/>
-	<classpathentry kind="lib" path="C:/Users/Facundo/Downloads/drive-download-20180516T223302Z-001/slf4j-simple-1.5.6.jar"/>
+	<classpathentry kind="lib" path="C:/Users/fa-cu/Documents/Mis Archivos/facultad/Aplicaciones distribuidas/lib/antlr-2.7.6.jar"/>
+	<classpathentry kind="lib" path="C:/Users/fa-cu/Documents/Mis Archivos/facultad/Aplicaciones distribuidas/lib/commons-collections-3.1.jar"/>
+	<classpathentry kind="lib" path="C:/Users/fa-cu/Documents/Mis Archivos/facultad/Aplicaciones distribuidas/lib/commons-logging-1.1.1.jar"/>
+	<classpathentry kind="lib" path="C:/Users/fa-cu/Documents/Mis Archivos/facultad/Aplicaciones distribuidas/lib/dom4j-1.6.1.jar"/>
+	<classpathentry kind="lib" path="C:/Users/fa-cu/Documents/Mis Archivos/facultad/Aplicaciones distribuidas/lib/ejb3-persistence.jar"/>
+	<classpathentry kind="lib" path="C:/Users/fa-cu/Documents/Mis Archivos/facultad/Aplicaciones distribuidas/lib/hibernate3.jar"/>
+	<classpathentry kind="lib" path="C:/Users/fa-cu/Documents/Mis Archivos/facultad/Aplicaciones distribuidas/lib/hibernate-annotations.jar"/>
+	<classpathentry kind="lib" path="C:/Users/fa-cu/Documents/Mis Archivos/facultad/Aplicaciones distribuidas/lib/hibernate-commons-annotations.jar"/>
+	<classpathentry kind="lib" path="C:/Users/fa-cu/Documents/Mis Archivos/facultad/Aplicaciones distribuidas/lib/javassist-3.4.GA.jar"/>
+	<classpathentry kind="lib" path="C:/Users/fa-cu/Documents/Mis Archivos/facultad/Aplicaciones distribuidas/lib/jta-1.1.jar"/>
+	<classpathentry kind="lib" path="C:/Users/fa-cu/Documents/Mis Archivos/facultad/Aplicaciones distribuidas/lib/jtds-1.2.5.jar"/>
+	<classpathentry kind="lib" path="C:/Users/fa-cu/Documents/Mis Archivos/facultad/Aplicaciones distribuidas/lib/slf4j-api-1.5.6.jar"/>
+	<classpathentry kind="lib" path="C:/Users/fa-cu/Documents/Mis Archivos/facultad/Aplicaciones distribuidas/lib/slf4j-simple-1.5.6.jar"/>
 	<classpathentry kind="output" path="bin"/>
 </classpath>
