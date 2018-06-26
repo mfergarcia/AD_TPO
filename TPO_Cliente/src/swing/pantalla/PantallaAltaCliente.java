@@ -134,7 +134,7 @@ public class PantallaAltaCliente {
 		btnSiguiente.setBounds(325, 227, 99, 23);
 		btnSiguiente.addMouseListener(new MouseAdapter() {
 			public void mouseClicked(MouseEvent e) {
-				if(tipo_comboBox.equals("Empresa")){
+				if(tipo_comboBox.getSelectedItem().equals("Empresa")){
 					PantallaAltaClienteEmpresa p= new PantallaAltaClienteEmpresa(condicionesEsp_textfield.getText(), 
 												  tipoFacutra_textField.getText(), localidad_textField.getText(), codigoPostal_textField.getText()
 												  , calle_textField.getText(), numero_textField.getText(), limiteCredito_textField.getText());
@@ -142,7 +142,7 @@ public class PantallaAltaCliente {
 					p.frmAltaClienteEmpresa.setVisible(true);
 					p.frmAltaClienteEmpresa.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
 					frmAltaCliente.dispose();
-				}else if(tipo_comboBox.equals("Persona")){
+				}else if(tipo_comboBox.getSelectedItem().equals("Persona")){
 					PantallaAltaClientePersona p= new PantallaAltaClientePersona(condicionesEsp_textfield.getText(), 
 							  tipoFacutra_textField.getText(), localidad_textField.getText(), codigoPostal_textField.getText()
 							  , calle_textField.getText(), numero_textField.getText(), limiteCredito_textField.getText());

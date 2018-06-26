@@ -39,6 +39,8 @@ public class ClienteEmpresa extends Cliente {
 		direccion.setLocalidad(cteEmpresaDTO.getDireccionFacturacion().getLocalidad());
 		this.setDireccionFacturacion(direccion);
 		this.getCtaCte().setLimiteCredito(cteEmpresaDTO.getLimiteCredito());
+		this.setRazonSocial(cteEmpresaDTO.getRazonSocial());
+		this.setCuit(cteEmpresaDTO.getCuit());
 	}	
 	
 	public String getCuit() {

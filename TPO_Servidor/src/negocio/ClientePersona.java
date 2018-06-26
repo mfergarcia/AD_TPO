@@ -44,6 +44,9 @@ public class ClientePersona extends Cliente {
 		direccion.setLocalidad(ctePersonaDTO.getDireccionFacturacion().getLocalidad());
 		this.setDireccionFacturacion(direccion);
 		this.getCtaCte().setLimiteCredito(ctePersonaDTO.getLimiteCredito());
+		this.setApellido(ctePersonaDTO.getApellido());
+		this.setDni(ctePersonaDTO.getDni());
+		this.setNombre(ctePersonaDTO.getNombre());
 	}
 	
 	public String getDni() {

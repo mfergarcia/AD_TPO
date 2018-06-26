@@ -48,6 +48,7 @@ public class PantallaAltaClientePersona {
 		this.tipoFactura= tipoFac;
 		this.localidad= localidad;
 		this.numero= numero;
+		initialize();
 	}
 
 	/**

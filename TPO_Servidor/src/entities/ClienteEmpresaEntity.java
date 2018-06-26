@@ -1,7 +1,4 @@
-// Pendiente:
-// @Facu: cambiar para que la herencia se guarde en una sola tabla y 
-// adaptar los contructores. Ver como resolver: La creacion del cliente implica tambien la cracion
-// de la cuenta corriente
+
 package entities;
 
 import javax.persistence.DiscriminatorValue;
@@ -23,7 +20,7 @@ public class ClienteEmpresaEntity extends ClienteEntity{
 	private String cuit;
 	private String razonSocial;
 	
-	//Facu: ver como dar de alta tambien la cuenta corriente
+	
 	public ClienteEmpresaEntity(Integer idCliente, CtaCteEntity ctaCte, char tipoFactura, String condicionesEspeciales, DireccionEntity direccionFacturacion, char tipo, char estado, String cuit, String razonSocial) {
 		super(idCliente, ctaCte, tipoFactura, condicionesEspeciales, direccionFacturacion, tipo, estado);
 		this.setCuit(cuit);

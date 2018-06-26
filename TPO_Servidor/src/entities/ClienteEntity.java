@@ -13,6 +13,7 @@ import javax.persistence.InheritanceType;
 import javax.persistence.JoinColumn;
 import javax.persistence.MappedSuperclass;
 import javax.persistence.OneToOne;
+import javax.persistence.Table;
 
 import org.hibernate.annotations.Cascade;
 
@@ -24,6 +25,7 @@ import negocio.Direccion;
 @Inheritance(strategy =InheritanceType.SINGLE_TABLE)
 @DiscriminatorColumn(name="tipo", discriminatorType= DiscriminatorType.CHAR)
 @DiscriminatorValue("C")
+@Table(name="Clientes")
 public class ClienteEntity {
 	@Id
 	@GeneratedValue(strategy= GenerationType.AUTO)
