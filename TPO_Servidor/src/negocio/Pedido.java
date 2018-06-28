@@ -40,6 +40,13 @@ public class Pedido {
 		this.setCliente(cliente);
 		this.setDirEntrega(dirEntrega);
 		this.articulos = new ArrayList<ItemArticulo>();
+		this.setFechaGen(null);
+		this.setFechaRechazo(null);
+		this.setFechaPendRepo(null);
+		this.setFechaCompleto(null);
+		this.setFechaPendDepo(null);
+		this.setFechaPendDesp(null);
+		this.setFechaDespachado(null);
 		this.setEstado("A CONFIRMAR");
 	}
 	
@@ -158,22 +165,20 @@ public class Pedido {
 
 	public void setEstado(String estado) {
 		this.estado = estado;
-		switch (estado) {
-			case "A CONFIRMAR":
-				this.setFechaGen(Calendar.getInstance().getTime());	
-			case "RECHAZADO":
-				this.setFechaRechazo(Calendar.getInstance().getTime());	
-			case "PENDIENTE REPOSICION":
-				this.setFechaPendRepo(Calendar.getInstance().getTime());		
-			case "COMPLETO":
-				this.setFechaCompleto(Calendar.getInstance().getTime());
-			case "PENDIENTE DEPOSITO":
-				this.setFechaPendDepo(Calendar.getInstance().getTime());
-			case "PENDIENTE DESPACHO":
-				this.setFechaPendDesp(Calendar.getInstance().getTime());
-			case "DESPACHADO":
-				this.setFechaDespachado(Calendar.getInstance().getTime());
-		}
+		if (estado.equals("A CONFIRMAR"))
+			this.setFechaGen(Calendar.getInstance().getTime());	
+		else if (estado.equals("RECHAZADO"))
+			this.setFechaRechazo(Calendar.getInstance().getTime());	
+		else if (estado.equals("PENDIENTE REPOSICION"))
+			this.setFechaPendRepo(Calendar.getInstance().getTime());		
+		else if (estado.equals("COMPLETO"))
+			this.setFechaCompleto(Calendar.getInstance().getTime());
+		else if (estado.equals("PENDIENTE DEPOSITO"))
+			this.setFechaPendDepo(Calendar.getInstance().getTime());
+		else if (estado.equals("PENDIENTE DESPACHO"))
+			this.setFechaPendDesp(Calendar.getInstance().getTime());
+		else if (estado.equals("DESPACHADO"))
+			this.setFechaDespachado(Calendar.getInstance().getTime());
 	}
 
 	public Date getFechaRechazo() {
@@ -230,7 +235,10 @@ public class Pedido {
 		pedidoDTO.setIdCliente(this.getCliente().getIdCliente());
 		pedidoDTO.setDirEntrega(this.getDirEntrega().toDTO());
 		pedidoDTO.setFechaEntrega(this.getFechaEntrega());
-		pedidoDTO.setFactura(this.getFactura().toDTO());
+		if (this.getFactura() != null)
+			pedidoDTO.setFactura(this.getFactura().toDTO());
+		else
+			pedidoDTO.setFactura(null);
 		pedidoDTO.setMotivoRechazo(this.getMotivoRechazo());
 		pedidoDTO.setFechaGen(this.getFechaGen());
 		pedidoDTO.setFechaRechazo(this.getFechaRechazo());
