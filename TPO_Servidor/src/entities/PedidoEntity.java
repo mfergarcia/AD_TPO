@@ -69,7 +69,8 @@ public class PedidoEntity {
 		this.setCliente(new ClienteEntity(pedido.getCliente()));
 		this.setDirEntrega(new DireccionEntity(pedido.getDirEntrega()));
 		this.setFechaEntrega(pedido.getFechaEntrega());
-		this.setFactura(new FacturaEntity(pedido.getFactura()));
+		if (pedido.getFactura() != null)
+			this.setFactura(new FacturaEntity(pedido.getFactura()));
 		this.setMotivoRechazo(pedido.getMotivoRechazo());
 		this.setEstado(pedido.getEstado());
 		this.setFechaCompleto(pedido.getFechaCompleto());
