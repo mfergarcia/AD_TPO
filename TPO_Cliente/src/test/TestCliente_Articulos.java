@@ -58,7 +58,7 @@ public class TestCliente_Articulos {
 			articulo = bd.altaArticulo(articulo);
 			System.out.println("Alta Articulo: " + articulo.getCodigoBarras() + ", " + articulo.getDescripcion() + " " + articulo.getPresentacion() + " " + articulo.getTamaño() + " " + articulo.getUnidad());
 			articulos.add(articulo);
-			
+			/*
 			// Prueba Obtener Articulo
 			
 			ArticuloDTO articulo2 = bd.obtenerArticulo("LLL999");
@@ -89,7 +89,7 @@ public class TestCliente_Articulos {
 				contador++;
 			}
 			
-			
+			*/
 		} catch (ExcepcionComunicacion e) {
 			System.out.println(e.getMensaje());
 		} catch (ExcepcionSistema es) {
