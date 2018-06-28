@@ -1,7 +1,7 @@
 package entities;
 
 import java.util.ArrayList;
-import java.util.List;
+import java.util.Collection;
 import javax.persistence.CascadeType;
 import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;
@@ -13,7 +13,6 @@ import javax.persistence.Table;
 
 import negocio.CtaCte;
 import negocio.Factura;
-import negocio.ItemArticulo;
 import negocio.Pago;
 
 @Entity
@@ -25,10 +24,10 @@ public class CtaCteEntity {
 	private float limiteCredito;
 	@OneToMany(cascade= CascadeType.ALL)
 	@JoinColumn(name= "idCtaCte")
-	private List<FacturaEntity> fe;
+	private Collection<FacturaEntity> fe;
 	@OneToMany(cascade= CascadeType.ALL)
 	@JoinColumn(name= "idCtaCte")
-	private List<PagoEntity> pe; 
+	private Collection<PagoEntity> pe; 
 
 	public CtaCteEntity(float limiteCredito) {
 		this.limiteCredito=limiteCredito;
@@ -47,15 +46,15 @@ public class CtaCteEntity {
 		this.cargarListPe(cc.getPagos());
 	}
 	
-	private void cargarListFe(List<Factura> fe){
-		List<FacturaEntity> res= new ArrayList<FacturaEntity>();
+	private void cargarListFe(Collection<Factura> fe){
+		Collection<FacturaEntity> res= new ArrayList<FacturaEntity>();
 		for(Factura f: fe)
 			res.add(new FacturaEntity(f));
 		this.setFe(res);
 	}
 	
-	private void cargarListPe(List<Pago> pe){
-		List<PagoEntity> res= new ArrayList<PagoEntity>();
+	private void cargarListPe(Collection<Pago> pe){
+		Collection<PagoEntity> res= new ArrayList<PagoEntity>();
 		for(Pago p: pe)
 			res.add(new PagoEntity(p));
 		this.setPe(res);
@@ -76,18 +75,18 @@ public class CtaCteEntity {
 	public void setLimiteCredito(float limiteCredito) {
 		this.limiteCredito = limiteCredito;
 	}
-	public List<FacturaEntity> getFe() {
+	public Collection<FacturaEntity> getFe() {
 		return fe;
 	}
 
-	public void setFe(List<FacturaEntity> fe) {
+	public void setFe(Collection<FacturaEntity> fe) {
 		this.fe = fe;
 	}
-	public List<PagoEntity> getPe() {
+	public Collection<PagoEntity> getPe() {
 		return pe;
 	}
 
-	public void setPe(List<PagoEntity> pe) {
+	public void setPe(Collection<PagoEntity> pe) {
 		this.pe = pe;
 	}
 

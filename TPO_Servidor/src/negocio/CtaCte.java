@@ -14,8 +14,8 @@ public class CtaCte {
 	
 	private int id;
 	private float limiteCredito;
-	private List<Factura> facturas;
-	private List<Pago> pagos;
+	private Collection<Factura> facturas;
+	private Collection<Pago> pagos;
 		
 	public CtaCte() {
 
@@ -39,6 +39,7 @@ public class CtaCte {
 	// @Facu: revisar si hay que reemplazar búsqueda en la colección por búsqueda en la BD
 	// Recorre la colección de facturas y devuelve aquellas con saldo pendiente
 	private Collection<Factura> buscarFacturasImpagas() {
+		this.facturas=CtaCteDAO.getInstance().obtenerFacturas(this.id);
 		Collection<Factura> facturasImpagas = new ArrayList<Factura>();
 		Factura aux;
 		for (Iterator<Factura> i = this.getFacturas().iterator(); i.hasNext(); ) {
@@ -49,7 +50,16 @@ public class CtaCte {
 		return facturasImpagas;
 	}
 	
-	
+	public Collection<Pago> obtenerPagosRECIBIDOS(){
+		Collection<Pago> p= CtaCteDAO.getInstance().obtenerPagos(this.id);
+		Collection<Pago> res= new ArrayList<Pago>();
+		for(Pago pago: p)
+		{
+			if(pago.getEstado().equals("RECIBIDO"))
+				res.add(pago);
+		}
+		return res;
+	}
 	
 	public int getId() {
 		return id;
@@ -85,34 +95,34 @@ public class CtaCte {
 	
 
 	public void pagarFacturas(float descuento) {
-			
 			Collection<Factura> facturas = this.buscarFacturasImpagas();
 			Factura auxFact;
 			Iterator<Factura> x = facturas.iterator();
 			auxFact = x.next();
 			float montoAux = auxFact.getMontoAdeudado();
-			Pago pago =this.getPagos().get(id);
-			float pagoAux =pago.getImporte() + descuento;
-			while (pagoAux>0 && x.hasNext()){
-				
-				if(pagoAux < montoAux){
-					auxFact.modificarMonto (montoAux-pagoAux);
-					if(montoAux-pagoAux>0){
-						auxFact.setEstadoFactura("Pago Parcial");
-						}
-						else{
+			Collection<Pago> lp= obtenerPagosRECIBIDOS();
+			for(Pago pago: lp) {
+				float pagoAux =pago.getImporte() + descuento;
+				while (pagoAux>0 && x.hasNext()){		
+					if(pagoAux < montoAux){
+						auxFact.modificarMonto (montoAux-pagoAux);
+						if(montoAux-pagoAux>0){
+							auxFact.setEstadoFactura("Pago Parcial");
+							}
+							else{
+								auxFact.setEstadoFactura("Pagada");
+							}
+					}else
+						{
+						auxFact.modificarMonto(0);
 						auxFact.setEstadoFactura("Pagada");
+						pagoAux = pagoAux-montoAux;
+						
 						}
-				}else
-					{
-					auxFact.modificarMonto(0);
-					auxFact.setEstadoFactura("Pagada");
-					pagoAux = pagoAux-montoAux;
-					
-					}
+				}
+				pago.setEstado("APLICADO");	
+				pago.updateMe();
 			}
-			pago.setEstado("APLICADO");	
-			pago.updateMe();
 	}
 	
 	public float getLimiteCredito() {
@@ -123,11 +133,11 @@ public class CtaCte {
 		this.limiteCredito = limiteCredito;
 	}
 
-	public List<Factura> getFacturas() {
+	public Collection<Factura> getFacturas() {
 		return facturas;
 	}
 
-	public List<Pago> getPagos() {
+	public Collection<Pago> getPagos() {
 		return pagos;
 	}
 	
