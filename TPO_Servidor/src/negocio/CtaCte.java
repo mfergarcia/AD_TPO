@@ -49,6 +49,8 @@ public class CtaCte {
 		return facturasImpagas;
 	}
 	
+	
+	
 	public int getId() {
 		return id;
 	}
@@ -81,15 +83,36 @@ public class CtaCte {
 		return saldo;
 	}
 	
-	// @Marce: implementar el método
-	// Recorre las pagos y detecta el que se encuentra en estado recibido.
-	// Recorre las facturas <> "PAGADA", aplica el pago pendiente considerando el 
-	// descuento recibido como parámetro (actualizando el monto adeudado de las facturas)
-	// y haciendo saveMe de cada una (revisar con Facu). Al finalizar la aplicación de un pago, cambia el 
-	// el estado del pago a "APLICADO" y hace el saveMe del Pago y/o la cuenta corriente
-	// A tener en cuenta: Los pagos se aplican de a uno por vez, luego de ser ingresado.
+
 	public void pagarFacturas(float descuento) {
-		Collection<Factura> facturas = this.buscarFacturasImpagas();
+			
+			Collection<Factura> facturas = this.buscarFacturasImpagas();
+			Factura auxFact;
+			Iterator<Factura> x = facturas.iterator();
+			auxFact = x.next();
+			float montoAux = auxFact.getMontoAdeudado();
+			Pago pago =this.getPagos().get(id);
+			float pagoAux =pago.getImporte() + descuento;
+			while (pagoAux>0 && x.hasNext()){
+				
+				if(pagoAux < montoAux){
+					auxFact.modificarMonto (montoAux-pagoAux);
+					if(montoAux-pagoAux>0){
+						auxFact.setEstadoFactura("Pago Parcial");
+						}
+						else{
+						auxFact.setEstadoFactura("Pagada");
+						}
+				}else
+					{
+					auxFact.modificarMonto(0);
+					auxFact.setEstadoFactura("Pagada");
+					pagoAux = pagoAux-montoAux;
+					
+					}
+			}
+			pago.setEstado("APLICADO");	
+			pago.updateMe();
 	}
 	
 	public float getLimiteCredito() {

@@ -3,6 +3,7 @@ package controladores;
 
 import java.rmi.RemoteException;
 import java.util.ArrayList;
+import java.util.Calendar;
 import java.util.Collection;
 import java.util.Iterator;
 import java.util.List;
@@ -15,6 +16,9 @@ import excepciones.ExcepcionSistema;
 import negocio.Articulo;
 import negocio.ArticuloEnStock;
 import negocio.ItemArticulo;
+import negocio.MovStockAjuste;
+import negocio.MovStockMantenimiento;
+import negocio.MovStockVenta;
 import negocio.MovimientoStock;
 import negocio.Pedido;
 import negocio.Stock;
@@ -54,6 +58,8 @@ public class AdmStock {
 	public Collection<Articulo> obtenerCatalogo() {
 		return ArticuloDAO.getInstance().showAll();
 	}
+	
+	
 	
 	// Verifica la existencia de Stock de cada item del Pedido y actualiza el estado
 	// del stock de cada Item Articulo del Pedido. Si detecta que hay stock faltante,
@@ -259,11 +265,39 @@ public class AdmStock {
 	}
 	
 	public void ajustarStockPorInventario(int cant, String codB, String lote, String ubicacion) {
-	
+		Stock stock = this.obtenerStock(ubicacion);
+		stock.actualizarCantidadReal(cant);
+		stock.updateMe();
+		if (cant >0){
+			MovStockAjuste movSA = new MovStockAjuste('A',Calendar.getInstance().getTime(), 0 );
+			movSA.saveMe();
+		}
+			else{
+				MovStockAjuste movSA = new MovStockAjuste('B',Calendar.getInstance().getTime(), 0 );
+				movSA.saveMe();
+			}
 	}
 	
 	public void ajustarStockPorMant(int cant, String usuarioRegistrado, String autorizante, String destinoFinal, String ubicacion) {
-	
+		Stock stock = this.obtenerStock(ubicacion);
+		stock.actualizarCantidadReal(cant);
+		stock.updateMe();
+		
+		if (cant >0){
+			MovStockMantenimiento movSM = new MovStockMantenimiento('A', Calendar.getInstance().getTime(),0, usuarioRegistrado, autorizante, destinoFinal);
+			movSM.saveMe();
+		}
+		else
+		{
+			MovStockMantenimiento movSM = new MovStockMantenimiento('B', Calendar.getInstance().getTime(),0, usuarioRegistrado, autorizante, destinoFinal);
+			movSM.saveMe();
+		}
 	}
+	
+	public void RegistrarMovStockVenta(Pedido pedido) {
+		MovStockVenta movSV = new MovStockVenta('B',Calendar.getInstance().getTime(), 0,pedido );
+		movSV.saveMe();
+	}
+	
 	
 }

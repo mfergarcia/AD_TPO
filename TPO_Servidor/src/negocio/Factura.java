@@ -90,7 +90,11 @@ public class Factura {
 	private void setMontoAdeudado(float montoAdeudado) {
 		this.montoAdeudado = montoAdeudado;
 	}
-
+	
+	public void modificarMonto(float montoAdeudado) {
+		setMontoAdeudado(montoAdeudado);
+	}
+	
 	public String getEstadoFactura() {
 		return estadoFactura;
 	}
@@ -132,12 +136,10 @@ public class Factura {
 		return facturaDTO;
 	}
 	
-	//@Facu: implementar metodo
 	public void saveMe() {
 		this.setNumFactura(FacturaDAO.getInstance().grabar(this));
 	}	
 
-	//@Facu: implementar metodo
 	public void updateMe() {
 		FacturaDAO.getInstance().update(this);
 	}	
