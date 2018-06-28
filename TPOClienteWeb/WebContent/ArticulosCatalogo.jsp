@@ -11,30 +11,15 @@
 <!DOCTYPE html PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN" "http://www.w3.org/TR/html4/loose.dtd">
 <html>
 <head>
-<%! 
-public void AgregarArticulo(ArticuloDTO a, int cantidad, PedidoDTO p){
-	ItemArticuloDTO i= new ItemArticuloDTO();
-	i.setArticuloDTO(a);
-	i.setCant(cantidad);
-	p.agregarItem(i);
-}
-
-%>
 
 <meta http-equiv="Content-Type" content="text/html; charset=ISO-8859-1">
 <title>Ver Articulos</title>
+ <a href="Controlador?action=CrearPedido"></a>
 <% 
 try{
 SistemaBD bd= new SistemaBD();
 Collection<ArticuloDTO> la= new ArrayList<ArticuloDTO>();
 la= bd.obtenerCatalogo();
-PedidoDTO p= new PedidoDTO();
-DireccionDTO dirEntrega = new DireccionDTO();
-dirEntrega.setCalle("Av de Mayo");
-dirEntrega.setNumero(200);
-dirEntrega.setCodigoPostal("1424");
-dirEntrega.setLocalidad("C.A.B.A.");
-p.setDirEntrega(dirEntrega);
 %>
 
 </head>
@@ -51,8 +36,8 @@ for(ArticuloDTO a: la){
 %>
 </select>
 Cantidad: <input type="text" name="Cantidad" id="Cantidad">
-<button type="submit" value="Submit" onclick="AgregarArticulo(bd.obtenerArticulo('Articulo'),Integer.parseInt('Cantidad'), p);">Aceptar</button>
-<button type="submit" value="Submit" onclick="bd.generarPedido(p);">Generar Pedido</button>
+<input type="submit" value="Aceptar" onclick="ControladorWeb?action=ElegirArticulo">
+<input type="submit" value="Completar Pedido" onclick="ControladorWeb?action=CompletarPedido">
 </body>
 
 <%
