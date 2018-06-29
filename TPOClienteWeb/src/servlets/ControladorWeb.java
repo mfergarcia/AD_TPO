@@ -1,5 +1,6 @@
 package servlets;
 import java.io.IOException;
+import java.util.ArrayList;
 import java.util.List;
 
 import javax.servlet.RequestDispatcher;
@@ -20,9 +21,9 @@ public class ControladorWeb extends HttpServlet {
 
 	private static final long serialVersionUID = 1087702007634924546L;
 	
-    protected void doPost(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException
-        {
-    	try{
+    protected void doPost(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException 
+    {
+    	try {
     		SistemaBD bd= new SistemaBD();
     		String action = request.getParameter("action");
             String jspPage = "/index.jsp";
@@ -35,12 +36,14 @@ public class ControladorWeb extends HttpServlet {
             if ("default".equals(action))
             {
                 jspPage = "/index.jsp";
-            }else if("CrearPedido".equals(action)){
+            }
+            
+            else if("CrearPedido".equals(action)) {
             	request.setAttribute("Pedido", new PedidoDTO());
             	jspPage= "ArticulosCatalogo,jsp";
-            	
-            	
-        	}else if("ElegirArticulo".equals(action)) {
+        	}
+            
+            else if("ElegirArticulo".equals(action)) {
         		System.out.println("LLegue");
             	String codBarras= request.getParameter("Articulo");
             	Integer cantidad= Integer.parseInt(request.getParameter("Cantidad"));
@@ -52,29 +55,39 @@ public class ControladorWeb extends HttpServlet {
            		p.agregarItem(i);
            		request.setAttribute("Pedido", p);	
             	jspPage ="/ArticulosCatalogo.jsp";
-            	}else if("CompletarPedido".equals(action)) {
-            		System.out.println("LLegue");
-            		PedidoDTO p= (PedidoDTO) request.getAttribute("Pedido");
-            		DireccionDTO dirEntrega = new DireccionDTO();
-            		//Temporal
-            		dirEntrega.setCalle("Av de Mayo");
-            		dirEntrega.setNumero(200);
-            		dirEntrega.setCodigoPostal("1424");
-            		dirEntrega.setLocalidad("C.A.B.A.");
-            		p.setDirEntrega(dirEntrega);
-            		//
-            		bd.generarPedido(p);
-            	}
+           	}
+            
+            else if("CompletarPedido".equals(action)) {
+            	System.out.println("LLegue");
+            	PedidoDTO p= (PedidoDTO) request.getAttribute("Pedido");
+            	DireccionDTO dirEntrega = new DireccionDTO();
+            	//Temporal
+            	dirEntrega.setCalle("Av de Mayo");
+            	dirEntrega.setNumero(200);
+            	dirEntrega.setCodigoPostal("1424");
+            	dirEntrega.setLocalidad("C.A.B.A.");
+            	p.setDirEntrega(dirEntrega);
+            	//
+            	bd.generarPedido(p);
+           	}
+            
+            else if ("obtenerPedidosAConfirmar".equals(action))
+            {
+            	ArrayList<PedidoDTO> pedidosAConfirmar = (ArrayList<PedidoDTO>)bd.obtenerPedidosAConfirmar();
+            	System.out.println("La cantidad de elementos son: " + pedidosAConfirmar.size());
+            	request.setAttribute("pedidosAConfirmar", pedidosAConfirmar);
+            	jspPage = "/aprobarPedido.jsp";
+            }	
+            
             dispatch(jspPage, request, response);
-    		}catch (ExcepcionComunicacion e) {
+    		
+    		} catch (ExcepcionComunicacion e) {
     			System.out.println(e.getMensaje());
-    		}catch (ExcepcionSistema es) {
+    		} catch (ExcepcionSistema es) {
     			System.out.println(es.getMensaje());
     		}
-            }
-            
-
-    
+        }
+   
         protected void dispatch(String jsp, HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException
         {
             if (jsp != null)
