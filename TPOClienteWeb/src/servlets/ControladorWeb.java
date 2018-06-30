@@ -40,7 +40,7 @@ public class ControladorWeb extends HttpServlet {
             
             else if("CrearPedido".equals(action)) {
             	request.setAttribute("Pedido", new PedidoDTO());
-            	jspPage= "ArticulosCatalogo,jsp";
+            	jspPage= "/articulosCatalogo.jsp";
         	}
             
             else if("ElegirArticulo".equals(action)) {
@@ -54,7 +54,7 @@ public class ControladorWeb extends HttpServlet {
            		i.setCant(cantidad);
            		p.agregarItem(i);
            		request.setAttribute("Pedido", p);	
-            	jspPage ="/ArticulosCatalogo.jsp";
+            	jspPage ="/articulosCatalogo.jsp";
            	}
             
             else if("CompletarPedido".equals(action)) {
@@ -69,6 +69,7 @@ public class ControladorWeb extends HttpServlet {
             	p.setDirEntrega(dirEntrega);
             	//
             	bd.generarPedido(p);
+            	jspPage= "/articulosCatalogo.jsp";
            	}
             
             else if ("obtenerPedidosAConfirmar".equals(action))

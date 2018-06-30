@@ -43,7 +43,7 @@ public void ModificarCliente(String razonSocial){
 RazonSocialCliente= <%= obtCliente().getRazonSocial() %>
 <form>
 NuevaRazonSocial= <input type="text" name="RazonSocial" id="RazonSocial">
-<button type="submit" value="Submit" onclick="ModificarCliente('RazonSocial');">Modificar</button>
+<input type="submit" value="Modificar" onclick="ModificarCliente('RazonSocial');">
 </form>
 </body>
 </html>

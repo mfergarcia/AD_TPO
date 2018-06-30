@@ -14,7 +14,7 @@
 
 <meta http-equiv="Content-Type" content="text/html; charset=ISO-8859-1">
 <title>Ver Articulos</title>
- <a href="Controlador?action=CrearPedido"></a>
+ <a href="Controlador?action=CrearPedido" target="_self"></a>
 <% 
 try{
 SistemaBD bd= new SistemaBD();
@@ -36,7 +36,7 @@ for(ArticuloDTO a: la){
 %>
 </select>
 Cantidad: <input type="text" name="Cantidad" id="Cantidad">
-<input type="submit" value="Aceptar" onclick="ControladorWeb?action=ElegirArticulo">
+<td colspan="2"><input type="submit" value="Aceptar" onclick="ControladorWeb?action=ElegirArticulo" ></td>
 <input type="submit" value="Completar Pedido" onclick="ControladorWeb?action=CompletarPedido">
 </body>
 
