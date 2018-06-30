@@ -22,25 +22,7 @@ public class PantallaAltaCliente {
 	private JTextField numero_textField;
 	private JTextField limiteCredito_textField;
 
-	/**
-	 * Launch the application.
-	 */
-	public static void main(String[] args) {
-		EventQueue.invokeLater(new Runnable() {
-			public void run() {
-				try {
-					PantallaAltaCliente window = new PantallaAltaCliente();
-					window.frmAltaCliente.setVisible(true);
-				} catch (Exception e) {
-					e.printStackTrace();
-				}
-			}
-		});
-	}
 
-	/**
-	 * Create the application.
-	 */
 	public PantallaAltaCliente() {
 		initialize();
 	}

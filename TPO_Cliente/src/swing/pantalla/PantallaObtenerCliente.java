@@ -15,37 +15,15 @@ import excepciones.ExcepcionSistema;
 import javax.swing.JLabel;
 import javax.swing.JOptionPane;
 
-public class ObtenerCliente {
+public class PantallaObtenerCliente {
 
-	private JFrame BuscarCliente;
+	JFrame BuscarCliente;
 	private JTextField textField_id;
 
-	/**
-	 * Launch the application.
-	 */
-	public static void main(String[] args) {
-		EventQueue.invokeLater(new Runnable() {
-			public void run() {
-				try {
-					ObtenerCliente window = new ObtenerCliente();
-					window.BuscarCliente.setVisible(true);
-				} catch (Exception e) {
-					e.printStackTrace();
-				}
-			}
-		});
-	}
-
-	/**
-	 * Create the application.
-	 */
-	public ObtenerCliente() {
+	public PantallaObtenerCliente() {
 		initialize();
 	}
 
-	/**
-	 * Initialize the contents of the frame.
-	 */
 	private void initialize() {
 		BuscarCliente = new JFrame();
 		BuscarCliente.setTitle("Buscar Cliente");

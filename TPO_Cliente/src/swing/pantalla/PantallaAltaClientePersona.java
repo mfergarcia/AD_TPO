@@ -109,6 +109,9 @@ public class PantallaAltaClientePersona {
 					ctePersona.setLimiteCredito(Float.parseFloat(limiteCredito));
 					ctePersona = bd.altaClientePersona(ctePersona);
 					JOptionPane.showMessageDialog(frmClientepersona, "Su Cliente ha sido creado con éxito!");
+					Menú m= new Menú();
+					m.frmMenu.setVisible(true);
+					m.frmMenu.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
 					frmClientepersona.dispose();
 				} catch (ExcepcionComunicacion ev) {
 					System.out.println(ev.getMensaje());

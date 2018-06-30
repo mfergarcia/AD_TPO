@@ -1,15 +1,26 @@
 package swing.pantalla;
 
 import java.awt.EventQueue;
+import java.awt.event.ActionEvent;
+import java.awt.event.ActionListener;
 
 import javax.swing.JFrame;
 import javax.swing.JTextField;
+
+import delegados.SistemaBD;
+import dto.ArticuloDTO;
+import dto.ClienteEmpresaDTO;
+import dto.DireccionDTO;
+import excepciones.ExcepcionComunicacion;
+import excepciones.ExcepcionSistema;
+
 import javax.swing.JLabel;
+import javax.swing.JOptionPane;
 import javax.swing.JButton;
 
 public class PantallaAltaArticulo {
 
-	private JFrame frmAltaArticulo;
+	JFrame frmAltaArticulo;
 	private JTextField codBarras_textField;
 	private JTextField descripcion_textField;
 	private JTextField presentacion_textField;
@@ -126,6 +137,35 @@ public class PantallaAltaArticulo {
 		
 		JButton btnCrear = new JButton("Crear");
 		btnCrear.setBounds(335, 232, 89, 23);
+		btnCrear.addActionListener(new ActionListener() {
+			
+			@Override
+			public void actionPerformed(ActionEvent e) {
+				try {
+					SistemaBD bd= new SistemaBD();
+					ArticuloDTO art= new ArticuloDTO();
+					art.setDescripcion(descripcion_textField.getText());
+					art.setPresentacion(presentacion_textField.getText());
+					art.setCodigoBarras(codBarras_textField.getText());
+					art.setCantFijaCompra(Integer.parseInt(cantFijaCompra_textField.getText()));
+					art.setCantMaxUbicacion(Integer.parseInt(cantMaxUbi_textField.getText()));
+					art.setPrecioVta(Float.parseFloat(precioVenta_textField.getText()));
+					art.setTamaño(Integer.parseInt(tamaño_textField.getText()));
+					art.setUnidad(unidad_textField.getText());
+					bd.altaArticulo(art);
+					JOptionPane.showMessageDialog(frmAltaArticulo, "Su Articulo ha sido creado con éxito!");
+					Menú m= new Menú();
+					m.frmMenu.setVisible(true);
+					m.frmMenu.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
+					frmAltaArticulo.dispose();
+				} catch (ExcepcionComunicacion ev) {
+					System.out.println(ev.getMensaje());
+				} catch (ExcepcionSistema ev) {
+					System.out.println(ev.getMensaje());
+				}
+				
+			}
+		});
 		frmAltaArticulo.getContentPane().add(btnCrear);
 	}
 }

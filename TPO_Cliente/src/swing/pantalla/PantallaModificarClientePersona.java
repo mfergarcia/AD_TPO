@@ -33,25 +33,7 @@ public class PantallaModificarClientePersona {
 	private JLabel lblLmitecrdito;
 	private JTextField limiteCredito_textField;
 	private int id;
-	/**
-	 * Launch the application.
-	 */
-	public static void main(String[] args) {
-		EventQueue.invokeLater(new Runnable() {
-			public void run() {
-				try {
-					PantallaModificarClientePersona window = new PantallaModificarClientePersona();
-					window.frmModificarClientepersona.setVisible(true);
-				} catch (Exception e) {
-					e.printStackTrace();
-				}
-			}
-		});
-	}
 
-	/**
-	 * Create the application.
-	 */
 	public PantallaModificarClientePersona() {
 		initialize();
 	}
@@ -188,6 +170,9 @@ public class PantallaModificarClientePersona {
 						ctePersona.setApellido(apellido_textField.getText());
 				bd.modificarCtePersona(ctePersona);
 				JOptionPane.showMessageDialog(frmModificarClientepersona, "Su cliente ha sido modificado");
+				Menú m= new Menú();
+				m.frmMenu.setVisible(true);
+				m.frmMenu.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
 				frmModificarClientepersona.dispose();
 				} catch (ExcepcionComunicacion es) {
 					System.out.println(es.getMensaje());

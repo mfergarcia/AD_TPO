@@ -1,15 +1,26 @@
 package swing.pantalla;
 
 import java.awt.EventQueue;
+import java.awt.event.ActionEvent;
+import java.awt.event.ActionListener;
 
 import javax.swing.JFrame;
 import javax.swing.JLabel;
+import javax.swing.JOptionPane;
 import javax.swing.JTextField;
+
+import delegados.SistemaBD;
+import dto.ArticuloDTO;
+import dto.ClienteEmpresaDTO;
+import dto.DireccionDTO;
+import excepciones.ExcepcionComunicacion;
+import excepciones.ExcepcionSistema;
+
 import javax.swing.JButton;
 
 public class PantallaModificarArticulo {
 
-	private JFrame frmModificarArticulo;
+	JFrame frmModificarArticulo;
 	private JTextField textField_Descripcion;
 	private JTextField textField_Presentacion;
 	private JTextField textField_Tamaño;
@@ -20,25 +31,7 @@ public class PantallaModificarArticulo {
 	private JTextField textField_estado;
 	private JTextField textField_CodBarras;
 
-	/**
-	 * Launch the application.
-	 */
-	public static void main(String[] args) {
-		EventQueue.invokeLater(new Runnable() {
-			public void run() {
-				try {
-					PantallaModificarArticulo window = new PantallaModificarArticulo();
-					window.frmModificarArticulo.setVisible(true);
-				} catch (Exception e) {
-					e.printStackTrace();
-				}
-			}
-		});
-	}
-
-	/**
-	 * Create the application.
-	 */
+	
 	public PantallaModificarArticulo() {
 		initialize();
 	}
@@ -126,10 +119,50 @@ public class PantallaModificarArticulo {
 		textField_estado.setColumns(10);
 		
 		JButton btnModificar = new JButton("Modificar");
+		btnModificar.addActionListener(new ActionListener() {
+			public void actionPerformed(ActionEvent arg0) {
+			if(!textField_CodBarras.getText().equals("")) {
+				try{
+					SistemaBD bd = new SistemaBD();
+					ArticuloDTO art= bd.obtenerArticulo(textField_CodBarras.getText());
+					if(!textField_Descripcion.getText().equals(""))
+						art.setDescripcion(textField_Descripcion.getText());
+					if(!textField_Presentacion.getText().equals(""))
+						art.setPresentacion(textField_Presentacion.getText());
+					if(!textField_Tamaño.getText().equals("")){
+						art.setTamaño(Integer.parseInt(textField_Tamaño.getText()));
+					}
+					if(!textField_Unidad.getText().equals("")) {
+						art.setUnidad(textField_Unidad.getText());
+					}
+					if(!textField_PrecioVenta.getText().equals("")){
+						art.setPrecioVta(Float.parseFloat(textField_PrecioVenta.getText()));
+					}
+					if(!textField_CantFijCompra.getText().equals("")){
+						art.setCantFijaCompra(Integer.parseInt(textField_CantFijCompra.getText()));
+					}
+					if(!textField_CantMaxUbi.getText().equals(""))
+						art.setCantMaxUbicacion(Integer.parseInt(textField_CantMaxUbi.getText()));
+					if(!textField_estado.getText().equals(""))
+						art.setEstado(textField_estado.getText().charAt(0));
+					bd.modificarArticulo(art);
+					JOptionPane.showMessageDialog(frmModificarArticulo, "Su Articulo ha sido modificado");
+					Menú m= new Menú();
+					m.frmMenu.setVisible(true);
+					m.frmMenu.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
+					frmModificarArticulo.dispose();
+				} catch (ExcepcionComunicacion es) {
+					System.out.println(es.getMensaje());
+				} catch (ExcepcionSistema es) {
+					System.out.println(es.getMensaje());
+				}
+			}
+		}
+		});
 		btnModificar.setBounds(335, 227, 89, 23);
 		frmModificarArticulo.getContentPane().add(btnModificar);
 		
-		JLabel lblCodbarras = new JLabel("CodBarras: ");
+		JLabel lblCodbarras = new JLabel("CodBarras: *");
 		lblCodbarras.setBounds(10, 211, 86, 14);
 		frmModificarArticulo.getContentPane().add(lblCodbarras);
 		
@@ -137,5 +170,9 @@ public class PantallaModificarArticulo {
 		textField_CodBarras.setBounds(176, 208, 86, 20);
 		frmModificarArticulo.getContentPane().add(textField_CodBarras);
 		textField_CodBarras.setColumns(10);
+		
+		JLabel lblCampoobligatorio = new JLabel("* CampoObligatorio");
+		lblCampoobligatorio.setBounds(290, 11, 134, 14);
+		frmModificarArticulo.getContentPane().add(lblCampoobligatorio);
 	}
 }

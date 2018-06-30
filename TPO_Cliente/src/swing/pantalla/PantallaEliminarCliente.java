@@ -19,28 +19,10 @@ import javax.swing.JButton;
 
 public class PantallaEliminarCliente {
 
-	private JFrame frmEliminarCliente;
+	JFrame frmEliminarCliente;
 	private JTextField textField;
 
-	/**
-	 * Launch the application.
-	 */
-	public static void main(String[] args) {
-		EventQueue.invokeLater(new Runnable() {
-			public void run() {
-				try {
-					PantallaEliminarCliente window = new PantallaEliminarCliente();
-					window.frmEliminarCliente.setVisible(true);
-				} catch (Exception e) {
-					e.printStackTrace();
-				}
-			}
-		});
-	}
 
-	/**
-	 * Create the application.
-	 */
 	public PantallaEliminarCliente() {
 		initialize();
 	}
