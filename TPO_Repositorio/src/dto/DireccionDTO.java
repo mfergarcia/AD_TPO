@@ -50,4 +50,9 @@ public class DireccionDTO implements Serializable {
 		this.localidad = localidad;
 	}
 
+	public String toString() {
+		String direccion = this.getCalle() + " " + this.getNumero() + ", " + this.getLocalidad() + " - " + this.getCodigoPostal();
+		return direccion;
+	}
+	
 }
