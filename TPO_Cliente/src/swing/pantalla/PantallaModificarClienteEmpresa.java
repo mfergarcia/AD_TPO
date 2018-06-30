@@ -19,7 +19,7 @@ import java.awt.event.ActionEvent;
 
 public class PantallaModificarClienteEmpresa {
 
-	private JFrame frmModificacionClienteempresa;
+	JFrame frmModificacionClienteempresa;
 	private JTextField condicionesEspeciales_textField;
 	private JTextField tipoFactura_textField;
 	private JTextField localidad_textField;
@@ -147,39 +147,38 @@ public class PantallaModificarClienteEmpresa {
 			public void actionPerformed(ActionEvent arg0) {
 				try{
 					SistemaBD bd = new SistemaBD();
-					ClienteEmpresaDTO cteEmpresa = bd.obtenerCteEmpresa(id);
+					ClienteEmpresaDTO cteEmpresa = bd.obtenerCteEmpresa(1);
 					DireccionDTO d=new DireccionDTO();
 					
-					if(condicionesEspeciales_textField.getText()!="")
+					if(!condicionesEspeciales_textField.getText().equals(""))
 						cteEmpresa.setCondicionesEspeciales(condicionesEspeciales_textField.getText());
-					
-					if(tipoFactura_textField.getText()!="")
+					if(!tipoFactura_textField.getText().equals(""))
 						cteEmpresa.setTipoFactura(tipoFactura_textField.getText().charAt(0));
-					if(codigoPostal_textField.getText()!=""){
+					if(!codigoPostal_textField.getText().equals("")){
 						d=cteEmpresa.getDireccionFacturacion();
 						d.setCodigoPostal(codigoPostal_textField.getText());
 						cteEmpresa.setDireccionFacturacion(d);
 					}
-					if(localidad_textField.getText()!=""){
+					if(!localidad_textField.getText().equals("")){
 						d=cteEmpresa.getDireccionFacturacion();
 						d.setCodigoPostal(localidad_textField.getText());
 						cteEmpresa.setDireccionFacturacion(d);
 					}
-					if(calle_textField.getText()!=""){
+					if(!calle_textField.getText().equals("")){
 						d=cteEmpresa.getDireccionFacturacion();
 						d.setCalle(calle_textField.getText());
 						cteEmpresa.setDireccionFacturacion(d);
 					}
-					if(numero_textField.getText()!=""){
+					if(!numero_textField.getText().equals("")){
 						d=cteEmpresa.getDireccionFacturacion();
 						d.setNumero(Integer.parseInt(numero_textField.getText()));
 						cteEmpresa.setDireccionFacturacion(d);
 					}
-					if(limiteCredito_textField.getText()!="")
+					if(!limiteCredito_textField.getText().equals(""))
 						cteEmpresa.setLimiteCredito(Float.parseFloat(limiteCredito_textField.getText()));
-					if(cuit_textField.getText()!="")
+					if(!cuit_textField.getText().equals(""))
 						cteEmpresa.setCuit(cuit_textField.getText());
-					if(razonSocial_textField.getText()!="")
+					if(!razonSocial_textField.getText().equals(""))
 						cteEmpresa.setRazonSocial(razonSocial_textField.getText());
 					bd.modificarCteEmpresa(cteEmpresa);
 					JOptionPane.showMessageDialog(frmModificacionClienteempresa, "Su cliente ha sido modificado");

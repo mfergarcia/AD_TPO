@@ -26,7 +26,8 @@ public class DireccionEntity {
 	}
 	
 	public DireccionEntity(Direccion d) {
-		this.setId(d.getId());
+		if(d.getId()!=0)
+			this.setId(d.getId());
 		this.setCalle(d.getCalle());
 		this.setNumero(d.getNumero());
 		this.setCodigoPostal(d.getCodigoPostal());

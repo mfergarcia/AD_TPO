@@ -20,7 +20,7 @@ import javax.swing.JButton;
 
 public class PantallaModificarClientePersona {
 
-	private JFrame frmModificarClientepersona;
+	JFrame frmModificarClientepersona;
 	private JTextField condicionesEspeciales_textField;
 	private JTextField tipoFactura_textField;
 	private JTextField localidad_textField;
@@ -145,46 +145,46 @@ public class PantallaModificarClientePersona {
 					ClientePersonaDTO ctePersona = bd.obtenerCtePersona(id);
 					DireccionDTO d=new DireccionDTO();
 					
-					if(condicionesEspeciales_textField.getText()!="")
+					if(!condicionesEspeciales_textField.getText().equals(""))
 						ctePersona.setCondicionesEspeciales(condicionesEspeciales_textField.getText());
 					
-					if(tipoFactura_textField.getText()!="")
+					if(!tipoFactura_textField.getText().equals(""))
 						ctePersona.setTipoFactura(tipoFactura_textField.getText().charAt(0));
 					
-					if(codigoPostal_textField.getText()!=""){
+					if(!codigoPostal_textField.getText().equals("")){
 						d=ctePersona.getDireccionFacturacion();
 						d.setCodigoPostal(codigoPostal_textField.getText());
 						ctePersona.setDireccionFacturacion(d);
 					}
 					
-					if(localidad_textField.getText()!=""){
+					if(!localidad_textField.getText().equals("")){
 						d=ctePersona.getDireccionFacturacion();
 						d.setCodigoPostal(localidad_textField.getText());
 						ctePersona.setDireccionFacturacion(d);
 					}
 					
-					if(calle_textField.getText()!=""){
+					if(!calle_textField.getText().equals("")){
 						d=ctePersona.getDireccionFacturacion();
 						d.setCalle(calle_textField.getText());
 						ctePersona.setDireccionFacturacion(d);
 					}
 				
-					if(numero_textField.getText()!=""){
+					if(!numero_textField.getText().equals("")){
 						d=ctePersona.getDireccionFacturacion();
 						d.setNumero(Integer.parseInt(numero_textField.getText()));
 						ctePersona.setDireccionFacturacion(d);
 					}
 					
-					if(limiteCredito_textField.getText()!="")
+					if(!limiteCredito_textField.getText().equals(""))
 						ctePersona.setLimiteCredito(Float.parseFloat(limiteCredito_textField.getText()));
 					
-					if(dni_textField.getText()!="")
+					if(!dni_textField.getText().equals(""))
 						ctePersona.setDni(dni_textField.getText());
 					
-					if(nombre_textField.getText()!="")
+					if(!nombre_textField.getText().equals(""))
 						ctePersona.setNombre(nombre_textField.getText());
 					
-					if(apellido_textField.getText()!="")
+					if(!apellido_textField.getText().equals(""))
 						ctePersona.setApellido(apellido_textField.getText());
 				bd.modificarCtePersona(ctePersona);
 				JOptionPane.showMessageDialog(frmModificarClientepersona, "Su cliente ha sido modificado");
