@@ -53,7 +53,7 @@ public class ClienteEmpresaDAO {
 	public void update(ClienteEmpresa ce){
 		Direccion d= ce.getDireccionFacturacion();
 		DireccionEntity de= new DireccionEntity(d);
-		ClienteEmpresaEntity cee = new ClienteEmpresaEntity(ce.getIdCliente(), new CtaCteEntity(ce.getCtaCte().getLimiteCredito()), ce.getTipoFactura(), ce.getCondicionesEspeciales(),de, ce.getTipo(), ce.getEstado(), ce.getCuit(), ce.getRazonSocial());
+		ClienteEmpresaEntity cee = new ClienteEmpresaEntity(ce.getIdCliente(), new CtaCteEntity(ce.getCtaCte()), ce.getTipoFactura(), ce.getCondicionesEspeciales(),de, ce.getTipo(), ce.getEstado(), ce.getCuit(), ce.getRazonSocial());
 		SessionFactory sf = HibernateUtil.getSessionFactory();
 		Session session = sf.openSession();
 		session.beginTransaction();

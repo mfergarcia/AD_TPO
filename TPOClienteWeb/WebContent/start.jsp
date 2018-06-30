@@ -64,7 +64,7 @@ function valideDatos(){
 
 <body onload="carga();">
 <h1 style="text-align:center">Bienvenido, Por favor Ingrese su Usuario y contraseña: </h1>
-<form action= "LoginWeb.jr" method="POST" onsubmit="return valideDatos();">
+<form action= "LoginServlet" method="POST" onsubmit="return valideDatos();">
 
   <table align="center" width="25%">
     <tr>

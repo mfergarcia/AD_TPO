@@ -37,11 +37,10 @@ public class ArticuloDAO {
 		public Articulo findByID(String codigoBarras){
 			SessionFactory sf = HibernateUtil.getSessionFactory();
 			Session session = sf.openSession();
-			List<ArticuloEntity> ae= (List<ArticuloEntity>) session.createQuery("from ArticuloEntity where codigoBarras = ?")
-										.setParameter(0, codigoBarras)
-										.list();
+			ArticuloEntity ae= (ArticuloEntity) session.createQuery("from ArticuloEntity where codigoBarras = ?")
+										.setParameter(0, codigoBarras).uniqueResult();
 			
-			return new Articulo(ae.get(0));
+			return new Articulo(ae);
 		}
 		
 		@SuppressWarnings("unchecked")

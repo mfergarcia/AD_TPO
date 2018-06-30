@@ -32,8 +32,7 @@ public class CtaCteEntity {
 	public CtaCteEntity(float limiteCredito) {
 		this.limiteCredito=limiteCredito;
 		this.pe= new ArrayList<PagoEntity>();
-		this.fe= new ArrayList<FacturaEntity>();
-		
+		this.fe= new ArrayList<FacturaEntity>();		
 	}
 	
 	public CtaCteEntity(){}

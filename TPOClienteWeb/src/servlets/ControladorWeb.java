@@ -39,27 +39,16 @@ public class ControladorWeb extends HttpServlet {
             }
             
             else if("CrearPedido".equals(action)) {
-            	request.setAttribute("Pedido", new PedidoDTO());
+            	PedidoDTO p= new PedidoDTO();
+            	request.setAttribute("pedido", p );
             	jspPage= "/articulosCatalogo.jsp";
         	}
             
             else if("ElegirArticulo".equals(action)) {
-        		System.out.println("LLegue");
-            	String codBarras= request.getParameter("Articulo");
-            	Integer cantidad= Integer.parseInt(request.getParameter("Cantidad"));
-            	PedidoDTO p= (PedidoDTO) request.getAttribute("Pedido");
-            	ArticuloDTO a=bd.obtenerArticulo(codBarras);
-            	ItemArticuloDTO i= new ItemArticuloDTO();
-            	i.setArticuloDTO(a);
-           		i.setCant(cantidad);
-           		p.agregarItem(i);
-           		request.setAttribute("Pedido", p);	
-            	jspPage ="/articulosCatalogo.jsp";
            	}
             
             else if("CompletarPedido".equals(action)) {
-            	System.out.println("LLegue");
-            	PedidoDTO p= (PedidoDTO) request.getAttribute("Pedido");
+            	PedidoDTO p= (PedidoDTO) request.getAttribute("pedido");
             	DireccionDTO dirEntrega = new DireccionDTO();
             	//Temporal
             	dirEntrega.setCalle("Av de Mayo");

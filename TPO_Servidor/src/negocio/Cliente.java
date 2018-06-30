@@ -28,7 +28,7 @@ public class Cliente {
 		d.setCodigoPostal(ce.getDireccionFacturacion().getCodigoPostal());
 		d.setLocalidad(ce.getDireccionFacturacion().getLocalidad());
 		this.setDireccionFacturacion(d);
-		this.setCtaCte(new CtaCte(ce.getCtaCte().getLimiteCredito(), ce.getCtaCte().getIdCtaCte()));
+		this.setCtaCte(new CtaCte(ce.getCtaCte()));
 		this.setTipoFactura(ce.getTipoFactura());
 		this.condicionesEspeciales=ce.getCondicionesEspeciales();
 		this.setTipo(ce.getTipo());

@@ -14,30 +14,60 @@
 
 <meta http-equiv="Content-Type" content="text/html; charset=ISO-8859-1">
 <title>Ver Articulos</title>
- <a href="Controlador?action=CrearPedido" target="_self"></a>
+
 <% 
 try{
 SistemaBD bd= new SistemaBD();
 Collection<ArticuloDTO> la= new ArrayList<ArticuloDTO>();
 la= bd.obtenerCatalogo();
+Collection<ItemArticuloDTO> li= new ArrayList<ItemArticuloDTO>();
+PedidoDTO p= (PedidoDTO) request.getAttribute("pedido");
+%>
+<%!
+public void agegarArticulo(String codBarras, int cantidad, PedidoDTO p ){
+try{
+SistemaBD bd= new SistemaBD();
+ArticuloDTO a=bd.obtenerArticulo(codBarras);
+ItemArticuloDTO i= new ItemArticuloDTO();
+i.setArticuloDTO(a);
+i.setCant(cantidad);
+p.agregarItem(i);
+	}catch (ExcepcionComunicacion e) {
+		System.out.println(e.getMensaje());
+	}catch (ExcepcionSistema es) {
+		System.out.println(es.getMensaje());
+	}
+
+}
+
+
 %>
 
 </head>
 <body>
+
+
 Catálogo
+<form action="ControladorWeb" method="post">
 <select name="Articulo">
 <option>Elije el articulo!</option>
 <%
 for(ArticuloDTO a: la){
+String codBarras= a.getCodigoBarras();
 %>
-<option value="<%a.getCodigoBarras();%>"><%=a.getDescripcion()%></option>
+<option value="<%=codBarras%>"><%=a.getDescripcion()%></option>
 <%
+
 }
 %>
 </select>
+<br></br>
 Cantidad: <input type="text" name="Cantidad" id="Cantidad">
-<td colspan="2"><input type="submit" value="Aceptar" onclick="ControladorWeb?action=ElegirArticulo" ></td>
-<input type="submit" value="Completar Pedido" onclick="ControladorWeb?action=CompletarPedido">
+<br></br>
+<input type="submit" name="action" value="ElegirArticulo" onclick="agregarArticulo('Articulo','Cantidad', p)">
+<br></br>
+<input type="submit" name="action" value="CompletarPedido">
+</form>
 </body>
 
 <%

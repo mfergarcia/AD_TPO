@@ -9,6 +9,9 @@ import java.util.List;
 
 import dao.CtaCteDAO;
 import dto.CtaCteDTO;
+import entities.CtaCteEntity;
+import entities.FacturaEntity;
+import entities.PagoEntity;
 
 public class CtaCte {
 	
@@ -19,7 +22,7 @@ public class CtaCte {
 		
 	public CtaCte() {
 
-	}
+	} 
 
 	// Crea una cuenta corriente con el dato de limite de credito
 	// del Cliente e inicializa las colecciones
@@ -35,6 +38,30 @@ public class CtaCte {
 		this.facturas = new ArrayList<Factura>();
 		this.pagos = new ArrayList<Pago>();
 	}
+	
+	public CtaCte(CtaCteEntity cce) {
+		this.setLimiteCredito(cce.getLimiteCredito());
+		this.setId(cce.getIdCtaCte());
+		cargarListF(cce.getFe());
+		cargarListP(cce.getPe());
+	}
+	
+	private void cargarListF(Collection<FacturaEntity> fe){
+		Collection<Factura> res= new ArrayList<Factura>();
+		for(FacturaEntity f: fe)
+			res.add(new Factura(f));
+		this.facturas=res;
+	}
+	
+	private void cargarListP(Collection<PagoEntity> pe){
+		Collection<Pago> res= new ArrayList<Pago>();
+		for(PagoEntity p: pe)
+			res.add(new Pago(p));
+		this.pagos=res;
+	}
+	
+	
+	
 
 	// @Facu: revisar si hay que reemplazar búsqueda en la colección por búsqueda en la BD
 	// Recorre la colección de facturas y devuelve aquellas con saldo pendiente

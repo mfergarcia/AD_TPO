@@ -55,7 +55,14 @@ public class PedidoDAO {
 				lp.add(new Pedido(pe));
 			return lp;	
 		}
-	
+		
+		public Pedido findByID(Integer numPedido) {
+			SessionFactory sf = HibernateUtil.getSessionFactory();
+			Session session = sf.openSession();
+			PedidoEntity pe= (PedidoEntity) session.createQuery("From PedidoEntity where numPedido= ?").setParameter(0, numPedido).uniqueResult();
+			return new Pedido(pe);
+		}
+		
 		@SuppressWarnings("unchecked")
 		public List<Pedido> AllByCliente(Integer idCliente){
 			SessionFactory sf = HibernateUtil.getSessionFactory();

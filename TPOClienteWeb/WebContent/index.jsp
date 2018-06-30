@@ -8,5 +8,9 @@
 </head>
 <body>
 	<a href="ControladorWeb?action=obtenerPedidosAConfirmar" target="_self">Lista de Pedidos a Confirmar</a> 
+	
+	<br></br>
+	
+	<a href="ControladorWeb?action=CrearPedido" target="_self">CrearPedido</a>
 </body>
 </html>
