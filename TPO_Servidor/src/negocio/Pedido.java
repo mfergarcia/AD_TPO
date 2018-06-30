@@ -9,6 +9,7 @@ import java.util.List;
 
 import dao.PedidoDAO;
 import dto.PedidoDTO;
+import entities.FacturaEntity;
 import entities.ItemArticuloEntity;
 import entities.PedidoEntity;
 
@@ -58,7 +59,10 @@ public class Pedido {
 		this.setFechaEntrega(pe.getFechaEntrega());
 		this.setFechaGen(pe.getFechaGen());
 		this.setMotivoRechazo(pe.getMotivoRechazo());
-		this.setFactura(new Factura(pe.getFactura()));
+		if (pe.getFactura() != null)
+			this.setFactura(new Factura(pe.getFactura()));
+		else
+			this.setFactura(null);
 		this.setFechaCompleto(pe.getFechaCompleto());
 		this.setFechaDespachado(pe.getFechaDespachado());
 		this.setFechaPendDepo(pe.getFechaPendDepo());
