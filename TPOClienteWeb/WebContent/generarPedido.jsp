@@ -46,7 +46,7 @@ Cantidad: <input type="text" name="Cantidad" id="Cantidad">
 <br></br>
 <input type="submit" name="action" value="ElegirArticulo" >
 <br></br>
-<input type="submit" name="action" value="CompletarPedido">
+<input type="submit" name="action" value="CargarUbicacion">
 </form>
 </body>
 

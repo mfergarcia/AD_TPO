@@ -56,17 +56,19 @@ public class ControladorWeb extends HttpServlet {
             	session.setAttribute("pedido", p );
             	jspPage= "/articulosCatalogo.jsp";
            	}
-            
+            else if("CargarUbicacion".equals(action))
+            	jspPage="/cargarUbicacionPedido.jsp";
             else if("CompletarPedido".equals(action)) {
             	PedidoDTO p= (PedidoDTO) session.getAttribute("pedido");
+            	
             	DireccionDTO dirEntrega = new DireccionDTO();
-            	//Temporal
-            	dirEntrega.setCalle("Av de Mayo");
-            	dirEntrega.setNumero(200);
-            	dirEntrega.setCodigoPostal("1424");
-            	dirEntrega.setLocalidad("C.A.B.A.");
+            	dirEntrega.setCalle(request.getParameter("Calle"));
+            	dirEntrega.setCodigoPostal(request.getParameter("CodigoPostal"));
+            	dirEntrega.setLocalidad(request.getParameter("Localidad"));
+            	dirEntrega.setNumero(Integer.parseInt(request.getParameter("Numero")));
+            	
+            	
             	p.setDirEntrega(dirEntrega);
-            	//
             	bd.generarPedido(p);
             	jspPage= "/index.jsp";
            	}
