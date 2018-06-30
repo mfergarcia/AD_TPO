@@ -12,5 +12,9 @@
 	<br></br>
 	
 	<a href="ControladorWeb?action=CrearPedido" target="_self">CrearPedido</a>
+	
+	<br></br>
+	
+	<a href="ControladorWeb?action=ObtenerPedidosPorCliente" target="_self">Lista de Pedidos por Cliente</a> 
 </body>
 </html>

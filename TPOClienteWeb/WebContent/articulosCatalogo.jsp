@@ -21,26 +21,6 @@ SistemaBD bd= new SistemaBD();
 Collection<ArticuloDTO> la= new ArrayList<ArticuloDTO>();
 la= bd.obtenerCatalogo();
 Collection<ItemArticuloDTO> li= new ArrayList<ItemArticuloDTO>();
-PedidoDTO p= (PedidoDTO) request.getAttribute("pedido");
-%>
-<%!
-public void agegarArticulo(String codBarras, int cantidad, PedidoDTO p ){
-try{
-SistemaBD bd= new SistemaBD();
-ArticuloDTO a=bd.obtenerArticulo(codBarras);
-ItemArticuloDTO i= new ItemArticuloDTO();
-i.setArticuloDTO(a);
-i.setCant(cantidad);
-p.agregarItem(i);
-	}catch (ExcepcionComunicacion e) {
-		System.out.println(e.getMensaje());
-	}catch (ExcepcionSistema es) {
-		System.out.println(es.getMensaje());
-	}
-
-}
-
-
 %>
 
 </head>
@@ -64,7 +44,7 @@ String codBarras= a.getCodigoBarras();
 <br></br>
 Cantidad: <input type="text" name="Cantidad" id="Cantidad">
 <br></br>
-<input type="submit" name="action" value="ElegirArticulo" onclick="agregarArticulo('Articulo','Cantidad', p)">
+<input type="submit" name="action" value="ElegirArticulo" >
 <br></br>
 <input type="submit" name="action" value="CompletarPedido">
 </form>
