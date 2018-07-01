@@ -11,7 +11,7 @@
 	
 	<br></br>
 	
-	<a href="ControladorWeb?action=obtenerPedidosCompletos" target="_self">Lista de Pedidos Completos Prueba</a> 
+	<a href="ControladorWeb?action=obtenerPedidosCompletos" target="_self">Lista de Pedidos Completos</a> 
 	
 	<br></br>
 
