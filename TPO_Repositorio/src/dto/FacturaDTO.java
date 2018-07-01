@@ -17,6 +17,7 @@ public class FacturaDTO implements Serializable {
 	private Date fechaFactura;
 	private int numPedido;
 	private RemitoDTO remito;
+	private float importe;
 	private float montoAdeudado;
 	private Collection<ItemArticuloDTO> items;
 	// estadoFactura: "IMPAGA", "PAGO PARCIAL", "PAGADA"
@@ -70,6 +71,14 @@ public class FacturaDTO implements Serializable {
 		this.remito = remitoDTO;
 	}
 
+	public float getImporte() {
+		return importe;
+	}
+
+	public void setImporte(float importe) {
+		this.importe = importe;
+	}
+	
 	public float getMontoAdeudado() {
 		return montoAdeudado;
 	}
@@ -85,7 +94,6 @@ public class FacturaDTO implements Serializable {
 	public void setEstadoFactura(String estadoFactura) {
 		this.estadoFactura = estadoFactura;
 	}
-	
 
 	public Collection<ItemArticuloDTO> getItems() {
 		return items;

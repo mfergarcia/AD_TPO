@@ -126,6 +126,7 @@ public class Factura {
 		facturaDTO.setFechaFactura(this.getFechaFactura());
 		facturaDTO.setNumPedido(this.getPedido().getNumPedido());
 		facturaDTO.setRemitoDTO(this.getRemito().toDTO());
+		facturaDTO.setImporte(this.calcularTotal());
 		facturaDTO.setMontoAdeudado(this.getMontoAdeudado());
 		facturaDTO.setEstadoFactura(this.getEstadoFactura());
 		ItemArticulo aux;
