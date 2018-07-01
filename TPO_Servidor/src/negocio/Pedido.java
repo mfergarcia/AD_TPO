@@ -7,6 +7,8 @@ import java.util.Date;
 import java.util.Iterator;
 import java.util.List;
 
+import controladores.AdmCompras;
+import controladores.AdmStock;
 import dao.PedidoDAO;
 import dto.PedidoDTO;
 import entities.FacturaEntity;
@@ -98,6 +100,65 @@ public class Pedido {
 		return total;
 	}
 
+	public String reservarStockPedido() {
+		String estadoPedido = "COMPLETO";
+		Collection<ArticuloEnStock> artEnStock;
+		ItemArticulo auxItemArt;
+		// Recorre los articulos del pedido para tratar de reservar el stock
+		for (Iterator<ItemArticulo> i = this.getArticulos().iterator(); i.hasNext(); ) {
+			auxItemArt = i.next();
+			if (!auxItemArt.getEstadoStock().equals("RESERVADO")) {
+				// El ítem aún no pudo ser reservado
+				// Obtiene los Articulos en Stock ordenados por Fecha de Vencimiento
+				artEnStock = auxItemArt.getArticulo().obtenerArtEnStockOrdenFV();
+				int cantRequerida = auxItemArt.getCant();
+				int cantReservable;
+				ArticuloEnStock auxArtEnStock;
+				// Recorre los Articulos en Stock para ver si se puede reservar la cantidad
+				// requerida del Articulo
+				Iterator<ArticuloEnStock> j = artEnStock.iterator();
+				while (cantRequerida > 0 && j.hasNext()) {
+					auxArtEnStock = j.next();
+					// Obtiene el Stock actual del Articulo En Stock
+					Stock stock = AdmStock.getInstancia().obtenerStock(auxArtEnStock.getCodigoUbicacion());
+					if (stock != null) {
+						cantReservable = stock.cantidadReservableEnStock();
+						if (cantReservable > 0) {
+							// Hay stock para reservar, necesita comparar cuanto hay vs lo que se necesita
+							if (cantReservable >= cantRequerida) {
+								// Reserva solo lo que se necesita
+								if (stock.reservarStock(cantRequerida)) {
+									stock.updateMe();
+									cantRequerida = 0;
+								}	
+							}
+							else {
+								// Reserva todo lo que hay y sigue buscando más cantidad en el siguiente 
+								// Articulo En Stock
+								if (stock.reservarStock(cantReservable)) {
+									stock.updateMe();
+									cantRequerida = cantRequerida - cantReservable;
+								}	
+							}
+						}
+					}
+				}
+				// Verifica si quedó cantidad pendiente por reservar o si se acabaron los Articulos En Stock
+				if (cantRequerida > 0) {
+					// Ya recorrió todos los Articulos En Stock y aún queda cantidad pendiente por reservar
+					// Genera entonces una Orden de Pedido de Reposicion por la cantidad faltante
+					AdmCompras.getInstancia().generarOrdenPedidoRepo(this.getNumPedido(), auxItemArt.getArticulo(), cantRequerida);
+					auxItemArt.setEstadoStock("PENDIENTE OPR");
+					estadoPedido = "PENDIENTE REPOSICION";
+				}
+				else
+					auxItemArt.setEstadoStock("RESERVADO");
+				auxItemArt.updateMe();
+			}
+		}
+		return estadoPedido;
+	}
+	
 	public int getNumPedido() {
 		return numPedido;
 	}

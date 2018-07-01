@@ -18,13 +18,13 @@ public class AdmCompras {
 	}
 
 	// Devuelve todas las Ordenes de Pedido Repo en el estado dado
-	private Collection<OrdenPedidoRepo> buscarOrdenesPRPorEstado(String estado) {
+	public Collection<OrdenPedidoRepo> buscarOrdenesPRPorEstado(String estado) {
 		return OrdenPedidoRepoDAO.getInstance().AllByEstado(estado);
 	}
 
 	// Ubica las Ordenes de Pedido Reposicion de un determinado Articulo en estado "PENDIENTE"
 	// Debe volver ordenada por fecha de creación.
-	private Collection<OrdenPedidoRepo> buscarOrdenesPRPendientePorArticulo(String codBarras) {
+	public Collection<OrdenPedidoRepo> buscarOrdenesPRPendientePorArticulo(String codBarras) {
 		return OrdenPedidoRepoDAO.getInstance().AllByArtPENDIENTE(codBarras);
 	}	
 	
@@ -85,6 +85,7 @@ public class AdmCompras {
 			// Crea el item de la OrdenDeCompra, asignando la cantidad fija de compra determinada en el Articulo
 			ItemOC item = new ItemOC(art, art.getCantFijaCompra());
 			ordenDeCompra.agregarItem(item);
+			/*
 			// Verifica qué Ordenes de Pedido de Reposicion se pueden cumplir con esta Orden
 			// de Compra para este Artículo
 			Collection<OrdenPedidoRepo> ordenesPRPendientes = this.buscarOrdenesPRPendientePorArticulo(auxArtDTO.getCodigoBarras());
@@ -104,6 +105,7 @@ public class AdmCompras {
 					}
 				}
 			}
+			*/
 		}
 		ordenDeCompra.saveMe();
 		return ordenDeCompra;
@@ -119,6 +121,7 @@ public class AdmCompras {
 	public String cumplirOrdenDeCompra(int numOC) {
 		OrdenDeCompra ordenDeCompra = this.obtenerOrdenDeCompra(numOC); 
 		if (ordenDeCompra != null) {
+			/*
 			OrdenPedidoRepo aux;
 			for (Iterator<OrdenPedidoRepo> i = ordenDeCompra.getOrdenesPedidoRepo().iterator(); i.hasNext(); ) {
 				aux = i.next();
@@ -127,6 +130,8 @@ public class AdmCompras {
 				String nuevoEstadoPedido = AdmPedidos.getInstancia().aprobarPedido(aux.getNumPedido());
 				System.out.println("El estado del pedido " + aux.getNumPedido() + " ahora es: " + nuevoEstadoPedido);
 			}
+			*/
+			ordenDeCompra.cumplirOrdenesPedidoRepo();
 			ordenDeCompra.setEstado("CUMPLIDA");
 			ordenDeCompra.updateMe();
 			return ordenDeCompra.getEstado();

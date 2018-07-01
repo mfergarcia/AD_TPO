@@ -84,11 +84,15 @@ public class AdmPedidos {
 	// Dispara la aprobación del Pedido, intentado reservar el Stock
 	public String aprobarPedido(int numPedido) {
 		Pedido pedido = this.obtenerPedido(numPedido);
-		if (pedido != null && pedido.getEstado().equals("A CONFIRMAR")) {
-			String nuevoEstadoPedido = AdmStock.getInstancia().reservarStockPedido(pedido);
-			pedido.setEstado(nuevoEstadoPedido);
-			pedido.updateMe();
-			return nuevoEstadoPedido;
+		if (pedido != null) {
+			if (pedido.getEstado().equals("A CONFIRMAR") || pedido.getEstado().equals("PENDIENTE REPOSICION")) {
+				String nuevoEstadoPedido = pedido.reservarStockPedido();
+				pedido.setEstado(nuevoEstadoPedido);
+				pedido.updateMe();
+				return nuevoEstadoPedido;
+			}
+			else
+				return null;
 		}
 		else
 			return null;

@@ -8,6 +8,8 @@ import java.util.Date;
 import java.util.Iterator;
 import java.util.List;
 
+import controladores.AdmCompras;
+import controladores.AdmPedidos;
 import controladores.AdmStock;
 import dao.OrdenDeCompraDAO;
 import dto.ArticuloDTO;
@@ -80,6 +82,33 @@ public class OrdenDeCompra {
 		this.ordenesPedidoRepo.add(ordenPedidoRepo);
 	}
 	
+	public void cumplirOrdenesPedidoRepo() {
+		ItemOC auxItemOC;
+		Collection<OrdenPedidoRepo> ordenesPRPendientes;
+		for (Iterator<ItemOC> i = this.itemsOC.iterator(); i.hasNext(); ) {
+			auxItemOC = i.next();
+			ordenesPRPendientes = AdmCompras.getInstancia().buscarOrdenesPRPendientePorArticulo(auxItemOC.getArticulo().getCodigoBarras());
+			int cantComprada = auxItemOC.getCantidad();
+			if (ordenesPRPendientes != null && !ordenesPRPendientes.isEmpty()) {
+				OrdenPedidoRepo auxOrdenPR;
+				Iterator<OrdenPedidoRepo> j = ordenesPRPendientes.iterator();
+				// Mientras quede cantidad comprada y Ordenes de Reposición Pendientes para el Artículo
+				while (cantComprada > 0 && j.hasNext()) {
+					auxOrdenPR = j.next();
+					if (cantComprada > auxOrdenPR.getCantRepo()) {
+						// Se puede cubrir la Orden de Pedido Repo
+						auxOrdenPR.setEstado("CUMPLIDA");
+						auxOrdenPR.updateMe();
+						this.agregarOrdenPedidoRepo(auxOrdenPR);
+						String nuevoEstadoPedido = AdmPedidos.getInstancia().aprobarPedido(auxOrdenPR.getNumPedido());
+						System.out.println("El estado del pedido " + auxOrdenPR.getNumPedido() + " ahora es: " + nuevoEstadoPedido);
+						cantComprada = cantComprada - auxOrdenPR.getCantRepo();
+					}
+				}	
+			}
+		}
+	}
+	
 	public int getNumOC() {
 		return numOC;
 	}
@@ -95,8 +124,6 @@ public class OrdenDeCompra {
 	public void setFecha(Date fecha) {
 		this.fecha = fecha;
 	}
-	
-	
 	
 	public void setOrdenesPedidoRepo(List<OrdenPedidoRepo> ordenesPedidoRepo) {
 		this.ordenesPedidoRepo = ordenesPedidoRepo;

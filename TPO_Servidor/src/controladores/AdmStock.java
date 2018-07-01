@@ -32,7 +32,7 @@ public class AdmStock {
 	}
 	
 	// Devuelve el Stock para un codigo de ubicacion dado
-	private Stock obtenerStock(String codUbicacion) {
+	public Stock obtenerStock(String codUbicacion) {
 		return StockDAO.getInstance().findByID(codUbicacion);
 	}
 	
@@ -64,6 +64,7 @@ public class AdmStock {
 	// Verifica la existencia de Stock de cada item del Pedido y actualiza el estado
 	// del stock de cada Item Articulo del Pedido. Si detecta que hay stock faltante,
 	// se genera una Orden de Pedido de Reposición
+	/*
 	public String reservarStockPedido(Pedido pedido) {
 		String estadoPedido = "COMPLETO";
 		Collection<ArticuloEnStock> artEnStock;
@@ -122,7 +123,8 @@ public class AdmStock {
 		}
 		return estadoPedido;
 	}
-
+	*/
+	
 	// Localiza los Articulos En Stock que se deben considerar para preparar el Pedido
 	public Collection<ArticuloEnStock> localizarStockArticulo(Articulo articulo, int cantidad) {
 		// Coleccion para almacenar la seleccion de Articulos En Stock que se necesitan para cumplir este Item del Pedido
