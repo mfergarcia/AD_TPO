@@ -42,8 +42,10 @@ public class CtaCte {
 	public CtaCte(CtaCteEntity cce) {
 		this.setLimiteCredito(cce.getLimiteCredito());
 		this.setId(cce.getIdCtaCte());
-		cargarListF(cce.getFe());
-		cargarListP(cce.getPe());
+		if(cce.getFe()!=null)
+			cargarListF(cce.getFe());
+		if(cce.getPe()!=null)
+			cargarListP(cce.getPe());
 	}
 	
 	private void cargarListF(Collection<FacturaEntity> fe){

@@ -63,7 +63,7 @@ public class ClienteEntity {
 		this.setTipoFactura(cliente.getTipoFactura());
 		this.setDireccionFacturacion(new DireccionEntity(cliente.getDireccionFacturacion()));
 		this.setEstado(cliente.getEstado());
-		//this.setTipo(cliente.getTipo());
+		this.setTipo(cliente.getTipo());
 	}
 	public Integer getIdCliente() {
 		return idCliente;
