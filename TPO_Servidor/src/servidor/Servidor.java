@@ -1,4 +1,4 @@
-//PENDIENTE: Revisar si falta algo o solo debe publicar el objeto remoto
+
 package servidor;
 
 import java.rmi.RemoteException;

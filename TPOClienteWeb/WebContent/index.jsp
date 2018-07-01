@@ -11,6 +11,14 @@
 	
 	<br></br>
 	
+	<a href="ControladorWeb?action=obtenerPedidosCompletos" target="_self">Lista de Pedidos Completos Prueba</a> 
+	
+	<br></br>
+
+	<a href="ControladorWeb?action=obtenerPedidosPendDepo" target="_self">Lista de Pedidos Pendientes de Depósito</a> 
+	
+	<br></br>
+	
 	<a href="ControladorWeb?action=CrearPedido" target="_self">CrearPedido</a>
 	
 	<br></br>

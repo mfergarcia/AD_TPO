@@ -13,6 +13,7 @@ import javax.servlet.http.HttpSession;
 
 import delegados.SistemaBD;
 import dto.ArticuloDTO;
+import dto.CtaCteDTO;
 import dto.DireccionDTO;
 import dto.ItemArticuloDTO;
 import dto.PedidoDTO;
@@ -43,7 +44,7 @@ public class ControladorWeb extends HttpServlet {
             else if("CrearPedido".equals(action)) {
             	PedidoDTO p= new PedidoDTO();
             	session.setAttribute("pedido", p );
-            	jspPage= "/articulosCatalogo.jsp";
+            	jspPage= "/generarPedido.jsp";
         	}
             
             else if("ElegirArticulo".equals(action)) {
@@ -54,10 +55,12 @@ public class ControladorWeb extends HttpServlet {
             	i.setCant(Integer.parseInt(request.getParameter("Cantidad")));
             	p.agregarItem(i);
             	session.setAttribute("pedido", p );
-            	jspPage= "/articulosCatalogo.jsp";
+            	jspPage= "/generarPedido.jsp";
            	}
             else if("CargarUbicacion".equals(action))
             	jspPage="/cargarUbicacionPedido.jsp";
+            
+            
             else if("CompletarPedido".equals(action)) {
             	PedidoDTO p= (PedidoDTO) session.getAttribute("pedido");
             	
@@ -71,7 +74,79 @@ public class ControladorWeb extends HttpServlet {
             	p.setDirEntrega(dirEntrega);
             	bd.generarPedido(p);
             	jspPage= "/index.jsp";
-           	}
+           	}else if ("obtenerPedidosAConfirmar".equals(action)){
+           		
+            	ArrayList<PedidoDTO> pedidosAConfirmar = (ArrayList<PedidoDTO>)bd.obtenerPedidosAConfirmar();
+           		request.setAttribute("pedidosAConfirmar", pedidosAConfirmar);
+           		jspPage = "/listarPedidosAConfirmar.jsp";
+            }
+            
+            else if ("obtenerCtaCte".equals(action))
+            {
+            	String idCliente = request.getParameter("idCliente");
+            	String numPedido = request.getParameter("numPedido");
+            	int intIdCliente = Integer.parseInt(idCliente);
+            	CtaCteDTO ctaCte= bd.obtenerCtaCte(intIdCliente);
+            	request.setAttribute("ctaCte", ctaCte);
+            	request.setAttribute("idClienteCtaCte", idCliente);
+            	request.setAttribute("numPedido", numPedido);
+            	jspPage = "/obtenerCtaCte.jsp";
+            }
+
+            else if ("aprobarPedido".equals(action))
+            {
+            	String numPedido = request.getParameter("numPedido");
+            	int intNumPedido = Integer.parseInt(numPedido);
+            	String nuevoEstado= bd.aprobarPedido(intNumPedido);
+            	request.setAttribute("nuevoEstado", nuevoEstado);
+            	request.setAttribute("numPedido", numPedido);
+            	jspPage = "/resultadoAvancePedido.jsp";
+            }
+
+            else if ("ingresarMotivoRechazo".equals(action))
+            {
+            	String numPedido = request.getParameter("numPedido");
+            	request.setAttribute("numPedidoARechazar", numPedido);
+            	jspPage = "/ingresarMotivoRechazoPedido.jsp";
+            }
+
+            else if ("rechazarPedido".equals(action))
+            {
+            	String numPedido = request.getParameter("numPedidoARechazar");
+            	String motivoRechazo = request.getParameter("motivo");
+            	int intNumPedido = Integer.parseInt(numPedido);
+            	String nuevoEstado = bd.rechazarPedido(intNumPedido, motivoRechazo);
+            	request.setAttribute("numPedido", numPedido);
+              	request.setAttribute("nuevoEstado", nuevoEstado);
+            	jspPage = "/resultadoAvancePedido.jsp";
+            }
+
+            else if ("obtenerPedidosCompletos".equals(action))
+            {
+            	ArrayList<PedidoDTO> pedidosCompletos = (ArrayList<PedidoDTO>)bd.obtenerPedidosCompletos();
+           		System.out.println("entre en obtener PEdidos Completos");
+            	request.setAttribute("pedidosCompletos", pedidosCompletos);
+           		jspPage = "/listarPedidosCompletos.jsp";
+            }
+
+            else if ("solicitarPedido".equals(action))
+            {
+            	String numPedido = request.getParameter("numPedido");
+            	System.out.println("Entre a solicitar Pedido para Pedido: " + numPedido);
+            	int intNumPedido = Integer.parseInt(numPedido);
+            	String nuevoEstado= bd.solicitarPedido(intNumPedido);
+            	request.setAttribute("nuevoEstado", nuevoEstado);
+            	request.setAttribute("numPedido", numPedido);
+            	jspPage = "/resultadoAvancePedido.jsp";
+            }
+            
+            
+            else if ("obtenerPedidosPendDepo".equals(action))
+            {
+            	ArrayList<PedidoDTO> pedidosPendDepo = (ArrayList<PedidoDTO>)bd.obtenerPedidosPendDeposito();
+           		request.setAttribute("pedidosPendDepo", pedidosPendDepo);
+           		jspPage = "/listarPedidosPendDepo.jsp";
+            }
             
             else if ("obtenerPedidosAConfirmar".equals(action))
             {
@@ -79,6 +154,7 @@ public class ControladorWeb extends HttpServlet {
             	System.out.println("La cantidad de elementos son: " + pedidosAConfirmar.size());
             	request.setAttribute("pedidosAConfirmar", pedidosAConfirmar);
             	jspPage = "/aprobarPedido.jsp";
+            	
             }else if("ObtenerPedidosPorCliente".equals(action)) {
             	//FALTA INSTANCIA DONDE INICIE SESION COMO CLIENTE Y LLEGUE ACÁ CON UNA ID
             	//Actualmente el metodo se llama por index.jsp, deberia estar en el menu de un cliente
