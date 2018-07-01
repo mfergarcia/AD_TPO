@@ -32,7 +32,7 @@ public class OrdenPedidoRepoEntity {
 	public OrdenPedidoRepoEntity(OrdenPedidoRepo opr) {
 		this.setArticulo(new ArticuloEntity(opr.getArticulo()));
 		this.setCantRepo(opr.getCantRepo());
-		this.setFechaGeneracion(this.getFechaGeneracion());
+		this.setFechaGeneracion(opr.getFechaGeneracion());
 		this.setEstado(opr.getEstado());
 		this.setNumOrdenPR(opr.getNumOrdenPR());
 		this.setNumPedido(opr.getNumPedido());
