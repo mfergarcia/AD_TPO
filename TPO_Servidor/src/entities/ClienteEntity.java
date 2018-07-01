@@ -21,9 +21,8 @@ import negocio.Cliente;
 import negocio.Direccion;
 
 @Entity
-@MappedSuperclass
 @Inheritance(strategy =InheritanceType.SINGLE_TABLE)
-@DiscriminatorColumn(name="tipo", discriminatorType= DiscriminatorType.CHAR)
+@DiscriminatorColumn(name="tCliente", discriminatorType= DiscriminatorType.CHAR)
 @DiscriminatorValue("C")
 @Table(name="Clientes")
 public class ClienteEntity {
@@ -64,7 +63,7 @@ public class ClienteEntity {
 		this.setTipoFactura(cliente.getTipoFactura());
 		this.setDireccionFacturacion(new DireccionEntity(cliente.getDireccionFacturacion()));
 		this.setEstado(cliente.getEstado());
-		this.setTipo(cliente.getTipo());
+		//this.setTipo(cliente.getTipo());
 	}
 	public Integer getIdCliente() {
 		return idCliente;

@@ -14,7 +14,6 @@ import negocio.Direccion;
 
 @Entity
 @DiscriminatorValue("P")
-@Table(name="Clientes")
 public class ClientePersonaEntity extends ClienteEntity{
 	private String dni;
 	private String apellido;
