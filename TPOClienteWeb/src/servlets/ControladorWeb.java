@@ -24,12 +24,13 @@ public class ControladorWeb extends HttpServlet {
 
 	private static final long serialVersionUID = 1087702007634924546L;
 	
-    protected void doPost(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException 
-    {
+	protected void doPost(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException 
+	{
+    	String jspPage;
     	try {
     		SistemaBD bd= new SistemaBD();
     		String action = request.getParameter("action");
-            String jspPage = "/index.jsp";
+            jspPage = "/index.jsp";
             HttpSession session = request.getSession();
             if ((action == null) || (action.length() < 1))
             {
@@ -74,7 +75,9 @@ public class ControladorWeb extends HttpServlet {
             	p.setDirEntrega(dirEntrega);
             	bd.generarPedido(p);
             	jspPage= "/index.jsp";
-           	}else if ("obtenerPedidosAConfirmar".equals(action)){
+           	}
+            
+            else if ("obtenerPedidosAConfirmar".equals(action)){
            		
             	ArrayList<PedidoDTO> pedidosAConfirmar = (ArrayList<PedidoDTO>)bd.obtenerPedidosAConfirmar();
            		request.setAttribute("pedidosAConfirmar", pedidosAConfirmar);
@@ -124,7 +127,6 @@ public class ControladorWeb extends HttpServlet {
             else if ("obtenerPedidosCompletos".equals(action))
             {
             	ArrayList<PedidoDTO> pedidosCompletos = (ArrayList<PedidoDTO>)bd.obtenerPedidosCompletos();
-           		System.out.println("entre en obtener PEdidos Completos");
             	request.setAttribute("pedidosCompletos", pedidosCompletos);
            		jspPage = "/listarPedidosCompletos.jsp";
             }
@@ -140,7 +142,6 @@ public class ControladorWeb extends HttpServlet {
             	jspPage = "/resultadoAvancePedido.jsp";
             }
             
-            
             else if ("obtenerPedidosPendDepo".equals(action))
             {
             	ArrayList<PedidoDTO> pedidosPendDepo = (ArrayList<PedidoDTO>)bd.obtenerPedidosPendDeposito();
@@ -155,7 +156,9 @@ public class ControladorWeb extends HttpServlet {
             	request.setAttribute("pedidosAConfirmar", pedidosAConfirmar);
             	jspPage = "/aprobarPedido.jsp";
             	
-            }else if("ObtenerPedidosPorCliente".equals(action)) {
+            }
+            
+            else if("ObtenerPedidosPorCliente".equals(action)) {
             	//FALTA INSTANCIA DONDE INICIE SESION COMO CLIENTE Y LLEGUE ACÁ CON UNA ID
             	//Actualmente el metodo se llama por index.jsp, deberia estar en el menu de un cliente
             	Collection<PedidoDTO> lp= bd.obtenerPedidosPorCliente(Integer.parseInt(request.getParameter("idCliente")));
@@ -166,27 +169,33 @@ public class ControladorWeb extends HttpServlet {
             
             dispatch(jspPage, request, response);
     		
-    		} catch (ExcepcionComunicacion e) {
+    	} catch (ExcepcionComunicacion e) {
     			System.out.println(e.getMensaje());
-    		} catch (ExcepcionSistema es) {
-    			System.out.println(es.getMensaje());
-    		}
-        }
+     		request.setAttribute("mensaje", e.getMensaje());
+     		jspPage = "/mostrarExcepcion.jsp";
+     		dispatch(jspPage, request, response);
+ 		} catch (ExcepcionSistema es) {
+			System.out.println(es.getMensaje());
+     		request.setAttribute("mensaje", es.getMensaje());
+     		jspPage = "/mostrarExcepcion.jsp";
+     		dispatch(jspPage, request, response);
+		}
+	}
    
-        protected void dispatch(String jsp, HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException
-        {
-            if (jsp != null)
-            {
-            	/*Envía el control al JSP que pasamos como parámetro, y con los 
-            	 * request / response cargados con los parámetros */
-                RequestDispatcher rd = request.getRequestDispatcher(jsp);
-                rd.forward(request, response);
-            }
-        }
+	protected void dispatch(String jsp, HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException
+	{
+    	 if (jsp != null)
+    	 {
+    		 /*Envía el control al JSP que pasamos como parámetro, y con los 
+             * request / response cargados con los parámetros */
+    		 RequestDispatcher rd = request.getRequestDispatcher(jsp);
+    		 rd.forward(request, response);
+    	 }
+	}
 
-        protected void doGet(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException
-        {
-            doPost(request, response);
-           
-        }
+	protected void doGet(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException
+	{
+		doPost(request, response);
+	}
+
 }
