@@ -140,16 +140,8 @@ public class AdmPedidos {
 	// La preparaación del Pedido devuelve la colección de Articulos En Stock que satisfacen
 	// el Pedido. Los Articulos En Stock contienen las ubicaciones de los mismos
 	public Collection<ArticuloEnStock> prepararPedido(int numPedido) {
-		/* Collection<ArticuloEnStock> artEnStock = new ArrayList<ArticuloEnStock>();*/
 		Pedido pedido = this.obtenerPedido(numPedido);
 		if (pedido!= null) {
-			/*
-			ItemArticulo aux;
-			for (Iterator<ItemArticulo> i = pedido.getArticulos().iterator(); i.hasNext(); ) {
-				aux = i.next();
-				artEnStock.addAll(AdmStock.getInstancia().localizarStockArticulo(aux.getArticulo(), aux.getCant()));
-			}
-			*/
 			return pedido.localizarStockArticulos();
 		}
 		return null;

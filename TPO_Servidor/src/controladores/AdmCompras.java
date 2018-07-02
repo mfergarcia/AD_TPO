@@ -72,7 +72,6 @@ public class AdmCompras {
 		return this.buscarOrdenesPRPorEstado("PENDIENTE");
 	}
 	
-	// @TODOS: Ver si este proceso se puede hacer dentro de OrdenDeCompra
 	// Genera una nueva OrdenDeCompra con sus items y le asocia las OrdenPedidoRepo que
 	// se pueden cubrir con la cantidad comprada
 	public OrdenDeCompra generarOrdenCompra(String proveedor, Collection<ArticuloDTO> articulos) {
@@ -85,27 +84,6 @@ public class AdmCompras {
 			// Crea el item de la OrdenDeCompra, asignando la cantidad fija de compra determinada en el Articulo
 			ItemOC item = new ItemOC(art, art.getCantFijaCompra());
 			ordenDeCompra.agregarItem(item);
-			/*
-			// Verifica qué Ordenes de Pedido de Reposicion se pueden cumplir con esta Orden
-			// de Compra para este Artículo
-			Collection<OrdenPedidoRepo> ordenesPRPendientes = this.buscarOrdenesPRPendientePorArticulo(auxArtDTO.getCodigoBarras());
-			int cantCompra = art.getCantFijaCompra();
-			if (ordenesPRPendientes != null && !ordenesPRPendientes.isEmpty()) {
-				OrdenPedidoRepo auxOrdenPR;
-				Iterator<OrdenPedidoRepo> j = ordenesPRPendientes.iterator();
-				// Mientras quede cantidad de compra y Ordenes de Resposición Pendientes para el Artículo
-				while (cantCompra > 0 && j.hasNext()) {
-					auxOrdenPR = j.next();
-					if (cantCompra > auxOrdenPR.getCantRepo()) {
-						// Se puede cubrir la Orden de Pedido Repo
-						auxOrdenPR.setEstado("OC EN PROCESO");
-						auxOrdenPR.updateMe();
-						ordenDeCompra.agregarOrdenPedidoRepo(auxOrdenPR);
-						cantCompra = cantCompra - auxOrdenPR.getCantRepo();
-					}
-				}
-			}
-			*/
 		}
 		ordenDeCompra.saveMe();
 		return ordenDeCompra;
@@ -121,16 +99,6 @@ public class AdmCompras {
 	public String cumplirOrdenDeCompra(int numOC) {
 		OrdenDeCompra ordenDeCompra = this.obtenerOrdenDeCompra(numOC); 
 		if (ordenDeCompra != null) {
-			/*
-			OrdenPedidoRepo aux;
-			for (Iterator<OrdenPedidoRepo> i = ordenDeCompra.getOrdenesPedidoRepo().iterator(); i.hasNext(); ) {
-				aux = i.next();
-				aux.setEstado("CUMPLIDA");
-				aux.updateMe();
-				String nuevoEstadoPedido = AdmPedidos.getInstancia().aprobarPedido(aux.getNumPedido());
-				System.out.println("El estado del pedido " + aux.getNumPedido() + " ahora es: " + nuevoEstadoPedido);
-			}
-			*/
 			ordenDeCompra.cumplirOrdenesPedidoRepo();
 			ordenDeCompra.setEstado("CUMPLIDA");
 			ordenDeCompra.updateMe();
