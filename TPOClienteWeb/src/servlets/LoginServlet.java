@@ -228,7 +228,7 @@ public class LoginServlet extends HttpServlet
 				
 					
 					//session.setAttribute("datos3", ordenPRDTO);
-				}System.out.println("despues del for");
+				}
 				a--;
 				var= String.valueOf(a);
 				session.setAttribute("iterador",var);
