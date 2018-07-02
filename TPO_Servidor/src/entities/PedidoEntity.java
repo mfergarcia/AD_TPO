@@ -9,6 +9,7 @@ import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
 import javax.persistence.Entity;
+import javax.persistence.FetchType;
 import javax.persistence.JoinColumn;
 import javax.persistence.OneToMany;
 import javax.persistence.OneToOne;
@@ -27,17 +28,21 @@ public class PedidoEntity {
 	@OneToOne(cascade= CascadeType.ALL)
 	@JoinColumn(name="idCliente")
 	private ClienteEntity cliente;
+	
 	@OneToOne(cascade= CascadeType.ALL)
 	@JoinColumn(name="idDireccion")
 	private DireccionEntity dirEntrega;
 	private Date fechaGen;
 	private Date fechaEntrega;
+	
 	@OneToMany(cascade= CascadeType.ALL)
 	@JoinColumn(name="numPedido")
 	private List<ItemArticuloEntity> iae;
-	@OneToOne(cascade= CascadeType.ALL)
+	
+	@OneToOne(cascade= CascadeType.ALL, fetch= FetchType.LAZY)
 	@JoinColumn(name="idFactura")
 	private FacturaEntity factura;
+	
 	private String motivoRechazo;
 	private String estado;
 	private Date fechaRechazo;
@@ -48,20 +53,7 @@ public class PedidoEntity {
 	private Date fechaDespachado;
 	
 	public PedidoEntity(){}
-	/*
-	public PedidoEntity(Integer numPedido, ClienteEntity cliente, DireccionEntity dirEntrega, Date fechaEntrega, char tipoFactura, Integer numFactura, String motivoRechazo, String estado) {
-		super();
-		this.setNumPedido(numPedido);
-		this.setFechaGen((Date)Calendar.getInstance().getTime());
-		this.setCliente(cliente);
-		this.setDirEntrega(dirEntrega);
-		this.setFechaEntrega(fechaEntrega);
-		this.setTipoFactura(tipoFactura);
-		this.setNumFactura(numFactura);
-		this.setMotivoRechazo(motivoRechazo);
-		this.setEstado(estado);
-	}
-	*/
+	
 	public PedidoEntity(Pedido pedido) {
 		if(pedido.getNumPedido()>0)
 			this.setNumPedido(pedido.getNumPedido());
@@ -69,8 +61,6 @@ public class PedidoEntity {
 		this.setCliente(new ClienteEntity(pedido.getCliente()));
 		this.setDirEntrega(new DireccionEntity(pedido.getDirEntrega()));
 		this.setFechaEntrega(pedido.getFechaEntrega());
-		if (pedido.getFactura() != null)
-			this.setFactura(new FacturaEntity(pedido.getFactura()));
 		this.setMotivoRechazo(pedido.getMotivoRechazo());
 		this.setEstado(pedido.getEstado());
 		this.setFechaCompleto(pedido.getFechaCompleto());

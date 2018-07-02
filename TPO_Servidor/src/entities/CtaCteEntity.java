@@ -2,8 +2,11 @@ package entities;
 
 import java.util.ArrayList;
 import java.util.Collection;
+import java.util.List;
+
 import javax.persistence.CascadeType;
 import javax.persistence.Entity;
+import javax.persistence.FetchType;
 import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
@@ -21,13 +24,16 @@ public class CtaCteEntity {
 	@Id
 	@GeneratedValue(strategy=GenerationType.AUTO)
 	private Integer idCtaCte;
+	
 	private float limiteCredito;
-	@OneToMany(cascade= CascadeType.ALL)
+	
+	@OneToMany(cascade= CascadeType.ALL, fetch=FetchType.LAZY)
 	@JoinColumn(name= "idCtaCte")
-	private Collection<FacturaEntity> fe;
-	@OneToMany(cascade= CascadeType.ALL)
+	private List<FacturaEntity> fe;
+	
+	@OneToMany(cascade= CascadeType.ALL, fetch=FetchType.LAZY)
 	@JoinColumn(name= "idCtaCte")
-	private Collection<PagoEntity> pe; 
+	private List<PagoEntity> pe; 
 
 	public CtaCteEntity(float limiteCredito) {
 		this.limiteCredito=limiteCredito;
@@ -46,14 +52,14 @@ public class CtaCteEntity {
 	}
 	
 	private void cargarListFe(Collection<Factura> fe){
-		Collection<FacturaEntity> res= new ArrayList<FacturaEntity>();
+		List<FacturaEntity> res= new ArrayList<FacturaEntity>();
 		for(Factura f: fe)
 			res.add(new FacturaEntity(f));
 		this.setFe(res);
 	}
 	
 	private void cargarListPe(Collection<Pago> pe){
-		Collection<PagoEntity> res= new ArrayList<PagoEntity>();
+		List<PagoEntity> res= new ArrayList<PagoEntity>();
 		for(Pago p: pe)
 			res.add(new PagoEntity(p));
 		this.setPe(res);
@@ -78,14 +84,14 @@ public class CtaCteEntity {
 		return fe;
 	}
 
-	public void setFe(Collection<FacturaEntity> fe) {
+	public void setFe(List<FacturaEntity> fe) {
 		this.fe = fe;
 	}
 	public Collection<PagoEntity> getPe() {
 		return pe;
 	}
 
-	public void setPe(Collection<PagoEntity> pe) {
+	public void setPe(List<PagoEntity> pe) {
 		this.pe = pe;
 	}
 

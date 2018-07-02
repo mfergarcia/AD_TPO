@@ -35,12 +35,10 @@ public class FacturaEntity {
 	
 	private float montoAdeudado;
 	
-	@OneToOne(cascade= CascadeType.ALL)
-	@JoinColumn(name="numPedido")
+	@OneToOne(mappedBy= "factura" )
 	private PedidoEntity pe;
 	
-	@OneToOne(cascade= CascadeType.ALL)
-	@JoinColumn(name="idRemito")
+	@OneToOne(mappedBy= "factura")
 	private RemitoEntity re;
 	
 	public FacturaEntity(int idFactura, char tipoFactura, String estadoFactura,
