@@ -2,6 +2,8 @@ package entities;
 
 
 import java.util.Date;
+
+import javax.persistence.CascadeType;
 import javax.persistence.Column;
 import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
@@ -24,7 +26,7 @@ public class RemitoEntity {
 	@Column (name = "fecha")
 	private Date fecha;
 	
-	@OneToOne()
+	@OneToOne(cascade= CascadeType.ALL)
 	@JoinColumn(name="idFactura")
 	private FacturaEntity factura;
 	
