@@ -43,17 +43,23 @@ private static final long serialVersionUID = 1087702007634924546L;
             {
                 jspPage = "/start.jsp";
             }else if("Enviar".equals(action)) {
-            	Integer Cliente=bd.loginCliente(request.getParameter("usuario"), request.getParameter("password"));
-            	if(Cliente!= null || Cliente!= 0) {
-            		request.setAttribute("cliente", Cliente);
-            		session.setAttribute("cliente", Cliente);
-            		jspPage = "/menuUsuario.jsp";
-            	}else 
-            		jspPage = "/start.jsp";
-            
-            }else if("Cancelar".equals(action)) {
-            	jspPage= "/start.jsp";
-            }
+            	
+            	if(request.getParameter("Usuario").equals("Cliente")) {
+            		Integer Cliente=bd.loginCliente(request.getParameter("usuario"), request.getParameter("password"));
+            		if(Cliente!= null || Cliente!= 0) {
+            			request.setAttribute("cliente", Cliente);
+            			session.setAttribute("cliente", Cliente);
+            			jspPage = "/menuUsuario.jsp";
+            		}else 
+            	
+            			jspPage = "/start.jsp";
+            		
+            	}else if(request.getParameter("Usuario").equals("Empleado")) {
+            		String menu= bd.loginEmpleado(request.getParameter("usuario"), request.getParameter("password"));
+            		jspPage= menu;
+            	}
+            }else if("Cancelar".equals(action))
+            	jspPage= "/start.jsp";            
             else if("CompletarPedido".equals(action)) {
             	PedidoDTO p= (PedidoDTO) session.getAttribute("pedido");
             	int Cliente= (Integer) session.getAttribute("cliente");

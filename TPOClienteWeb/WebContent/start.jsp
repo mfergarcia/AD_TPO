@@ -76,20 +76,19 @@ function valideDatos(){
       <td><input type="password" name="password" id="password"></td>
     </tr>
     <tr>
-<!--
+
       <td>Tipo: </td>
   
       <td colspan="2" align="center">
       <label>
-      	<select>
-      	<option>Empresa</option>
-      	<option>Consumidor Final</option>
+      	<select name="Usuario">
+      	<option value="Cliente">Cliente</option>
+      	<option value="Empleado">Empleado</option>
       	</select>
       	</label>
       	</td>
    
     </tr>
--->
     <tr>
       <td colspan="2" align="center"><input type="submit" name="action" value="Enviar"></td>
 	 
