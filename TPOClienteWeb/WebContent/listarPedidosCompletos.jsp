@@ -14,7 +14,7 @@
 <body>
 <table cellspacing="3" cellpadding="3" border="1" width="500">
 	<tr>
-		<td colspan="4"><b>Lista de Pedidos Completos - Prueba</b></td>
+		<td colspan="4"><b>Lista de Pedidos Completos</b></td>
 	</tr>
 	<tr>
 		<td><b>Numero de Pedido</b></td>

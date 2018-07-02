@@ -1,7 +1,11 @@
 package servlets;
 import java.io.IOException;
+import java.text.ParseException;
+import java.text.SimpleDateFormat;
 import java.util.ArrayList;
+import java.util.Calendar;
 import java.util.Collection;
+import java.util.Date;
 import java.util.Iterator;
 import java.util.List;
 
@@ -18,6 +22,8 @@ import dto.ArticuloEnStockDTO;
 import dto.CtaCteDTO;
 import dto.DireccionDTO;
 import dto.ItemArticuloDTO;
+import dto.ItemOCDTO;
+import dto.OrdenDeCompraDTO;
 import dto.PedidoDTO;
 import excepciones.ExcepcionComunicacion;
 import excepciones.ExcepcionSistema;
@@ -63,23 +69,7 @@ public class ControladorWeb extends HttpServlet {
 
             else if("CargarUbicacion".equals(action))
             	jspPage="/cargarUbicacionPedido.jsp";
-            
-            
-            else if("CompletarPedido".equals(action)) {
-            	PedidoDTO p= (PedidoDTO) session.getAttribute("pedido");
-            	
-            	DireccionDTO dirEntrega = new DireccionDTO();
-            	dirEntrega.setCalle(request.getParameter("Calle"));
-            	dirEntrega.setCodigoPostal(request.getParameter("CodigoPostal"));
-            	dirEntrega.setLocalidad(request.getParameter("Localidad"));
-            	dirEntrega.setNumero(Integer.parseInt(request.getParameter("Numero")));
-            	
-            	
-            	p.setDirEntrega(dirEntrega);
-            	bd.generarPedido(p);
-            	jspPage= "/index.jsp";
-           	}
-            
+
             else if ("obtenerPedidosAConfirmar".equals(action)){
            		
             	ArrayList<PedidoDTO> pedidosAConfirmar = (ArrayList<PedidoDTO>)bd.obtenerPedidosAConfirmar();
@@ -192,16 +182,79 @@ public class ControladorWeb extends HttpServlet {
             	request.setAttribute("numPedido", numPedido);
             	jspPage = "/resultadoAvancePedido.jsp";
             }
-                        
-            else if("ObtenerPedidosPorCliente".equals(action)) {
-            	//FALTA INSTANCIA DONDE INICIE SESION COMO CLIENTE Y LLEGUE ACÁ CON UNA ID
-            	//Actualmente el metodo se llama por index.jsp, deberia estar en el menu de un cliente
-            	Collection<PedidoDTO> lp= bd.obtenerPedidosPorCliente(Integer.parseInt(request.getParameter("idCliente")));
-            	request.setAttribute("pedidos", lp);
-            	
-            	jspPage= "/cliente-verPedidos.jsp";
+
+            else if ("procesarOrdenDeCompra".equals(action))
+            {
+            	jspPage = "/procesarOrdenDeCompra.jsp";
             }
+
             
+            else if ("obtenerDetalleOrdenDeCompra".equals(action))
+            {
+            	String numOC = request.getParameter("numOC");
+            	int intNumOC = Integer.parseInt(numOC);
+            	OrdenDeCompraDTO ordenDeCompra = (OrdenDeCompraDTO)bd.obtenerOrdenDeCompra(intNumOC);
+            	request.setAttribute("ordenDeCompra", ordenDeCompra);
+            	jspPage = "/obtenerDetalleOrdenDeCompra.jsp";
+            }
+
+            else if ("ingresarArticulosEnStock".equals(action))
+            {
+            	String numOC = request.getParameter("numOC");
+               	String primeraCarga = request.getParameter("primeraCarga");
+               	int intPrimeraCarga = Integer.parseInt(primeraCarga);
+               	if (intPrimeraCarga == 0) {
+                   	int intNumOC = Integer.parseInt(numOC);
+               		OrdenDeCompraDTO ordenDeCompra = (OrdenDeCompraDTO)bd.obtenerOrdenDeCompra(intNumOC);
+               		ItemOCDTO auxItemOC;
+               		ArrayList<ItemOCDTO> itemsOC = new ArrayList<ItemOCDTO>();
+               		for (Iterator<ItemOCDTO> i = ordenDeCompra.getItems().iterator(); i.hasNext(); ) {
+               			auxItemOC = i.next();
+               			itemsOC.add(auxItemOC);
+               		}	
+               		session.setAttribute("itemsOC", itemsOC);
+               	}	
+               	request.setAttribute("numOC", numOC);
+               	jspPage = "/ingresarArticuloEnStock.jsp";                	
+            }
+
+            else if ("cargarArticulosEnStock".equals(action))
+            {
+            	String numOC = request.getParameter("numOC");
+               	int intNumOC = Integer.parseInt(numOC);
+               	ArticuloEnStockDTO artEnStock = new ArticuloEnStockDTO();
+               	String codBarras = (String)request.getParameter("codBarras");
+            	String cantidad = (String)request.getParameter("cantidad");
+            	String lote = (String)request.getParameter("lote");
+            	String fechaVencimiento = (String)request.getParameter("fechaVencimiento");
+            	String precioCompra = (String)request.getParameter("precioCompra");
+            	System.out.println("Parametros recibidos: " + codBarras + " " + lote);
+               	artEnStock.setCodigoBarras(codBarras);
+               	artEnStock.setCantidad(Integer.parseInt(cantidad));
+               	artEnStock.setLote(lote);
+               	SimpleDateFormat sdfFechaVencimiento = new SimpleDateFormat("yyyy-MM-dd"); 
+               	try {
+               		artEnStock.setFechaVencimiento(sdfFechaVencimiento.parse(fechaVencimiento)); 
+               	} catch (ParseException ex) {
+               		artEnStock.setFechaVencimiento(Calendar.getInstance().getTime());
+               	}
+               	artEnStock.setPrecioCompra(Float.parseFloat(precioCompra));
+               	ArrayList<ArticuloEnStockDTO> ubicacionesArtEnStock = (ArrayList<ArticuloEnStockDTO>)bd.cargarArticuloEnStock(intNumOC, artEnStock);
+               	request.setAttribute("ubicaciones", ubicacionesArtEnStock);
+               	request.setAttribute("numOC", numOC);
+               	jspPage = "/mostrarUbicacionesArtEnStock.jsp";                	
+            }
+
+            else if ("cumplirOrdenDeCompra".equals(action))
+            {
+            	String numOC = request.getParameter("numOC");
+            	int intNumOC = Integer.parseInt(numOC);
+               	String nuevoEstado = (String)bd.cumplirOrdenDeCompra(intNumOC);
+               	request.setAttribute("numOC", numOC);
+               	request.setAttribute("nuevoEstado", nuevoEstado);
+               	jspPage = "/resultadoAvanceOC.jsp";                	
+            }
+                        
             dispatch(jspPage, request, response);
     		
     	} catch (ExcepcionComunicacion e) {

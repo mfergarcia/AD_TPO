@@ -1,6 +1,7 @@
 
 package negocio;
 
+import java.util.Calendar;
 import java.util.Date;
 
 import dao.ArticuloEnStockDAO;
@@ -42,7 +43,7 @@ public class ArticuloEnStock {
 		this.setCantidad(cantidad);
 		this.setLote(artEnStockDTO.getLote());
 		this.setFechaVencimiento(artEnStockDTO.getFechaVencimiento());
-		this.setFechaCompra(artEnStockDTO.getFechaCompra());
+		this.setFechaCompra(Calendar.getInstance().getTime());
 		this.setProveedor(artEnStockDTO.getProveedor());
 		this.setPrecioCompra(artEnStockDTO.getPrecioCompra());
 	}

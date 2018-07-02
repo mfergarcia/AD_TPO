@@ -7,6 +7,15 @@
 <title>Menu Empleados</title>
 </head>
 <body>
+	
+	<a href="ControladorWeb?action=CrearPedido" target="_self">CrearPedido</a>
+	
+	<br></br>
+	
+	<a href="ControladorWeb?action=ObtenerPedidosPorCliente" target="_self">Lista de Pedidos por Cliente</a> 
+
+	<br></br>
+
 	<a href="ControladorWeb?action=obtenerPedidosAConfirmar" target="_self">Lista de Pedidos a Confirmar</a> 
 	
 	<br></br>
@@ -18,11 +27,10 @@
 	<a href="ControladorWeb?action=obtenerPedidosPendDepo" target="_self">Lista de Pedidos Pendientes de Depósito</a> 
 	
 	<br></br>
-	
-	<a href="ControladorWeb?action=CrearPedido" target="_self">CrearPedido</a>
+
+	<a href="ControladorWeb?action=procesarOrdenDeCompra" target="_self">Procesar Orden De Compra</a> 
 	
 	<br></br>
-	
-	<a href="ControladorWeb?action=ObtenerPedidosPorCliente" target="_self">Lista de Pedidos por Cliente</a> 
+
 </body>
 </html>
