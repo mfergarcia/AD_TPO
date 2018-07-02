@@ -28,7 +28,7 @@
 	
 	<br></br>
 
-	<a href="ControladorWeb?action=procesarOrdenDeCompra" target="_self">Procesar Orden De Compra</a> 
+	<a href="ControladorWeb?action=procesarOrdenDeCompra" target="_self">Procesar Orden De Compra Pendiente</a> 
 	
 	<br></br>
 
