@@ -277,7 +277,44 @@ public class LoginServlet extends HttpServlet
 					salida.println("Max Ubi: "+i.getCantMaxUbicacion()+"<br/>");
 					salida.println("Presentacion: "+i.getPresentacion()+"<br/>");
 				}*/
-			}
+			}else if("SolPedidos".equals(action)) 
+			{	
+				String numPedido = request.getParameter("numPedido");
+        		//salida.println("num Pedido: " + numPedido+"<br/>");
+        		int np= Integer.parseInt(numPedido);
+        		jspPage = "/solicitarPedidoMostrar.jsp";
+        		
+        		String var =bd.solicitarPedido(np);
+        		session.setAttribute("estado", var);
+			
+        	}else if("BuscarXiD".equals(action)) 
+			{
+				String numCli = request.getParameter("idCliente");
+    			int nc= Integer.parseInt(numCli);
+									
+				Collection<PedidoDTO> pedidoId = new ArrayList<PedidoDTO>();
+				System.out.println("antes de entrar al bd <br/>");
+				pedidoId= bd.obtenerPedidosPorCliente(nc);
+				
+				System.out.println("Cantidad Reposicion: <br/>");
+				
+				for (PedidoDTO i : pedidoId ) {
+					System.out.println("Cantidad Reposicion: "+i.getNumPedido()+"<br/>");
+				}System.out.println("despues del for");
+				
+				System.out.println("PENDIENTES chau <br/>");
+			
+    	}if("Despachar".equals(action)) {
+    		
+				Collection<PedidoDTO> pedidoD = new ArrayList<PedidoDTO>();
+				
+				pedidoD=bd.obtenerPedidosADespachar();
+				
+				for (PedidoDTO i:pedidoD ) {
+						salida.println("Cantidad Reposicion: "+i.getNumPedido()+"<br/>");
+					}System.out.println("despues del for");
+		
+    	}
             
             
             dispatch(jspPage, request, response);
