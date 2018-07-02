@@ -124,7 +124,7 @@ public class AdmStock {
 		}
 	}
 	
-	public void RegistrarMovStockVenta(Pedido pedido) {
+	public void registrarMovStockVenta(Pedido pedido) {
 		MovStockVenta movSV = new MovStockVenta('B',Calendar.getInstance().getTime(), 0,pedido );
 		movSV.saveMe();
 	}
