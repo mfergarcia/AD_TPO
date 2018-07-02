@@ -78,6 +78,64 @@ private static final long serialVersionUID = 1087702007634924546L;
             	Collection<PedidoDTO> lp= bd.obtenerPedidosPorCliente(Cliente);
             	request.setAttribute("pedidos", lp);
             	jspPage= "/cliente-verPedidos.jsp";
+            	
+            }else if("CrearArticulo".equals(action))
+            	jspPage= "/altaArticulo.jsp";
+            
+            else if ("ArticuloaModificar".equals(action))
+            	jspPage= "/obtenerArticuloMod.jsp";
+            
+            else if("ArticuloaEliminar".equals(action))
+            	jspPage= "/eliminarArticulo.jsp";
+            
+            else if("AltaArticulo".equals(action)) {
+            	ArticuloDTO art= new ArticuloDTO();
+            	art.setDescripcion(request.getParameter("Descripcion"));
+				art.setPresentacion(request.getParameter("Presentacion"));
+				art.setCodigoBarras(request.getParameter("codBarras"));
+				art.setCantFijaCompra(Integer.parseInt(request.getParameter("cantFijaCompra")));
+				art.setCantMaxUbicacion(Integer.parseInt(request.getParameter("cantMaxUbicacion")));
+				art.setPrecioVta(Float.parseFloat(request.getParameter("PrecioVenta")));
+				art.setTamaño(Integer.parseInt(request.getParameter("Tamaño")));
+				art.setUnidad(request.getParameter("Unidad"));
+				bd.altaArticulo(art);
+				
+				jspPage="/menuEmpAdm.jsp";
+            }else if("obtenerArticulo".equals(action))
+            {
+            	ArticuloDTO art= bd.obtenerArticulo(request.getParameter("codBarras"));
+            	session.setAttribute("articulo", art);
+            	
+            	jspPage="/modificarArticulo.jsp";
+            }else if("modificarArticulo".equals(action)) {
+            	
+            	ArticuloDTO art= (ArticuloDTO) session.getAttribute("articulo");
+				if(!request.getParameter("Descripcion").equals(""))
+					art.setDescripcion(request.getParameter("Descripcion"));
+				if(!request.getParameter("Presentacion").equals(""))
+					art.setPresentacion(request.getParameter("Presentacion"));
+				if(!request.getParameter("Tamaño").equals("")){
+					art.setTamaño(Integer.parseInt(request.getParameter("Tamaño")));
+				}
+				if(!request.getParameter("Unidad").equals("")) {
+					art.setUnidad(request.getParameter("Unidad"));
+				}
+				if(!request.getParameter("PrecioVenta").equals("")){
+					art.setPrecioVta(Float.parseFloat(request.getParameter("PrecioVenta")));
+				}
+				if(!request.getParameter("cantFijaCompra").equals("")){
+					art.setCantFijaCompra(Integer.parseInt(request.getParameter("cantFijaCompra")));
+				}
+				if(!request.getParameter("cantMaxUbicacion").equals(""))
+					art.setCantMaxUbicacion(Integer.parseInt(request.getParameter("cantMaxUbicacion")));
+				if(!request.getParameter("Estado").equals(""))
+					art.setEstado(request.getParameter("Estado").charAt(0));
+				bd.modificarArticulo(art);
+				jspPage= "/menuEmpAdm.jsp";
+				
+            }else if("eliminarArticulo".equals(action)) {
+            	bd.bajaArticulo(request.getParameter("codigoBarras"));
+            	jspPage= "/menuEmpAdm.jsp";
             }
             
             dispatch(jspPage, request, response);
