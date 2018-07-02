@@ -15,13 +15,9 @@ import javax.servlet.http.HttpServletResponse;
 import javax.servlet.http.HttpSession;
 
 import delegados.SistemaBD;
-import dto.ArticuloDTO;
 import dto.ClienteDTO;
 import dto.ClienteEmpresaDTO;
 import dto.ClientePersonaDTO;
-import dto.OrdenDeCompraDTO;
-import dto.OrdenPedidoRepoDTO;
-import dto.PedidoDTO;
 import excepciones.ExcepcionComunicacion;
 import excepciones.ExcepcionSistema;
 import interfaces.InterfazRemota;
@@ -308,7 +304,8 @@ public class LoginServlet extends HttpServlet
 				
 				System.out.println("PENDIENTES chau <br/>");
 			
-    	}if("Despachar".equals(action)) {
+    	}else if("Despachar".equals(action)) 
+    	{
     		
 				Collection<PedidoDTO> pedidoD = new ArrayList<PedidoDTO>();
 				
@@ -319,6 +316,106 @@ public class LoginServlet extends HttpServlet
 					}System.out.println("despues del for");
 		
     	}
+    	else if("AltaEmp".equals(action)) //alta cliente persona y cliente empresa
+    	{
+    		String idCliente = request.getParameter("idCliente");
+    		String nombre = request.getParameter("nombre");
+    		String apellido = request.getParameter("apellido");
+    		String cuit = request.getParameter("cuit");
+    		String especiales = request.getParameter("especiales");
+    		String tipo = request.getParameter("tipo");
+    		String dni = request.getParameter("dni");
+    		String rsocial = request.getParameter("rsocial");
+    		String estado = request.getParameter("estado");
+    		String factura = request.getParameter("factura");
+    		String calle = request.getParameter("calle");
+    		String numero = request.getParameter("numero");
+    		String cp = request.getParameter("cp");
+    		String localidad = request.getParameter("localidad");
+    		String lCredito = request.getParameter("limite");
+    		
+    		char type =tipo.charAt(0);
+    		char fact = factura.charAt(0);
+    		char est = estado.charAt(0);
+    		float lc = Float.parseFloat(lCredito);
+    		
+    		int num= Integer.parseInt(numero);
+    		jspPage = "/menuEmpAdm.jsp";
+    		
+			ClienteEmpresaDTO newEmp = new ClienteEmpresaDTO();
+			DireccionDTO dire= new DireccionDTO();
+			dire.setCalle(calle);
+			dire.setCodigoPostal(cp);
+			dire.setNumero(num);
+			dire.setLocalidad(localidad);
+			
+			newEmp.setCuit(cuit);
+			newEmp.setCondicionesEspeciales(especiales);
+			newEmp.setRazonSocial(rsocial);
+			newEmp.setEstado(est);
+			newEmp.setLimiteCredito(lc);
+			newEmp.setTipoFactura(fact);
+			newEmp.setDireccionFacturacion(dire);
+			
+			
+			
+			bd.altaClienteEmpresa(newEmp);
+			
+			session.setAttribute("nuevo", newEmp);
+    		
+    		
+    	}
+    	else if("AltaPersona".equals(action)) //alta cliente persona y cliente empresa
+    	{
+    		String idCliente = request.getParameter("idCliente");
+    		String nombre = request.getParameter("nombre");
+    		String apellido = request.getParameter("apellido");
+    		String cuit = request.getParameter("cuit");
+    		String especiales = request.getParameter("especiales");
+    		String tipo = request.getParameter("tipo");
+    		String dni = request.getParameter("dni");
+    		String rsocial = request.getParameter("rsocial");
+    		String estado = request.getParameter("estado");
+    		String factura = request.getParameter("factura");
+    		String calle = request.getParameter("calle");
+    		String numero = request.getParameter("numero");
+    		String cp = request.getParameter("cp");
+    		String localidad = request.getParameter("localidad");
+    		String lCredito = request.getParameter("limite");
+    		
+    		char type =tipo.charAt(0);
+    		char fact = factura.charAt(0);
+    		char est = estado.charAt(0);
+    		float lc = Float.parseFloat(lCredito);
+    		
+    		int num= Integer.parseInt(numero);
+    		jspPage = "/menuEmpAdm.jsp";
+		
+    		ClientePersonaDTO newCli = new ClientePersonaDTO();
+			DireccionDTO dire= new DireccionDTO();
+			
+			dire.setCalle(calle);
+			dire.setCodigoPostal(cp);
+			dire.setNumero(num);
+			dire.setLocalidad(localidad);
+		    			
+			newCli.setLimiteCredito(lc);
+			newCli.setApellido(apellido);
+			newCli.setNombre(nombre);
+			newCli.setDni(dni);
+			newCli.setCondicionesEspeciales(especiales);
+			newCli.setTipoFactura(fact);
+			newCli.setEstado(est);
+			newCli.setDireccionFacturacion(dire);
+			        			
+			bd.altaClientePersona(newCli);
+			
+			session.setAttribute("nuevo", newCli);
+			salida.println("Apellido "+newCli.getApellido());
+		}
+    		
+    		
+	}
             
             
             dispatch(jspPage, request, response);
@@ -327,6 +424,9 @@ public class LoginServlet extends HttpServlet
 			System.out.println(e.getMensaje());
 		} catch (ExcepcionSistema es) {
 			System.out.println(es.getMensaje());
+		} catch (NotBoundException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
 		}
 		
 		
