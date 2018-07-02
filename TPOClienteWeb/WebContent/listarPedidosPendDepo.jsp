@@ -43,7 +43,7 @@
 		<td><%=aux.getIdCliente()%></td>
 		<td><%=direccion%></td>
 		<td>
-			<a href="ControladorWeb?action=obtenerCtaCte&numPedido=<%=numPedido%>">Ver Articulos</a>
+			<a href="ControladorWeb?action=obtenerItemsPedidoPendDepo&numPedido=<%=numPedido%>">Ver Articulos</a>
 		</td>
 	</tr>
 <% 	} %>

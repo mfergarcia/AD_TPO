@@ -39,6 +39,7 @@
 	 %>
 	<a href="ControladorWeb?action=aprobarPedido&numPedido=<%=numPedido%>">Aprobar Pedido</a>
 	<b>                             </b>
+	<b>                             </b>
 	<a href="ControladorWeb?action=ingresarMotivoRechazo&numPedido=<%=numPedido%>">Rechazar Pedido</a>
 </table>
 </p>

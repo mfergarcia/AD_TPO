@@ -2,6 +2,7 @@ package servlets;
 import java.io.IOException;
 import java.util.ArrayList;
 import java.util.Collection;
+import java.util.Iterator;
 import java.util.List;
 
 import javax.servlet.RequestDispatcher;
@@ -83,7 +84,7 @@ public class ControladorWeb extends HttpServlet {
            		request.setAttribute("pedidosAConfirmar", pedidosAConfirmar);
            		jspPage = "/listarPedidosAConfirmar.jsp";
             }
-            
+
             else if ("obtenerCtaCte".equals(action))
             {
             	String idCliente = request.getParameter("idCliente");
@@ -149,15 +150,25 @@ public class ControladorWeb extends HttpServlet {
            		jspPage = "/listarPedidosPendDepo.jsp";
             }
             
-            else if ("obtenerPedidosAConfirmar".equals(action))
+            else if ("obtenerItemsPedidoPendDepo".equals(action))
             {
-            	ArrayList<PedidoDTO> pedidosAConfirmar = (ArrayList<PedidoDTO>)bd.obtenerPedidosAConfirmar();
-            	System.out.println("La cantidad de elementos son: " + pedidosAConfirmar.size());
-            	request.setAttribute("pedidosAConfirmar", pedidosAConfirmar);
-            	jspPage = "/aprobarPedido.jsp";
-            	
+            	String numPedido = request.getParameter("numPedido");
+            	System.out.println("Tengo el numero de Pedido: " + numPedido);
+            	int intNumPedido = Integer.parseInt(numPedido);
+            	ArrayList<PedidoDTO> pedidosPendDepo = (ArrayList<PedidoDTO>)bd.obtenerPedidosPendDeposito();
+            	ArrayList<ItemArticuloDTO> itemsPedido = new ArrayList<ItemArticuloDTO>(); 
+            	PedidoDTO aux;
+            	for(Iterator<PedidoDTO> i = pedidosPendDepo.iterator(); i.hasNext(); ) {
+            		aux = i.next();
+            		if (aux.getNumPedido() == intNumPedido)
+            			itemsPedido.addAll(aux.getArticulos());
+            	}
+            	System.out.println("Consegui " + itemsPedido.size() + " elementos");
+            	request.setAttribute("numPedido", numPedido);
+            	request.setAttribute("itemsPedido", itemsPedido);
+           		jspPage = "/listarItemsPedido.jsp";
             }
-            
+
             else if("ObtenerPedidosPorCliente".equals(action)) {
             	//FALTA INSTANCIA DONDE INICIE SESION COMO CLIENTE Y LLEGUE ACÁ CON UNA ID
             	//Actualmente el metodo se llama por index.jsp, deberia estar en el menu de un cliente
