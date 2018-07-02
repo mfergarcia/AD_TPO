@@ -28,6 +28,10 @@
 	
 	<br></br>
 
+	<a href="ControladorWeb?action=obtenerPedidosADespachar" target="_self">Lista de Pedidos A Despachar</a> 
+	
+	<br></br>
+
 	<a href="ControladorWeb?action=procesarOrdenDeCompra" target="_self">Procesar Orden De Compra Pendiente</a> 
 	
 	<br></br>

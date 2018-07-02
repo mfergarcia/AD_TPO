@@ -260,7 +260,39 @@ public class ControladorWeb extends HttpServlet {
                	request.setAttribute("nuevoEstado", nuevoEstado);
                	jspPage = "/resultadoAvanceOC.jsp";                	
             }
-                        
+
+            else if ("obtenerPedidosADespachar".equals(action))
+            {
+            	ArrayList<PedidoDTO> pedidosADespachar = (ArrayList<PedidoDTO>)bd.obtenerPedidosADespachar();
+           		request.setAttribute("pedidosADespachar", pedidosADespachar);
+           		jspPage = "/listarPedidosADespachar.jsp";
+            }
+
+            else if ("ingresarFechaEntrega".equals(action))
+            {
+            	String numPedido = request.getParameter("numPedido");
+            	request.setAttribute("numPedidoADespachar", numPedido);
+            	jspPage = "/ingresarFechaEntrega.jsp";
+            }
+            
+            else if ("despacharPedido".equals(action))
+            {
+            	String numPedido = request.getParameter("numPedido");
+            	String fechaEntrega = request.getParameter("fechaEntrega");
+            	int intNumPedido = Integer.parseInt(numPedido);
+               	SimpleDateFormat sdfFechaEntrega = new SimpleDateFormat("yyyy-MM-dd"); 
+               	Date dFechaEntrega = new Date();
+              	try {
+               		dFechaEntrega = sdfFechaEntrega.parse(fechaEntrega); 
+               	} catch (ParseException ex) {
+               		dFechaEntrega = Calendar.getInstance().getTime();
+               	}
+              	String nuevoEstado = bd.registrarFechaEntrega(intNumPedido, dFechaEntrega);
+              	request.setAttribute("numPedido", numPedido);
+              	request.setAttribute("nuevoEstado", nuevoEstado);
+            	jspPage = "/resultadoAvancePedido.jsp";
+            }
+           
             dispatch(jspPage, request, response);
     		
     	} catch (ExcepcionComunicacion e) {

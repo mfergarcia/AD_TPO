@@ -12,7 +12,7 @@
  
 <ul>
     <li><a href="ControladorWeb?action=obtenerPedidosCompletos" target="_self">Lista Pedidos Completos</a></li>
-    <li><a href="#" target="_self">Lista Pedidos a despachar</a></li>
+    <li><a href="ControladorWeb?action=obtenerPedidosADespachar" target="_self">Lista Pedidos A Despachar</a></li>
 </ul>
  
 </body>
