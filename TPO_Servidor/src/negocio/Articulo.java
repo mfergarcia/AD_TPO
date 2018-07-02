@@ -6,8 +6,10 @@ import java.util.Collection;
 import java.util.Iterator;
 import java.util.List;
 
+import controladores.AdmStock;
 import dao.ArticuloDAO;
 import dto.ArticuloDTO;
+import dto.ArticuloEnStockDTO;
 import entities.ArticuloEnStockEntity;
 import entities.ArticuloEntity;
 
@@ -102,7 +104,33 @@ public class Articulo {
 		return null;
 	}
 	
-	
+	public Collection<ArticuloEnStock> cargarStock(ArticuloEnStockDTO artEnStockDTO) {
+		Collection<ArticuloEnStock> articulosEnStock = new ArrayList<ArticuloEnStock>();
+		int cantRequerida = artEnStockDTO.getCantidad();
+		int cantAUbicar; 
+		while (cantRequerida > 0) {
+			if (this.getCantMaxUbicacion() >= cantRequerida) {
+				cantAUbicar = cantRequerida;
+				cantRequerida = 0;
+			}
+			else {
+				cantAUbicar = this.getCantMaxUbicacion();
+				cantRequerida = cantRequerida - this.getCantMaxUbicacion();
+			}
+			Stock stock = AdmStock.getInstancia().obtenerUbicacionLibre();
+			stock.actualizarEstado("BLOQUEADA");
+			stock.updateMe();
+			ArticuloEnStock artEnStock = new ArticuloEnStock(stock.getCodigoUbicacion(), cantAUbicar, artEnStockDTO);
+			// artEnStock.saveMe();
+			stock.actualizarCantidadReal(cantAUbicar);
+			stock.updateMe();
+			this.agregarArtEnStock(artEnStock);
+			articulosEnStock.add(artEnStock);
+			// Aquí debería generarse el movimiento de ajuste de stock por compra
+		}
+		this.updateMe();
+		return articulosEnStock;
+	}
 	
 	public void setArticulosEnStock(Collection<ArticuloEnStock> articulosEnStock) {
 		this.articulosEnStock = articulosEnStock;

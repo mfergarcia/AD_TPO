@@ -10,6 +10,7 @@ import java.util.List;
 import controladores.AdmCompras;
 import controladores.AdmStock;
 import dao.PedidoDAO;
+import dto.ArticuloEnStockDTO;
 import dto.PedidoDTO;
 import entities.FacturaEntity;
 import entities.ItemArticuloEntity;
@@ -100,7 +101,10 @@ public class Pedido {
 		return total;
 	}
 
-	public String reservarStockPedido() {
+	// Verifica la existencia de Stock de cada item del Pedido y actualiza el estado
+	// del stock de cada Item Articulo del Pedido. Si detecta que hay stock faltante,
+	// se genera una Orden de Pedido de Reposición	
+	public String reservarStock() {
 		String estadoPedido = "COMPLETO";
 		Collection<ArticuloEnStock> artEnStock;
 		ItemArticulo auxItemArt;
@@ -157,6 +161,101 @@ public class Pedido {
 			}
 		}
 		return estadoPedido;
+	}
+	
+	// Localiza los Articulos En Stock de todos los Items del Pedido para poder preparar el mismo
+	public Collection<ArticuloEnStock> localizarStockArticulos() {
+		Collection<ArticuloEnStock> artEnStock = new ArrayList<ArticuloEnStock>();
+		ItemArticulo aux;
+		for (Iterator<ItemArticulo> i = this.getArticulos().iterator(); i.hasNext(); ) {
+			aux = i.next();
+			artEnStock.addAll(this.localizarStockPorArticulo(aux.getArticulo(), aux.getCant()));
+		}
+		return artEnStock;
+	}
+	
+	// Localiza los Articulos En Stock de un Articulo para preparar el Pedido
+	public Collection<ArticuloEnStock> localizarStockPorArticulo(Articulo articulo, int cantidad) {
+		// Coleccion para almacenar la seleccion de Articulos En Stock que se necesitan para cumplir este Item del Pedido
+		Collection<ArticuloEnStock> stockLocalizado = new ArrayList<ArticuloEnStock>();
+		Stock stock;
+		int cantRequerida = cantidad;
+		// Obtiene todos los Articulos en Stock del Artículo, ordenado por Fecha de Vencimiento
+		Collection<ArticuloEnStock> artEnStockAll = articulo.obtenerArtEnStockOrdenFV();
+		ArticuloEnStock aux;
+		Iterator<ArticuloEnStock> i = artEnStockAll.iterator();
+		while (cantRequerida > 0 && i.hasNext()) {
+			aux = i.next();
+			// Recupera el stock de cada Articulo en Stock
+			stock = AdmStock.getInstancia().obtenerStock(aux.getCodigoUbicacion());
+			// Verifica si la ubicación no se encuentra bloqueada por otro Pedido en curso
+			if(stock.getEstado().equals("OCUPADA")) {
+				stockLocalizado.add(aux);
+				// Bloquea la ubicación hasta que se actualice el stock
+				stock.actualizarEstado("BLOQUEADA");
+				stock.updateMe();
+				if (cantRequerida <= stock.getCantidadReal())
+					// Si la posicion tiene más stock de la cantidad requerida, se corta el ciclo
+					cantRequerida = 0;
+				else
+					// Si la posición tiene menos stock del requerido, se continua buscando la diferencia
+					cantRequerida = cantRequerida - stock.getCantidadReal();
+			}
+		}
+		return stockLocalizado;
+	}
+	
+	// Ejecuta la actualización del Stock por la Venta de un Pedido
+	public boolean actualizarStockPorVenta(Collection<ArticuloEnStockDTO> artEnStockDTO) {
+		int cantNecesaria;
+		int cantADescontar;
+		Stock stock;
+		ItemArticulo aux;
+		Iterator<ArticuloEnStockDTO> j = artEnStockDTO.iterator();
+		ArticuloEnStockDTO auxDTO;
+		for (Iterator<ItemArticulo> i = this.getArticulos().iterator(); i.hasNext(); ) {
+			aux = i.next();
+			// Almacena la cantidad requerida para este Artículo
+			cantNecesaria = aux.getCant();
+			while (cantNecesaria > 0 && j.hasNext()) {
+				auxDTO = j.next();
+				if (aux.getArticulo().getCodigoBarras().equals(auxDTO.getCodigoBarras())) {
+					stock = AdmStock.getInstancia().obtenerStock(auxDTO.getCodigoUbicacion());
+					if (cantNecesaria > stock.getCantidadReal()) {
+						// No hay stock suficiente en esta posición para descontar todo lo que se necesita
+						cantADescontar = stock.getCantidadReal();
+						cantNecesaria = cantNecesaria - cantADescontar;
+					}
+					else {
+						// El stock en esta ubicación alcanza para cubrir lo que se necesita
+						cantADescontar = cantNecesaria;
+						cantNecesaria = 0;
+					}
+					// Actualiza la cantidad real de la posición con la nueva cantidad
+					stock.actualizarCantidadReal(stock.getCantidadReal() - cantADescontar);
+					stock.updateMe();
+					aux.setEstadoStock("DESCONTADO");
+					aux.updateMe();
+					if (stock.getCantidadReal() == 0) {
+						// Ya no queda más stock de este Artículo en Stock, se desasigna el código de ubicación
+						// para que no se intente recuperar más el Artículo en Stock en futuras reservas o 
+						// preparaciones de Pedido
+						ArticuloEnStock artEnStock = aux.getArticulo().obtenerArtEnStock(auxDTO.getId());
+						artEnStock.setCodigoUbicacion(null);
+						artEnStock.updateMe();
+					}
+					// Aquí debería generarse el movimiento de stock por venta.
+				}
+			}
+		}
+		boolean ok = true;
+		for (Iterator<ItemArticulo> k = this.getArticulos().iterator(); k.hasNext(); ) {
+			aux = k.next();
+			if (!aux.getEstadoStock().equals("DESCONTADO"))
+				// Verifica que todos los Item Articulo hayan sido descontados del Stock
+				ok = false;
+		}
+		return ok;
 	}
 	
 	public int getNumPedido() {

@@ -20,6 +20,7 @@ import negocio.MovStockAjuste;
 import negocio.MovStockMantenimiento;
 import negocio.MovStockVenta;
 import negocio.MovimientoStock;
+import negocio.OrdenDeCompra;
 import negocio.Pedido;
 import negocio.Stock;
 
@@ -38,7 +39,7 @@ public class AdmStock {
 	
 	// Recupera una ubicación libre para que sea asignada a un nuevo Articulo En Stock
 	// La ubicación se bloquea hasta que sea asignado el stock
-	private Stock obtenerUbicacionLibre() {
+	public Stock obtenerUbicacionLibre() {
 		return StockDAO.getInstance().findByEstadoLibre();
 	}
 	
@@ -125,6 +126,7 @@ public class AdmStock {
 	}
 	*/
 	
+	/*
 	// Localiza los Articulos En Stock que se deben considerar para preparar el Pedido
 	public Collection<ArticuloEnStock> localizarStockArticulo(Articulo articulo, int cantidad) {
 		// Coleccion para almacenar la seleccion de Articulos En Stock que se necesitan para cumplir este Item del Pedido
@@ -155,10 +157,12 @@ public class AdmStock {
 		}
 		return stockLocalizado;
 	}
+	*/
 	
 	// @Marce: agregar la generación del movimiento de stock por venta
 	// NOTAS_FG: Revisar si está ok la ejecución de los ciclos
 	// Ejecuta la actualización del Stock por la Venta de un Pedido
+	/*
 	public boolean actualizarStockPorVenta(Pedido pedido, Collection<ArticuloEnStockDTO> artEnStockDTO) {
 		int cantNecesaria;
 		int cantADescontar;
@@ -210,6 +214,7 @@ public class AdmStock {
 		}
 		return ok;
 	}
+	*/
 	
 	// Obtiene los últimos 3 proveedores del Artículo y los concatena en un solo String("Proveedores anteriores: " + proveedor1 + " " + proveedor2 + " " proveedor3)
 	// Si no encuentra ni un solo proveedor, el string deberá contener el mensaje "No se registran proveedores de este Artículo"
@@ -236,8 +241,12 @@ public class AdmStock {
 	// ocupación del Artículo
 	public Collection<ArticuloEnStock> cargarArticuloEnStock(int numOC, ArticuloEnStockDTO artEnStockDTO) {
 		Articulo articulo = this.obtenerArticulo(artEnStockDTO.getCodigoBarras());
-		Collection<ArticuloEnStock> articulosEnStock = new ArrayList<ArticuloEnStock>();
+		//Collection<ArticuloEnStock> articulosEnStock = new ArrayList<ArticuloEnStock>();
 		if (articulo != null) {
+			OrdenDeCompra ordenCompra = AdmCompras.getInstancia().obtenerOrdenDeCompra(numOC);
+			artEnStockDTO.setProveedor(ordenCompra.getProveedor());
+			return articulo.cargarStock(artEnStockDTO);
+			/*
 			int cantRequerida = artEnStockDTO.getCantidad();
 			int cantAUbicar; 
 			while (cantRequerida > 0) {
@@ -259,11 +268,15 @@ public class AdmStock {
 				articulo.agregarArtEnStock(artEnStock);
 				articulosEnStock.add(artEnStock);
 				// Aquí debería generarse el movimiento de ajuste de stock por compra
-			}	
+			}
 			articulo.updateMe();
+			*/
 		}
+		/*
 		System.out.println(articulosEnStock.size());
 		return articulosEnStock;
+		*/
+		else return null;
 	}
 	
 	public void ajustarStockPorInventario(int cant, String codB, String lote, String ubicacion) {
@@ -300,6 +313,5 @@ public class AdmStock {
 		MovStockVenta movSV = new MovStockVenta('B',Calendar.getInstance().getTime(), 0,pedido );
 		movSV.saveMe();
 	}
-	
 	
 }

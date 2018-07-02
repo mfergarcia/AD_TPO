@@ -86,7 +86,7 @@ public class AdmPedidos {
 		Pedido pedido = this.obtenerPedido(numPedido);
 		if (pedido != null) {
 			if (pedido.getEstado().equals("A CONFIRMAR") || pedido.getEstado().equals("PENDIENTE REPOSICION")) {
-				String nuevoEstadoPedido = pedido.reservarStockPedido();
+				String nuevoEstadoPedido = pedido.reservarStock();
 				pedido.setEstado(nuevoEstadoPedido);
 				pedido.updateMe();
 				return nuevoEstadoPedido;
@@ -140,15 +140,17 @@ public class AdmPedidos {
 	// La preparaación del Pedido devuelve la colección de Articulos En Stock que satisfacen
 	// el Pedido. Los Articulos En Stock contienen las ubicaciones de los mismos
 	public Collection<ArticuloEnStock> prepararPedido(int numPedido) {
-		Collection<ArticuloEnStock> artEnStock = new ArrayList<ArticuloEnStock>();
+		/* Collection<ArticuloEnStock> artEnStock = new ArrayList<ArticuloEnStock>();*/
 		Pedido pedido = this.obtenerPedido(numPedido);
 		if (pedido!= null) {
+			/*
 			ItemArticulo aux;
 			for (Iterator<ItemArticulo> i = pedido.getArticulos().iterator(); i.hasNext(); ) {
 				aux = i.next();
 				artEnStock.addAll(AdmStock.getInstancia().localizarStockArticulo(aux.getArticulo(), aux.getCant()));
 			}
-			return artEnStock;
+			*/
+			return pedido.localizarStockArticulos();
 		}
 		return null;
 	}
@@ -157,7 +159,7 @@ public class AdmPedidos {
 	// de sus correspondientes ubicaciones
 	public String actualizarStockPorVenta(int numPedido, Collection<ArticuloEnStockDTO> artEnStockDTO) {
 		Pedido pedido = this.obtenerPedido(numPedido);
-		if (AdmStock.getInstancia().actualizarStockPorVenta(pedido, artEnStockDTO)) {
+		if (pedido.actualizarStockPorVenta(artEnStockDTO)) {
 			pedido.setEstado("PENDIENTE DESPACHO");
 			pedido.updateMe();
 			return pedido.getEstado();
