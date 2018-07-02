@@ -64,7 +64,7 @@ function valideDatos(){
 
 <body onload="carga();">
 <h1 style="text-align:center">Bienvenido, Por favor Ingrese su Usuario y contraseña: </h1>
-<form action= "LoginServlet" method="POST" onsubmit="return valideDatos();">
+<form action= "MainServlet" method="post" onsubmit="return valideDatos();">
 
   <table align="center" width="25%">
     <tr>
@@ -76,6 +76,7 @@ function valideDatos(){
       <td><input type="password" name="password" id="password"></td>
     </tr>
     <tr>
+<!--
       <td>Tipo: </td>
   
       <td colspan="2" align="center">
@@ -88,12 +89,12 @@ function valideDatos(){
       	</td>
    
     </tr>
+-->
     <tr>
-      <td colspan="2" align="center"><input type="submit" name="button" id="button" value="Enviar"></td>
+      <td colspan="2" align="center"><input type="submit" name="action" value="Enviar"></td>
 	 
-	  <td colspan="2" align="center"><input type="submit" name="cancelar" id="cancelar" value="Cancelar"></td>
-  
-      <td Colspan="2" align="center"><input type="submit" name="registrar" id="registrar" value="Registrarse"></td>
+	  <td colspan="2" align="center"><input type="submit" name="action" value="Cancelar"></td>
+
      </tr>
   
   </table>

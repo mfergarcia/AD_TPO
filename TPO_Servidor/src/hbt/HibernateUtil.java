@@ -24,6 +24,8 @@ import entities.PagoEntity;
 import entities.PedidoEntity;
 import entities.RemitoEntity;
 import entities.StockEntity;
+import entities.UsuarioClienteEntity;
+import entities.UsuarioEmpleadoEntity;
 
 
 public class HibernateUtil
@@ -57,6 +59,8 @@ public class HibernateUtil
              config.addAnnotatedClass(StockEntity.class);
              config.addAnnotatedClass(OrdenPedidoRepoEntity.class);
              config.addAnnotatedClass(ItemOCEntity.class);
+             config.addAnnotatedClass(UsuarioClienteEntity.class);
+             config.addAnnotatedClass(UsuarioEmpleadoEntity.class);
              sessionFactory = config.buildSessionFactory();
         }
         catch (Throwable ex)

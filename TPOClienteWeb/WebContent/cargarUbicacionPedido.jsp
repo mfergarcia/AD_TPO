@@ -8,7 +8,7 @@
 </head>
 <body>
 Ingrese la ubicacion de destino del Pedido:
-<form action="ControladorWeb" method="post">
+<form action="MainServlet" method="post">
 Localidad: <input type="text" name="Localidad" id="Localidad">
 <br></br>
 Codigo Postal: <input type="text" name="CodigoPostal" id="CodigoPostal">

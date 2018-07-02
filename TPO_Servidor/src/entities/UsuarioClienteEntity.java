@@ -35,7 +35,9 @@ public class UsuarioClienteEntity {
 		this.setUsuario(uc.getUsuario());
 	}
 
-
+	public UsuarioClienteEntity() {}
+	
+	
 	public String getUsuario() {
 		return usuario;
 	}
