@@ -14,6 +14,7 @@ import javax.servlet.http.HttpSession;
 
 import delegados.SistemaBD;
 import dto.ArticuloDTO;
+import dto.ArticuloEnStockDTO;
 import dto.CtaCteDTO;
 import dto.DireccionDTO;
 import dto.ItemArticuloDTO;
@@ -59,6 +60,7 @@ public class ControladorWeb extends HttpServlet {
             	session.setAttribute("pedido", p );
             	jspPage= "/generarPedido.jsp";
            	}
+
             else if("CargarUbicacion".equals(action))
             	jspPage="/cargarUbicacionPedido.jsp";
             
@@ -135,7 +137,6 @@ public class ControladorWeb extends HttpServlet {
             else if ("solicitarPedido".equals(action))
             {
             	String numPedido = request.getParameter("numPedido");
-            	System.out.println("Entre a solicitar Pedido para Pedido: " + numPedido);
             	int intNumPedido = Integer.parseInt(numPedido);
             	String nuevoEstado= bd.solicitarPedido(intNumPedido);
             	request.setAttribute("nuevoEstado", nuevoEstado);
@@ -153,7 +154,6 @@ public class ControladorWeb extends HttpServlet {
             else if ("obtenerItemsPedidoPendDepo".equals(action))
             {
             	String numPedido = request.getParameter("numPedido");
-            	System.out.println("Tengo el numero de Pedido: " + numPedido);
             	int intNumPedido = Integer.parseInt(numPedido);
             	ArrayList<PedidoDTO> pedidosPendDepo = (ArrayList<PedidoDTO>)bd.obtenerPedidosPendDeposito();
             	ArrayList<ItemArticuloDTO> itemsPedido = new ArrayList<ItemArticuloDTO>(); 
@@ -169,6 +169,30 @@ public class ControladorWeb extends HttpServlet {
            		jspPage = "/listarItemsPedido.jsp";
             }
 
+            else if ("prepararPedido".equals(action))
+            {
+            	String numPedido = request.getParameter("numPedido");
+            	int intNumPedido = Integer.parseInt(numPedido);
+            	ArrayList<ArticuloEnStockDTO> artEnStock = (ArrayList<ArticuloEnStockDTO>)bd.prepararPedido(intNumPedido);
+               	request.setAttribute("numPedido", numPedido);
+               	request.setAttribute("artEnStock", artEnStock);
+               	jspPage = "/listarArticulosEnStock.jsp";
+            }
+
+            else if ("actualizarStockPorVenta".equals(action))
+            {
+            	String numPedido = request.getParameter("numPedido");
+            	int intNumPedido = Integer.parseInt(numPedido);
+            	ArrayList<ArticuloEnStockDTO> artEnStockAPreparar = (ArrayList<ArticuloEnStockDTO>)session.getAttribute("artEnStockAPreparar");
+            	System.out.println("Rescate " + artEnStockAPreparar.size() + " elementos!!!!");
+            	//Borro el objeto de sesion
+            	session.setAttribute("artEnStockAActualizar", "");
+            	String nuevoEstado = bd.actualizarStockPorVenta(intNumPedido, artEnStockAPreparar);
+            	request.setAttribute("nuevoEstado", nuevoEstado);
+            	request.setAttribute("numPedido", numPedido);
+            	jspPage = "/resultadoAvancePedido.jsp";
+            }
+                        
             else if("ObtenerPedidosPorCliente".equals(action)) {
             	//FALTA INSTANCIA DONDE INICIE SESION COMO CLIENTE Y LLEGUE ACÁ CON UNA ID
             	//Actualmente el metodo se llama por index.jsp, deberia estar en el menu de un cliente
