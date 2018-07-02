@@ -146,7 +146,7 @@ public class LoginServlet extends HttpServlet
 				
 			dispatch(jspPage, request, response);
 			
-		}catch (ExcepcionComunicacion | NotBoundException e) 
+		}catch (ExcepcionComunicacion e) 
 		{
 			// TODO Auto-generated catch block
 			e.printStackTrace();
@@ -201,4 +201,17 @@ public class LoginServlet extends HttpServlet
 		// TODO Auto-generated method stub
 		
 	}
+
+	protected void dispatch(String jsp, HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException
+	{
+    	 if (jsp != null)
+    	 {
+    		 /*Envía el control al JSP que pasamos como parámetro, y con los 
+             * request / response cargados con los parámetros */
+    		 RequestDispatcher rd = request.getRequestDispatcher(jsp);
+    		 rd.forward(request, response);
+    	 }
+	}
+
+
 }
