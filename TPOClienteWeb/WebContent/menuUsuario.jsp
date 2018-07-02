@@ -12,7 +12,7 @@
  
 <ul>
     <li><a href="MainServlet?action=default" target="_self">Home</a></li>
-    <li><a href="MainServlet?action=CrearPedido" target="_self">Generar Pedido</a></li>
+    <li><a href="ControladorWeb?action=CrearPedido" target="_self">Generar Pedido</a></li>
     <li><a href="MainServlet?action=ObtenerPedidosPorCliente" target="_self">Ver Pedidos</a></li>
 </ul>
  

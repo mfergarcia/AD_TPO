@@ -26,7 +26,7 @@ table{
 </head>
 <body>
 <h1 style="text-align:center">BUSCAR PEDIDOS A DESPACHAR:</h1>
-<form action="LoginWeb.jr" method="POST" >
+<form action="LoginServlet" method="POST" >
 		<table align="center" width="87%">
 	  	 	 <tr>
 				<td colspan="2" width="87%" align="center"> <input type="submit" name="action" id="action" value="Despachar"></td>
