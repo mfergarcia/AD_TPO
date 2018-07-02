@@ -185,7 +185,7 @@ public class ControladorWeb extends HttpServlet {
 
             else if ("procesarOrdenDeCompra".equals(action))
             {
-            	jspPage = "/procesarOrdenDeCompra.jsp";
+            	jspPage = "/procesarOrdenDeCompraPendiente.jsp";
             }
 
             
@@ -194,8 +194,14 @@ public class ControladorWeb extends HttpServlet {
             	String numOC = request.getParameter("numOC");
             	int intNumOC = Integer.parseInt(numOC);
             	OrdenDeCompraDTO ordenDeCompra = (OrdenDeCompraDTO)bd.obtenerOrdenDeCompra(intNumOC);
-            	request.setAttribute("ordenDeCompra", ordenDeCompra);
-            	jspPage = "/obtenerDetalleOrdenDeCompra.jsp";
+            	if (ordenDeCompra.getEstado().equals("PENDIENTE")) {
+            		request.setAttribute("ordenDeCompra", ordenDeCompra);
+            		jspPage = "/obtenerDetalleOrdenDeCompra.jsp";
+            	}
+            	else {
+            		request.setAttribute("mensaje", "La Orden De Compra consultada no se encuentra en estado PENDIENTE");
+             		jspPage = "/mostrarExcepcion.jsp";
+            	}
             }
 
             else if ("ingresarArticulosEnStock".equals(action))
