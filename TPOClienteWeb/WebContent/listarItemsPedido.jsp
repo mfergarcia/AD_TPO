@@ -28,12 +28,11 @@
 	ArticuloDTO auxArt;
 	ArrayList<ItemArticuloDTO> itemsPedido = (ArrayList<ItemArticuloDTO>)request.getAttribute("itemsPedido"); 
 	String numPedido = (String) request.getAttribute("numPedido");
-	for (Iterator<ItemArticuloDTO> i = itemsPedido.iterator(); i.hasNext();)
+	for (Iterator<ItemArticuloDTO> j = itemsPedido.iterator(); j.hasNext();)
 	{
-		auxItem = i.next();
-		auxArt = auxItem.getArticuloDTO();
-		String codBarras = auxArt.getCodigoBarras();
-		String descripcion = auxArt.getDescripcion();
+		auxItem = j.next();
+		String codBarras = auxItem.getArticuloDTO().getCodigoBarras();
+		String descripcion = auxItem.getArticuloDTO().getDescripcion();
 		int cant = auxItem.getCant();
 		float precioVta = auxItem.getPrecioVta();
 %>
