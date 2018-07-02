@@ -414,7 +414,6 @@ public class LoginServlet extends HttpServlet
 			salida.println("Apellido "+newCli.getApellido());
 		}
     		
-    		
 	}
             
             
