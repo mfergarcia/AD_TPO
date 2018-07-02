@@ -250,7 +250,34 @@ public class LoginServlet extends HttpServlet
     			salida.println(" Proveedor: "+ oCDTO.getProveedor()+"<br/>");
     			salida.println(" Estado: "+ oCDTO.getEstado()+"<br/>");
     			salida.println(" ITEMS: "+ oCDTO.getItems()+"<br/>");
-    		}
+    		}else if("GenerarOC".equals(action)) 
+        	{
+        		String proveedor =request.getParameter("proveedor");
+            	String articulos = request.getParameter("articulos");
+            	jspPage = "/generarOrdenCompraMostar.jsp";
+            	
+				Collection<ArticuloDTO> art = new ArrayList<ArticuloDTO>();
+				ArticuloDTO artTemp= new ArticuloDTO();
+				OrdenDeCompraDTO oc= new OrdenDeCompraDTO();
+				
+				artTemp =bd.obtenerArticulo(articulos);
+				
+				session.setAttribute("art", artTemp);
+				art.add(artTemp);
+				
+				oc=bd.generarOrdenDeCompra(proveedor, art);
+				
+				session.setAttribute("goc", oc);
+				//salida.println(artTemp.getEstado()+"<br/>");
+				//salida.println(artTemp.getCantMaxUbicacion()+"<br/>");
+				//salida.println(artTemp.getPresentacion()+"<br/>");
+				/*for (ArticuloDTO i:art ) 
+				{
+					salida.println("Estado: "+i.getEstado()+"<br/>");
+					salida.println("Max Ubi: "+i.getCantMaxUbicacion()+"<br/>");
+					salida.println("Presentacion: "+i.getPresentacion()+"<br/>");
+				}*/
+			}
             
             
             dispatch(jspPage, request, response);
