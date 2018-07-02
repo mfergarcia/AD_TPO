@@ -72,7 +72,7 @@ table{
       <td width="87%"><input type="text" name="nombre" id="nombre" value=<%=cliPerDto.getNombre()%> ></td>
     </tr>
     <tr>
-      <td><label for="apellido">APELLIDO:  </label></td>
+      <td><label for="apellido">APELLIDO:   </label></td>
       <td><input type="text" name="apellido" id="apellido" value=<%=cliPerDto.getApellido()%>></td>
     </tr>
     <tr>
