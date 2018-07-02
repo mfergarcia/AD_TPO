@@ -163,9 +163,97 @@ public class LoginServlet extends HttpServlet
 
 	protected void doPost(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException 
 	{	
+		String jspPage;
+    	PrintWriter salida = response.getWriter();
+    	
+		String listar = request.getParameter("listar");
+		
+		try{
+			SistemaBD bd = new SistemaBD();
+						
+			jspPage = "/index.jsp";
+			//genero la session
+			HttpSession session = request.getSession();
+			String action = request.getParameter("action");
+			
+			
+			
+			if ((action == null) || (action.length() < 1))
+            {
+                action = "default";
+            }
+
+            if ("default".equals(action))
+            {
+                jspPage = "/index.jsp";
+            }
+			else if("listarOPR".equals(action)) {
+				Collection<OrdenPedidoRepoDTO> ordenPRDTO = new ArrayList<OrdenPedidoRepoDTO>();
+				ordenPRDTO=bd.obtenerOPRPendientes();
+				
+				
+				//seteo atributos en la session
+				
+				
+				
+				//indico a donde rirecciona 
+				jspPage = "/mostrarDatosOrdenPRepo.jsp";
+				
+				
+				int a= 0;
+				String var= String.valueOf(a);
+				for (OrdenPedidoRepoDTO i:ordenPRDTO ) 
+				{
+														
+					//salida.println("Cantidad Reposicion: "+i.getCantRepo()+"<br/>");
+					session.setAttribute(var, i.getNumOrdenPR());
+					a++;
+					var= String.valueOf(a);
+					session.setAttribute(var, i.getEstado());
+					a++;
+					var= String.valueOf(a);
+					session.setAttribute(var, i.getCantRepo());
+					a++;
+					var= String.valueOf(a);
+					session.setAttribute(var, i.getNumPedido());
+					a++;
+					var= String.valueOf(a);
+					session.setAttribute(var, i.getFechaGeneracion());
+					a++;
+					var= String.valueOf(a);
+					//salida.println(" Estado: "+i.getEstado()+"<br/>");
+					//salida.println(" Orden Pedido: "+i.getNumOrdenPR()+"<br/>");
+					//salida.println(" Numero Pedido: "+i.getNumPedido()+"<br/>");
+					//salida.println(" fecha: "+i.getFechaGeneracion()+"<br/><br/>");
+				
+					
+					//session.setAttribute("datos3", ordenPRDTO);
+				}System.out.println("despues del for");
+				a--;
+				var= String.valueOf(a);
+				session.setAttribute("iterador",var);
+			}
+            
+            
+            dispatch(jspPage, request, response);
+            
+		} catch (ExcepcionComunicacion e) {
+			System.out.println(e.getMensaje());
+		} catch (ExcepcionSistema es) {
+			System.out.println(es.getMensaje());
+		} catch (NotBoundException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		}
+		
+		
+		
+		
+		
+		
 		//METDO DE LOGIN
 		//FALTA TERMINAR DE FINALIZAR LAS CONDICIoNES
-		
+		/*
 		PrintWriter salida=response.getWriter();
 		String password= request.getParameter("password");
 		String usuario = request.getParameter("usuario");
@@ -193,13 +281,13 @@ public class LoginServlet extends HttpServlet
 					
 			}*/
 			
-			salida.println(" " );
+	/*		salida.println(" " );
 		} catch (ExcepcionComunicacion e) {
 			// TODO Auto-generated catch block
 			e.printStackTrace();
 		}
 		// TODO Auto-generated method stub
-		
+		*/
 	}
 
 	protected void dispatch(String jsp, HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException
