@@ -407,6 +407,7 @@ public class LoginServlet extends HttpServlet
 			
 			session.setAttribute("nuevo", newCli);
 			salida.println("Apellido "+newCli.getApellido());
+			
 		}
     		
 	}
