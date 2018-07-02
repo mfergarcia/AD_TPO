@@ -233,7 +233,24 @@ public class LoginServlet extends HttpServlet
 				a--;
 				var= String.valueOf(a);
 				session.setAttribute("iterador",var);
-			}
+			}else if("BuscarOC".equals(action))//BUSCAr ORDEN DE COMPRA por NUM OC 
+			{
+				jspPage = "/obtenerOrdenCompraMostar.jsp";
+	        	
+				String numOc = request.getParameter("obtenerOc");
+	        	int Oc = Integer.parseInt(numOc);
+        		
+    				
+    			OrdenDeCompraDTO oCDTO= new OrdenDeCompraDTO();
+    			oCDTO= bd.obtenerOrdenDeCompra(Oc);
+    			session.setAttribute("OC", oCDTO);
+    				
+    			salida.println("Numero Orden De compra: "+ oCDTO.getNumOC()+"<br/>");
+    			salida.println(" Fecha creacion: "+ oCDTO.getFecha()+"<br/>");
+    			salida.println(" Proveedor: "+ oCDTO.getProveedor()+"<br/>");
+    			salida.println(" Estado: "+ oCDTO.getEstado()+"<br/>");
+    			salida.println(" ITEMS: "+ oCDTO.getItems()+"<br/>");
+    		}
             
             
             dispatch(jspPage, request, response);
