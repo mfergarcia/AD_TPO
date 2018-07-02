@@ -147,7 +147,7 @@ private static final long serialVersionUID = 1087702007634924546L;
             else if("obOC".equals(action))
             	jspPage="/ObtenerOrdenCompra.jsp";
             else if("MostrarCliente".equals(action))
-            	jspPage= "/obtenerCteEmpresa.jsp";
+            	jspPage= "/ObtenerClienteEmpYPersona.jsp";
             else if("generarOC".equals(action))
             	jspPage= "/GenerarOrdenDeCompra.jsp";
             dispatch(jspPage, request, response);
