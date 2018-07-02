@@ -318,13 +318,8 @@ public class LoginServlet extends HttpServlet
     	}
     	else if("AltaEmp".equals(action)) //alta cliente persona y cliente empresa
     	{
-    		String idCliente = request.getParameter("idCliente");
-    		String nombre = request.getParameter("nombre");
-    		String apellido = request.getParameter("apellido");
     		String cuit = request.getParameter("cuit");
     		String especiales = request.getParameter("especiales");
-    		String tipo = request.getParameter("tipo");
-    		String dni = request.getParameter("dni");
     		String rsocial = request.getParameter("rsocial");
     		String estado = request.getParameter("estado");
     		String factura = request.getParameter("factura");
@@ -334,7 +329,7 @@ public class LoginServlet extends HttpServlet
     		String localidad = request.getParameter("localidad");
     		String lCredito = request.getParameter("limite");
     		
-    		char type =tipo.charAt(0);
+    		
     		char fact = factura.charAt(0);
     		char est = estado.charAt(0);
     		float lc = Float.parseFloat(lCredito);

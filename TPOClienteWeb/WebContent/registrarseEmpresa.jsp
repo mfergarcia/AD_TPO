@@ -60,7 +60,7 @@ table{
   	
     <tr>
       <td><label for="usuario">CUIT: </label></td>
-      <td><input type="text" name="cuit" id="cuit" value= "solo para empresas" ></td>
+      <td><input type="text" name="cuit" id="cuit"  ></td>
     </tr>
     <tr>
       <td><label for="contra" onfocus="">CONDICIONES ESPECIALES: </label></td>
@@ -70,7 +70,7 @@ table{
     
     <tr>
       <td width="13%"><label for="nombre">RAZON SOCIAL: </label></td>
-      <td width="87%"><input type="text" name="rsocial" id="rsocial" value= "solo para empresas" ></td>
+      <td width="87%"><input type="text" name="rsocial" id="rsocial" ></td>
     </tr>
     <tr>
       <td width="13%"><label for="nombre">ESTADO: </label></td>
