@@ -59,89 +59,105 @@ public class LoginServlet extends HttpServlet
 	 */
 	
     protected void doGet(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException 
-	{
+    {
 		// TODO Auto-generated method stub
 		// TODO Auto-generated method stub
 		//crear el objeto printWrite
-		PrintWriter salida=response.getWriter();
-		
-		String idCliente = request.getParameter("id");
-		
+    	String jspPage ="/ModificarClientes.jsp";
+    	PrintWriter salida=response.getWriter();
 		
 		
-		////
-		///METODO PARA OBENER CLIENTE EMPRESA
-		///DESDE EL ID CLIENTE
-		///
-	/*	
-		String ValIng = request.getParameter("opcion");
-		
-		System.out.println("ValIng es: " +ValIng);
-		System.out.println("ObtenerCteEmpresa es: " +idCliente);
-		
-		
-			System.out.println("Se ingreso ID");
-			int id = Integer.parseInt(ValIng);
-			try {
-				SistemaBD bd= new SistemaBD();
-				ClienteEmpresaDTO cliEmpDto = new ClienteEmpresaDTO();
-				cliEmpDto = bd.obtenerCteEmpresa(id);
-				System.out.println("Cuit :" +cliEmpDto.getCuit()+" Id: "+cliEmpDto.getIdCliente()+" Limite de credito: "+ cliEmpDto.getLimiteCredito());
-				salida.println(" IdCliente: \n"+cliEmpDto.getIdCliente());
-				salida.println("Tipo de FActura: " +cliEmpDto.getTipoFactura());
-				salida.println("Condiciones Especiales: "+cliEmpDto.getCondicionesEspeciales());
-				salida.println("Estado: "+cliEmpDto.getEstado());
-				salida.println("Razon Social: "+cliEmpDto.getRazonSocial());
-				salida.println("Cuit :" +cliEmpDto.getCuit());
-				salida.println("Limite de credito: "+ cliEmpDto.getLimiteCredito());
-			} catch (ExcepcionComunicacion | NotBoundException | ExcepcionSistema e) {
-				// TODO Auto-generated catch block
-				e.printStackTrace();
-			}
-			
-		*/
+
 		
 			
-			
-			
-	
-	// * DESLTILDAR PARA USAR CON OBTENER TIPO CLIENTE
-	// * 	
-					
-			int id = Integer.parseInt(idCliente);
-			response.setContentType("text/plain");
-				
 			//crear conexion con bbdd usando el pool
-		
-			try {	
-					SistemaBD bd= new SistemaBD();
-					char tipo= bd.obtenerTipoCliente(id);
-		   	 
-					if (tipo == 'P'){
-						System.out.println("tipo cliente: " +tipo);
-						salida.println("El cliente buscado es de tipo: " +tipo);
-						//ClientePersonaDTO ctePersonaDTO = bd.obtenerCtePersona(id);
-						//ClientePersona ctePersona = new ClientePersona(ctePersonaDTO); 
-						}
-					if (tipo == 'E') {
-					System.out.println("tipo Empresa: " +tipo);
-						salida.println("El cliente buscado es de tipo: " +tipo);
-						
-					}
-					
-						
-					
-				   
-					System.out.println("TIPO:" +tipo);
-			}catch (ExcepcionComunicacion e) 
+    	
+		try 
+		{	// * DESLTILDAR PARA USAR CON OBTENER TIPO CLIENTE
+			SistemaBD bd= new SistemaBD();
+			String action = request.getParameter("action");
+			
+			response.setContentType("text/plain");
+			jspPage = "/index.jsp";
+			
+			//inciamos una sessio
+			HttpSession session = request.getSession();
+			
+			if((action == null) || (action.length()<1))
 			{
-					// TODO Auto-generated catch block
-					e.printStackTrace();
-			} catch (ExcepcionSistema e) {
-				// TODO Auto-generated catch block
-				e.printStackTrace();
+				action ="default";
 			}
+			
+			if ("default".equals(action))
+			{
+				jspPage = "/index.jsp";
+			}
+			else if("BUSCAR".equals(action)) //BUSCA POR ID CLIENTE--LO USA OBTENER TIPO CLIENTE Y OBTENER CLIENTEeMPyPERSONA
+			{
+				String idCliente = request.getParameter("id");
+				
+				int id = Integer.parseInt(idCliente);
+				
+				char tipo= bd.obtenerTipoCliente(id);
+				
+				ClientePersonaDTO cliPerDto = new ClientePersonaDTO();
+				ClienteEmpresaDTO cliEmpDto = new ClienteEmpresaDTO();
+							
+				//HttpSession session = request.getSession();
+			
+				cliEmpDto = bd.obtenerCteEmpresa(id);
+				cliPerDto = bd.obtenerCtePersona(id);
+			
+			
+				//genero una session , guardo instancia de loq ue tengo e request y lo hago perdurar por el timep de vida del programa
+			
+				session.setAttribute("datos", cliEmpDto);
+				request.setAttribute("datos1", cliPerDto);
+				session.setAttribute("tipo", tipo);
+						
+				jspPage= "/ModificarClientes.jsp";
+				
+				if (tipo == 'P' ) 
+				{
+					System.out.println("tipo cliente: " +tipo);
+					salida.println("El cliente buscado es de tipo: " +tipo);
+					
+					//request.setAttribute("IdCliente", idCliente);
+					//dispatch(jspPage, request, response);
+					//ClientePersonaDTO ctePersonaDTO = bd.obtenerCtePersona(id);
+					//ClientePersona ctePersona = new ClientePersona(ctePersonaDTO); 
+				}
+				
+				if (tipo == 'E') 
+				{
+					System.out.println("tipo Empresa: " +tipo);
+					salida.println("El cliente buscado es de tipo: " +tipo);
+				}
+				
+				
+			
+				System.out.println("Cuit :" +cliEmpDto.getCuit()+" Id: "+cliEmpDto.getIdCliente()+" Limite de credito: "+ cliEmpDto.getLimiteCredito());
+				
+			    System.out.println("TIPO:" +tipo);
+			}
+				
+			
+				
+				
+			dispatch(jspPage, request, response);
+			
+		}catch (ExcepcionComunicacion | NotBoundException e) 
+		{
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		} catch (ExcepcionSistema e) 
+		{
+			// TODO Auto-generated catch block
+			e.printStackTrace();
 		}
+	
+	}
+
 	
 		
 

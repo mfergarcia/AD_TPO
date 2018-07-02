@@ -33,11 +33,24 @@ function carga(){
 
 <meta http-equiv="Content-Type" content="text/html; charset=ISO-8859-1">
 <title>Buscar TIPO CLIENTE </title>
-<% 
-/*try{
-	SistemaBD bd= new SistemaBD();
-	*/
-%>
+<style>
+
+body{
+	background-color:#FFC;
+}
+
+table{
+	background:#FF6;
+	padding:10px;
+	border:solid 2px #FF0000;
+}
+
+{
+	padding:5px 0;
+}
+
+
+</style>
 
 
 
@@ -46,22 +59,20 @@ function carga(){
 
 <!--  creo formulario-->
 <form action= "LoginWeb.jr" method="GET" onsubmit="return Mostrar();">
-<div  align ="center" style ="border-bottom-style: groove;"><h1>Ingrese el ID de Cliente para obtener el TIPO</h1></div>
-	ID Cliente:<input type="text" name="id" id="id">
-	<button type="submit" value="buscarCliente" >BUSCAR</button>
-	<button type="button" value="Submit" onclick="" >Cancelar</button>
-	
-<!-- 	<br><br><br><jsp:include page="fecha.jsp"></jsp:include> -->
+<div  align ="center" style ="border-bottom-style: groove;"><h1>Buscar TIPO CLIENTE</h1></div>
+	<table align="center" width="25%">
+		<tr>
+			<td width="20%"><label for="nombre">ID Cliente: </label></td>
+			<td width="88%"><input type="text" name="id" id="id"></td>
+		</tr>
+		<tr>
+			<td width="20%"><input type="submit" name ="action" id="action" value="BUSCAR"></td>
+			<td width="88%"><input type="submit" name ="cancelar" id="cancelar" value="CANCELAR"></td>
+		</tr>
+		
+	</table>
+	<div  align ="center" style =""><jsp:include page="fecha.jsp"></jsp:include></div>
 	</form>
 	</body>
-<%/*
-int idCliente= 2;
-char tipo =bd.obtenerTipoCliente(idCliente);
-out.print("tipo de dato del cliente es:"+tipo);
-}catch (ExcepcionComunicacion e) {
-	System.out.println(e.getMensaje());
-}
 
-*/
-%>
 </html>

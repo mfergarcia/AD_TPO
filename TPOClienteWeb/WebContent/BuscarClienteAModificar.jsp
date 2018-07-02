@@ -42,7 +42,7 @@ function carga(){
 </script>
 
 <meta http-equiv="Content-Type" content="text/html; charset=ISO-8859-1">
-<title>BUSCAR CLIENTE EMPRESA</title>
+<title>MODIFICAR</title>
 <style>
 
 body{
@@ -66,7 +66,7 @@ table{
 
 <!--  creo formulario-->
 <form action= "LoginWeb.jr" method="GET" onsubmit="return Verificar();">
-<div  align ="center" style =""><h1>BUSCAR CLIENTES</h1></div>
+<div  align ="center" style =""><h1>BUSCAR CLIENTES A MODIFICAR</h1></div>
 	<table align="center" width="25%">
 		<tr>
 			<td width="20%"><label for="nombre">ID Cliente: </label></td>
