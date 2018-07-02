@@ -13,7 +13,7 @@ public class TestCliente_Pedido2 {
 		public static void main(String[] args) {
 			try {
 				SistemaBD bd = new SistemaBD();
-				
+				/*
 				//Prueba Obtener ultimos 3 proveedores 
 				System.out.println(bd.obtenerProveedores("III666"));
 				
@@ -21,7 +21,7 @@ public class TestCliente_Pedido2 {
 
 				// bd.rechazarPedido(1, "Direccion Erronea");
 			
-				/*
+				
 			
 				//Prueba Obtener Pedido
 				p= new ArrayList<PedidoDTO>();
@@ -31,9 +31,10 @@ public class TestCliente_Pedido2 {
 			
 				
 				//Prueba Solicitar Pedido
-				
-				System.out.println(bd.solicitarPedido(4));
-				
+				*/
+				System.out.println(bd.solicitarPedido(2));
+
+				/*
 				//Prueba Obtener Pedidos PENDIETE DEPOSITO
 			
 				p= new ArrayList<PedidoDTO>();
@@ -41,10 +42,9 @@ public class TestCliente_Pedido2 {
 				for(PedidoDTO pd: p)
 					System.out.println("Pedido numero: "+pd.getNumPedido()+" del Cliente: "+pd.getIdCliente()+ " estado: "+ pd.getEstado());
 				
-					
 				//Prueba Preparar Pedido
 				Collection<ArticuloEnStockDTO> art= new ArrayList<ArticuloEnStockDTO>();
-				bd.actualizarStockPorVenta(4, bd.prepararPedido(4));
+				bd.actualizarStockPorVenta(1, bd.prepararPedido(1));
 				
 				//Prueba obtener Pedidos a despachar
 				
@@ -55,9 +55,9 @@ public class TestCliente_Pedido2 {
 				
 				//Generar Fecha Entrega
 				
-				bd.registrarFechaEntrega(4, new java.util.Date(System.currentTimeMillis()));
+				bd.registrarFechaEntrega(4, new java.util.Date(System.currentTimeMillis()));*/
 				
-				*/
+				
 				
 				
 			} catch (ExcepcionComunicacion e) {

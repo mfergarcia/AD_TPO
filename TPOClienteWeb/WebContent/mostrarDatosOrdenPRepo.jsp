@@ -66,7 +66,7 @@ table{
 <!-- recibo los datos desde  LoginServlet X request.setAttribute("IdCliente", idCliente);
 <p> dato que llego de la otr pagina: <%=request.getAttribute("IdCliente") %> </p>
 -->
-<form action="LoginWeb.jr" method="POST">
+<form action="LoginServlet" method="POST">
 
 <%
 int tope= 0;

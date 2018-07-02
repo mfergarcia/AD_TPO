@@ -22,7 +22,7 @@ public class TestCliente_Pedido {
 
 			// Prueba Generar Pedido
 			
-			int numCliente = 2;
+			int numCliente = 4;
 			int numOCABuscar = 1;
 			DireccionDTO dirEntrega = new DireccionDTO();
 			dirEntrega.setCalle("Av de Mayo");
@@ -48,8 +48,8 @@ public class TestCliente_Pedido {
 			for (Iterator<ItemArticuloDTO> j = pedido.getItems().iterator(); j.hasNext(); ) {
 				auxItemArt = j.next();
 				System.out.println(auxItemArt.getArticuloDTO().getCodigoBarras() + " cant: " + auxItemArt.getCant());
-			}/*
-*/
+			}
+			/*	 */
 			/*
 			// Prueba Obtener Pedidos Por Cliente
 			

@@ -43,7 +43,7 @@ table{
 	
 	<h1 style="text-align:center">Buscar Orden de Pedido:</h1>
 	
-	<form action="LoginWeb.jr" method="POST" >
+	<form action="LoginServlet" method="POST" >
 		<table align="center" width="50%">
   	 	<tr>
      		<td width="13%"><label for="nombre">LISTAR PENDIENTES: </label></td>

@@ -26,7 +26,7 @@ table{
 </head>
 <body>
 <h1 style="text-align:center">Solicitar Pedido por Numero de Pedido:</h1>
-<form action="LoginWeb.jr" method="POST">
+<form action="LoginServlet" method="POST">
 		<table align="center" width="87%">
   	 		   			
 			<tr>

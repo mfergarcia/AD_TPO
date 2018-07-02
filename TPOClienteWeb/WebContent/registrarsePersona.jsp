@@ -1,7 +1,7 @@
 <%@page import="sun.dc.DuctusRenderingEngine"%>
 <%@page import= "dto.ClienteEmpresaDTO"%>
 <%@page import= "dto.ClientePersonaDTO"%>
-<%@page import= "com.tpoClintes.jsp.servlets.LoginServlet"%>
+<%@page import= "servlets.LoginServlet"%>
 <%@ page language="java" contentType="text/html; charset=ISO-8859-1"
     pageEncoding="ISO-8859-1"%>
 <!DOCTYPE html PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN" "http://www.w3.org/TR/html4/loose.dtd">
@@ -54,7 +54,7 @@ table{
 <!-- recibo los datos desde  LoginServlet X request.setAttribute("IdCliente", idCliente);
 <p> dato que llego de la otr pagina: <%=request.getAttribute("IdCliente") %> </p>
 -->
-<form action="LoginWeb.jr" method="POST">
+<form action="LoginServlet" method="POST">
 
   <table align="center" width="25%">
   	<tr> 

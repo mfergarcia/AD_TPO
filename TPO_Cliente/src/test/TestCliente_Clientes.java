@@ -159,7 +159,7 @@ public class TestCliente_Clientes {
 			// Prueba Baja Cliente Empresa 
 			// Prueba Baja Cliente Persona
 			
-			int idClienteADarDeBaja = 4;
+			int idClienteADarDeBaja = 1;
 			bd.bajaCliente(idClienteADarDeBaja);
 			char tipoCliente3 = bd.obtenerTipoCliente(idClienteADarDeBaja);
 			System.out.println("El tipo de cliente a buscar es: " + tipoCliente3);

@@ -65,7 +65,7 @@ table{
 	<body onload="carga();" >
 
 <!--  creo formulario-->
-<form action= "LoginWeb.jr" method="GET" onsubmit="return Verificar();">
+<form action= "LoginServlet" method="GET" onsubmit="return Verificar();">
 <div  align ="center" style =""><h1>BUSCAR CLIENTES</h1></div>
 	<table align="center" width="25%">
 		<tr>

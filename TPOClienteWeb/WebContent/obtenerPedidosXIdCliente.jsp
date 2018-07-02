@@ -26,7 +26,7 @@ table{
 </head>
 <body>
 <h1 style="text-align:center">BUSCAR PEDIDOS X ID CLIENTE:</h1>
-<form action="LoginWeb.jr" method="POST">
+<form action="LoginServlet" method="POST">
 		<table align="center" width="87%">
 			 <tr>
 				<td style="font-weight: bold; size: 12px; color: blue;" align="left">ID Cliente : </td>

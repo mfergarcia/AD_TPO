@@ -11,11 +11,13 @@
 <body>
  
 <ul>
-	<li><a href="MainServlet?action=CrearArticulo" target="_self">Alta Articulo</a></li>
-	
-	<li><a href="MainServlet?action=ArticuloaModificar" target="_self">Modificar Articulo</a></li>
-
-	<li><a href="MainServlet?action=ArticuloaEliminar" target="_self">Baja Articulo</a></li>
+    <li><a href="MainServlet?action=AltaClientePersona" target="_self">Alta Cliente Persona</a></li>
+    
+    <li><a href="MainServlet?action=AltaClienteEmpresa" target="_self">Alta Cliente Empresa</a></li>
+    
+    <li><a href="MainServlet?action=obtenerCliente" target="_self">Modificar Cliente</a></li>
+    
+    <li><a href="MainServlet?action=MostrarCliente" target="_self">Mostrar Cliente</a></li>
 
     <li><a href="ControladorWeb?action=obtenerPedidosAConfirmar" target="_self">Lista Pedidos a confirmar</a></li>
 </ul>

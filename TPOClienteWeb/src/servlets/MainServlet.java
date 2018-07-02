@@ -136,8 +136,20 @@ private static final long serialVersionUID = 1087702007634924546L;
             }else if("eliminarArticulo".equals(action)) {
             	bd.bajaArticulo(request.getParameter("codigoBarras"));
             	jspPage= "/menuEmpAdm.jsp";
-            }
-            
+            }else if("AltaClientePersona".equals(action))
+            	jspPage="/registrarsePersona.jsp";
+            else if("AltaClienteEmpresa".equals(action))
+            	jspPage= "/registrarseEmpresa.jsp";
+            else if("obtenerCliente".equals(action))
+            	jspPage="/obtenerTipoCliente.jsp";
+            else if("OPRPend".equals(action))
+            	jspPage="/obtenerOrdenRepo.jsp";
+            else if("obOC".equals(action))
+            	jspPage="/ObtenerOrdenCompra.jsp";
+            else if("MostrarCliente".equals(action))
+            	jspPage= "/obtenerCteEmpresa.jsp";
+            else if("generarOC".equals(action))
+            	jspPage= "/GenerarOrdenDeCompra.jsp";
             dispatch(jspPage, request, response);
     		
     	} catch (ExcepcionComunicacion e) {

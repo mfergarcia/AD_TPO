@@ -18,7 +18,7 @@ public class TestCliente_Articulos {
 			SistemaBD bd = new SistemaBD();
 
 			// Prueba Alta Articulo
-
+	
 			Collection<ArticuloDTO> articulos = new ArrayList<ArticuloDTO>();
 			ArticuloDTO articulo = new ArticuloDTO();
 			articulo.setCodigoBarras("JJJ777");
@@ -58,7 +58,7 @@ public class TestCliente_Articulos {
 			articulo = bd.altaArticulo(articulo);
 			System.out.println("Alta Articulo: " + articulo.getCodigoBarras() + ", " + articulo.getDescripcion() + " " + articulo.getPresentacion() + " " + articulo.getTamaño() + " " + articulo.getUnidad());
 			articulos.add(articulo);
-			/*
+			
 			// Prueba Obtener Articulo
 			
 			ArticuloDTO articulo2 = bd.obtenerArticulo("LLL999");
@@ -76,7 +76,7 @@ public class TestCliente_Articulos {
 			}
 			
 			
-			// Prueba Generar Orden De Compra
+			//Prueba Generar Orden De Compra
 
 			String proveedor = "MAYORISTA PEPITO CIA";
 			OrdenDeCompraDTO ordenOC = bd.generarOrdenDeCompra(proveedor, articulos);
@@ -89,7 +89,7 @@ public class TestCliente_Articulos {
 				contador++;
 			}
 			
-			*/
+		
 		} catch (ExcepcionComunicacion e) {
 			System.out.println(e.getMensaje());
 		} catch (ExcepcionSistema es) {

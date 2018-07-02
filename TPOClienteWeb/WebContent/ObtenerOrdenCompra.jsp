@@ -38,7 +38,7 @@ table{
 </head>
 <body onload="carga();">
 	<h1 style="text-align:center">Obtener Orden De compra:</h1>
-	<form action="LoginWeb.jr" method="POST" >
+	<form action="LoginServlet" method="POST" >
 		<table align="center" width="50%">
   	 		<tr>
      			<td width="13%"><label for="nombre">Numero OC: </label></td>

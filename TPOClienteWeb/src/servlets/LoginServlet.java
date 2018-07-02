@@ -15,9 +15,14 @@ import javax.servlet.http.HttpServletResponse;
 import javax.servlet.http.HttpSession;
 
 import delegados.SistemaBD;
+import dto.ArticuloDTO;
 import dto.ClienteDTO;
 import dto.ClienteEmpresaDTO;
 import dto.ClientePersonaDTO;
+import dto.DireccionDTO;
+import dto.OrdenDeCompraDTO;
+import dto.OrdenPedidoRepoDTO;
+import dto.PedidoDTO;
 import excepciones.ExcepcionComunicacion;
 import excepciones.ExcepcionSistema;
 import interfaces.InterfazRemota;
@@ -410,7 +415,6 @@ public class LoginServlet extends HttpServlet
 			
 		}
     		
-	}
             
             
             dispatch(jspPage, request, response);
@@ -419,9 +423,6 @@ public class LoginServlet extends HttpServlet
 			System.out.println(e.getMensaje());
 		} catch (ExcepcionSistema es) {
 			System.out.println(es.getMensaje());
-		} catch (NotBoundException e) {
-			// TODO Auto-generated catch block
-			e.printStackTrace();
 		}
 		
 		

@@ -26,7 +26,7 @@ table{
 </head>
 <body>
 <h1 style="text-align:center">Generar Orden de compra:</h1>
-<form action="LoginWeb.jr" method="POST" >
+<form action="LoginServlet" method="POST" >
 	<table align="center" width="50%">
 	<!-- ingreso valores des tr a tr-->
 	
